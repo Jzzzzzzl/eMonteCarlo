@@ -1,29 +1,102 @@
-%% ’‚¿Ô¥Ê∑≈…´…¢«˙œﬂ∫Õ∆‰À˚“ª–©∫Ø ˝
-
-syms q;
-
-omegaLA = 0.000e13 + 8.861e3*q - 1.931e-7*q.^2;
-omegaTA = 0.000e13 + 5.993e3*q - 3.165e-7*q.^2;
-omegaLO = 9.473e13 + 5.876e2*q - 1.950e-7*q.^2;
-omegaTO = 9.824e13 - 2.547e3*q + 1.140e-7*q.^2;
-
-% º∆À„∏˜º´ªØ÷ß∂®“Â”Ú
-wMinLA = double(subs(omegaLA,q,0));
-wMaxLA = double(subs(omegaLA,q,dGX));
-wMinTA = double(subs(omegaTA,q,0));
-wMaxTA = double(subs(omegaTA,q,dGX));
-wMaxLO = double(subs(omegaLO,q,0));
-wMinLO = double(subs(omegaLO,q,dGX));
-wMaxTO = double(subs(omegaTO,q,0));
-wMinTO = double(subs(omegaTO,q,dGX));
-
-%º∆À„π»º‰…¢…‰∂‘”¶∆µ¬ 
-wgTA = double(subs(omegaTA, qg));
-wgLA = double(subs(omegaLA, qg));
-wgTO = double(subs(omegaTO, qg));
-wgLO = double(subs(omegaLO, qg));
-wfTA = double(subs(omegaTA, qf));
-wfLA = double(subs(omegaLA, qf));
-wfTO = double(subs(omegaTO, qf));
-wfLO = double(subs(omegaLO, qf));
-
+classdef ScatterringCurve < handle
+    
+    properties
+        frequency
+        omegaLA
+        omegaTA
+        omegaLO
+        omegaTO
+    end
+    
+    properties
+        %ÂêÑÊûÅÂåñÊîØÈ¢ëÁéáÂÆö‰πâÂüü
+        wMinLA
+        wMaxLA
+        wMinTA
+        wMaxTA
+        wMinLO
+        wMaxLO
+        wMinTO
+        wMaxTO
+    end
+    
+    properties
+        %Ë∞∑Èó¥Êï£Â∞ÑÂØπÂ∫îÈ¢ëÁéá
+        wgLA
+        wgTA
+        wgLO
+        wgTO
+        wfLA
+        wfTA
+        wfLO
+        wfTO
+    end
+    
+    methods
+        
+        function obj = ScatterringCurve(Material, pc)
+            %Ëâ≤Êï£Êõ≤Á∫ø
+            if strcmpi(Material, "Si")
+                obj.omegaLA = @(q) 0.000e13 + 8.861e3*q - 1.931e-7*q.^2;
+                obj.omegaTA = @(q) 0.000e13 + 5.993e3*q - 3.165e-7*q.^2;
+                obj.omegaLO = @(q) 9.473e13 + 5.876e2*q - 1.950e-7*q.^2;
+                obj.omegaTO = @(q) 9.824e13 - 2.547e3*q + 1.140e-7*q.^2;
+            elseif strcmpi(Material, "GaN")
+                
+            end
+            %ËÆ°ÁÆóÂÆö‰πâÂüüÂèäË∞∑Èó¥Â£∞Â≠êÈ¢ëÁéá
+            obj.FrequencyDomain(pc);
+            obj.FrequencyToInter(pc);
+        end
+        
+        function obj = FrequencyDomain(obj, pc)
+            %ÂêÑÊûÅÂåñÊîØÈ¢ëÁéáÂÆö‰πâÂüü
+            obj.wMinLA = double(obj.omegaLA(0));
+            obj.wMaxLA = double(obj.omegaLA(pc.dGX));
+            obj.wMinTA = double(obj.omegaTA(0));
+            obj.wMaxTA = double(obj.omegaTA(pc.dGX));
+            obj.wMinLO = double(obj.omegaLO(pc.dGX));
+            obj.wMaxLO = double(obj.omegaLO(0));
+            obj.wMinTO = double(obj.omegaTO(pc.dGX));
+            obj.wMaxTO = double(obj.omegaTO(0));
+        end
+        
+        function obj = FrequencyToInter(obj, pc)
+            %Ë∞∑Èó¥Êï£Â∞ÑÂØπÂ∫îÈ¢ëÁéá
+            obj.wgLA = double(obj.omegaLA(pc.qg));
+            obj.wgTA = double(obj.omegaTA(pc.qg));
+            obj.wgLO = double(obj.omegaLO(pc.qg));
+            obj.wgTO = double(obj.omegaTO(pc.qg));
+            obj.wfLA = double(obj.omegaLA(pc.qf));
+            obj.wfTA = double(obj.omegaTA(pc.qf));
+            obj.wfLO = double(obj.omegaLO(pc.qf));
+            obj.wfTO = double(obj.omegaTO(pc.qf));
+        end
+        
+        function frequency = PhononFrequency(obj, ps)
+            %ËÆ°ÁÆóPhononStatusÂØπË±°È¢ëÁéá
+            switch ps.polar
+                case "LA"
+                    frequency = double(obj.omegaLA(ps.wavenum));
+                case "TA"
+                    frequency = double(obj.omegaTA(ps.wavenum));
+                case "LO"
+                    frequency = double(obj.omegaLO(ps.wavenum));
+                case "TO"
+                    frequency = double(obj.omegaTO(ps.wavenum));
+                otherwise
+                    disp("Â£∞Â≠êËÆ°ÂàíÊîØÁ±ªÂûãÊúâËØØÔºÅ")
+            end
+        end
+        
+        
+    end
+    
+    methods(Static)
+        
+        
+    end
+    
+    
+    
+end

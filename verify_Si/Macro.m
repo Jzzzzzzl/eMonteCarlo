@@ -31,7 +31,7 @@ nofScat = 15;                   %考虑的散射类型数
 
 EnergyInit = 0.0001*e;          %电子初始能量
 
-EnergyMax = 2*e;
+
 
 driftVelocity = 2.5e5;            %最大热运动速度
 
