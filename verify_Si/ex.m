@@ -37,28 +37,10 @@ ps = PhononStatus;
 ps.vector = 1.06e9;
 ps.polar = "LA";
 ps.GetFrequency(sc)
+bs = BandStructure("Si");
+bs.BandStructurePlot(50, bs, pc);
+bs.ElectricVelocityPlot(50, bs, pc);
 
-
-tic
-[x1, y1, z1] = ellipsoid(0,0,0,1,1,1,10);
-toc
-
-tic
-ellipsoid([b,a],500);
-toc
-n = 10;
-randx = round(rand(1)*(n - 1)) + 1;
-randy = round(rand(1)*(n - 1)) + 1;
-sqrt(x1(randx,randy)^2 + y1(randx,randy)^2 + z1(randx,randy)^2)
-
-alpha = 0.2;
-f1 = @(x) x.^2;
-f2 = @(x) x.^2.*(1-log10(abs(x)+1).*x.^0.4);
-
-x = -2:0.01:2;
-plot(x,f1(x))
-hold on
-plot(x,f2(x))
 
 
 

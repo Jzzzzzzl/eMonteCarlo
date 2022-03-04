@@ -92,11 +92,4 @@ classdef ScatterringCurve < handle
         
     end
     
-    methods(Static)
-        
-        
-    end
-    
-    
-    
 end

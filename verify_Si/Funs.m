@@ -304,6 +304,14 @@ function [energy] = ComputeElecEnergy(particle)
             kk = particle.k*RotMatrix(pi, 'x');
     end
     k0 = kk - [0, 0, 0.85] * dGX;
+    
+    Tx = [sqrt(m/mt)    0   0;
+            0   sqrt(m/mt)  0;
+            0   0   sqrt(m/ml)];
+    w = Tx*k0';
+    mm = double(sqrt(sum(w.^2))/bzR);
+    inParabolicFactor = (1-log(real(mm.^2)+1)/log(2.7));
+    
     energy = inParabolicFactor*hbar^2*(k0(1)^2/mt + k0(2)^2/mt + k0(3)^2/ml)/2;
     if energy > EnergyMax
         energy = EnergyMax;

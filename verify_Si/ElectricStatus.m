@@ -10,6 +10,8 @@ classdef ElectricStatus
         time
         wavenum
         energy
+        vipara
+        eipara
     end
     
     methods
@@ -17,6 +19,8 @@ classdef ElectricStatus
         function obj = ElectricStatus
             %构造函数
             
+            obj.vipara = 1;
+            obj.eipara = 1;
         end
         
         function wavenum = get.wavenum(obj)
@@ -42,6 +46,19 @@ classdef ElectricStatus
             obj.valley = valleys(index);
         end
         
+        function obj = ComputeInParabolicFactor(obj, bs, pc)
+            %计算能量和速度非抛物线型参数
+            kitem = bs.RotateToZAxisValley(obj.vector, obj.valley);
+            k0 = kitem - [0, 0, 0.85] * pc.dGX;
+            %Herring-Vogt变换(Z正轴)
+            Tx = [sqrt(pc.m / pc.mt)    0   0;
+                    0   sqrt(pc.m / pc.mt)  0;
+                    0   0   sqrt(pc.m / pc.ml)];
+            w = Tx*k0';
+            mm = double(sqrt(sum(w.^2)) / pc.bzR);
+            obj.eipara = (1-log(real(mm.^2)+1)/log(2.7));
+            obj.vipara = (1-log(real(mm.^2.2)+1)/log(1.6));
+        end
         
     end
     
