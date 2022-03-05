@@ -415,11 +415,6 @@ function [particle] = ChooseWaveVector(particle)
     
 end
 
-
-
-
-
-
 % 判断所在能谷
 function [value] = WhichValley(electron)
     % electron:电子结构体

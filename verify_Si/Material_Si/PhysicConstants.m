@@ -18,6 +18,8 @@ classdef PhysicConstants < handle
         rho                         %密度
         ul                          %纵向声速
         ut                          %横向声速
+        % 电离杂质散射所需参数
+        epsilonSi
         % 电子谷间散射所需参数
         gDKTA                       %耦合常数
         gDKLA
@@ -36,6 +38,7 @@ classdef PhysicConstants < handle
     end
     
     methods
+        
         function obj = PhysicConstants(Material)
             if strcmpi(Material, "Si")
                 obj.a = 5.431e-10;
@@ -46,6 +49,8 @@ classdef PhysicConstants < handle
                 obj.rho = 2330;
                 obj.ul = 9.2e3;
                 obj.ut = 4.7e3;
+                % 电离杂质散射所需参数
+                obj.epsilonSi = 11.9;
                 % 电子谷间散射所需参数
                 obj.gDKTA = 0.5e10*obj.e;
                 obj.gDKLA = 0.8e10*obj.e;
@@ -61,13 +66,10 @@ classdef PhysicConstants < handle
                 obj.DLA = 6.39*obj.e;
                 obj.DTA = 3.01*obj.e;
                 obj.qintra = 0.15*obj.dGX;
-            elseif strcmpi(Material, "GaN")
-                obj.mt = zeros(2,1);
-                
+            else
+                disp("请使用材料：Si 的PhysicConstants类!")
             end
         end
         
-        
     end
-    
 end

@@ -2,8 +2,6 @@ classdef BandStructure < handle
     
     properties
         Material
-        
-        
     end
     
     
@@ -13,8 +11,8 @@ classdef BandStructure < handle
             %能带曲线
             if strcmpi(Material, "Si")
                 obj.Material = Material;
-            elseif strcmpi(Material, "GaN")
-                
+            else
+                disp("请使用材料：Si 的BandStructure类!")
             end
         end
         
@@ -22,77 +20,29 @@ classdef BandStructure < handle
             %根据能量选择电子波矢
             
             n = 10; %椭球点密集程度
-            energy0 = es.energy/es.eipara;
+            energy0 = es.energy / es.eipara;
             rx = real(sqrt(2 * energy0 * pc.mt) / pc.hbar);
             ry = real(sqrt(2 * energy0 * pc.mt) / pc.hbar);
             rz = real(sqrt(2 * energy0 * pc.ml) / pc.hbar);
             [xm, ym, zm] = ellipsoid(0,0,0,rx,ry,rz,n);
             
-            while true
-                %可通过控制randx与randy的范围来取值
-                randx = round(ElectricStatus.Random(0.5, n + 0.5));
-                randy = round(ElectricStatus.Random(0.5, n + 0.5));
-%                 randx = round(rand(1)*(n - 1)) + 1;
-%                 randy = round(rand(1)*(n - 1)) + 1;
+            condition = true;
+            while condition
+                %可通过控制randx与randy的范围实现椭球面位置取值
+                randx = round(rand(1)*(n - 1)) + 1;
+                randy = round(rand(1)*(n - 1)) + 1;
                 x = xm(randx, randy);
                 y = ym(randx, randy);
                 z = zm(randx, randy);
-                kitem = [x, y, z] + [0, 0,  0.85] * dGX;
-                if double(max(abs(es.vector))/pc.dGX) < 1.0
-                    break;
-                end
+                kitem = [x, y, z] + [0, 0,  0.85] * pc.dGX;
+                es.vector = obj.RotateToOtherAxisValley(kitem, es.valley);
+                condition = double(max(abs(es.vector))/pc.dGX) >= 1.0;
+%                 condition = double(sqrt(sum(es.vector.^2))) / pc.bzR >= 1.0;
             end
             
-            es.vector = obj.RotateToOtherAxisValley(kitem, es.valley);
+            
             
         end
-        
-    end
-    
-    methods
-        
-        
-        
-        
-        function [vector2] = RotateToOtherAxisValley(vector1, valley)
-            %从Z轴正向能谷转向其他能谷
-            
-            switch valley
-                case 1
-                    vector2 = vector1*RotMatrix(-pi/2, 'y');
-                case -1
-                    vector2 = vector1*RotMatrix(pi/2, 'y');
-                case 2
-                    vector2 = vector1*RotMatrix(pi/2, 'x');
-                case -2
-                    vector2 = vector1*RotMatrix(-pi/2, 'x');
-                case 3
-                    vector2 = vector1*RotMatrix(0, 'x');
-                case -3
-                    vector2 = vector1*RotMatrix(-pi, 'x');
-            end
-            
-        end
-        
-        function [vector2] = RotateToZAxisValley(obj, vector1, valley)
-            %从其他能谷转向Z轴正向能谷
-            
-            switch valley
-                case 1
-                    vector2 = vector1*obj.RotMatrix(pi/2, 'y');
-                case -1
-                    vector2 = vector1*obj.RotMatrix(-pi/2, 'y');
-                case 2
-                    vector2 = vector1*obj.RotMatrix(-pi/2, 'x');
-                case -2
-                    vector2 = vector1*obj.RotMatrix(pi/2, 'x');
-                case 3
-                    vector2 = vector1*obj.RotMatrix(0, 'x');
-                case -3
-                    vector2 = vector1*obj.RotMatrix(pi, 'x');
-            end
-        end
-        
         
         function [energy] = ComputeElectricEnergy(obj, es, pc)
             %计算电子能量
@@ -117,18 +67,18 @@ classdef BandStructure < handle
             velocity = [vx, vy, vz];
             
             velocity = obj.RotateToOtherAxisValley(velocity, es.valley);
+            
         end
         
-        function [energyGX] = BandStructurePlot(obj, num, bs, pc)
+        function [energyGX] = BandStructurePlot(obj, num, pc)
             %电子能带画图
             
             energyGX = zeros(num, 2);
-            k = linspace(0, 1, num);
+            k = linspace(0.01, 1, num);
             elec = ElectricStatus;
-            elec.valley = 1;
             for i = 1 : num
                 elec.vector = [k(i) 0 0] * pc.dGX;
-                elec = elec.ComputeInParabolicFactor(bs, pc);
+                elec = elec.ComputeInParabolicFactor(pc);
                 energyGX(i, 1) = elec.vector(1) / pc.dGX;
                 energyGX(i, 2) = obj.ComputeElectricEnergy(elec, pc) / pc.e;
             end
@@ -139,28 +89,68 @@ classdef BandStructure < handle
             
         end
         
-        function [velocityGX] = ElectricVelocityPlot(obj, num, bs, pc)
+        function [velocityGX] = ElectricVelocityPlot(obj, num, pc)
             % 电子速度画图
             
             velocityGX = zeros(num, 2);
-            k = linspace(0, 1, num);
+            k = linspace(0.01, 1, num);
             elec = ElectricStatus;
-            elec.valley = 1;
             for i = 1 : num
                 elec.vector = [k(i) 0 0] * pc.dGX;
-                elec = elec.ComputeInParabolicFactor(bs, pc);
+                elec = elec.ComputeInParabolicFactor(pc);
                 velocityGX(i, 1) = elec.vector(1) / pc.dGX;
-                velocity = obj.ComputeElectricVelocity(elec, pc) * 1e2;
+                velocity = obj.ComputeElectricVelocity(elec, pc);
                 velocityGX(i, 2) = velocity(1);
             end
             figure
             plot(velocityGX(:,1),velocityGX(:,2))
             xlabel("k/dGX")
-            ylabel("Velocity/(cm/s)")
+            ylabel("Velocity/(m/s)")
             
         end
         
     end
     
-    
+    methods(Static)
+        
+        function [vector2] = RotateToOtherAxisValley(vector1, valley)
+            %从Z轴正向能谷转向其他能谷
+            
+            switch valley
+                case 1
+                    vector2 = vector1*RotMatrix(-pi/2, 'y');
+                case -1
+                    vector2 = vector1*RotMatrix(pi/2, 'y');
+                case 2
+                    vector2 = vector1*RotMatrix(pi/2, 'x');
+                case -2
+                    vector2 = vector1*RotMatrix(-pi/2, 'x');
+                case 3
+                    vector2 = vector1*RotMatrix(0, 'x');
+                case -3
+                    vector2 = vector1*RotMatrix(-pi, 'x');
+            end
+            
+        end
+        
+        function [vector2] = RotateToZAxisValley(vector1, valley)
+            %从其他能谷转向Z轴正向能谷
+            
+            switch valley
+                case 1
+                    vector2 = vector1*RotMatrix(pi/2, 'y');
+                case -1
+                    vector2 = vector1*RotMatrix(-pi/2, 'y');
+                case 2
+                    vector2 = vector1*RotMatrix(-pi/2, 'x');
+                case -2
+                    vector2 = vector1*RotMatrix(pi/2, 'x');
+                case 3
+                    vector2 = vector1*RotMatrix(0, 'x');
+                case -3
+                    vector2 = vector1*RotMatrix(pi, 'x');
+            end
+        end
+        
+    end
 end

@@ -36,13 +36,14 @@ classdef ScatterringCurve < handle
         
         function obj = ScatterringCurve(Material, pc)
             %色散曲线
+            
             if strcmpi(Material, "Si")
                 obj.omegaLA = @(q) 0.000e13 + 8.861e3*q - 1.931e-7*q.^2;
                 obj.omegaTA = @(q) 0.000e13 + 5.993e3*q - 3.165e-7*q.^2;
                 obj.omegaLO = @(q) 9.473e13 + 5.876e2*q - 1.950e-7*q.^2;
                 obj.omegaTO = @(q) 9.824e13 - 2.547e3*q + 1.140e-7*q.^2;
-            elseif strcmpi(Material, "GaN")
-                
+            else
+                disp("请使用材料：Si 的ScatterringCurve类!")
             end
             %计算定义域及谷间声子频率
             obj.FrequencyDomain(pc);
@@ -63,6 +64,7 @@ classdef ScatterringCurve < handle
         
         function obj = FrequencyToInter(obj, pc)
             %谷间散射对应频率
+            
             obj.wgLA = double(obj.omegaLA(pc.qg));
             obj.wgTA = double(obj.omegaTA(pc.qg));
             obj.wgLO = double(obj.omegaLO(pc.qg));
@@ -75,6 +77,7 @@ classdef ScatterringCurve < handle
         
         function frequency = PhononFrequency(obj, ps)
             %计算PhononStatus对象频率
+            
             switch ps.polar
                 case "LA"
                     frequency = double(obj.omegaLA(ps.wavenum));
@@ -85,11 +88,9 @@ classdef ScatterringCurve < handle
                 case "TO"
                     frequency = double(obj.omegaTO(ps.wavenum));
                 otherwise
-                    disp("声子计划支类型有误！")
+                    disp("声子极化支类型有误！")
             end
         end
         
-        
     end
-    
 end
