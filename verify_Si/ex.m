@@ -1,6 +1,8 @@
 %% 
 
 clc,clear
+close all
+addpath(genpath(pwd))
 % Macro;
 % Public;
 % myfuns = Funs;
@@ -42,6 +44,7 @@ bs.BandStructurePlot(50, bs, pc);
 bs.ElectricVelocityPlot(50, bs, pc);
 
 
+RotMatrix(pi/2, "x")
 
 
 
