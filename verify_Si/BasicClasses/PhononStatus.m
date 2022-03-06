@@ -42,7 +42,7 @@ classdef PhononStatus
         function obj = WhetherBeyondBrillouinZone(obj, pc)
             %声子波矢长度修正
             
-            if double(obj.wavenum / bzR) > 1.0
+            if double(obj.wavenum / pc.bzR) > 1.0
                 obj.vector(1) = obj.vector(1) - 2 * pc.dGX * obj.vector(1) / obj.wavenum;
                 obj.vector(2) = obj.vector(2) - 2 * pc.dGX * obj.vector(2) / obj.wavenum;
                 obj.vector(3) = obj.vector(3) - 2 * pc.dGX * obj.vector(3) / obj.wavenum;

@@ -71,7 +71,7 @@ classdef ElectricStatus
         function obj = WhetherBeyondBrillouinZone(obj, pc)
             %判断是否超出第一布里渊区,并对波矢进行修正
             
-            if double(max(abs(obj.vector)) / dGX) > 1.0
+            if double(max(abs(obj.vector)) / pc.dGX) > 1.0
                 switch obj.valley
                     case 1
                         obj.vector(1) = obj.vector(1) - 2 * pc.dGX;

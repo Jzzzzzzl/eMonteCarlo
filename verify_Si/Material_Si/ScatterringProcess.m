@@ -38,7 +38,7 @@ classdef ScatterringProcess < handle
             end
         end
         
-        function [es] = ChooseFinalVectorOfImpurity(es, bs, pc)
+        function [es] = ChooseFinalVectorOfImpurity(obj, es, bs, pc)
             %电离杂质散射电子波矢的选择
             
             allowedError = 0.1;
@@ -63,7 +63,7 @@ classdef ScatterringProcess < handle
             
         end
         
-        function [es, ps] = ChooseFinalVectorOfInterScat(obj, es, ps, sc, pc, type1, type2, type3)
+        function [es, ps] = ChooseFinalVectorOfInterScat(obj, es, ps, bs, sc, pc, type1, type2, type3)
             %谷间散射末态波矢迭代选择,根据能量守恒
             
             item = 1;
@@ -117,87 +117,43 @@ classdef ScatterringProcess < handle
             
         end
         
-        function [es,ps] = ElectricScatProcess(es, ps, bs, sc, pc, sr)
+        function [es,ps] = ElectricScatProcess(obj, es, ps, bs, sc, pc, sr)
             %针对不同散射类型计算电子声子散射过程
             
             switch sr.scatType
                 case 1 % e-impurity
-                    es = ChooseFinalVectorOfImpurity(es, bs, pc);
+                    es = obj.ChooseFinalVectorOfImpurity(es, bs, pc);
                 case 2 % intra_LA
                     es = bs.ChooseWaveVector(es, pc);
                 case 3 % intra_TA
                     es = bs.ChooseWaveVector(es, pc);
                 case 4 % inter_g_ab_TA
-                    [es, ps] = ChooseFinalVectorOfInterScat(es, ps, sc, pc, 'g', 'ab', 'TA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'ab', 'TA');
                 case 5 % inter_g_ab_LA
-                    [es, ps] = ChooseFinalVectorOfInterScat(es, ps, sc, pc, 'g', 'ab', 'LA');
-
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'ab', 'LA');
                 case 6 % inter_g_ab_LO
-                    [es,ps] = ChooseFinalK(es,ps,'g','ab','LO');
-                    ps.type = 1;
-                    ps.polarization = 3;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'ab', 'LO');
                 case 7 % inter_f_ab_TA
-                    [es,ps] = ChooseFinalK(es,ps,'f','ab','TA');
-                    ps.type = 1;
-                    ps.polarization = 2;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'ab', 'TA');
                 case 8 % inter_f_ab_LA
-                    [es,ps] = ChooseFinalK(es,ps,'f','ab','LA');
-                    ps.type = 1;
-                    ps.polarization = 1;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'ab', 'LA');
                 case 9 % inter_f_ab_TO
-                    [es,ps] = ChooseFinalK(es,ps,'f','ab','TO');
-                    ps.type = 1;
-                    ps.polarization = 4;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'ab', 'TO');
                 case 10 % inter_g_em_TA
-                    [es,ps] = ChooseFinalK(es,ps,'g','em','TA');
-                    ps.type = 0;
-                    ps.polarization = 2;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'em', 'TA');
                 case 11 % inter_g_em_LA
-                    [es,ps] = ChooseFinalK(es,ps,'g','em','LA');
-                    ps.type = 0;
-                    ps.polarization = 1;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'em', 'LA');
                 case 12 % inter_g_em_LO
-                    [es,ps] = ChooseFinalK(es,ps,'g','em','LO');
-                    ps.type = 0;
-                    ps.polarization = 3;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'em', 'LO');
                 case 13 % inter_f_em_TA
-                    [es,ps] = ChooseFinalK(es,ps,'f','em','TA');
-                    ps.type = 0;
-                    ps.polarization = 2;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'em', 'TA');
                 case 14 % inter_f_em_LA
-                    [es,ps] = ChooseFinalK(es,ps,'f','em','LA');
-                    ps.type = 0;
-                    ps.polarization = 1;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'em', 'LA');
                 case 15 % inter_f_em_TO
-                    [es,ps] = ChooseFinalK(es,ps,'f','em','TO');
-                    ps.type = 0;
-                    ps.polarization = 4;
-                    ps.r = es.r;
-                    ps.time = es.time;
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'em', 'TO');
                 case 16 % 
                     return;
             end
-            % 更新电子所在能谷
-        %     particle.valley = WhichValley(particle);
-
         end
         
     end

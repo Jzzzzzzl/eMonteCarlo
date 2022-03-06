@@ -50,7 +50,7 @@ classdef ScatterringRateTable < handle
             
         end
         
-        function obj = ScatterringTable(obj, es, sc, pc, cc)
+        function ScatterringTable(obj, es, sc, pc, cc)
             % 散射表
             
             % type = 1---------------e-impurity
