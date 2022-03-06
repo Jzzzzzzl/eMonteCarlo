@@ -1,4 +1,4 @@
-classdef ElectricStatus
+classdef ElectricStatus < handle
     
     properties
         position
@@ -16,7 +16,7 @@ classdef ElectricStatus
     
     methods
         
-        function obj = ElectricStatus
+        function obj = ElectricStatus()
             %构造函数
             
             obj.eipara = 1;
@@ -31,44 +31,44 @@ classdef ElectricStatus
             
         end
         
-        function obj = WhichValleyNum(obj)
+        function WhichValleyNum(obj)
             %更新电子所在能谷
             
             [~, index] = max(abs(obj.vector));
             item = obj.vector(index) / abs(obj.vector(index));
-            obj.valley = index*item;
+            obj.valley = index * item;
             
         end
         
-        function obj = InitializeStatus(obj, bs, pc)
+        function InitializeStatus(obj, bs, pc)
             %初始化
             
-            obj.vector = [0.89 0 0]*pc.dGX;
-            obj = obj.WhichValleyNum;
+            obj.vector = [0.89 0 0] * pc.dGX;
+            obj.WhichValleyNum;
             obj.position = [0 0 0];
-            obj = obj.ComputeInParabolicFactor(pc);
+            obj.ComputeInParabolicFactor(pc);
             obj.energy = bs.ComputeElectricEnergy(obj, pc);
             obj.velocity = bs.ComputeElectricVelocity(obj, pc);
             
         end
         
-        function obj = ComputeInParabolicFactor(obj, pc)
+        function ComputeInParabolicFactor(obj, pc)
             %计算能量和速度非抛物线型参数
             
-            kitem = BandStructure.RotateToZAxisValley(obj.vector, obj.valley);
-            k0 = kitem - [0, 0, 0.85] * pc.dGX;
+            tempk = BandStructure.RotateToZAxisValley(obj.vector, obj.valley);
+            tempk0 = tempk - [0, 0, 0.85] * pc.dGX;
             %Herring-Vogt变换(Z正轴)
-            Tx = [sqrt(pc.m / pc.mt)    0   0;
+            Tz = [sqrt(pc.m / pc.mt)    0   0;
                     0   sqrt(pc.m / pc.mt)  0;
                     0   0   sqrt(pc.m / pc.ml)];
-            w = Tx*k0';
-            mm = double(sqrt(sum(w.^2)) / (1.0 * pc.bzR));
-            obj.eipara = abs(1-log(real(mm.^2)+1)/log(2.7));
-            obj.vipara = abs(1-log(real(mm.^2)+1)/log(1.62));
+            tempw = Tz * tempk0';
+            tempx = double(sqrt(sum(tempw.^2)) / (pc.bzR));
+            obj.eipara = abs(1 - log(real(tempx.^2) + 1) / log(2.7));
+            obj.vipara = abs(1 - log(real(tempx.^2) + 1) / log(1.62));
             
         end
         
-        function obj = WhetherBeyondBrillouinZone(obj, pc)
+        function WhetherBeyondBrillouinZone(obj, pc)
             %判断是否超出第一布里渊区,并对波矢进行修正
             
             if double(max(abs(obj.vector)) / pc.dGX) > 1.0
@@ -88,15 +88,9 @@ classdef ElectricStatus
                     otherwise
                         disp("能谷编号错误！")
                 end
-                obj = obj.WhichValleyNum;
+                obj.WhichValleyNum;
             end
         end
-        
-    end
-    
-    methods(Static)
-        
-        
         
     end
 end

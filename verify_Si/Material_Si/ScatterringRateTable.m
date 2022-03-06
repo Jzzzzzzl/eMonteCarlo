@@ -11,7 +11,6 @@ classdef ScatterringRateTable < handle
         flyTime
     end
     
-    
     methods
         
         function obj = ScatterringRateTable(Material, pc, cc)
@@ -35,18 +34,18 @@ classdef ScatterringRateTable < handle
             
         end
         
-        function scatType = get.scatType(obj)
+        function ComputeScatType(obj)
             %自动计算散射类型
             
             r = rand * obj.scatTableAll(end);
-            scatType = find(obj.scatTableAll > r, 1);
+            obj.scatType = find(obj.scatTableAll > r, 1);
             
         end
         
-        function flyTime = get.flyTime(obj)
-            %自动计算飞行时间
+        function ComputeFlyTime(obj)
+            %计算飞行时间
             
-            flyTime = -log(Random(0.2,1)) / obj.scatTableAll(end);
+            obj.flyTime = -log(Random(0.2,1)) / obj.scatTableAll(end);
             
         end
         
@@ -92,7 +91,7 @@ classdef ScatterringRateTable < handle
         function ScatterringRatePlot(obj, sc, pc, cc)
             % 散射率画图
             
-            energys = logspace(-3,1,100) * pc.e;
+            energys = logspace(-3, 1, 100) * pc.e;
             scatTables = zeros(length(energys), cc.nofScat + 1);
             for i = 1 : length(energys)
                 es = ElectricStatus;
@@ -115,8 +114,6 @@ classdef ScatterringRateTable < handle
             ylabel('s^{-1}')
 
         end
-
-        
         
     end
 end

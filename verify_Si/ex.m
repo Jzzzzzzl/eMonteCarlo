@@ -10,20 +10,17 @@ cc = ConfigureConstants("1D");
 sc = ScatterringCurve("Si", pc);
 bs = BandStructure("Si");
 sr = ScatterringRateTable("Si", pc, cc);
+sh = SimulationHistory(bs, pc, cc);
 sp = ScatterringProcess;
 
-% ps = PhononStatus;
-% es = ElectricStatus;
-
-pe = ParallelElectricSimulation(bs, pc, cc);
-pe.SubsectionParallelCompute(bs, sr, sp, sc, pc, cc)
-
+sh = ParallelCompute(sh, bs, sr, sp, sc, pc, cc);
 
 % es = bs.ChooseWaveVector(es, pc);
 
 % es.energy = 1.2 * pc.e;
-
-% sr = sr.ScatterringTable(es, sc, pc, cc);
+% sr.ScatterringTable(es, sc, pc, cc);
+% sr.ComputeFlyTime;
+% sr.flyTime
 % sr.ScatterringRatePlot(sc, pc, cc);
 
 
@@ -40,8 +37,6 @@ pe.SubsectionParallelCompute(bs, sr, sp, sc, pc, cc)
 
 % bs.BandStructurePlot(50, pc);
 % bs.ElectricVelocityPlot(50, pc);
-
-
 
 
 

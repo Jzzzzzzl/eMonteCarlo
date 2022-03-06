@@ -18,9 +18,6 @@ classdef ScatterringCurve < handle
         wMaxLO
         wMinTO
         wMaxTO
-    end
-    
-    properties
         %谷间散射对应频率
         wgLA
         wgTA
@@ -48,10 +45,12 @@ classdef ScatterringCurve < handle
             %计算定义域及谷间声子频率
             obj.FrequencyDomain(pc);
             obj.FrequencyToInter(pc);
+            
         end
         
-        function obj = FrequencyDomain(obj, pc)
+        function FrequencyDomain(obj, pc)
             %各极化支频率定义域
+            
             obj.wMinLA = double(obj.omegaLA(0));
             obj.wMaxLA = double(obj.omegaLA(pc.dGX));
             obj.wMinTA = double(obj.omegaTA(0));
@@ -60,9 +59,10 @@ classdef ScatterringCurve < handle
             obj.wMaxLO = double(obj.omegaLO(0));
             obj.wMinTO = double(obj.omegaTO(pc.dGX));
             obj.wMaxTO = double(obj.omegaTO(0));
+            
         end
         
-        function obj = FrequencyToInter(obj, pc)
+        function FrequencyToInter(obj, pc)
             %谷间散射对应频率
             
             obj.wgLA = double(obj.omegaLA(pc.qg));
@@ -73,6 +73,7 @@ classdef ScatterringCurve < handle
             obj.wfTA = double(obj.omegaTA(pc.qf));
             obj.wfLO = double(obj.omegaLO(pc.qf));
             obj.wfTO = double(obj.omegaTO(pc.qf));
+            
         end
         
         function frequency = PhononFrequency(obj, ps)
@@ -90,6 +91,7 @@ classdef ScatterringCurve < handle
                 otherwise
                     disp("声子极化支类型有误！")
             end
+            
         end
         
     end

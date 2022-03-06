@@ -2,41 +2,9 @@ classdef ScatterringProcess < handle
     
     properties
         
-        
-        
-        
     end
     
-    
-    
     methods
-        
-        function value = RandomValley(~, es, type)
-            %随机选择能谷
-            
-            switch type
-                case 'i'
-                    valleys = [1, -1, 2, -2, 3, -3];
-                    index = round(Random(0.5, 6.5));
-                    value = valleys(index);
-                case 'f'
-                    valley0 = abs(es.valley);
-                    valleys1 = [2, -2, 3, -3];
-                    valleys2 = [1, -1, 3, -3];
-                    valleys3 = [1, -1, 2, -2];
-                    index = round(Random(0.5, 4.5));
-                    switch valley0
-                        case 1
-                            value = valleys1(index);
-                        case 2
-                            value = valleys2(index);
-                        case 3
-                            value = valleys3(index);
-                    end
-                case 'g'
-                    value = -1*es.valley;
-            end
-        end
         
         function [es] = ChooseFinalVectorOfImpurity(obj, es, bs, pc)
             %电离杂质散射电子波矢的选择
@@ -49,7 +17,7 @@ classdef ScatterringProcess < handle
             es.valley = obj.RandomValley(es, "i");
             for i = 1 : nums
                 es = bs.ChooseWaveVector(es, pc);
-                es = es.ComputeInParabolicFactor(pc);
+                es.ComputeInParabolicFactor(pc);
                 es.velocity = bs.ComputeElectricVelocity(es, pc);
                 afterv = es.velocity;
                 aftervMold = sqrt(sum(afterv.^2));
@@ -109,8 +77,8 @@ classdef ScatterringProcess < handle
             while item < maxitem && error > allowedError
                 es = bs.ChooseWaveVector(es, pc);
                 ps.vector = es.vector - agoVector;
-                ps = ps.WhetherBeyondBrillouinZone(pc);
-                ps = ps.GetFrequency(sc);
+                ps.WhetherBeyondBrillouinZone(pc);
+                ps.GetFrequency(sc);
                 error = abs((ps.energy - phononEnergy) / ps.energy);
                 item = item + 1;
             end
@@ -157,4 +125,38 @@ classdef ScatterringProcess < handle
         end
         
     end
+    
+    methods(Static)
+        
+        function value = RandomValley(es, type)
+            %随机选择能谷
+            
+            switch type
+                case 'i'
+                    valleys = [1, -1, 2, -2, 3, -3];
+                    index = round(Random(0.5, 6.5));
+                    value = valleys(index);
+                case 'f'
+                    valley0 = abs(es.valley);
+                    valleys1 = [2, -2, 3, -3];
+                    valleys2 = [1, -1, 3, -3];
+                    valleys3 = [1, -1, 2, -2];
+                    index = round(Random(0.5, 4.5));
+                    switch valley0
+                        case 1
+                            value = valleys1(index);
+                        case 2
+                            value = valleys2(index);
+                        case 3
+                            value = valleys3(index);
+                    end
+                case 'g'
+                    value = -1*es.valley;
+            end
+            
+        end
+        
+    end
+    
+    
 end

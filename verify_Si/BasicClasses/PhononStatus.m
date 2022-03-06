@@ -1,4 +1,4 @@
-classdef PhononStatus
+classdef PhononStatus < handle
     
     properties
         position
@@ -16,6 +16,8 @@ classdef PhononStatus
         function obj = PhononStatus
             %构造函数
             
+            
+            
         end
         
         function wavenum = get.wavenum(obj)
@@ -32,14 +34,14 @@ classdef PhononStatus
             
         end
         
-        function obj = GetFrequency(obj, sc)
+        function GetFrequency(obj, sc)
             %计算频率
             
             obj.frequency = sc.PhononFrequency(obj);
             
         end
         
-        function obj = WhetherBeyondBrillouinZone(obj, pc)
+        function WhetherBeyondBrillouinZone(obj, pc)
             %声子波矢长度修正
             
             if double(obj.wavenum / pc.bzR) > 1.0
