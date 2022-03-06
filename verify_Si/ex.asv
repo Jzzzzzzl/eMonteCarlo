@@ -16,9 +16,8 @@ es = ElectricStatus;
 
 es = es.InitializeStatus(bs, pc);
 disp(es.valley)
-es.valley = 22;
-disp(es.valley)
-% es = bs.ChooseWaveVector(es, pc);
+es
+es = bs.ChooseWaveVector(es, pc);
 
 % es.energy = 1.2 * pc.e;
 

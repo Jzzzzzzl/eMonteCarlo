@@ -37,7 +37,6 @@ classdef BandStructure < handle
                 kitem = [x, y, z] + [0, 0,  0.85] * pc.dGX;
                 es.vector = obj.RotateToOtherAxisValley(kitem, es.valley);
                 condition = double(max(abs(es.vector))/pc.dGX) >= 1.0;
-%                 condition = double(sqrt(sum(es.vector.^2))) / pc.bzR >= 1.0;
             end
             
             

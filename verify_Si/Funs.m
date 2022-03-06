@@ -485,6 +485,13 @@ function [particle] = Ifbeyondbz(particle,type)
     
 end
 
+
+
+
+
+
+
+
 % 随机选择谷间散射后的能谷
 function [value] = ChooseFinalValley(valley,type)
     % valley:电子所在能谷
@@ -705,6 +712,13 @@ function [tf] = TimeForFly(GammaMax)
     
 end
 
+
+
+
+
+
+
+
 % 单个电子飞行过程
 function [electron] = FlyProcess(electron,tf)
     % electron:单个电子信息
@@ -773,6 +787,18 @@ function [] = ComputeProgress(k)
     end
     
 end
+
+
+
+
+
+
+
+
+
+
+
+
 
 %###########################
 %######## 后处理部分 #########

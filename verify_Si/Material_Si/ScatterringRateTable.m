@@ -6,8 +6,10 @@ classdef ScatterringRateTable < handle
         interscatab
         interscatem
         scatTable
+        scatTableAll
+        scatType
+        flyTime
     end
-    
     
     
     methods
@@ -30,6 +32,21 @@ classdef ScatterringRateTable < handle
             else
                 disp("请使用材料：Si 的ScatterringRateTable类!")
             end
+            
+        end
+        
+        function scatType = get.scatType(obj)
+            %自动计算散射类型
+            
+            r = rand * obj.scatTableAll(end);
+            scatType = find(obj.scatTableAll > r, 1);
+            
+        end
+        
+        function flyTime = get.flyTime(obj)
+            %自动计算飞行时间
+            
+            flyTime = -log(Random(0.2,1)) / obj.scatTableAll(end);
             
         end
         
@@ -68,7 +85,8 @@ classdef ScatterringRateTable < handle
             obj.scatTable(13)= obj.interscatem(es.energy, pc.fDKTA, 4, sc.wfTA);
             obj.scatTable(14)= obj.interscatem(es.energy, pc.fDKLA, 4, sc.wfLA);
             obj.scatTable(15)= obj.interscatem(es.energy, pc.fDKTO, 4, sc.wfTO);
-
+            %累积求和
+            obj.scatTableAll = cumsum(obj.scatTable);
         end
         
         function ScatterringRatePlot(obj, sc, pc, cc)
@@ -101,15 +119,4 @@ classdef ScatterringRateTable < handle
         
         
     end
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 end

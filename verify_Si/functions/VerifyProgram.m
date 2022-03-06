@@ -8,22 +8,19 @@ function [] = VerifyProgram(type, bs, pc)
             
             for i = 1 : num
                 es = ElectricStatus;
-                es.vector = [Random(0.1,0.2) Random(0.1,0.3) Random(0.1,0.2)] * pc.dGX;
-                es.valley = es.WhichValley;
+                es.vector = [Random(0.7,0.9) Random(0.1,0.3) Random(0.1,0.2)] * pc.dGX;
+                es = es.WhichValleyNum;
                 es = es.ComputeInParabolicFactor(pc);
                 
-                
-                es.velocity = bs.ComputeElectricVelocity(es, pc);
-                disp(es.velocity / 1e5)
-                disp(es.vipara)
+%                 es.velocity = bs.ComputeElectricVelocity(es, pc);
+%                 disp(es.velocity / 1e5)
+%                 disp(es.vipara)
                 
                 es.energy = bs.ComputeElectricEnergy(es, pc);
                 item = es.energy;
                 es = bs.ChooseWaveVector(es, pc);
                 es = es.ComputeInParabolicFactor(pc);
                 es.energy = bs.ComputeElectricEnergy(es, pc);
-                
-                
                 disp(es.energy / pc.e)
                 
                 if abs((es.energy - item)/item) > error
