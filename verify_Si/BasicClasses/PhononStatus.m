@@ -16,7 +16,10 @@ classdef PhononStatus < handle
         function obj = PhononStatus
             %构造函数
             
-            
+            obj.time = 0;
+            obj.polar = "non";
+            obj.aborem = "non";
+            obj.frequency = 0;
             
         end
         

@@ -21,6 +21,7 @@ classdef ElectricStatus < handle
             
             obj.eipara = 1;
             obj.vipara = 1;
+            obj.time = 0;
             
         end
         
@@ -86,7 +87,7 @@ classdef ElectricStatus < handle
                     case -3
                         obj.vector(3) = obj.vector(3) + 2 * pc.dGX;
                     otherwise
-                        disp("能谷编号错误！")
+                        error("能谷编号错误！")
                 end
                 obj.WhichValleyNum;
             end

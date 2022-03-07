@@ -29,7 +29,7 @@ classdef ScatterringRateTable < handle
                 obj.interscatem = @(energy, DK, Zf, wi) DK^2 * pc.md^(3/2) * Zf / (sqrt(2) * pi * pc.rho * pc.hbar^3 * wi)...
                                                                     * (1 + 1 / (exp(pc.hbar * wi / (pc.kb * cc.envTemp)) - 1)) * real(sqrt(energy - pc.hbar * wi));
             else
-                disp("请使用材料：Si 的ScatterringRateTable类!")
+                error("请使用材料：Si 的ScatterringRateTable类!")
             end
             
         end
@@ -110,8 +110,8 @@ classdef ScatterringRateTable < handle
                       "inter g ab LO","inter f ab TA","inter f ab LA","inter f ab TO",...
                       "inter g em TA","inter g em LA","inter g em LO","inter f em TA",...
                       "inter f em LA","inter f em TO","total")
-            xlabel('meV');
-            ylabel('s^{-1}')
+            xlabel("meV");
+            ylabel("s^{-1}")
 
         end
         

@@ -40,7 +40,7 @@ classdef ScatterringCurve < handle
                 obj.omegaLO = @(q) 9.473e13 + 5.876e2*q - 1.950e-7*q.^2;
                 obj.omegaTO = @(q) 9.824e13 - 2.547e3*q + 1.140e-7*q.^2;
             else
-                disp("请使用材料：Si 的ScatterringCurve类!")
+                error("请使用材料：Si 的ScatterringCurve类!")
             end
             %计算定义域及谷间声子频率
             obj.FrequencyDomain(pc);
@@ -89,7 +89,7 @@ classdef ScatterringCurve < handle
                 case "TO"
                     frequency = double(obj.omegaTO(ps.wavenum));
                 otherwise
-                    disp("声子极化支类型有误！")
+                    error("声子极化支类型有误！")
             end
             
         end

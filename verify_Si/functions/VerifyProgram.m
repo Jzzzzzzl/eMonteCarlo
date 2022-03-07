@@ -4,7 +4,7 @@ function [] = VerifyProgram(type, bs, pc)
     switch type
         case "EnergyToVector"
             num = 200;
-            error = 0.001;
+            allowedError = 0.001;
             
             for i = 1 : num
                 es = ElectricStatus;
@@ -23,9 +23,8 @@ function [] = VerifyProgram(type, bs, pc)
                 es.energy = bs.ComputeElectricEnergy(es, pc);
                 disp(es.energy / pc.e)
                 
-                if abs((es.energy - item)/item) > error
-                    disp("能量正反验证错误！")
-                    break;
+                if abs((es.energy - item)/item) > allowedError
+                    error("能量正反验证错误！")
                 end
             end
             if i == num

@@ -13,7 +13,7 @@ classdef BandStructure < handle
             if strcmpi(Material, "Si")
                 obj.Material = Material;
             else
-                disp("请使用材料：Si 的BandStructure类!")
+                error("请使用材料：Si 的BandStructure类!")
             end
             
         end
@@ -119,17 +119,17 @@ classdef BandStructure < handle
             
             switch valley
                 case 1
-                    vector2 = vector1*RotMatrix(-pi/2, 'y');
+                    vector2 = vector1*RotMatrix(-pi/2, "y");
                 case -1
-                    vector2 = vector1*RotMatrix(pi/2, 'y');
+                    vector2 = vector1*RotMatrix(pi/2, "y");
                 case 2
-                    vector2 = vector1*RotMatrix(pi/2, 'x');
+                    vector2 = vector1*RotMatrix(pi/2, "x");
                 case -2
-                    vector2 = vector1*RotMatrix(-pi/2, 'x');
+                    vector2 = vector1*RotMatrix(-pi/2, "x");
                 case 3
-                    vector2 = vector1*RotMatrix(0, 'x');
+                    vector2 = vector1*RotMatrix(0, "x");
                 case -3
-                    vector2 = vector1*RotMatrix(-pi, 'x');
+                    vector2 = vector1*RotMatrix(-pi, "x");
             end
             
         end
@@ -139,17 +139,17 @@ classdef BandStructure < handle
             
             switch valley
                 case 1
-                    vector2 = vector1*RotMatrix(pi/2, 'y');
+                    vector2 = vector1*RotMatrix(pi/2, "y");
                 case -1
-                    vector2 = vector1*RotMatrix(-pi/2, 'y');
+                    vector2 = vector1*RotMatrix(-pi/2, "y");
                 case 2
-                    vector2 = vector1*RotMatrix(-pi/2, 'x');
+                    vector2 = vector1*RotMatrix(-pi/2, "x");
                 case -2
-                    vector2 = vector1*RotMatrix(pi/2, 'x');
+                    vector2 = vector1*RotMatrix(pi/2, "x");
                 case 3
-                    vector2 = vector1*RotMatrix(0, 'x');
+                    vector2 = vector1*RotMatrix(0, "x");
                 case -3
-                    vector2 = vector1*RotMatrix(pi, 'x');
+                    vector2 = vector1*RotMatrix(pi, "x");
             end
             
         end

@@ -67,7 +67,7 @@ classdef PhysicConstants < handle
                 obj.DTA = 3.01*obj.e;
                 obj.qintra = 0.15*obj.dGX;
             else
-                disp("请使用材料：Si 的PhysicConstants类!")
+                error("请使用材料：Si 的PhysicConstants类!")
             end
         end
         

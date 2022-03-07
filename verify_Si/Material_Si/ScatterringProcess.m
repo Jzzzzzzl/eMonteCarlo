@@ -40,27 +40,27 @@ classdef ScatterringProcess < handle
             allowedError = 0.1;
             % 谷间散射种类判断
             switch type1
-                case 'f'
+                case "f"
                     qq = pc.qf;
-                case 'g'
+                case "g"
                     qq = pc.qg;
             end
             % 吸收发射种类判断
             switch type2
-                case 'ab'
+                case "ab"
                     flag = 1;
-                case 'em'
+                case "em"
                     flag = -1;
             end
             % 极化支种类判断
             switch type3
-                case 'LA'
+                case "LA"
                     omegaCurve = sc.omegaLA;
-                case 'TA'
+                case "TA"
                     omegaCurve = sc.omegaTA;
-                case 'LO'
+                case "LO"
                     omegaCurve = sc.omegaLO;
-                case 'TO'
+                case "TO"
                     omegaCurve = sc.omegaTO;
             end
             
@@ -96,29 +96,29 @@ classdef ScatterringProcess < handle
                 case 3 % intra_TA
                     es = bs.ChooseWaveVector(es, pc);
                 case 4 % inter_g_ab_TA
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'ab', 'TA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "ab", "TA");
                 case 5 % inter_g_ab_LA
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'ab', 'LA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "ab", "LA");
                 case 6 % inter_g_ab_LO
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'ab', 'LO');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "ab", "LO");
                 case 7 % inter_f_ab_TA
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'ab', 'TA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "ab", "TA");
                 case 8 % inter_f_ab_LA
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'ab', 'LA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "ab", "LA");
                 case 9 % inter_f_ab_TO
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'ab', 'TO');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "ab", "TO");
                 case 10 % inter_g_em_TA
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'em', 'TA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "em", "TA");
                 case 11 % inter_g_em_LA
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'em', 'LA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "em", "LA");
                 case 12 % inter_g_em_LO
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'g', 'em', 'LO');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "em", "LO");
                 case 13 % inter_f_em_TA
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'em', 'TA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "em", "TA");
                 case 14 % inter_f_em_LA
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'em', 'LA');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "em", "LA");
                 case 15 % inter_f_em_TO
-                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, 'f', 'em', 'TO');
+                    [es, ps] = obj.ChooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "em", "TO");
                 case 16 % 
                     return;
             end
@@ -132,11 +132,11 @@ classdef ScatterringProcess < handle
             %随机选择能谷
             
             switch type
-                case 'i'
+                case "i"
                     valleys = [1, -1, 2, -2, 3, -3];
                     index = round(Random(0.5, 6.5));
                     value = valleys(index);
-                case 'f'
+                case "f"
                     valley0 = abs(es.valley);
                     valleys1 = [2, -2, 3, -3];
                     valleys2 = [1, -1, 3, -3];
@@ -150,7 +150,7 @@ classdef ScatterringProcess < handle
                         case 3
                             value = valleys3(index);
                     end
-                case 'g'
+                case "g"
                     value = -1*es.valley;
             end
             

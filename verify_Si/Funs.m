@@ -485,13 +485,6 @@ function [particle] = Ifbeyondbz(particle,type)
     
 end
 
-
-
-
-
-
-
-
 % 随机选择谷间散射后的能谷
 function [value] = ChooseFinalValley(valley,type)
     % valley:电子所在能谷
@@ -712,13 +705,6 @@ function [tf] = TimeForFly(GammaMax)
     
 end
 
-
-
-
-
-
-
-
 % 单个电子飞行过程
 function [electron] = FlyProcess(electron,tf)
     % electron:单个电子信息
@@ -788,18 +774,6 @@ function [] = ComputeProgress(k)
     
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
 %###########################
 %######## 后处理部分 #########
 %###########################
@@ -832,27 +806,6 @@ function [miu] = ElectronMobility(eHistory)
     disp(['电子迁移率为：', num2str(miu), '  cm^2/(V*s)']);
     
 end
-
-% % 计算漂移速度
-% function [dirftvelocity] = ElectronDirftVelocity(eHistory)
-%     % eHistory:电子历史信息
-%     Macro;
-%     
-%     aveDirftv = zeros(SuperElecs,1);
-%     for i = 1:SuperElecs
-%         xdisplace = zeros(noFly,1);
-%         time = zeros(noFly,1);
-%         for j = 1:noFly
-%             xdisplace(j) = eHistory(i,j).r(1);
-%             time(j) = eHistory(i,j).time;
-%         end
-%         p = polyfit(time,xdisplace,1);
-%         aveDirftv(i) = p(1);
-%     end
-%     dirftvelocity = sum(aveDirftv)/SuperElecs;
-%     disp(['电子漂移速度为：', num2str(dirftvelocity), '  m/s']);
-%     
-% end
 
 % 计算漂移速度
 function [dirftvelocity] = ElectronDirftVelocity(eHistory)
@@ -949,7 +902,6 @@ function [] = ScatTypeDistribution(eHistory)
     bar(numbers,'stacked')
     
 end
-
 
 % 电子能量分布
 function [enumber] = ElectronEnergyDistribution(eMin,eMax,enum,eHistory)
@@ -1166,6 +1118,16 @@ function [wNum] = PhononEmSpectrum(grid,frequency)
     legend("phonon emission numbers")
     
 end
+
+
+
+
+
+
+
+
+
+
 
 % 输出dat文件
 function [] = Write2datFile(name,xname,yname,xvalue,yvalue)

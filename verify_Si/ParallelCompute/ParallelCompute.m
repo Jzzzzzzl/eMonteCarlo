@@ -6,7 +6,7 @@ function [sh] = ParallelCompute(sh, bs, sr, sp, sc, pc, cc)
     
     tic
     for k = 1 : cc.noFly
-        for i = 1 : cc.superElecs
+        parfor i = 1 : cc.superElecs
             % 散射段
             sr.ScatterringTable(eGroup(i), sc, pc, cc);
             sr.ComputeScatType;
@@ -20,7 +20,7 @@ function [sh] = ParallelCompute(sh, bs, sr, sp, sc, pc, cc)
         sh.eHistory(:, k) = eGroup;
         sh.pHistory(:, k) = pGroup;
         %输出计算进度
-        disp(['计算进度： ', num2str(k / cc.noFly * 100), '%']);
+        disp(["计算进度： ", num2str(k / cc.noFly * 100), "%"]);
     end
     toc
     
