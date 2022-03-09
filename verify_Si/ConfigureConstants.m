@@ -14,20 +14,19 @@ classdef ConfigureConstants < handle
         initEnergy
         energyMax
         driftVelocity
-        inParabolicFactor
         xsForimpurity
     end
     
     methods
+        
         function obj = ConfigureConstants(Dimension)
-            obj.superElecs = 500;
+            obj.superElecs = 20;
             obj.envTemp = 300;
-            obj.noFly = 1500;
+            obj.noFly = 100;
             obj.nofScat = 15;
             obj.initEnergy = 0.0001*obj.e;
             obj.energyMax = 2*obj.e;
             obj.driftVelocity = 2.5e5;
-            obj.inParabolicFactor = 0.8;
             obj.xsForimpurity = 0.1;
             if strcmpi(Dimension, "1D")
                 obj.dopDensity = 1e23;

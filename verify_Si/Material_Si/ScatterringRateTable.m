@@ -69,15 +69,15 @@ classdef ScatterringRateTable < handle
             % type = 15--------------inter_f_em_TO
             
             obj.scatTable = zeros(cc.nofScat, 1);
-            obj.scatTable(1)  = obj.impuscat(es.energy, cc.dopDensity);
-            obj.scatTable(2)  = obj.intrascat(es.energy, pc.DLA, pc.ul);
-            obj.scatTable(3)  = obj.intrascat(es.energy, pc.DTA, pc.ut);
-            obj.scatTable(4)  = obj.interscatab(es.energy, pc.gDKTA, 1, sc.wgTA);
-            obj.scatTable(5)  = obj.interscatab(es.energy, pc.gDKLA, 1, sc.wgLA);
-            obj.scatTable(6)  = obj.interscatab(es.energy, pc.gDKLO, 1, sc.wgLO);
-            obj.scatTable(7)  = obj.interscatab(es.energy, pc.fDKTA, 4, sc.wfTA);
-            obj.scatTable(8)  = obj.interscatab(es.energy, pc.fDKLA, 4, sc.wfLA);
-            obj.scatTable(9)  = obj.interscatab(es.energy, pc.fDKTO, 4, sc.wfTO);
+            obj.scatTable(1) = obj.impuscat(es.energy, cc.dopDensity);
+            obj.scatTable(2) = obj.intrascat(es.energy, pc.DLA, pc.ul);
+            obj.scatTable(3) = obj.intrascat(es.energy, pc.DTA, pc.ut);
+            obj.scatTable(4) = obj.interscatab(es.energy, pc.gDKTA, 1, sc.wgTA);
+            obj.scatTable(5) = obj.interscatab(es.energy, pc.gDKLA, 1, sc.wgLA);
+            obj.scatTable(6) = obj.interscatab(es.energy, pc.gDKLO, 1, sc.wgLO);
+            obj.scatTable(7) = obj.interscatab(es.energy, pc.fDKTA, 4, sc.wfTA);
+            obj.scatTable(8) = obj.interscatab(es.energy, pc.fDKLA, 4, sc.wfLA);
+            obj.scatTable(9) = obj.interscatab(es.energy, pc.fDKTO, 4, sc.wfTO);
             obj.scatTable(10)= obj.interscatem(es.energy, pc.gDKTA, 1, sc.wgTA);
             obj.scatTable(11)= obj.interscatem(es.energy, pc.gDKLA, 1, sc.wgLA);
             obj.scatTable(12)= obj.interscatem(es.energy, pc.gDKLO, 1, sc.wgLO);
