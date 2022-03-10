@@ -21,7 +21,7 @@ classdef ConfigureConstants < handle
         
         function obj = ConfigureConstants(Dimension)
             obj.superElecs = 20;
-            obj.envTemp = 300;
+            obj.envTemp = 500;
             obj.noFly = 100;
             obj.nofScat = 15;
             obj.initEnergy = 0.0001*obj.e;
