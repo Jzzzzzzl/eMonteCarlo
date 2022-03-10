@@ -18,7 +18,25 @@ classdef BandStructure < handle
             
         end
         
-        function [es] = ChooseWaveVector(obj, es, pc)
+        function es = initializeVector(~, es, pc, cc)
+            
+            es.energy = maxwellDistribution(pc, cc);
+            es.valley = ScatterringProcess.randomValley(es, "i");
+            es = chooseWaveVector(es, pc);
+            
+        end
+        
+        function es = whichValley(~, es)
+            %计算电子所在能谷
+            
+            [~, index] = max(abs(es.vector));
+            item = es.vector(index) / abs(es.vector(index));
+            es.valley = index * item;
+            
+        end
+        
+        
+        function [es] = chooseWaveVector(obj, es, pc)
             %根据能量选择电子波矢
             
             n = 10; %椭球点密集程度
@@ -73,10 +91,10 @@ classdef BandStructure < handle
             %电子能带画图
             
             energyGX = zeros(num, 2);
-            tempk = linspace(0.01, 1, num);
+            tempk = linspace(0.01, 0.5, num);
             es = ElectricStatus;
             for i = 1 : num
-                es.vector = [tempk(i) 0 0] * pc.dGX;
+                es.vector = [tempk(i) tempk(i) tempk(i)] * pc.dGX;
                 es.WhichValleyNum;
                 es.ComputeInParabolicFactor(pc);
                 energyGX(i, 1) = es.vector(1) / pc.dGX;

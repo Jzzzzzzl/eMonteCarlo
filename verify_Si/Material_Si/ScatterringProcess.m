@@ -128,7 +128,7 @@ classdef ScatterringProcess < handle
     
     methods(Static)
         
-        function value = RandomValley(es, type)
+        function value = randomValley(es, type)
             %随机选择能谷
             
             switch type

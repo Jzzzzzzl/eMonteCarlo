@@ -16,7 +16,8 @@ pp = PostProcessing;
 mm = ModelMeshing;
 pq = PhononQuantityStatics(50);
 
-sh = ParallelCompute(sh, bs, sr, sp, sc, pc, cc);
+
+% sh = ParallelCompute(sh, bs, sr, sp, sc, pc, cc);
 
 % mm.FrequencyGrid(0, 1e14, 100);
 % mm.TimeGrid(0, 500 * 1e-12, 100);
@@ -32,12 +33,12 @@ sh = ParallelCompute(sh, bs, sr, sp, sc, pc, cc);
 % pp.ElectronTrace(sh, pc, cc, 2, 'e');
 % pp.AverageEnergyWithTime(sh, mm, pc, cc)
 
-pq.SubPhononQuantityStatics(sh, mm, sc, cc);
-pq.PhononEmSpectrum(mm, sc, pc, "LA")
-pq.PhononEmSpectrum(mm, sc, pc, "TA")
-pq.PhononEmSpectrum(mm, sc, pc, "LO")
-pq.PhononEmSpectrum(mm, sc, pc, "TO")
-pq.PhononEmSpectrum(mm, sc, pc, "ALL")
+% pq.SubPhononQuantityStatics(sh, mm, sc, cc);
+% pq.PhononEmSpectrum(mm, sc, pc, "LA")
+% pq.PhononEmSpectrum(mm, sc, pc, "TA")
+% pq.PhononEmSpectrum(mm, sc, pc, "LO")
+% pq.PhononEmSpectrum(mm, sc, pc, "TO")
+% pq.PhononEmSpectrum(mm, sc, pc, "ALL")
 
 
 
@@ -63,7 +64,7 @@ pq.PhononEmSpectrum(mm, sc, pc, "ALL")
 % % disp(es)
 
 
-% bs.BandStructurePlot(50, pc);
+bs.BandStructurePlot(50, pc);
 % bs.ElectricVelocityPlot(50, pc);
 
 

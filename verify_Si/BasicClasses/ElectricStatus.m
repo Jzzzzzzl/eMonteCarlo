@@ -1,22 +1,23 @@
 classdef ElectricStatus < handle
+    %电子状态类
     
     properties
         position
         vector
+        valley
+        wavenum
+        energy
         velocity
         charge
         scatype
-        time
-        energy
         eipara
         vipara
-        valley
-        wavenum
+        time
     end
     
     methods
         
-        function obj = ElectricStatus()
+        function obj = ElectricStatus
             %构造函数
             
             obj.eipara = 1;
@@ -32,24 +33,13 @@ classdef ElectricStatus < handle
             
         end
         
-        function WhichValleyNum(obj)
-            %更新电子所在能谷
+        function initializeStatus(obj, bs, pc)
+            %初始化电子状态
             
-            [~, index] = max(abs(obj.vector));
-            item = obj.vector(index) / abs(obj.vector(index));
-            obj.valley = index * item;
-            
-        end
-        
-        function InitializeStatus(obj, bs, pc)
-            %初始化
-            
-            obj.vector = [0.89 0 0] * pc.dGX;
-            obj.WhichValleyNum;
             obj.position = [0 0 0];
-            obj.ComputeInParabolicFactor(pc);
-            obj.energy = bs.ComputeElectricEnergy(obj, pc);
-            obj.velocity = bs.ComputeElectricVelocity(obj, pc);
+            obj = bs.initializeVector(obj, pc, cc);
+            
+            
             
         end
         
