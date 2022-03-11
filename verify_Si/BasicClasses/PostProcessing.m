@@ -3,33 +3,31 @@ classdef PostProcessing < handle
     properties
         totalTime
         mobility
-        dirftvelocity
+        dirftVelocity
     end
     
     methods
         
-        function AverageTotalFlyTime(obj, sh, cc)
+        function averageTotalFlyTime(obj, sh, cc)
             %计算平均总飞行时间
-            
             time = zeros(cc.superElecs, 1);
             for i = 1 : cc.superElecs
                 time(i) = sh.eHistory(i, end).time;
             end
             obj.totalTime = sum(time) / cc.superElecs;
-            disp(["总模拟时间： ", num2str(obj.totalTime * 1e12), "  ps"]);
+            disp(['总模拟时间： ', num2str(obj.totalTime * 1e12), '  ps']);
 
         end
         
-        function ElectronMobility(~)
+        function electronMobility(~)
             %计算迁移率
             
-            disp(["电子迁移率为：", num2str(miu), "  cm^2/(V*s)"]);
+            disp(['电子迁移率为： ', num2str(miu), '  cm^2/(V*s)']);
             
         end
         
-        function ElectronDirftVelocity(obj, sh, cc)
+        function electronDirftVelocity(obj, sh, cc)
             %计算漂移速度
-            
             avevelocity = zeros(cc.superElecs, 3);
             for i = 1 : cc.superElecs
                 velocity = zeros(1, 3);
@@ -38,14 +36,13 @@ classdef PostProcessing < handle
                 end
                 avevelocity(i, :) = velocity / cc.noFly;
             end
-            obj.dirftvelocity = sum(avevelocity(:, 1)) / cc.superElecs;
-            disp(["电子漂移速度为：", num2str(obj.dirftvelocity * 100), "  cm/s"]);
+            obj.dirftVelocity = sum(avevelocity(:, 1)) / cc.superElecs;
+            disp(['电子漂移速度为： ', num2str(obj.dirftVelocity * 100), '  cm/s']);
             
         end
         
-        function DirftVelocityWithTime(~, sh, mm, cc)
+        function dirftVelocityWithTime(~, sh, mm, cc)
             %漂移速度随时间变化
-            
             velocity = zeros(cc.superElecs, cc.noFly);
             times = zeros(cc.superElecs, cc.noFly);
             for i = 1 : cc.superElecs
@@ -80,9 +77,8 @@ classdef PostProcessing < handle
             
         end
         
-        function ScatTypeDistribution(~, sh, cc)
+        function scatTypeDistribution(~, sh, cc)
             %散射种类分布
-            
             numbers = zeros(4, 2);
             for i = 1 : cc.superElecs
                 types = [sh.eHistory(i,:).scatype];
@@ -112,9 +108,8 @@ classdef PostProcessing < handle
 
         end
         
-        function EnergyDistribution(~, sh, mm, pc, cc)
+        function energyDistribution(~, sh, mm, pc, cc)
             %电子能量分布
-            
             energys = zeros(cc.superElecs * cc.noFly, 1);
             for i = 1 : cc.superElecs
                 for j = 1 : cc.noFly
@@ -134,9 +129,8 @@ classdef PostProcessing < handle
 
         end
         
-        function ElectronTrace(~, sh, pc, cc, num, type)
+        function electronTrace(~, sh, pc, cc, num, type)
             %单电子轨迹图
-            
             switch type
                 case "k"
                     tempk = zeros(cc.noFly, 3);
@@ -175,9 +169,8 @@ classdef PostProcessing < handle
 
         end
         
-        function AverageEnergyWithTime(~, sh, mm, pc, cc)
+        function averageEnergyWithTime(~, sh, mm, pc, cc)
             %求电子平均能量随时间的变化关系图
-            
             energy = zeros(cc.superElecs, cc.noFly);
             times = zeros(cc.superElecs, cc.noFly);
             for i = 1 : cc.superElecs
@@ -212,5 +205,4 @@ classdef PostProcessing < handle
         end
         
     end
-    
 end

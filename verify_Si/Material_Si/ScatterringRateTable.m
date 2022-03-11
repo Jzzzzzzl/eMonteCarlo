@@ -13,10 +13,10 @@ classdef ScatterringRateTable < handle
     
     methods
         
-        function obj = ScatterringRateTable(Material, pc, cc)
+        function obj = ScatterringRateTable(material, pc, cc)
             % 三种散射的句柄函数
             
-            if strcmpi(Material, "Si")
+            if strcmpi(material, "Si")
                 % 电离杂质散射(弹性近似)
                 b = @(energy, Ni) pc.e^2 * pc.hbar^2 * Ni / (8 * pc.epsilon0 * pc.epsilonSi * pc.kb * cc.envTemp * pc.md * energy);
                 obj.impuscat = @(energy, Ni) sqrt(2) * pi * Ni * pc.e^4 / ((4 * pi * pc.epsilon0 * pc.epsilonSi)^2 * pc.md^(1/2))...
@@ -34,7 +34,7 @@ classdef ScatterringRateTable < handle
             
         end
         
-        function ComputeScatType(obj)
+        function computeScatType(obj)
             %自动计算散射类型
             
             r = rand * obj.scatTableAll(end);
@@ -42,16 +42,15 @@ classdef ScatterringRateTable < handle
             
         end
         
-        function ComputeFlyTime(obj)
+        function computeFlyTime(obj)
             %计算飞行时间
             
-            obj.flyTime = -log(Random(0.2,1)) / obj.scatTableAll(end);
+            obj.flyTime = -log(randnumber(0.2,1)) / obj.scatTableAll(end);
             
         end
         
-        function ScatterringTable(obj, es, sc, pc, cc)
+        function scatterringTable(obj, es, sc, pc, cc)
             % 散射表
-            
             % type = 1---------------e-impurity
             % type = 2---------------intra_LA
             % type = 3---------------intra_TA
@@ -86,17 +85,17 @@ classdef ScatterringRateTable < handle
             obj.scatTable(15)= obj.interscatem(es.energy, pc.fDKTO, 4, sc.wfTO);
             %累积求和
             obj.scatTableAll = cumsum(obj.scatTable);
+            
         end
         
-        function ScatterringRatePlot(obj, sc, pc, cc)
+        function scatterringRatePlot(obj, sc, pc, cc)
             % 散射率画图
-            
             energys = logspace(-3, 1, 100) * pc.e;
             scatTables = zeros(length(energys), cc.nofScat + 1);
             for i = 1 : length(energys)
                 es = ElectricStatus;
                 es.energy = energys(i);
-                obj.ScatterringTable(es, sc, pc, cc);
+                obj.scatterringTable(es, sc, pc, cc);
                 scatTables(i, 1 : end-1) = deal(obj.scatTable');
                 scatTables(i, end) = sum(scatTables(i, 1 : end-1));
             end

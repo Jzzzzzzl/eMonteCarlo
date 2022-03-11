@@ -14,7 +14,6 @@ classdef PhononQuantityStatics < handle
         
         function obj = PhononQuantityStatics(NW)
             %构造函数
-            
             obj.NW = NW;
             FrequncyStatics = struct("pop", {0}, "num", {0});
             obj.phLAs = repmat(FrequncyStatics, NW, 1);
@@ -25,23 +24,20 @@ classdef PhononQuantityStatics < handle
             
         end
         
-        function SubPhononQuantityStatics(obj, sh, mm, sc, cc)
+        function subPhononQuantityStatics(obj, sh, mm, sc, cc)
             %全部计算一遍
-            
-            mm.FrequencyGrid(sc.wMinLA, sc.wMaxTO, obj.NW);
-            obj.StatisticPhonon(sh, mm, cc, "LA");
-            obj.StatisticPhonon(sh, mm, cc, "TA");
-            obj.StatisticPhonon(sh, mm, cc, "LO");
-            obj.StatisticPhonon(sh, mm, cc, "TO");
-            obj.StatisticPhonon(sh, mm, cc, "ALL");
+            mm.frequencyGrid(sc.wMinLA, sc.wMaxTO, obj.NW);
+            obj.statisticPhonon(sh, mm, cc, "LA");
+            obj.statisticPhonon(sh, mm, cc, "TA");
+            obj.statisticPhonon(sh, mm, cc, "LO");
+            obj.statisticPhonon(sh, mm, cc, "TO");
+            obj.statisticPhonon(sh, mm, cc, "ALL");
             
         end
         
-        function StatisticPhonon(obj, sh, mm, cc, type)
+        function statisticPhonon(obj, sh, mm, cc, type)
             %统计各个频率段的声子群
-            
             obj.phonons = reshape(sh.pHistory', [], 1);
-            
             frequencys = zeros(cc.superElecs * cc.noFly, 1);
             aborems = string(zeros(cc.superElecs * cc.noFly, 1));
             polars = string(zeros(cc.superElecs * cc.noFly, 1));
@@ -101,11 +97,10 @@ classdef PhononQuantityStatics < handle
             
         end
         
-        function PhononEmSpectrum(obj, mm, sc, pc, type)
+        function phononEmSpectrum(obj, mm, sc, pc, type)
             %求声子发射谱
-            
             wNum = zeros(obj.NW, 2);
-            mm.FrequencyGrid(sc.wMinLA, sc.wMaxTO, obj.NW);
+            mm.frequencyGrid(sc.wMinLA, sc.wMaxTO, obj.NW);
             switch type
                 case "LA"
                     temp = obj.phLAs;
