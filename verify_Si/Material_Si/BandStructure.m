@@ -4,7 +4,6 @@ classdef BandStructure < handle
         material
     end
     
-    
     methods
         
         function obj = BandStructure(material)
@@ -39,8 +38,10 @@ classdef BandStructure < handle
                     0   0   sqrt(pc.m / pc.ml)];
             tempw = Tz * tempk0';
             tempx = double(sqrt(sum(tempw.^2)) / (pc.bzR));
-            es.eipara = abs(1 - log(real(tempx.^2) + 1) / log(2.7));
-            es.vipara = abs(1 - log(real(tempx.^2) + 1) / log(1.62));
+%             es.eipara = abs(1 - log(real(tempx.^2) + 1) / log(2.7));
+%             es.vipara = abs(1 - log(real(tempx.^2) + 1) / log(1.62));
+            es.eipara = 0.8;
+            es.vipara = 0.8;
             
         end
         

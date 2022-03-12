@@ -15,7 +15,6 @@ classdef ScatterringRateTable < handle
         
         function obj = ScatterringRateTable(material, pc, cc)
             % 三种散射的句柄函数
-            
             if strcmpi(material, "Si")
                 % 电离杂质散射(弹性近似)
                 b = @(energy, Ni) pc.e^2 * pc.hbar^2 * Ni / (8 * pc.epsilon0 * pc.epsilonSi * pc.kb * cc.envTemp * pc.md * energy);
@@ -36,7 +35,6 @@ classdef ScatterringRateTable < handle
         
         function computeScatType(obj)
             %自动计算散射类型
-            
             r = rand * obj.scatTableAll(end);
             obj.scatType = find(obj.scatTableAll > r, 1);
             
@@ -44,8 +42,7 @@ classdef ScatterringRateTable < handle
         
         function computeFlyTime(obj)
             %计算飞行时间
-            
-            obj.flyTime = -log(randnumber(0.2,1)) / obj.scatTableAll(end);
+            obj.flyTime = -log(randnumber(0.3,0.7)) / obj.scatTableAll(end);
             
         end
         

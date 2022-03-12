@@ -8,6 +8,12 @@ classdef PostProcessing < handle
     
     methods
         
+        function obj = PostProcessing(sh, cc)
+            %构造函数
+            obj.averageTotalFlyTime(sh, cc);
+            obj.electronDirftVelocity(sh, cc)
+        end
+        
         function averageTotalFlyTime(obj, sh, cc)
             %计算平均总飞行时间
             time = zeros(cc.superElecs, 1);
@@ -38,10 +44,24 @@ classdef PostProcessing < handle
             end
             obj.dirftVelocity = sum(avevelocity(:, 1)) / cc.superElecs;
             disp(['电子漂移速度为： ', num2str(obj.dirftVelocity * 100), '  cm/s']);
+%             num = 0;
+%             velocity = zeros(cc.superElecs, 3);
+%             for i = 1 : cc.superElecs
+%                 times = [sh.eHistory(i, :).time];
+%                 index = find(times > 0.8 * obj.totalTime, 1);
+%                 if isempty(index)
+%                     continue;
+%                 end
+%                 num = num + 1;
+%                 velocity(i, :) = sh.eHistory(i, index).velocity;
+%             end
+%             velocity = cumsum(velocity);
+%             obj.dirftVelocity = sum(velocity(end, 1)) / num;
+%             disp(['电子漂移速度为： ', num2str(obj.dirftVelocity * 100), '  cm/s']);
             
         end
         
-        function dirftVelocityWithTime(~, sh, mm, cc)
+        function dirftVelocityWithTime(obj, sh, mm, cc, N)
             %漂移速度随时间变化
             velocity = zeros(cc.superElecs, cc.noFly);
             times = zeros(cc.superElecs, cc.noFly);
@@ -52,6 +72,7 @@ classdef PostProcessing < handle
                 end
             end
             %计算历史平均速度
+            mm.timeGrid(0, 0.8 * obj.totalTime, N);
             aveVelocity = zeros(mm.Nt, 2);
             for t = 1 : mm.Nt
                 Velocity = 0;
@@ -108,7 +129,7 @@ classdef PostProcessing < handle
 
         end
         
-        function energyDistribution(~, sh, mm, pc, cc)
+        function energyDistribution(~, sh, mm, pc, cc, N)
             %电子能量分布
             energys = zeros(cc.superElecs * cc.noFly, 1);
             for i = 1 : cc.superElecs
@@ -116,6 +137,7 @@ classdef PostProcessing < handle
                     energys(j + (i - 1) * cc.noFly) = sh.eHistory(i, j).energy / pc.e;
                 end
             end
+            mm.energyGrid(0, cc.energyMax / pc.e, N);
             enumber = zeros(mm.NE, 2);
             for i = 1 : mm.NE
                 index = energys >= mm.energy.face(i) & energys < mm.energy.face(i + 1);
@@ -169,7 +191,7 @@ classdef PostProcessing < handle
 
         end
         
-        function averageEnergyWithTime(~, sh, mm, pc, cc)
+        function averageEnergyWithTime(obj, sh, mm, pc, cc, N)
             %求电子平均能量随时间的变化关系图
             energy = zeros(cc.superElecs, cc.noFly);
             times = zeros(cc.superElecs, cc.noFly);
@@ -180,6 +202,7 @@ classdef PostProcessing < handle
                 end
             end
             %计算平均能量
+            mm.timeGrid(0, 0.8 * obj.totalTime, N);
             aveEnergy = zeros(mm.Nt, 2);
             for t = 1 : mm.Nt
                 Energy = 0;
