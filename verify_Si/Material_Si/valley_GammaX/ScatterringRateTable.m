@@ -1,6 +1,7 @@
 classdef ScatterringRateTable < handle
     
     properties
+        maxScatRate
         impuscat
         intrascat
         interscatab
@@ -27,6 +28,7 @@ classdef ScatterringRateTable < handle
                                                                     * (1 / (exp(pc.hbar * wi / (pc.kb * cc.envTemp)) - 1)) * real(sqrt(energy + pc.hbar * wi));
                 obj.interscatem = @(energy, DK, Zf, wi) DK^2 * pc.md^(3/2) * Zf / (sqrt(2) * pi * pc.rho * pc.hbar^3 * wi)...
                                                                     * (1 + 1 / (exp(pc.hbar * wi / (pc.kb * cc.envTemp)) - 1)) * real(sqrt(energy - pc.hbar * wi));
+                obj.maxScatRate = cc.maxScatRate;
             else
                 error("请使用材料：Si 的ScatterringRateTable类!")
             end
@@ -42,7 +44,7 @@ classdef ScatterringRateTable < handle
         
         function computeFlyTime(obj)
             %计算飞行时间
-            obj.flyTime = -log(randnumber(0.3,0.7)) / obj.scatTableAll(end);
+            obj.flyTime = -log(randnumber(0.2,0.8)) / obj.scatTableAll(end);
             
         end
         
@@ -63,6 +65,7 @@ classdef ScatterringRateTable < handle
             % type = 13--------------inter_f_em_TA
             % type = 14--------------inter_f_em_LA
             % type = 15--------------inter_f_em_TO
+            % type = 16--------------selfscatterring
             
             obj.scatTable = zeros(cc.nofScat, 1);
             obj.scatTable(1) = obj.impuscat(es.energy, cc.dopDensity);
@@ -74,14 +77,15 @@ classdef ScatterringRateTable < handle
             obj.scatTable(7) = obj.interscatab(es.energy, pc.fDKTA, 4, sc.wfTA);
             obj.scatTable(8) = obj.interscatab(es.energy, pc.fDKLA, 4, sc.wfLA);
             obj.scatTable(9) = obj.interscatab(es.energy, pc.fDKTO, 4, sc.wfTO);
-            obj.scatTable(10)= obj.interscatem(es.energy, pc.gDKTA, 1, sc.wgTA);
-            obj.scatTable(11)= obj.interscatem(es.energy, pc.gDKLA, 1, sc.wgLA);
-            obj.scatTable(12)= obj.interscatem(es.energy, pc.gDKLO, 1, sc.wgLO);
-            obj.scatTable(13)= obj.interscatem(es.energy, pc.fDKTA, 4, sc.wfTA);
-            obj.scatTable(14)= obj.interscatem(es.energy, pc.fDKLA, 4, sc.wfLA);
-            obj.scatTable(15)= obj.interscatem(es.energy, pc.fDKTO, 4, sc.wfTO);
+            obj.scatTable(10) = obj.interscatem(es.energy, pc.gDKTA, 1, sc.wgTA);
+            obj.scatTable(11) = obj.interscatem(es.energy, pc.gDKLA, 1, sc.wgLA);
+            obj.scatTable(12) = obj.interscatem(es.energy, pc.gDKLO, 1, sc.wgLO);
+            obj.scatTable(13) = obj.interscatem(es.energy, pc.fDKTA, 4, sc.wfTA);
+            obj.scatTable(14) = obj.interscatem(es.energy, pc.fDKLA, 4, sc.wfLA);
+            obj.scatTable(15) = obj.interscatem(es.energy, pc.fDKTO, 4, sc.wfTO);
             %累积求和
             obj.scatTableAll = cumsum(obj.scatTable);
+            obj.scatTableAll(end) = obj.maxScatRate;
             
         end
         

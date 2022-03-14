@@ -9,23 +9,22 @@ classdef ScatterringProcess < handle
         function [es] = chooseFinalVectorOfImpurity(obj, es, bs, pc)
             %电离杂质散射电子波矢的选择
             allowedError = 0.1;
-            nums = 20;
-                
+            
             agov = es.velocity;
             agovMold = sqrt(sum(agov.^2));
             es.valley = obj.randomValley(es, "i");
-            for i = 1 : nums
+            item = 0;
+            condition = true;
+            while condition && item < 20
                 es = bs.chooseWaveVector(es, pc);
-                es = bs.computeInParabolicFactor(es, pc);
-                es.velocity = bs.computeElectricVelocity(es, pc);
+                es = bs.computeEnergyAndVelocity(es, pc);
                 afterv = es.velocity;
                 aftervMold = sqrt(sum(afterv.^2));
                 theta = acos(sum(agov .* afterv) / (agovMold * aftervMold));
-                situ1 = theta > pi / 2 & theta < pi;
+                situ1 = theta < pi / 2;
                 situ2 = abs(agovMold - aftervMold) / agovMold;
-                if situ1 && situ2 < allowedError
-                    break;
-                end
+                item = item + 1;
+                condition = situ1 | situ2 > allowedError;
             end
             
         end
@@ -153,6 +152,4 @@ classdef ScatterringProcess < handle
         end
         
     end
-    
-    
 end

@@ -3,7 +3,7 @@ classdef PostProcessing < handle
     properties
         totalTime
         mobility
-        dirftVelocity
+        driftVelocity
     end
     
     methods
@@ -34,16 +34,24 @@ classdef PostProcessing < handle
         
         function electronDirftVelocity(obj, sh, cc)
             %计算漂移速度
-            avevelocity = zeros(cc.superElecs, 3);
+            velocity = zeros(cc.superElecs, 1);
             for i = 1 : cc.superElecs
-                velocity = zeros(1, 3);
                 for j = 1 : cc.noFly
-                    velocity = velocity + sh.eHistory(i, j).velocity;
+                    velocity(i) = velocity(i) + sh.eHistory(i, j).perdrift;
                 end
-                avevelocity(i, :) = velocity / cc.noFly;
             end
-            obj.dirftVelocity = sum(avevelocity(:, 1)) / cc.superElecs;
-            disp(['电子漂移速度为： ', num2str(obj.dirftVelocity * 100), '  cm/s']);
+            obj.driftVelocity = sum(velocity) / (cc.superElecs * cc.noFly);
+            disp(['电子漂移速度为： ', num2str(obj.driftVelocity * 100), '  cm/s']);
+%             avevelocity = zeros(cc.superElecs, 3);
+%             for i = 1 : cc.superElecs
+%                 velocity = zeros(1, 3);
+%                 for j = 1 : cc.noFly
+%                     velocity = velocity + sh.eHistory(i, j).velocity;
+%                 end
+%                 avevelocity(i, :) = velocity / cc.noFly;
+%             end
+%             obj.dirftVelocity = sum(avevelocity(:, 1)) / cc.superElecs;
+%             disp(['电子漂移速度为： ', num2str(obj.dirftVelocity * 100), '  cm/s']);
 %             num = 0;
 %             velocity = zeros(cc.superElecs, 3);
 %             for i = 1 : cc.superElecs
@@ -126,7 +134,7 @@ classdef PostProcessing < handle
             numbers = numbers / (cc.superElecs * cc.noFly);
             figure
             bar(numbers,'stacked')
-
+            
         end
         
         function energyDistribution(~, sh, mm, pc, cc, N)

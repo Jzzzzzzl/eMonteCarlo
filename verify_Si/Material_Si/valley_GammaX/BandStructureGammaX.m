@@ -30,7 +30,7 @@ classdef BandStructureGammaX < handle
             
         end
         
-        function es = computeEnergyAndVelocity(obj, es, pc)
+        function [es] = computeEnergyAndVelocity(obj, es, pc)
             %计算电子能量
             tempk = obj.rotateToZAxisValley(es.vector, es.valley);
             k = tempk - [0, 0, 0.85] * pc.dGX;
@@ -45,7 +45,7 @@ classdef BandStructureGammaX < handle
             
         end
         
-        function es = chooseWaveVector(obj, es, pc)
+        function [es] = chooseWaveVector(obj, es, pc)
             %根据能量选择电子波矢
             epsilong = (sqrt(1 + 4*obj.alpha*es.energy/pc.e) - 1) / (2*obj.alpha) * pc.e;
             kStarMold = sqrt(2 * pc.m * epsilong) / pc.hbar;
@@ -66,7 +66,7 @@ classdef BandStructureGammaX < handle
             
         end
         
-        function es = initializeElectricStatus(obj, es, pc, cc)
+        function [es] = initializeElectricStatus(obj, es, pc, cc)
             %电子初始化
             es.position = [0 0 0];
             es.energy = maxwellDistribution(pc, cc);
@@ -76,7 +76,7 @@ classdef BandStructureGammaX < handle
             
         end
         
-        function es = electricWhetherBeyondBZone(obj, es, pc)
+        function [es] = electricWhetherBeyondBZone(obj, es, pc)
             %判断是否超出第一布里渊区,并对波矢进行修正
             if double(max(abs(es.vector)) / pc.dGX) > 1.0
                 switch es.valley
@@ -100,7 +100,7 @@ classdef BandStructureGammaX < handle
             
         end
         
-        function ps = phononWhetherBeyondBZone(~, ps, pc)
+        function [ps] = phononWhetherBeyondBZone(~, ps, pc)
             %声子波矢长度修正
             if double(ps.wavenum / pc.bzR) > 1.0
                 ps.vector(1) = ps.vector(1) - 2 * pc.dGX * ps.vector(1) / ps.wavenum;

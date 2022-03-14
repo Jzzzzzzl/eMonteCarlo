@@ -15,6 +15,9 @@ sp = ScatterringProcess;
 mm = ModelMeshing;
 pq = PhononQuantityStatics(50);
 
+% es = ElectricStatus(bs, pc, cc);
+% es = bs.computeEnergyAndVelocity(es, pc);
+% disp(es)
 sh = parallelCompute(sh, bs, sr, sp, sc, pc, cc);
 
 %% 
@@ -33,7 +36,7 @@ pp = PostProcessing(sh, cc);
 % sr.scatType
 % sr.scatterringRatePlot(sc, pc, cc);
 %验证3，波矢选择及能量相互验证
-verifyProgram("EnergyToVector", bs, pc);
+% verifyProgram("EnergyToVector", bs, pc);
 %验证4，数据后处理
 % pp.dirftVelocityWithTime(sh, mm, cc, 100);
 % pp.scatTypeDistribution(sh, cc);

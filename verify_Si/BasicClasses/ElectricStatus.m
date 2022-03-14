@@ -11,6 +11,7 @@ classdef ElectricStatus < handle
         charge
         scatype
         time
+        perdrift
     end
     
     methods
