@@ -10,7 +10,7 @@ classdef ScatterringProcess < handle
             %电离杂质散射电子波矢的选择
             allowedError = 0.1;
             nums = 20;
-            
+                
             agov = es.velocity;
             agovMold = sqrt(sum(agov.^2));
             es.valley = obj.randomValley(es, "i");

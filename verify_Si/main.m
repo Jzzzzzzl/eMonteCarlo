@@ -7,7 +7,7 @@ addpath(genpath(pwd))
 
 pc = PhysicConstants("Si");
 cc = ConfigureConstants("1D");
-bs = BandStructure("Si");
+bs = BandStructureGammaX("Si", pc);
 sc = ScatterringCurve("Si", pc);
 sr = ScatterringRateTable("Si", pc, cc);
 sh = SimulationHistory(bs, pc, cc);
@@ -33,12 +33,12 @@ pp = PostProcessing(sh, cc);
 % sr.scatType
 % sr.scatterringRatePlot(sc, pc, cc);
 %验证3，波矢选择及能量相互验证
-% verifyProgram("EnergyToVector", bs, pc);
+verifyProgram("EnergyToVector", bs, pc);
 %验证4，数据后处理
-pp.dirftVelocityWithTime(sh, mm, cc, 100);
-pp.scatTypeDistribution(sh, cc);
-pp.energyDistribution(sh, mm, pc, cc, 100);
-pp.averageEnergyWithTime(sh, mm, pc, cc, 100)
+% pp.dirftVelocityWithTime(sh, mm, cc, 100);
+% pp.scatTypeDistribution(sh, cc);
+% pp.energyDistribution(sh, mm, pc, cc, 100);
+% pp.averageEnergyWithTime(sh, mm, pc, cc, 100)
 % pp.electronTrace(sh, pc, cc, 2, 'k');
 % pp.electronTrace(sh, pc, cc, 2, 'r');
 % pp.electronTrace(sh, pc, cc, 2, 'e');

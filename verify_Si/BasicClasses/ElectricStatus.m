@@ -10,8 +10,6 @@ classdef ElectricStatus < handle
         velocity
         charge
         scatype
-        eipara
-        vipara
         time
     end
     
@@ -19,8 +17,6 @@ classdef ElectricStatus < handle
         
         function obj = ElectricStatus(bs, pc, cc)
             %构造函数
-            obj.eipara = 1;
-            obj.vipara = 1;
             obj.time = 0;
             if nargin == 3
                 obj = bs.initializeElectricStatus(obj, pc, cc);

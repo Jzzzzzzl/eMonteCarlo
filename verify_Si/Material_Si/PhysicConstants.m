@@ -1,7 +1,7 @@
 classdef PhysicConstants < handle
     
     properties(Constant)
-        e =1.602176634e-19;
+        e = 1.602176634e-19;
         m = 9.10956e-31;
         kb = 1.380649e-23;
         h = 6.6260755e-34;
@@ -14,6 +14,7 @@ classdef PhysicConstants < handle
         c
         mt                          %有效质量分量
         ml
+        mc                          %导带有效质量
         md                          %态密度有效质量
         rho                         %密度
         ul                          %纵向声速
@@ -45,6 +46,7 @@ classdef PhysicConstants < handle
                 obj.c = 3.867e-10;
                 obj.mt = 0.196*obj.m;
                 obj.ml = 0.916*obj.m;
+                obj.mc = ((1/obj.ml)/3 + 2*(1/obj.mt)/3)^(-1);
                 obj.md = (obj.mt^2*obj.ml)^(1/3);
                 obj.rho = 2330;
                 obj.ul = 9.2e3;
