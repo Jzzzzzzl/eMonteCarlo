@@ -44,7 +44,7 @@ classdef ScatterringRateTable < handle
         
         function computeFlyTime(obj)
             %计算飞行时间
-            obj.flyTime = -log(randnumber(0.2,0.8)) / obj.scatTableAll(end);
+            obj.flyTime = -log(randnumber(0.1,1.0)) / obj.scatTableAll(end);
             
         end
         

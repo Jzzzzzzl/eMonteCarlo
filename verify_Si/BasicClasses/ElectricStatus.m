@@ -21,6 +21,7 @@ classdef ElectricStatus < handle
             obj.time = 0;
             if nargin == 3
                 obj = bs.initializeElectricStatus(obj, pc, cc);
+                
             end
             
         end

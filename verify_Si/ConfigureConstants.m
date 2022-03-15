@@ -21,18 +21,18 @@ classdef ConfigureConstants < handle
     methods
         
         function obj = ConfigureConstants(Dimension)
-            obj.superElecs = 2000;
+            obj.superElecs = 5000;
             obj.envTemp = 300;
-            obj.noFly = 1000;
+            obj.noFly = 3000;
             obj.nofScat = 16;
             obj.initEnergy = 0.0001*obj.e;
             obj.energyMax = 2*obj.e;
-            obj.maxScatRate = 5e14;
+            obj.maxScatRate = 3e14;
             obj.maxVelocity = 3e5;
             obj.xsForimpurity = 0.1;
             if strcmpi(Dimension, "1D")
                 obj.dopDensity = 1e23;
-                obj.electricField = -1e5;
+                obj.electricField = -0.1e5;
             elseif strcmpi(Dimension, "2D")
                 obj.dopDensity = [];
                 obj.electricField = [];
