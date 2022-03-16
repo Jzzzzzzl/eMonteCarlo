@@ -5,7 +5,6 @@ function [] = verifyProgram(type, bs, pc)
         case "EnergyToVector"
             num = 500;
             allowedError = 0.001;
-            
             for i = 1 : num
                 es = ElectricStatus;
                 es.vector = [randnumber(0.8,1.0) randnumber(0.1,0.2) randnumber(0.1,0.2)] * pc.dGX;

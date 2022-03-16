@@ -1,34 +1,6 @@
-classdef ScatterringProcess < handle
-    
-    properties
-        
-    end
+classdef ScatterringProcess < ScatterringProcessForValley
     
     methods
-        
-        function [es] = chooseFinalVectorOfImpurity(obj, es, bs, pc)
-            %电离杂质散射电子波矢的选择
-            allowedError = 0.1;
-            
-            agov = es.velocity;
-            agovMold = sqrt(sum(agov.^2));
-            es.valley = obj.randomValley(es, "i");
-            item = 0;
-            condition = true;
-            while condition && item < 20
-                es = bs.chooseWaveVector(es, pc);
-                es = bs.computeEnergyAndVelocity(es, pc);
-                afterv = es.velocity;
-                aftervMold = sqrt(sum(afterv.^2));
-                theta = acos(sum(agov .* afterv) / (agovMold * aftervMold));
-                situ1 = theta < pi / 2;
-                situ2 = abs(agovMold - aftervMold) / agovMold;
-                item = item + 1;
-                condition = situ1 | situ2 > allowedError;
-            end
-            
-        end
-        
         function [es, ps] = chooseFinalVectorOfInterScat(obj, es, ps, bs, sc, pc, type1, type2, type3)
             %谷间散射末态波矢迭代选择,根据能量守恒
             item = 1;
@@ -74,12 +46,11 @@ classdef ScatterringProcess < handle
             while item < maxitem && error > allowedError
                 es = bs.chooseWaveVector(es, pc);
                 ps.vector = es.vector - agoVector;
-                ps = bs.phononWhetherBeyondBZone(ps, pc);
+%                 ps = bs.phononWhetherBeyondBZone(ps, pc);
                 ps.getFrequency(sc);
                 error = abs((ps.energy - phononEnergy) / ps.energy);
                 item = item + 1;
             end
-            
         end
         
         function [es,ps] = electricScatProcess(obj, es, ps, bs, sc, pc, sr)
@@ -123,7 +94,6 @@ classdef ScatterringProcess < handle
     end
     
     methods(Static)
-        
         function value = randomValley(es, type)
             %随机选择能谷
             switch type
@@ -148,7 +118,6 @@ classdef ScatterringProcess < handle
                 case "g"
                     value = -1*es.valley;
             end
-            
         end
         
     end

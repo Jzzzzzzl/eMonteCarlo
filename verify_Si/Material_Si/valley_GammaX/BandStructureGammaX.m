@@ -1,84 +1,42 @@
-classdef BandStructureGammaX < handle
-    
-    properties
-        material
-        mt
-        ml
-        Eg
-        alpha
-        Tz
-        invTz
-    end
+classdef BandStructureGammaX < BandStructureForValley
     
     methods
         
-        function obj = BandStructureGammaX(material, pc)
+        function obj = BandStructureGammaX(pc)
             %构造函数
-            if strcmpi(material, "Si")
-                obj.material = material;
-                obj.mt = 0.196*pc.m;
-                obj.ml = 0.916*pc.m;
-                obj.Eg = 0.2*pc.e;
-                obj.alpha = 0.5;
-                obj.Tz = [sqrt(pc.m / obj.mt)    0   0;
-                            0   sqrt(pc.m / obj.mt)  0;
-                            0   0   sqrt(pc.m / obj.ml)];
-                obj.invTz = inv(obj.Tz);
-            else
-                error("请使用材料：Si 的BandStructure类!")
-            end
-            
+            obj.Eg = 0.2*pc.e;
+            obj.mt = 0.196*pc.m;
+            obj.ml = 0.916*pc.m;
+            obj.alpha = 0.5;
+            obj.Tz = [sqrt(pc.m / obj.mt)    0   0;
+                        0   sqrt(pc.m / obj.mt)  0;
+                        0   0   sqrt(pc.m / obj.ml)];
+            obj.invTz = inv(obj.Tz);
+            obj.centerRatio = 0.85;
         end
         
         function [es] = computeEnergyAndVelocity(obj, es, pc)
-            %计算电子能量
-            tempk = obj.rotateToZAxisValley(es.vector, es.valley);
-            k = tempk - [0, 0, 0.85] * pc.dGX;
-            epsilong = pc.hbar^2 * ...
-                         (k(1)^2 / obj.mt + k(2)^2 / obj.mt + k(3)^2 / obj.ml) / 2;
-            es.energy = epsilong * (1 + epsilong/pc.e * obj.alpha);
-            %计算电子速度
-            kStar = obj.Tz * k';
-            vStar = pc.hbar * kStar / (pc.m * (1+2*obj.alpha*epsilong));
-            velocity = (obj.invTz * vStar)';
-            es.velocity = obj.rotateToOtherAxisValley(velocity, es.valley);
-            
+            %计算电子能量和群速度
+            tempk = obj.rotateToStandardValley(es.vector, es.valley);
+            k = tempk - [0, 0, obj.centerRatio] * pc.dGX;
+            [es.energy, velocity] = obj.computeEnergyVelocityForStandardVector(k, pc);
+            es.velocity = obj.rotateToGeneralValley(velocity, es.valley);
         end
         
         function [es] = chooseWaveVector(obj, es, pc)
             %根据能量选择电子波矢
-            epsilong = (sqrt(1 + 4*obj.alpha*es.energy/pc.e) - 1) / (2*obj.alpha) * pc.e;
-            kStarMold = sqrt(2 * pc.m * epsilong) / pc.hbar;
             condition = true;
             while condition
-                %球空间随机选择波矢
-                phi = randnumber(0, pi);
-                theta = randnumber(0, 2*pi);
-                kxStar = kStarMold * sin(phi) * cos(theta);
-                kyStar = kStarMold * sin(phi) * sin(theta);
-                kzStar = kStarMold * cos(phi);
-                kStar = [kxStar, kyStar, kzStar]';
-                k = (obj.invTz * kStar)';
-                tempk = k + [0, 0,  0.85] * pc.dGX;
-                es.vector = obj.rotateToOtherAxisValley(tempk, es.valley);
-                condition = double(max(abs(es.vector)) / pc.dGX) >= 1.0;
+                k = obj.generateStandardWaveVector(es, pc);
+                tempk = k + [0, 0,  obj.centerRatio] * pc.dGX;
+                es.vector = obj.rotateToGeneralValley(tempk, es.valley);
+                condition = obj.whetherBeyondBrillouinZone(es, pc);
             end
-            
         end
         
-        function [es] = initializeElectricStatus(obj, es, pc, cc)
-            %电子初始化
-            es.position = [0 0 0];
-            es.energy = maxwellDistribution(pc, cc);
-            es.valley = ScatterringProcess.randomValley(es, "i");
-            es = obj.chooseWaveVector(es, pc);
-            es = obj.computeEnergyAndVelocity(es, pc);
-            
-        end
-        
-        function [es] = electricWhetherBeyondBZone(obj, es, pc)
-            %判断是否超出第一布里渊区,并对波矢进行修正
-            if double(max(abs(es.vector)) / pc.dGX) > 1.0
+        function [es] = modifyElectricWaveVector(obj, es, pc)
+            %对超出第一布里渊区波矢进行修正
+            if whetherBeyondBrillouinZone(es, pc)
                 switch es.valley
                     case 1
                         es.vector(1) = es.vector(1) - 2 * pc.dGX;
@@ -97,7 +55,6 @@ classdef BandStructureGammaX < handle
                 end
                 es.valley = obj.whichValley(es);
             end
-            
         end
         
         function [ps] = phononWhetherBeyondBZone(~, ps, pc)
@@ -107,7 +64,6 @@ classdef BandStructureGammaX < handle
                 ps.vector(2) = ps.vector(2) - 2 * pc.dGX * ps.vector(2) / ps.wavenum;
                 ps.vector(3) = ps.vector(3) - 2 * pc.dGX * ps.vector(3) / ps.wavenum;
             end
-            
         end
         
         function bandStructurePlot(obj, num, pc)
@@ -152,34 +108,19 @@ classdef BandStructureGammaX < handle
     
     methods(Static)
         
+        function [bool] = whetherBeyondBrillouinZone(es, pc)
+            %判断是否超出第一布里渊区
+            bool = double(max(abs(es.vector)) / pc.dGX) > 1.0;
+        end
+        
         function [value] = whichValley(es)
             %计算电子所在能谷
             [~, index] = max(abs(es.vector));
             item = es.vector(index) / abs(es.vector(index));
             value = index * item;
-            
         end
         
-        function [vector2] = rotateToOtherAxisValley(vector1, valley)
-            %从Z轴正向能谷转向其他能谷
-            switch valley
-                case 1
-                    vector2 = vector1*rotateMatrix(-pi/2, "y");
-                case -1
-                    vector2 = vector1*rotateMatrix(pi/2, "y");
-                case 2
-                    vector2 = vector1*rotateMatrix(pi/2, "x");
-                case -2
-                    vector2 = vector1*rotateMatrix(-pi/2, "x");
-                case 3
-                    vector2 = vector1*rotateMatrix(0, "x");
-                case -3
-                    vector2 = vector1*rotateMatrix(-pi, "x");
-            end
-            
-        end
-        
-        function [vector2] = rotateToZAxisValley(vector1, valley)
+        function [vector2] = rotateToStandardValley(vector1, valley)
             %从其他能谷转向Z轴正向能谷
             switch valley
                 case 1
@@ -195,7 +136,24 @@ classdef BandStructureGammaX < handle
                 case -3
                     vector2 = vector1*rotateMatrix(pi, "x");
             end
-            
+        end
+        
+        function [vector2] = rotateToGeneralValley(vector1, valley)
+            %从Z轴正向能谷转向其他能谷
+            switch valley
+                case 1
+                    vector2 = vector1*rotateMatrix(-pi/2, "y");
+                case -1
+                    vector2 = vector1*rotateMatrix(pi/2, "y");
+                case 2
+                    vector2 = vector1*rotateMatrix(pi/2, "x");
+                case -2
+                    vector2 = vector1*rotateMatrix(-pi/2, "x");
+                case 3
+                    vector2 = vector1*rotateMatrix(0, "x");
+                case -3
+                    vector2 = vector1*rotateMatrix(-pi, "x");
+            end
         end
         
     end

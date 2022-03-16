@@ -20,8 +20,9 @@ classdef PhysicConstants < handle
         ul                          %纵向声速
         ut                          %横向声速
         % 电离杂质散射所需参数
-        epsilonSi
+        epsilon
         % 电子谷间散射所需参数
+        deltaBandEnergy
         gDKTA                       %耦合常数
         gDKLA
         gDKLO
@@ -52,8 +53,9 @@ classdef PhysicConstants < handle
                 obj.ul = 9.2e3;
                 obj.ut = 4.7e3;
                 % 电离杂质散射所需参数
-                obj.epsilonSi = 11.9;
+                obj.epsilon = 11.9;
                 % 电子谷间散射所需参数
+                obj.deltaBandEnergy = 0*obj.e;
                 obj.gDKTA = 0.5e10*obj.e;
                 obj.gDKLA = 0.8e10*obj.e;
                 obj.gDKLO = 11e10*obj.e;
