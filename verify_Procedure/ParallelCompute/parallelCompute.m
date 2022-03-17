@@ -1,4 +1,4 @@
-function [sh] = parallelCompute(sh, bs, sr, sp, sc, pc, cc)
+function [sh] = parallelCompute(sh, dv, sc, pc, cc)
     %并行计算
     eGroup = sh.eGroup;
     pGroup = sh.pGroup;
@@ -6,14 +6,13 @@ function [sh] = parallelCompute(sh, bs, sr, sp, sc, pc, cc)
     tic
     for k = 1 : cc.noFly
         parfor i = 1 : cc.superElecs
-            %散射段
-            sr.scatterringTable(eGroup(i), sc, pc, cc);
-            sr.computeScatType;
-            sr.computeFlyTime;
-            eGroup(i).scatype = sr.scatType;
-            [eGroup(i), pGroup(i)] = sp.electricScatProcess(eGroup(i), pGroup(i), bs, sc, pc, sr);
             %自由飞行段
-            eGroup(i) = freeFlyProcess(eGroup(i), bs, sr, pc, cc);
+            eGroup(i) = freeFlyProcess(eGroup(i), dv, pc, cc);
+            %散射段
+            dv.sr.scatterringTable(eGroup(i), sc, pc, cc);
+            dv.sr.computeScatType;
+            eGroup(i).scatype = dv.sr.scatType;
+            [eGroup(i), pGroup(i)] = dv.sp.electricScatProcess(eGroup(i), pGroup(i), dv, sc, pc);
         end
         %飞行完成后保存电子信息
         sh.eHistory(:, k) = eGroup;

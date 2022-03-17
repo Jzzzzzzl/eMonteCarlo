@@ -25,11 +25,11 @@ classdef ElectricStatus < handle
     end
     
     methods
-        function obj = ElectricStatus(bs, pc, cc)
+        function obj = ElectricStatus(dv, pc, cc)
             %构造函数
             obj.time = 0;
             if nargin == 3
-                obj = initializeElectricStatus(obj, bs, pc, cc);
+                obj = initializeElectricStatus(obj, dv, pc, cc);
             end
         end
         

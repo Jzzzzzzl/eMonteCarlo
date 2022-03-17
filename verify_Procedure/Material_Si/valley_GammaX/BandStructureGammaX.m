@@ -34,7 +34,7 @@ classdef BandStructureGammaX < BandStructureForValley
             end
         end
         
-        function [es] = modifyElectricWaveVector(obj, es, pc)
+        function [es] = modifyElectricWaveVector(~, es, pc)
             %对超出第一布里渊区波矢进行修正
             if whetherBeyondBrillouinZone(es, pc)
                 switch es.valley
@@ -53,7 +53,7 @@ classdef BandStructureGammaX < BandStructureForValley
                     otherwise
                         error("能谷编号错误！")
                 end
-                es.valley = obj.whichValley(es);
+                es.valley = DecideValleyKind.whichValley(es);
             end
         end
         
@@ -73,7 +73,7 @@ classdef BandStructureGammaX < BandStructureForValley
             es = ElectricStatus;
             for i = 1 : num
                 es.vector = [tempk(i) 0 0] * pc.dGX;
-                es.valley = obj.whichValley(es);
+                es.valley = DecideValleyKind.whichValley(es);
                 es = obj.computeEnergyAndVelocity(es, pc);
                 energyGX(i, 1) = es.vector(1) / pc.dGX;
                 energyGX(i, 2) = es.energy / pc.e;
@@ -92,7 +92,7 @@ classdef BandStructureGammaX < BandStructureForValley
             es = ElectricStatus;
             for i = 1 : num
                 es.vector = [tempk(i) 0 0] * pc.dGX;
-                es.valley = obj.whichValley(es);
+                es.valley = DecideValleyKind.whichValley(es);
                 es = obj.computeEnergyAndVelocity(es, pc);
                 velocityGX(i, 1) = es.vector(1) / pc.dGX;
                 velocityGX(i, 2) = es.velocity(1);
@@ -111,13 +111,6 @@ classdef BandStructureGammaX < BandStructureForValley
         function [bool] = whetherBeyondBrillouinZone(es, pc)
             %判断是否超出第一布里渊区
             bool = double(max(abs(es.vector)) / pc.dGX) > 1.0;
-        end
-        
-        function [value] = whichValley(es)
-            %计算电子所在能谷
-            [~, index] = max(abs(es.vector));
-            item = es.vector(index) / abs(es.vector(index));
-            value = index * item;
         end
         
         function [vector2] = rotateToStandardValley(vector1, valley)

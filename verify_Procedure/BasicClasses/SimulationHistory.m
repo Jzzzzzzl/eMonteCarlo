@@ -20,17 +20,17 @@ classdef SimulationHistory < handle
     
     methods
         
-        function obj = SimulationHistory(bs, pc, cc)
+        function obj = SimulationHistory(dv, pc, cc)
             %构造函数
-            obj.generateElectrics(bs, pc, cc);
+            obj.generateElectrics(dv, pc, cc);
             obj.generatePhonons(cc);
             obj.generateElectricsHistory(cc);
             obj.generatePhononsHistory(cc);
         end
         
-        function generateElectrics(obj, bs, pc, cc)
+        function generateElectrics(obj, dv, pc, cc)
             %生成电子群
-            obj.eGroup = repmat(ElectricStatus(bs, pc, cc), cc.superElecs, 1);
+            obj.eGroup = repmat(ElectricStatus(dv, pc, cc), cc.superElecs, 1);
         end
         
         function generatePhonons(obj, cc)

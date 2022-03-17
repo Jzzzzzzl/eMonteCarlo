@@ -1,7 +1,7 @@
 classdef ScatterringProcessGammaX < ScatterringProcessForValley
     
     methods
-        function [es, ps] = chooseFinalVectorOfInterScat(obj, es, ps, bs, sc, pc, type1, type2, type3)
+        function [es, ps] = chooseFinalVectorOfInterScat(obj, es, ps, dv, sc, pc, type1, type2, type3)
             %谷间散射末态波矢迭代选择,根据能量守恒
             item = 1;
             error = 1;
@@ -43,49 +43,50 @@ classdef ScatterringProcessGammaX < ScatterringProcessForValley
             phononEnergy = double(pc.hbar * frequency);
             es.energy = es.energy + flag * phononEnergy;
             es.valley = obj.randomValley(es, type1);
+            dv.judgeBsSrSp(es);
             while item < maxitem && error > allowedError
-                es = bs.chooseWaveVector(es, pc);
+                es = dv.bs.chooseWaveVector(es, pc);
                 ps.vector = es.vector - agoVector;
-%                 ps = bs.phononWhetherBeyondBZone(ps, pc);
+%                 ps = dv.bs.phononWhetherBeyondBZone(ps, pc);
                 ps.getFrequency(sc);
                 error = abs((ps.energy - phononEnergy) / ps.energy);
                 item = item + 1;
             end
         end
         
-        function [es,ps] = electricScatProcess(obj, es, ps, bs, sc, pc, sr)
+        function [es,ps] = electricScatProcess(obj, es, ps, dv, sc, pc)
             %针对不同散射类型计算电子声子散射过程
-            switch sr.scatType
+            switch dv.sr.scatType
                 case 1 % e-impurity
-                    es = obj.chooseFinalVectorOfImpurity(es, bs, pc);
+                    es = obj.chooseFinalVectorOfImpurity(es, dv, pc);
                 case 2 % intra_LA
-                    es = bs.chooseWaveVector(es, pc);
+                    es = dv.bs.chooseWaveVector(es, pc);
                 case 3 % intra_TA
-                    es = bs.chooseWaveVector(es, pc);
+                    es = dv.bs.chooseWaveVector(es, pc);
                 case 4 % inter_g_ab_TA
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "ab", "TA");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "g", "ab", "TA");
                 case 5 % inter_g_ab_LA
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "ab", "LA");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "g", "ab", "LA");
                 case 6 % inter_g_ab_LO
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "ab", "LO");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "g", "ab", "LO");
                 case 7 % inter_f_ab_TA
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "ab", "TA");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "f", "ab", "TA");
                 case 8 % inter_f_ab_LA
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "ab", "LA");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "f", "ab", "LA");
                 case 9 % inter_f_ab_TO
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "ab", "TO");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "f", "ab", "TO");
                 case 10 % inter_g_em_TA
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "em", "TA");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "g", "em", "TA");
                 case 11 % inter_g_em_LA
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "em", "LA");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "g", "em", "LA");
                 case 12 % inter_g_em_LO
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "g", "em", "LO");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "g", "em", "LO");
                 case 13 % inter_f_em_TA
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "em", "TA");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "f", "em", "TA");
                 case 14 % inter_f_em_LA
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "em", "LA");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "f", "em", "LA");
                 case 15 % inter_f_em_TO
-                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, bs, sc, pc, "f", "em", "TO");
+                    [es, ps] = obj.chooseFinalVectorOfInterScat(es, ps, dv, sc, pc, "f", "em", "TO");
                 case 16 % 
                     return;
             end
@@ -99,14 +100,14 @@ classdef ScatterringProcessGammaX < ScatterringProcessForValley
             switch type
                 case "i"
                     valleys = [1, -1, 2, -2, 3, -3];
-                    index = round(randnumber(0.5, 6.5));
+                    index = round(randNumber(0.5, 6.5));
                     value = valleys(index);
                 case "f"
                     valley0 = abs(es.valley);
                     valleys1 = [2, -2, 3, -3];
                     valleys2 = [1, -1, 3, -3];
                     valleys3 = [1, -1, 2, -2];
-                    index = round(randnumber(0.5, 4.5));
+                    index = round(randNumber(0.5, 4.5));
                     switch valley0
                         case 1
                             value = valleys1(index);

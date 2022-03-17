@@ -47,7 +47,7 @@ classdef ScatterringRateTableForValley < handle
         
         function computeFlyTime(obj)
             %计算飞行时间
-            obj.flyTime = -log(randnumber(0.01,1.0)) / obj.scatTableAll(end);
+            obj.flyTime = -log(randNumber(0.01,1.0)) / obj.maxScatRate;
         end
         
     end

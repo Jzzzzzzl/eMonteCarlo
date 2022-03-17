@@ -7,18 +7,16 @@ addpath(genpath(pwd))
 
 pc = PhysicConstants("Si");
 cc = ConfigureConstants("1D");
-bs = BandStructureGammaX(pc);
+dv = DecideValleyKind(pc, cc);
 sc = ScatterringCurve("Si", pc);
-sr = ScatterringRateTableGammaX(pc, cc);
-sh = SimulationHistory(bs, pc, cc);
-sp = ScatterringProcessGammaX;
+sh = SimulationHistory(dv, pc, cc);
 mm = ModelMeshing;
 pq = PhononQuantityStatics(50);
 
 % es = ElectricStatus(bs, pc, cc);
 % es = bs.computeEnergyAndVelocity(es, pc);
 % disp(es)
-sh = parallelCompute(sh, bs, sr, sp, sc, pc, cc);
+sh = parallelCompute(sh, dv, sc, pc, cc);
 
 %% 
 pp = PostProcessing(sh, cc);
@@ -38,13 +36,13 @@ pp = PostProcessing(sh, cc);
 %验证3，波矢选择及能量相互验证
 % verifyProgram("EnergyToVector", bs, pc);
 %验证4，数据后处理
-% pp.dirftVelocityWithTime(sh, mm, cc, 100);
-% pp.scatTypeDistribution(sh, cc);
-% pp.energyDistribution(sh, mm, pc, cc, 100);
-% pp.averageEnergyWithTime(sh, mm, pc, cc, 100)
-% pp.electronTrace(sh, pc, cc, 5, 'k');
-% pp.electronTrace(sh, pc, cc, 5, 'r');
-% pp.electronTrace(sh, pc, cc, 5, 'e');
+pp.dirftVelocityWithTime(sh, mm, cc, 100);
+pp.scatTypeDistribution(sh, cc);
+pp.energyDistribution(sh, mm, pc, cc, 100);
+pp.averageEnergyWithTime(sh, mm, pc, cc, 100)
+% pp.electronTrace(sh, pc, cc, 950, 'k');
+% pp.electronTrace(sh, pc, cc, 950, 'r');
+% pp.electronTrace(sh, pc, cc, 950, 'e');
 %验证5，声子发射谱
 % mm.frequencyGrid(0, 1e14, 100);
 % pq.subPhononQuantityStatics(sh, mm, sc, cc);
@@ -53,7 +51,6 @@ pp = PostProcessing(sh, cc);
 % pq.phononEmSpectrum(mm, sc, pc, "LO")
 % pq.phononEmSpectrum(mm, sc, pc, "TO")
 % pq.phononEmSpectrum(mm, sc, pc, "ALL")
-
 
 
 
