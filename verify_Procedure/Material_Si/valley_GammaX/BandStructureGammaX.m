@@ -59,7 +59,7 @@ classdef BandStructureGammaX < BandStructureForValley
         
         function [ps] = phononWhetherBeyondBZone(~, ps, pc)
             %声子波矢长度修正
-            if double(ps.wavenum / pc.bzR) > 1.0
+            if double(ps.wavenum / pc.dGX) > 1.0
                 ps.vector(1) = ps.vector(1) - 2 * pc.dGX * ps.vector(1) / ps.wavenum;
                 ps.vector(2) = ps.vector(2) - 2 * pc.dGX * ps.vector(2) / ps.wavenum;
                 ps.vector(3) = ps.vector(3) - 2 * pc.dGX * ps.vector(3) / ps.wavenum;
@@ -109,7 +109,7 @@ classdef BandStructureGammaX < BandStructureForValley
     methods(Static)
         
         function [bool] = whetherBeyondBrillouinZone(es, pc)
-            %判断是否超出第一布里渊区
+            %判断电子波矢是否超出第一布里渊区
             bool = double(max(abs(es.vector)) / pc.dGX) > 1.0;
         end
         

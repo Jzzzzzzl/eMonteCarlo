@@ -2,6 +2,8 @@ classdef PhononQuantityStatics < handle
     
     properties
         NW
+        minFrequency
+        maxFrequency
         phLAs
         phTAs
         phLOs
@@ -12,27 +14,27 @@ classdef PhononQuantityStatics < handle
     
     methods
         
-        function obj = PhononQuantityStatics(NW)
+        function obj = PhononQuantityStatics(pc, NW)
             %构造函数
             obj.NW = NW;
+            obj.minFrequency = 0;
+            obj.maxFrequency = pc.maxFrequency;
             FrequncyStatics = struct("pop", {0}, "num", {0});
             obj.phLAs = repmat(FrequncyStatics, NW, 1);
             obj.phTAs = repmat(FrequncyStatics, NW, 1);
             obj.phLOs = repmat(FrequncyStatics, NW, 1);
             obj.phTOs = repmat(FrequncyStatics, NW, 1);
             obj.phALL = repmat(FrequncyStatics, NW, 1);
-            
         end
         
-        function subPhononQuantityStatics(obj, sh, mm, sc, cc)
+        function subPhononQuantityStatics(obj, sh, mm, cc)
             %全部计算一遍
-            mm.frequencyGrid(sc.wMinLA, sc.wMaxTO, obj.NW);
+            mm.frequencyGrid(obj.minFrequency, obj.maxFrequency, obj.NW);
             obj.statisticPhonon(sh, mm, cc, "LA");
             obj.statisticPhonon(sh, mm, cc, "TA");
             obj.statisticPhonon(sh, mm, cc, "LO");
             obj.statisticPhonon(sh, mm, cc, "TO");
             obj.statisticPhonon(sh, mm, cc, "ALL");
-            
         end
         
         function statisticPhonon(obj, sh, mm, cc, type)
@@ -47,13 +49,14 @@ classdef PhononQuantityStatics < handle
                 polars(i) = obj.phonons(i).polar;
             end
             
-            % index1用于筛选发射声子
+            % index1用于筛选发射类型声子
             index1 = aborems == "em";
-            
             switch type
                 case "LA"
+                    % index2用于筛选极化支
                     index2 = polars == "LA";
                     for k = 1 : obj.NW
+                        % index3用于筛选频率范围
                         index3 = frequencys > mm.frequency.face(k) & frequencys < mm.frequency.face(k + 1);
                         index = index1 & index2 & index3;
                         % pop中存储单个频率段对应的声子群在phonons中的标号
@@ -94,13 +97,12 @@ classdef PhononQuantityStatics < handle
                         obj.phALL(k).num = length(obj.phALL(k).pop);
                     end
             end
-            
         end
         
-        function phononEmSpectrum(obj, mm, sc, pc, type)
-            %求声子发射谱
+        function [wNum] = phononEmSpectrumPlot(obj, mm, pc, type)
+            %声子发射谱画图
             wNum = zeros(obj.NW, 2);
-            mm.frequencyGrid(sc.wMinLA, sc.wMaxTO, obj.NW);
+            mm.frequencyGrid(obj.minFrequency, obj.maxFrequency, obj.NW);
             switch type
                 case "LA"
                     temp = obj.phLAs;
@@ -123,7 +125,6 @@ classdef PhononQuantityStatics < handle
             slg.LineWidth = 2;
             xlabel(".a.u");ylabel("meV");
             legend(" phonon emission numbers")
-            
         end
         
     end

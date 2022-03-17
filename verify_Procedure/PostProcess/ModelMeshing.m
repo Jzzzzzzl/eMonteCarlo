@@ -29,7 +29,6 @@ classdef ModelMeshing < handle
         
         function energyGrid(obj, eMin, eMax, N)
             %生成能量网格
-            
             obj.NE = N;
             obj.energy = GridClass(eMin, eMax, N);
             
@@ -37,7 +36,6 @@ classdef ModelMeshing < handle
         
         function modelXGrid(obj, xMin, xMax, N)
             %生成x方向网格
-            
             obj.NX = N;
             obj.modelx = GridClass(xMin, xMax, N);
             
@@ -45,7 +43,6 @@ classdef ModelMeshing < handle
         
         function modelYGrid(obj, yMin, yMax, N)
             %生成x方向网格
-            
             obj.NY = N;
             obj.modely = GridClass(yMin, yMax, N);
             
@@ -53,7 +50,6 @@ classdef ModelMeshing < handle
         
         function timeGrid(obj, tMin, tMax, N)
             %生成频率网格
-            
             obj.Nt = N;
             obj.time = GridClass(tMin, tMax, N);
             

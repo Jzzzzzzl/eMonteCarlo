@@ -47,7 +47,7 @@ classdef ScatterringProcessGammaX < ScatterringProcessForValley
             while item < maxitem && error > allowedError
                 es = dv.bs.chooseWaveVector(es, pc);
                 ps.vector = es.vector - agoVector;
-%                 ps = dv.bs.phononWhetherBeyondBZone(ps, pc);
+                ps = dv.bs.phononWhetherBeyondBZone(ps, pc);
                 ps.getFrequency(sc);
                 error = abs((ps.energy - phononEnergy) / ps.energy);
                 item = item + 1;
@@ -95,6 +95,7 @@ classdef ScatterringProcessGammaX < ScatterringProcessForValley
     end
     
     methods(Static)
+        
         function value = randomValley(es, type)
             %随机选择能谷
             switch type

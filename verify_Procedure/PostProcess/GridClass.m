@@ -10,7 +10,6 @@ classdef GridClass < handle
         function obj = GridClass(min, max, N)
             %构造函数
             obj.meshGrid(min, max, N);
-            
         end
         
         function meshGrid(obj, min, max, N)
@@ -26,7 +25,6 @@ classdef GridClass < handle
                 obj.face(k) = (k - 1) * delta + obj.face(1);
                 obj.point(k) = (obj.face(k) + obj.face(k - 1)) * 0.5;
             end
-            
         end
         
     end

@@ -31,20 +31,15 @@ classdef ScatterringCurve < handle
     
     methods
         
-        function obj = ScatterringCurve(material, pc)
+        function obj = ScatterringCurve(pc)
             %色散曲线
-            if strcmpi(material, "Si")
-                obj.omegaLA = @(q) 0.000e13 + 8.861e3*q - 1.931e-7*q.^2;
-                obj.omegaTA = @(q) 0.000e13 + 5.993e3*q - 3.165e-7*q.^2;
-                obj.omegaLO = @(q) 9.473e13 + 5.876e2*q - 1.950e-7*q.^2;
-                obj.omegaTO = @(q) 9.824e13 - 2.547e3*q + 1.140e-7*q.^2;
-            else
-                error("请使用材料：Si 的ScatterringCurve类!")
-            end
+            obj.omegaLA = @(q) 0.000e13 + 8.861e3*q - 1.931e-7*q.^2;
+            obj.omegaTA = @(q) 0.000e13 + 5.993e3*q - 3.165e-7*q.^2;
+            obj.omegaLO = @(q) 9.473e13 + 5.876e2*q - 1.950e-7*q.^2;
+            obj.omegaTO = @(q) 9.824e13 - 2.547e3*q + 1.140e-7*q.^2;
             %计算定义域及谷间声子频率
             obj.frequencyDomain(pc);
             obj.frequencyToInter(pc);
-            
         end
         
         function frequencyDomain(obj, pc)
@@ -57,7 +52,6 @@ classdef ScatterringCurve < handle
             obj.wMaxLO = double(obj.omegaLO(0));
             obj.wMinTO = double(obj.omegaTO(pc.dGX));
             obj.wMaxTO = double(obj.omegaTO(0));
-            
         end
         
         function frequencyToInter(obj, pc)
@@ -70,7 +64,6 @@ classdef ScatterringCurve < handle
             obj.wfTA = double(obj.omegaTA(pc.qf));
             obj.wfLO = double(obj.omegaLO(pc.qf));
             obj.wfTO = double(obj.omegaTO(pc.qf));
-            
         end
         
         function frequency = phononFrequency(obj, ps)
