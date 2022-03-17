@@ -11,7 +11,7 @@ bs = BandStructureGammaX(pc);
 sc = ScatterringCurve("Si", pc);
 sr = ScatterringRateTableGammaX(pc, cc);
 sh = SimulationHistory(bs, pc, cc);
-sp = ScatterringProcess;
+sp = ScatterringProcessGammaX;
 mm = ModelMeshing;
 pq = PhononQuantityStatics(50);
 

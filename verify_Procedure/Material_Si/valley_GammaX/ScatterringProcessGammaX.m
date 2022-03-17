@@ -1,4 +1,4 @@
-classdef ScatterringProcess < ScatterringProcessForValley
+classdef ScatterringProcessGammaX < ScatterringProcessForValley
     
     methods
         function [es, ps] = chooseFinalVectorOfInterScat(obj, es, ps, bs, sc, pc, type1, type2, type3)
