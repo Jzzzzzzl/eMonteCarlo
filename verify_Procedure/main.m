@@ -15,6 +15,16 @@ sc = ScatterringCurve(pc);
 sh = SimulationHistory(dv, pc, cc);
 mm = ModelMeshing;
 pq = PhononQuantityStatics(pc, 50);
+
+
+es = ElectricStatus;
+es.valley = 1;
+dv.judgeBsSrSp(es);
+es.energy = 0.2*pc.e;
+dv.sr.scatterringTable(es, dv, sc, pc, cc);
+disp(dv.sr.scatTable);
+scatteringRatePlot(dv, sc, pc, cc)
+
 %% 
 sh = parallelCompute(sh, dv, sc, pc, cc);
 
@@ -43,15 +53,12 @@ pp = PostProcessing(sh, cc);
 % pp.electronTrace(sh, cc, 950, 'r');
 % pp.electronTrace(sh, cc, 950, 'e');
 %验证5，声子发射谱
-pq.subPhononQuantityStatics(sh, mm, cc);
-pq.phononEmSpectrumPlot(mm, pc, "LA");
-pq.phononEmSpectrumPlot(mm, pc, "TA");
-pq.phononEmSpectrumPlot(mm, pc, "LO");
-pq.phononEmSpectrumPlot(mm, pc, "TO");
-pq.phononEmSpectrumPlot(mm, pc, "ALL");
-
-
-
+% pq.subPhononQuantityStatics(sh, mm, cc);
+% pq.phononEmSpectrumPlot(mm, pc, "LA");
+% pq.phononEmSpectrumPlot(mm, pc, "TA");
+% pq.phononEmSpectrumPlot(mm, pc, "LO");
+% pq.phononEmSpectrumPlot(mm, pc, "TO");
+% pq.phononEmSpectrumPlot(mm, pc, "ALL");
 
 
 
