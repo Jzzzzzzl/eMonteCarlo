@@ -82,7 +82,7 @@ classdef PostProcessing < handle
                         energys(i) = sh.eHistory(num, i).energy;
                     end
                     figure
-                    plot(positions * 1e9, energys / obj.e, '-')
+                    plot(positions * 1e9, energys / PostProcessing.e, '-')
                     xlabel("nm");ylabel("eV");
                     legend("electron energy")
             end

@@ -23,7 +23,7 @@ classdef ConfigureConstants < handle
         function obj = ConfigureConstants
             obj.superElecs = 2000;
             obj.envTemp = 300;
-            obj.noFly = 1000;
+            obj.noFly = 3000;
             obj.nofScat = 16;
             obj.initEnergy = 0.0001*obj.e;
             obj.energyMax = 2*obj.e;
@@ -31,7 +31,7 @@ classdef ConfigureConstants < handle
             obj.maxVelocity = 3e5;
             obj.xsForimpurity = 0.1;
             obj.dopDensity = 1e23;
-            obj.electricField = [-10e5 0 0];
+            obj.electricField = [-0.1e5 0 0];
         end
         
     end
