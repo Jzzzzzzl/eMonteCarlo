@@ -5,11 +5,11 @@ function [sh] = parallelCompute(sh, dv, sc, pc, cc)
     
     tic
     for k = 1 : cc.noFly
-        parfor i = 1 : cc.superElecs
+        for i = 1 : cc.superElecs
             %自由飞行段
             eGroup(i) = freeFlyProcess(eGroup(i), dv, pc, cc);
             %散射段
-            dv.sr.scatterringTable(eGroup(i), sc, pc, cc);
+            dv.sr.scatterringTable(dv, sc, pc, cc);
             dv.sr.computeScatType;
             eGroup(i).scatype = dv.sr.scatType;
             [eGroup(i), pGroup(i)] = dv.sp.electricScatProcess(eGroup(i), pGroup(i), dv, sc, pc);

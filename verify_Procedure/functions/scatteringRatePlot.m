@@ -4,11 +4,14 @@ function scatteringRatePlot(dv, sc, pc, cc)
     es.valley = 1;
     dv.judgeBsSrSp(es);
     
-    energys = logspace(-5, 2, 100) * pc.e;
+    energys = logspace(-3, 1, 100) * pc.e;
     scatTables = zeros(length(energys), dv.sr.nofScat + 1);
     for i = 1 : length(energys)
         es.energy = energys(i);
-        dv.sr.scatterringTable(es, dv, sc, pc, cc);
+        dv.bs.chooseWaveVector(es, pc);
+        dv.bs.computeEnergyAndVelocity(es, pc);
+        dv.sr.updateScatterringRateFormula(dv, pc, cc);
+        dv.sr.scatterringTable(dv, sc, pc, cc);
         scatTables(i, 1 : end-1) = deal(dv.sr.scatTable');
         scatTables(i, end) = sum(scatTables(i, 1 : end-1));
     end

@@ -45,8 +45,8 @@ classdef BandStructureForValley < handle
         
         function [k] = generateStandardWaveVector(obj, es, pc)
             %>根据能量选择电子波矢
-            obj.epsilong = (sqrt(1 + 4*obj.alpha*(es.energy - obj.Eg)/pc.e) - 1) / (2*obj.alpha) * pc.e;
-            kStarMold = sqrt(2 * pc.m * obj.epsilong) / pc.hbar;
+            epsilongTemp = (sqrt(1 + 4*obj.alpha*(es.energy - obj.Eg)/pc.e) - 1) / (2*obj.alpha) * pc.e;
+            kStarMold = sqrt(2 * pc.m * epsilongTemp) / pc.hbar;
             %>球空间随机选择波矢
             phi = randNumber(0, pi);
             theta = randNumber(0, 2*pi);

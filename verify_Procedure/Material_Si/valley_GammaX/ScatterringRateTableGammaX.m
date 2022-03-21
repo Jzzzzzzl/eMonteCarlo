@@ -11,7 +11,7 @@ classdef ScatterringRateTableGammaX < ScatterringRateTableForValley
             obj.xsForimpurity = cc.xsForimpurityGX;
         end
         
-        function scatterringTable(obj, es, dv, sc, pc, cc)
+        function scatterringTable(obj, dv, sc, pc, cc)
             % 散射表
             % type = 1---------------ionized-impurity
             % type = 2---------------intra_ab_LA
@@ -32,8 +32,8 @@ classdef ScatterringRateTableGammaX < ScatterringRateTableForValley
             % type = 17--------------inter_f_em_TO
             % type = 18--------------selfscatterring
             %更新散射的句柄函数
-            obj.updateScatterringRateFormula(es, dv, pc, cc);
-            obj.scatTable(1) = obj.ionizedImpurityScatRate(es.energy);
+            obj.updateScatterringRateFormula(dv, pc, cc);
+            obj.scatTable(1) = obj.ionizedImpurityScatRate;
             obj.scatTable(2) = obj.intraAcousticScatRateAB(pc.DLA, pc.ul);
             obj.scatTable(3) = obj.intraAcousticScatRateAB(pc.DTA, pc.ut);
             obj.scatTable(4) = obj.intraAcousticScatRateEM(pc.DLA, pc.ul);

@@ -5,8 +5,10 @@ classdef ScatterringRateTableForValley < handle
     %>
     % ======================================================================
     %>     函数说明：
-    %> （1）
-    %>         
+    %> （1）updateScatterringRateFormula(obj, dv, pc, cc)
+    %>         该函数用于更新某一电子状态下对应的散射类型的句柄函数，需要注意的是，在使用该
+    %>         函数之前，需要先将dv指向该电子所在能谷种类，然后计算dv.bs.epsilong参数，默认
+    %>         情况下，飞行过程结束后的dv即满足要求，否则需要额外计算。
     %> （2）
     %>         
     %>
@@ -33,12 +35,12 @@ classdef ScatterringRateTableForValley < handle
     end
     
     methods
-        function updateScatterringRateFormula(obj, es, dv, pc, cc)
+        function updateScatterringRateFormula(obj, dv, pc, cc)
             %更新散射率句柄函数
-            obj.ionizedImpurityScatteringRate(pc, cc);
-            obj.intravalleyAcousticScatteringRate(es, dv, pc, cc);
-            obj.intravalleyOpticalScatteringRate(es, dv, pc, cc);
-            obj.interScatteringRate(es, dv, pc, cc);
+            obj.generateIonizedImpurityScatteringRate(dv, pc, cc);
+            obj.generateIntravalleyAcousticScatteringRate(dv, pc, cc);
+            obj.generateIntravalleyOpticalScatteringRate(dv, pc, cc);
+            obj.generateIntervalleyScatteringRate(dv, pc, cc);
         end
         
         function computeScatType(obj)

@@ -7,7 +7,7 @@ function [] = verifyProgram(type, dv, pc)
             allowedError = 0.001;
             for i = 1 : num
                 es = ElectricStatus;
-                es.vector = [randnumber(0.8,1.0) randnumber(0.1,0.2) randnumber(0.1,0.2)] * pc.dGX;
+                es.vector = [randNumber(0.8,1.0) randNumber(0.1,0.2) randNumber(0.1,0.2)] * pc.dGX;
                 es.valley = dv.whichValley(es);
                 dv.judgeBsSrSp(es);
                 es = dv.bs.computeEnergyAndVelocity(es, pc);
