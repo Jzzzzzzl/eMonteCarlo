@@ -32,6 +32,8 @@ classdef ScatterringRateTableForValley < handle
         scatTableAll
         scatType
         flyTime
+        xAB
+        xEM
     end
     
     methods

@@ -7,6 +7,7 @@ classdef BandStructureGammaX < BandStructureForValley
             obj.Eg = 0.0*pc.e;
             obj.mt = 0.196*pc.m;
             obj.ml = 0.916*pc.m;
+            obj.md = pc.mdGX;
             obj.alpha = 0.5;
             obj.centerRatio = 0.85;
             obj.Tz = [sqrt(pc.m / obj.mt)    0   0;

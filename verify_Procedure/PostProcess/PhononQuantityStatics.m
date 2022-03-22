@@ -9,7 +9,9 @@ classdef PhononQuantityStatics < handle
         phLOs
         phTOs
         phALL
-        phonons
+        frequencys
+        aborems
+        polars
     end
     
     methods
@@ -27,71 +29,66 @@ classdef PhononQuantityStatics < handle
             obj.phALL = repmat(FrequncyStatics, NW, 1);
         end
         
-        function subPhononQuantityStatics(obj, sh, mm, cc)
+        function subPhononQuantityStatics(obj, sh, mm)
             %全部计算一遍
             mm.frequencyGrid(obj.minFrequency, obj.maxFrequency, obj.NW);
-            obj.statisticPhonon(sh, mm, cc, "LA");
-            obj.statisticPhonon(sh, mm, cc, "TA");
-            obj.statisticPhonon(sh, mm, cc, "LO");
-            obj.statisticPhonon(sh, mm, cc, "TO");
-            obj.statisticPhonon(sh, mm, cc, "ALL");
+            
+            sh.pHistory = reshape(sh.pHistory', [], 1);
+            obj.frequencys = [sh.pHistory(:).frequency];
+            obj.aborems = [sh.pHistory(:).aborem];
+            obj.polars = [sh.pHistory(:).polar];
+            
+            obj.statisticPhonon(mm, "LA");
+            obj.statisticPhonon(mm, "TA");
+            obj.statisticPhonon(mm, "LO");
+            obj.statisticPhonon(mm, "TO");
+            obj.statisticPhonon(mm, "ALL");
         end
         
-        function statisticPhonon(obj, sh, mm, cc, type)
-            %统计各个频率段的声子群
-            obj.phonons = reshape(sh.pHistory', [], 1);
-            frequencys = zeros(cc.superElecs * cc.noFly, 1);
-            aborems = string(zeros(cc.superElecs * cc.noFly, 1));
-            polars = string(zeros(cc.superElecs * cc.noFly, 1));
-            for i = 1 : cc.superElecs * cc.noFly
-                frequencys(i) = obj.phonons(i).frequency;
-                aborems(i) = obj.phonons(i).aborem;
-                polars(i) = obj.phonons(i).polar;
-            end
-            
+        function statisticPhonon(obj, mm, type)
             % index1用于筛选发射类型声子
-            index1 = aborems == "em";
+            index1 = obj.aborems == "em";
             switch type
                 case "LA"
                     % index2用于筛选极化支
-                    index2 = polars == "LA";
+                    index2 = obj.polars == "LA";
                     for k = 1 : obj.NW
                         % index3用于筛选频率范围
-                        index3 = frequencys > mm.frequency.face(k) & frequencys < mm.frequency.face(k + 1);
+                        index3 = obj.frequencys > mm.frequency.face(k) & obj.frequencys < mm.frequency.face(k + 1);
                         index = index1 & index2 & index3;
-                        % pop中存储单个频率段对应的声子群在phonons中的标号
+                        % pop中存储单个频率段对应的声子群在sh.pHistory中的标号
                         obj.phLAs(k).pop = find(index);
                         % num中存储单个频率段对应的声子数目
                         obj.phLAs(k).num = length(obj.phLAs(k).pop);
                     end
                 case "TA"
-                    index2 = polars == "TA";
+                    index2 = obj.polars == "TA";
                     for k = 1 : obj.NW
-                        index3 = frequencys > mm.frequency.face(k) & frequencys < mm.frequency.face(k + 1);
+                        index3 = obj.frequencys > mm.frequency.face(k) & obj.frequencys < mm.frequency.face(k + 1);
                         index = index1 & index2 & index3;
                         obj.phTAs(k).pop = find(index);
                         obj.phTAs(k).num = length(obj.phTAs(k).pop);
                     end
                 case "LO"
-                    index2 = polars == "LO";
+                    index2 = obj.polars == "LO";
                     for k = 1 : obj.NW
-                        index3 = frequencys > mm.frequency.face(k) & frequencys < mm.frequency.face(k + 1);
+                        index3 = obj.frequencys > mm.frequency.face(k) & obj.frequencys < mm.frequency.face(k + 1);
                         index = index1 & index2 & index3;
                         obj.phLOs(k).pop = find(index);
                         obj.phLOs(k).num = length(obj.phLOs(k).pop);
                     end
                 case "TO"
-                    index2 = polars == "TO";
+                    index2 = obj.polars == "TO";
                     for k = 1 : obj.NW
-                        index3 = frequencys > mm.frequency.face(k) & frequencys < mm.frequency.face(k + 1);
+                        index3 = obj.frequencys > mm.frequency.face(k) & obj.frequencys < mm.frequency.face(k + 1);
                         index = index1 & index2 & index3;
                         obj.phTOs(k).pop = find(index);
                         obj.phTOs(k).num = length(obj.phTOs(k).pop);
                     end
                 case "ALL"
-                    index2 = polars ~= "non";
+                    index2 = obj.polars ~= "non";
                     for k = 1 : obj.NW
-                        index3 = frequencys > mm.frequency.face(k) & frequencys < mm.frequency.face(k + 1);
+                        index3 = obj.frequencys > mm.frequency.face(k) & obj.frequencys < mm.frequency.face(k + 1);
                         index = index1 & index2 & index3;
                         obj.phALL(k).pop = find(index);
                         obj.phALL(k).num = length(obj.phALL(k).pop);

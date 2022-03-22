@@ -37,14 +37,12 @@ sh = parallelCompute(sh, dv, sc, pc, cc);
 % pp.electronTrace(sh, cc, 950, 'r');
 % pp.electronTrace(sh, cc, 950, 'e');
 %验证5，声子发射谱
-% pq.subPhononQuantityStatics(sh, mm, cc);
-% pq.phononEmSpectrumPlot(mm, pc, "LA");
-% pq.phononEmSpectrumPlot(mm, pc, "TA");
-% pq.phononEmSpectrumPlot(mm, pc, "LO");
-% pq.phononEmSpectrumPlot(mm, pc, "TO");
-% pq.phononEmSpectrumPlot(mm, pc, "ALL");
-
-
+pq.subPhononQuantityStatics(sh, mm);
+pq.phononEmSpectrumPlot(mm, pc, "LA");
+pq.phononEmSpectrumPlot(mm, pc, "TA");
+pq.phononEmSpectrumPlot(mm, pc, "LO");
+pq.phononEmSpectrumPlot(mm, pc, "TO");
+pq.phononEmSpectrumPlot(mm, pc, "ALL");
 
 
 

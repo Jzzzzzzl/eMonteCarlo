@@ -25,6 +25,7 @@ classdef BandStructureForValley < handle
         Eg
         mt
         ml
+        md
         alpha
         Tz
         invTz
