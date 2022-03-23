@@ -7,4 +7,3 @@ function [es] = initializeElectricStatus(es, dv, pc, cc)
     es = dv.bs.chooseWaveVector(es, pc);
     es = dv.bs.computeEnergyAndVelocity(es, pc);
 end
-        

@@ -25,7 +25,7 @@ sh = parallelCompute(sh, dv, sc, pc, cc);
 % dv.bs.bandStructurePlot(50, pc);
 % dv.bs.electricVelocityPlot(50, pc);
 %验证2，散射表画图
-% scatteringRatePlot(dv, sc, pc, cc)
+% scatteringRatePlot(dv, sc, pc, cc);
 %验证3，波矢选择及能量相互验证
 % verifyProgram("EnergyToVector", dv, pc);
 %验证4，数据后处理
@@ -38,11 +38,15 @@ sh = parallelCompute(sh, dv, sc, pc, cc);
 % pp.electronTrace(sh, cc, 950, 'e');
 %验证5，声子发射谱
 pq.subPhononQuantityStatics(sh, mm);
-pq.phononEmSpectrumPlot(mm, pc, "LA");
-pq.phononEmSpectrumPlot(mm, pc, "TA");
-pq.phononEmSpectrumPlot(mm, pc, "LO");
-pq.phononEmSpectrumPlot(mm, pc, "TO");
-pq.phononEmSpectrumPlot(mm, pc, "ALL");
+pq.phononSpectrumPlot(mm, pc, "LA");
+pq.phononSpectrumPlot(mm, pc, "TA");
+pq.phononSpectrumPlot(mm, pc, "LO");
+pq.phononSpectrumPlot(mm, pc, "TO");
+pq.phononSpectrumPlot(mm, pc, "ALL");
+
+
+
+
 
 
 

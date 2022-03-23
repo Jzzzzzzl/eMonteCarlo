@@ -26,6 +26,7 @@ classdef ScatterringProcessGammaX < ScatterringProcessForValley
                     ps.aborem = "em";
                     ps.polar = "LA";
                     obj.chooseIntravalleyScatteringPhononWavenum(dv, pc, cc);
+                    while sc.omegaLA(obj.qEM)*pc.hbar >= es.energy; obj.qEM = obj.qEM * rand; end
                     es.valley = obj.randomValley(es, "intra");
                     dv.judgeBsSrSp(es);
                     [es, ps] = obj.chooseElectricFinalStateAfterScattering(es, ps, dv, sc, pc, sc.omegaLA(obj.qEM), -1);
@@ -33,6 +34,7 @@ classdef ScatterringProcessGammaX < ScatterringProcessForValley
                     ps.aborem = "em";
                     ps.polar = "TA";
                     obj.chooseIntravalleyScatteringPhononWavenum(dv, pc, cc);
+                    while sc.omegaTA(obj.qEM)*pc.hbar >= es.energy; obj.qEM = obj.qEM * rand; end
                     es.valley = obj.randomValley(es, "intra");
                     dv.judgeBsSrSp(es);
                     [es, ps] = obj.chooseElectricFinalStateAfterScattering(es, ps, dv, sc, pc, sc.omegaTA(obj.qEM), -1);
