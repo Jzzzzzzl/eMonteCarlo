@@ -15,25 +15,19 @@ sc = ScatterringCurve(pc);
 sh = SimulationHistory(dv, pc, cc);
 mm = ModelMeshing;
 pq = PhononQuantityStatics(pc, 50);
+
 %% 
 sh = parallelCompute(sh, dv, sc, pc, cc);
 
-pp = PostProcessing(sh, cc);
+% pp = PostProcessing(sh, cc);
 
 % 验证1，能带画图
-% bs.bandStructurePlot(50, pc);
-% bs.electricVelocityPlot(50, pc);
+% dv.bs.bandStructurePlot(50, pc);
+% dv.bs.electricVelocityPlot(50, pc);
 %验证2，散射表画图
-% es = ElectricStatus;
-% es.energy = 0.01 * pc.e;
-% sr.scatterringTable(es, sc, pc, cc);
-% sr.computeFlyTime;
-% sr.flyTime
-% sr.computeScatType
-% sr.scatType
-% sr.scatterringRatePlot(sc, pc, cc);
+% scatteringRatePlot(dv, sc, pc, cc);
 %验证3，波矢选择及能量相互验证
-% verifyProgram("EnergyToVector", bs, pc);
+% verifyProgram("EnergyToVector", dv, pc);
 %验证4，数据后处理
 % pp.dirftVelocityWithTime(sh, mm, cc, 60, 100);
 % pp.scatTypeDistribution(sh, cc);
@@ -43,6 +37,7 @@ pp = PostProcessing(sh, cc);
 % pp.electronTrace(sh, cc, 950, 'r');
 % pp.electronTrace(sh, cc, 950, 'e');
 %验证5，声子发射谱
+<<<<<<< HEAD
 % pq.subPhononQuantityStatics(sh, mm, cc);
 % pq.phononEmSpectrumPlot(mm, pc, "LA");
 % pq.phononEmSpectrumPlot(mm, pc, "TA");
@@ -50,6 +45,14 @@ pp = PostProcessing(sh, cc);
 % pq.phononEmSpectrumPlot(mm, pc, "TO");
 % pq.phononEmSpectrumPlot(mm, pc, "ALL");
 
+=======
+pq.subPhononQuantityStatics(sh, mm);
+pq.phononSpectrumPlot(mm, pc, "LA");
+pq.phononSpectrumPlot(mm, pc, "TA");
+pq.phononSpectrumPlot(mm, pc, "LO");
+pq.phononSpectrumPlot(mm, pc, "TO");
+pq.phononSpectrumPlot(mm, pc, "ALL");
+>>>>>>> dev
 
 
 

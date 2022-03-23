@@ -15,7 +15,7 @@ classdef PostProcessing < handle
         function obj = PostProcessing(sh, cc)
             %构造函数
             obj.averageTotalFlyTime(sh, cc);
-            obj.electronDirftVelocity(sh, cc)
+            obj.electronDirftVelocity(sh, cc);
         end
         
         function averageTotalFlyTime(obj, sh, cc)

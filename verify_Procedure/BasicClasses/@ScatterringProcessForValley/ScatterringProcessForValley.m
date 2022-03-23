@@ -11,8 +11,12 @@ classdef ScatterringProcessForValley < handle
     %>         
     %>
     % ======================================================================
+    properties
+        qAB
+        qEM
+    end
+    
     methods(Static)
-        
         function [es] = chooseFinalVectorOfImpurity(es, dv, pc)
             %电离杂质散射后选择电子波矢
             agov = es.velocity;

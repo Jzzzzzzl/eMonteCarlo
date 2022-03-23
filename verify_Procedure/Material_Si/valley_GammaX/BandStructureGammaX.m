@@ -4,15 +4,16 @@ classdef BandStructureGammaX < BandStructureForValley
         
         function obj = BandStructureGammaX(pc)
             %构造函数
-            obj.Eg = 0.2*pc.e;
+            obj.Eg = 0.0*pc.e;
             obj.mt = 0.196*pc.m;
             obj.ml = 0.916*pc.m;
+            obj.md = pc.mdGX;
             obj.alpha = 0.5;
+            obj.centerRatio = 0.85;
             obj.Tz = [sqrt(pc.m / obj.mt)    0   0;
                         0   sqrt(pc.m / obj.mt)  0;
                         0   0   sqrt(pc.m / obj.ml)];
             obj.invTz = inv(obj.Tz);
-            obj.centerRatio = 0.85;
         end
         
         function [es] = computeEnergyAndVelocity(obj, es, pc)
@@ -60,9 +61,10 @@ classdef BandStructureGammaX < BandStructureForValley
         function [ps] = phononWhetherBeyondBZone(~, ps, pc)
             %声子波矢长度修正
             if double(ps.wavenum / pc.dGX) > 1.0
-                ps.vector(1) = ps.vector(1) - 2 * pc.dGX * ps.vector(1) / ps.wavenum;
-                ps.vector(2) = ps.vector(2) - 2 * pc.dGX * ps.vector(2) / ps.wavenum;
-                ps.vector(3) = ps.vector(3) - 2 * pc.dGX * ps.vector(3) / ps.wavenum;
+                waveNum = ps.wavenum;
+                ps.vector(1) = ps.vector(1) - 2 * pc.dGX * ps.vector(1) / waveNum;
+                ps.vector(2) = ps.vector(2) - 2 * pc.dGX * ps.vector(2) / waveNum;
+                ps.vector(3) = ps.vector(3) - 2 * pc.dGX * ps.vector(3) / waveNum;
             end
         end
         
