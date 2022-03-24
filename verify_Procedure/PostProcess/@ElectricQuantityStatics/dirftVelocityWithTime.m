@@ -1,5 +1,5 @@
 function [aveVelocity] = dirftVelocityWithTime(~, sh, mm, cc, t, N)
-    %漂移速度随时间变化
+    %>漂移速度随时间变化
     velocity = zeros(cc.superElecs, cc.noFly);
     times = zeros(cc.superElecs, cc.noFly);
     for i = 1 : cc.superElecs
@@ -25,7 +25,6 @@ function [aveVelocity] = dirftVelocityWithTime(~, sh, mm, cc, t, N)
     end
 
     figure
-%     slg = semilogy(aveVelocity(:, 1) * 1e12, aveVelocity(:, 2) * 100);
     slg = plot(aveVelocity(:, 1)*1e12, aveVelocity(:, 2)*100);
     slg.LineWidth = 2;
     xlabel("ps");ylabel("cm/s");

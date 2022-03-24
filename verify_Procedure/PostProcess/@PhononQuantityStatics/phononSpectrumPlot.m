@@ -1,5 +1,5 @@
 function [wNumab] = phononSpectrumPlot(obj, mm, pc, type)
-    %声子发射谱画图
+    %>声子谱画图
     wNumab = zeros(obj.NW, 2);
     wNumem = zeros(obj.NW, 2);
     mm.frequencyGrid(obj.minFrequency, obj.maxFrequency, obj.NW);

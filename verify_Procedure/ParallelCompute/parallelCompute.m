@@ -1,5 +1,5 @@
 function [sh] = parallelCompute(sh, dv, sc, pc, cc)
-    %并行计算
+    %% 并行计算
     eGroup = sh.eGroup;
     pGroup = sh.pGroup;
     
@@ -20,6 +20,6 @@ function [sh] = parallelCompute(sh, dv, sc, pc, cc)
         %输出计算进度
         disp(['计算进度： ', sprintf('%.2f', k / cc.noFly * 100), '%']);
     end
-    toc
+    disp(['计算总用时： ', sprintf('%.2f', toc), ' s']);
     
 end

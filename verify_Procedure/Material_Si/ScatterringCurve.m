@@ -1,5 +1,5 @@
 classdef ScatterringCurve < handle
-    
+    %% 色散曲线
     properties
         frequency
         omegaLA
@@ -30,9 +30,8 @@ classdef ScatterringCurve < handle
     end
     
     methods
-        
         function obj = ScatterringCurve(pc)
-            %色散曲线
+            %>构造函数
             obj.omegaLA = @(q) 0.000e13 + 8.861e3*q - 1.931e-7*q.^2;
             obj.omegaTA = @(q) 0.000e13 + 5.993e3*q - 3.165e-7*q.^2;
             obj.omegaLO = @(q) 9.473e13 + 5.876e2*q - 1.950e-7*q.^2;
@@ -43,7 +42,7 @@ classdef ScatterringCurve < handle
         end
         
         function frequencyDomain(obj, pc)
-            %各极化支频率定义域
+            %>各极化支频率定义域
             obj.wMinLA = double(obj.omegaLA(0));
             obj.wMaxLA = double(obj.omegaLA(pc.dGX));
             obj.wMinTA = double(obj.omegaTA(0));
@@ -55,7 +54,7 @@ classdef ScatterringCurve < handle
         end
         
         function frequencyToInter(obj, pc)
-            %谷间散射对应频率
+            %>谷间散射对应频率
             obj.wgLA = double(obj.omegaLA(pc.qg));
             obj.wgTA = double(obj.omegaTA(pc.qg));
             obj.wgLO = double(obj.omegaLO(pc.qg));
@@ -67,7 +66,7 @@ classdef ScatterringCurve < handle
         end
         
         function frequency = phononFrequency(obj, ps)
-            %计算PhononStatus对象频率
+            %>计算PhononStatus对象频率
             switch ps.polar
                 case "LA"
                     frequency = double(obj.omegaLA(ps.wavenum));

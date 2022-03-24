@@ -1,6 +1,6 @@
-function [es] = modifyElectricWaveVector(~, es, pc)
+function [es] = modifyElectricWaveVector(obj, es, pc)
     %>对超出第一布里渊区波矢进行修正
-    if whetherBeyondBrillouinZone(es, pc)
+    if obj.whetherBeyondBrillouinZone(es, pc)
         switch es.valley
             case 1
                 es.vector(1) = es.vector(1) - 2 * pc.dGX;

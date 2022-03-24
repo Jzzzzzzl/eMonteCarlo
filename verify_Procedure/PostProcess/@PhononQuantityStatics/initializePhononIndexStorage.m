@@ -1,5 +1,5 @@
 function initializePhononIndexStorage(obj)
-    % 
+    %>初始化声子分类统计变量
     FrequncyStatics = struct("pop", {0}, "num", {0});
     obj.phLAab = repmat(FrequncyStatics, obj.NW, 1);
     obj.phLAem = repmat(FrequncyStatics, obj.NW, 1);

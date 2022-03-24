@@ -2,14 +2,7 @@ classdef ElectricStatus < handle
     %% 本文件提供超电子对象父类
     % ======================================================================
     %>     属性说明：
-    %>
-    % ======================================================================
-    %>     函数说明：
-    %> （1）
-    %>         
-    %> （2）
-    %>         
-    %>
+    %>     
     % ======================================================================
     properties
         position
@@ -26,7 +19,7 @@ classdef ElectricStatus < handle
     
     methods
         function obj = ElectricStatus(dv, pc, cc)
-            %构造函数
+            %>构造函数
             obj.time = 0;
             if nargin == 3
                 obj = initializeElectricStatus(obj, dv, pc, cc);
@@ -34,7 +27,7 @@ classdef ElectricStatus < handle
         end
         
         function wavenum = get.wavenum(obj)
-            %自动计算电子波数
+            %>自动计算电子波数
             wavenum = sqrt(sum(obj.vector.^2));
         end
         

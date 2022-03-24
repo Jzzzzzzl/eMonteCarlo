@@ -1,5 +1,5 @@
-classdef PostProcessing < handle
-    
+classdef ElectricQuantityStatics < handle
+    %% 后处理类
     properties(Constant)
         e = 1.602176634e-19;
     end
@@ -11,15 +11,14 @@ classdef PostProcessing < handle
     end
     
     methods
-        
-        function obj = PostProcessing(sh, cc)
-            %构造函数
+        function obj = ElectricQuantityStatics(sh, cc)
+            %>构造函数
             obj.averageTotalFlyTime(sh, cc);
             obj.electronDirftVelocity(sh, cc);
         end
         
         function averageTotalFlyTime(obj, sh, cc)
-            %计算平均总飞行时间
+            %>计算平均总飞行时间
             time = zeros(cc.superElecs, 1);
             for i = 1 : cc.superElecs
                 time(i) = sh.eHistory(i, end).time;
@@ -29,7 +28,7 @@ classdef PostProcessing < handle
         end
         
         function electronDirftVelocity(obj, sh, cc)
-            %计算漂移速度
+            %>计算漂移速度
             velocity = zeros(cc.superElecs, 1);
             for i = 1 : cc.superElecs
                 for j = 1 : cc.noFly
@@ -41,7 +40,7 @@ classdef PostProcessing < handle
         end
         
         function electronMobility(~)
-            %计算迁移率
+            %>计算迁移率
             disp(['电子迁移率为： ', num2str(miu), '  cm^2/(V*s)']);
         end
         

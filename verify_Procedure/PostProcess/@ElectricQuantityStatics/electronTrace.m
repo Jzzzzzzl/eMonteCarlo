@@ -1,5 +1,5 @@
-function electronTrace(~, sh, cc, num, type)
-    %单电子轨迹图
+function electronTrace(obj, sh, cc, num, type)
+    %>单电子轨迹图
     switch type
         case "k"
             tempk = zeros(cc.noFly, 3);

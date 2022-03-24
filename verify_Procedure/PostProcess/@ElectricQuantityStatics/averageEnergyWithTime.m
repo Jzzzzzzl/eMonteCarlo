@@ -1,5 +1,5 @@
-function averageEnergyWithTime(~, sh, mm, cc, t, N)
-    %求电子平均能量随时间的变化关系图
+function averageEnergyWithTime(obj, sh, mm, cc, t, N)
+    %>求电子平均能量随时间的变化关系图
     energy = zeros(cc.superElecs, cc.noFly);
     times = zeros(cc.superElecs, cc.noFly);
     for i = 1 : cc.superElecs
@@ -24,7 +24,6 @@ function averageEnergyWithTime(~, sh, mm, cc, t, N)
         aveEnergy(t, 2) = sumEnergy / (num * obj.e);
     end
     figure
-%     slg = semilogy(aveEnergy(:,1)*1e12,aveEnergy(:,2));
     slg = plot(aveEnergy(:, 1)*1e12, aveEnergy(:, 2));
     slg.LineWidth = 2;
     xlabel("ps");ylabel("eV");

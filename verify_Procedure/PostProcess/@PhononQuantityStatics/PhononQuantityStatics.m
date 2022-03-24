@@ -1,9 +1,12 @@
 classdef PhononQuantityStatics < handle
-    
+    %% 声子统计类
     properties
         NW
         minFrequency
         maxFrequency
+        frequencys
+        aborems
+        polars
         phLAab
         phLAem
         phTAab
@@ -14,15 +17,11 @@ classdef PhononQuantityStatics < handle
         phTOem
         phALLab
         phALLem
-        frequencys
-        aborems
-        polars
     end
     
     methods
-        
         function obj = PhononQuantityStatics(pc, NW)
-            %构造函数
+            %>构造函数
             obj.NW = NW;
             obj.minFrequency = 0;
             obj.maxFrequency = pc.maxFrequency;
@@ -30,7 +29,7 @@ classdef PhononQuantityStatics < handle
         end
         
         function subPhononQuantityStatics(obj, sh, mm)
-            %全部计算一遍
+            %>声子分类统计
             sh.pHistory = reshape(sh.pHistory', [], 1);
             obj.frequencys = [sh.pHistory(:).frequency];
             obj.aborems = [sh.pHistory(:).aborem];
