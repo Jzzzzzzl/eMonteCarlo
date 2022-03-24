@@ -37,11 +37,11 @@ ep.averageEnergyWithTime(sh, mm, cc, 2, 100);
 % ep.electronTrace(sh, cc, 950, 'e');
 %验证5，声子发射谱
 pq.subPhononQuantityStatics(sh, mm);
-pq.phononSpectrumPlot(mm, pc, "LA");
-pq.phononSpectrumPlot(mm, pc, "TA");
-pq.phononSpectrumPlot(mm, pc, "LO");
-pq.phononSpectrumPlot(mm, pc, "TO");
-pq.phononSpectrumPlot(mm, pc, "ALL");
+% pq.phononSpectrumPlot(mm, pc, "LA");
+% pq.phononSpectrumPlot(mm, pc, "TA");
+% pq.phononSpectrumPlot(mm, pc, "LO");
+% pq.phononSpectrumPlot(mm, pc, "TO");
+% pq.phononSpectrumPlot(mm, pc, "ALL");
 
 
 

@@ -2,9 +2,10 @@ classdef BandStructureForValley < handle
     %% 本文件提供能谷能带结构相关计算的父类
     % ======================================================================
     %>     属性说明：
-    %>     Eg   ：能带带隙，以第一导带极小值为零点
+    %>     Eg   ：能带带隙，以第一导带极小值为基准点
     %>     mt   ：横向有效质量
     %>     ml   ：纵向有效质量
+    %>     md  ：态密度有效质量
     %>     alpha：能谷非抛物性参数
     %>     Tz   ：z轴Herring-Vogt变换矩阵
     %>     invTz：Tz逆矩阵
@@ -25,38 +26,11 @@ classdef BandStructureForValley < handle
         Eg
         mt
         ml
-        md
         alpha
+        centerRatio
+        md
         Tz
         invTz
-        epsilong
-        centerRatio
-    end
-    
-    methods
-        function [energy, velocity] = computeEnergyVelocityForStandardVector(obj, k, pc)
-            %>计算电子能量
-            obj.epsilong = pc.hbar^2*(k(1)^2 / obj.mt + k(2)^2 / obj.mt + k(3)^2 / obj.ml) / 2;
-            energy = obj.epsilong * (1 + obj.epsilong/pc.e * obj.alpha) + obj.Eg;
-            %>计算电子速度
-            kStar = obj.Tz * k';
-            vStar = pc.hbar * kStar / (pc.m * (1+2*obj.alpha*obj.epsilong));
-            velocity = (obj.invTz * vStar)';
-        end
-        
-        function [k] = generateStandardWaveVector(obj, es, pc)
-            %>根据能量选择电子波矢
-            epsilongTemp = (sqrt(1 + 4*obj.alpha*(es.energy - obj.Eg)/pc.e) - 1) / (2*obj.alpha) * pc.e;
-            kStarMold = sqrt(2 * pc.m * epsilongTemp) / pc.hbar;
-            %>球空间随机选择波矢
-            phi = randNumber(0, pi);
-            theta = randNumber(0, 2*pi);
-            kxStar = kStarMold * sin(phi) * cos(theta);
-            kyStar = kStarMold * sin(phi) * sin(theta);
-            kzStar = kStarMold * cos(phi);
-            kStar = [kxStar, kyStar, kzStar]';
-            k = (obj.invTz * kStar)';
-        end
-        
+        epsilon
     end
 end

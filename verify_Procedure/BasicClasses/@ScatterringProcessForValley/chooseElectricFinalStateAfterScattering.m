@@ -1,6 +1,5 @@
 function [es, ps] = chooseElectricFinalStateAfterScattering(~, es, ps, dv, sc, pc, frequency, flag)
-    %> 选择散射末态电子和声子状态
-    
+    %>选择散射末态电子和声子状态
     item = 1;
     error = 1;
     maxitem = 20;

@@ -21,7 +21,7 @@ classdef SimulationHistory < handle
     methods
         
         function obj = SimulationHistory(dv, pc, cc)
-            %构造函数
+            %>构造函数
             obj.generateElectrics(dv, pc, cc);
             obj.generatePhonons(cc);
             obj.generateElectricsHistory(cc);
@@ -29,22 +29,22 @@ classdef SimulationHistory < handle
         end
         
         function generateElectrics(obj, dv, pc, cc)
-            %生成电子群
+            %>生成电子群
             obj.eGroup = repmat(ElectricStatus(dv, pc, cc), cc.superElecs, 1);
         end
         
         function generatePhonons(obj, cc)
-            %生成声子群
+            %>生成声子群
             obj.pGroup = repmat(PhononStatus, cc.superElecs, 1);
         end
         
         function generateElectricsHistory(obj, cc)
-            %生成电子历史信息
+            %>生成电子历史信息
             obj.eHistory = repmat(ElectricStatus, cc.superElecs, cc.noFly);
         end
         
         function generatePhononsHistory(obj, cc)
-            %生成声子历史信息
+            %>生成声子历史信息
             obj.pHistory = repmat(PhononStatus, cc.superElecs, cc.noFly);
         end
         

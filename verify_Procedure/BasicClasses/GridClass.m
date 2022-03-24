@@ -1,5 +1,5 @@
 classdef GridClass < handle
-    
+    %% 网格划分类
     properties
         face
         point
@@ -8,12 +8,12 @@ classdef GridClass < handle
     methods
         
         function obj = GridClass(min, max, N)
-            %构造函数
+            %>构造函数
             obj.meshGrid(min, max, N);
         end
         
         function meshGrid(obj, min, max, N)
-            %网格划分
+            %>网格划分
             delta = (max - min) / N;
             obj.face = zeros(N + 1, 1);
             obj.point = zeros(N + 2, 1);

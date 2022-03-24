@@ -25,7 +25,7 @@ classdef PhononStatus < handle
     methods
         
         function obj = PhononStatus
-            %构造函数
+            %>构造函数
             obj.time = 0;
             obj.polar = "non";
             obj.aborem = "non";
@@ -33,17 +33,17 @@ classdef PhononStatus < handle
         end
         
         function wavenum = get.wavenum(obj)
-            %波数在被调用时计算
+            %>波数在被调用时计算
             wavenum = sqrt(sum(obj.vector.^2));
         end
         
         function energy = get.energy(obj)
-            %能量在被调用时计算
+            %>能量在被调用时计算
             energy = obj.frequency * PhysicConstants.hbar;
         end
         
         function getFrequency(obj, sc)
-            %计算频率
+            %>计算频率
             obj.frequency = sc.phononFrequency(obj);
         end
         

@@ -1,5 +1,5 @@
 classdef PhysicConstants < handle
-    
+    %% 物理常量类
     properties(Constant)
         e = 1.602176634e-19;
         m = 9.10956e-31;
@@ -10,69 +10,71 @@ classdef PhysicConstants < handle
     end
     
     properties
+        %>材料一般性参数
         a                           %晶格常数
         c
-        mtGX                          %有效质量分量
-        mlGX
-        mcGX                          %导带有效质量
-        mdGX                          %态密度有效质量
         rho                         %密度
         ul                          %纵向声速
         ut                          %横向声速
-        u
-        % 电离杂质散射所需参数
-        epsilon
-        % 电子谷间散射所需参数
-        deltaEpsilongGX
-        gDKTA                       %耦合常数
-        gDKLA
+        u                           %平均声速
+        epsilon                   %相对介电常量
+        gDKLA                       %耦合常数
+        gDKTA
         gDKLO
-        fDKTA
         fDKLA
+        fDKTA
         fDKTO
-        dGX                         %Gamma到X距离
-%         bzR                         %第一布里渊区等效半径
+        dGX                         %Gamma到X距离，k空间距离基准
         qf                          %f型谷间散射平均声子波矢大小
         qg                          %g型谷间散射平均声子波矢大小
-        % 电子谷内散射所需参数
         DLA                         %各向同性平均形变势
         DTA
-        qintra                      %谷内散射平均声子波矢大小
         maxFrequency
     end
     
+    properties
+        %>GammaX能谷参数
+        EgGX                       %GammaX能谷带差，以第一导带极小值为基准点
+        mtGX                      %有效质量分量
+        mlGX
+        alphaGX
+        nofScatGX
+        centerRatioGX
+        maxScatRateGX
+        xsForimpurityGX
+    end
+    
     methods
-        
         function obj = PhysicConstants
+            %>构造函数
             obj.a = 5.431e-10;
             obj.c = 3.867e-10;
-            obj.mtGX = 0.196*obj.m;
-            obj.mlGX = 0.916*obj.m;
-            obj.mcGX = ((1/obj.mlGX)/3 + 2*(1/obj.mtGX)/3)^(-1);
-            obj.mdGX = (obj.mtGX^2*obj.mlGX)^(1/3);
             obj.rho = 2330;
             obj.ul = 9.2e3;
             obj.ut = 4.7e3;
             obj.u = (2*obj.ut + obj.ul)/3;
-            % 电离杂质散射所需参数
             obj.epsilon = 11.9;
-            % 电子谷间散射所需参数
-            obj.deltaEpsilongGX = 0*obj.e;
-            obj.gDKTA = 0.5e10*obj.e;
             obj.gDKLA = 0.8e10*obj.e;
+            obj.gDKTA = 0.5e10*obj.e;
             obj.gDKLO = 11e10*obj.e;
-            obj.fDKTA = 0.3e10*obj.e;
             obj.fDKLA = 2e10*obj.e;
+            obj.fDKTA = 0.3e10*obj.e;
             obj.fDKTO = 2e10*obj.e;
             obj.dGX = 2*pi/obj.a;
-%             obj.bzR = (5/pi)^(1/3)*obj.dGX;
             obj.qf = 0.95*obj.dGX;
             obj.qg = 0.3*obj.dGX;
-            % 电子谷内散射所需参数
             obj.DLA = 6.39*obj.e;
             obj.DTA = 3.01*obj.e;
-            obj.qintra = 0.15*obj.dGX;
             obj.maxFrequency = 1e14;
+            %>GammaX能谷参数
+            obj.EgGX = 0*obj.e;
+            obj.mtGX = 0.196*obj.m;
+            obj.mlGX = 0.916*obj.m;
+            obj.alphaGX = 0.5;
+            obj.nofScatGX = 18;
+            obj.centerRatioGX = 0.85;
+            obj.maxScatRateGX = 3e14;
+            obj.xsForimpurityGX = 0.1;
         end
         
     end

@@ -1,8 +1,8 @@
 function scatteringRatePlot(dv, sc, pc, cc)
-    % 散射率画图
+    %>散射率画图
     es = ElectricStatus;
     es.valley = 1;
-    dv.judgeBsSrSp(es);
+    dv.valleyGuidingPrinciple(es);
     
     energys = logspace(-3, 1, 100) * pc.e;
     scatTables = zeros(length(energys), dv.sr.nofScat + 1);
@@ -21,10 +21,6 @@ function scatteringRatePlot(dv, sc, pc, cc)
         slg.LineWidth = 3;
         hold on
     end
-%             legend("e-impurity","intra LA","intra TA","inter g ab TA","inter g ab LA",...
-%                       "inter g ab LO","inter f ab TA","inter f ab LA","inter f ab TO",...
-%                       "inter g em TA","inter g em LA","inter g em LO","inter f em TA",...
-%                       "inter f em LA","inter f em TO","total")
     xlabel("meV");
     ylabel("s^{-1}")
 end

@@ -1,39 +1,40 @@
 function generateIntravalleyAcousticScatteringRate(obj, dv, pc, cc)
-    %% 生成谷内声学散射句柄函数
+    %>生成谷内声学散射句柄函数
     %>     参数说明：
-    %>     
+    %>     D：形变势常量
+    %>     u：横波/纵波波速
     % ======================================================================
-    epsilongStar = obj.md*pc.u^2/2;
-    Cstar = 4*epsilongStar^(1/2) ...
-              / (pc.kb*cc.envTemp*(1-4*dv.bs.alpha*epsilongStar/pc.e));
-    condition = epsilongStar / (1-4*dv.bs.alpha*epsilongStar/pc.e);%该值量级1e-5 eV
-    gamma = dv.bs.epsilong*(1 + dv.bs.epsilong/pc.e * dv.bs.alpha);
+    epsilonStar = dv.bs.md*pc.u^2/2;
+    Cstar = 4*epsilonStar^(1/2) ...
+              / (pc.kb*cc.envTemp*(1-4*dv.bs.alpha*epsilonStar/pc.e));
+    condition = epsilonStar / (1-4*dv.bs.alpha*epsilonStar/pc.e);
+    gamma = dv.bs.epsilon*(1 + dv.bs.epsilon/pc.e * dv.bs.alpha);
     if gamma <= condition
-        x1a = Cstar*(sqrt(epsilongStar)*(1+2*dv.bs.alpha*dv.bs.epsilong/pc.e) - sqrt(gamma));
-        x2a = Cstar*(sqrt(epsilongStar)*(1+2*dv.bs.alpha*dv.bs.epsilong/pc.e) + sqrt(gamma));
+        x1a = Cstar*(sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) - sqrt(gamma));
+        x2a = Cstar*(sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) + sqrt(gamma));
         x1e = 0;
         x2e = 0;
         obj.xAB = randNumber(x1a, x2a);
         obj.xEM = randNumber(x1e, x2e);
     else
         x1a = 0;
-        x2a = Cstar*(sqrt(gamma) + sqrt(epsilongStar)*(1+2*dv.bs.alpha*dv.bs.epsilong/pc.e));
+        x2a = Cstar*(sqrt(gamma) + sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e));
         x1e = 0;
-        x2e = Cstar*(sqrt(gamma) - sqrt(epsilongStar)*(1+2*dv.bs.alpha*dv.bs.epsilong/pc.e));
+        x2e = Cstar*(sqrt(gamma) - sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e));
         obj.xAB = randNumber(x1a, x2a);
         obj.xEM = randNumber(x1e, x2e);
     end
-    obj.intraAcousticScatRateAB = @(D, u) obj.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
+    obj.intraAcousticScatRateAB = @(D, u) dv.bs.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
                                              / (2^(5/2)*pi*pc.hbar^4*u^4*pc.rho)*gamma^(-1/2) ...
-                                             * ((1+2*dv.bs.alpha*dv.bs.epsilong/pc.e) * (F1(x2a) - F1(x1a)) ...
+                                             * ((1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) * (F1(x2a) - F1(x1a)) ...
                                              + 2*dv.bs.alpha*pc.kb*cc.envTemp/pc.e * (F2(x2a) - F2(x1a)));
-    obj.intraAcousticScatRateEM = @(D, u) obj.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
+    obj.intraAcousticScatRateEM = @(D, u) dv.bs.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
                                              / (2^(5/2)*pi*pc.hbar^4*u^4*pc.rho)*gamma^(-1/2) ...
-                                             * ((1+2*dv.bs.alpha*dv.bs.epsilong/pc.e) * (G1(x2e) - G1(x1e)) ...
+                                             * ((1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) * (G1(x2e) - G1(x1e)) ...
                                              - 2*dv.bs.alpha*pc.kb*cc.envTemp/pc.e * (G2(x2e) - G2(x1e)));
                                          
     function [value] = F1(x)
-        %> 电子谷内散射积分函数F1
+        %>电子谷内散射积分函数F1
         xabar = 3.5;
         if x <= xabar
             value = x^2/2 - x^3/6 + x^4/48 - x^6/4320;
@@ -45,7 +46,7 @@ function generateIntravalleyAcousticScatteringRate(obj, dv, pc, cc)
     end
     
     function [value] = F2(x)
-        %> 电子谷内散射积分函数F2
+        %>电子谷内散射积分函数F2
         xabar = 3.5;
         if x <= xabar
             value = x^3/3 - x^4/8 + x^5/60 - x^7/5040;
@@ -57,7 +58,7 @@ function generateIntravalleyAcousticScatteringRate(obj, dv, pc, cc)
     end
 
     function [value] = G1(x)
-        %> 电子谷内散射积分函数G1
+        %>电子谷内散射积分函数G1
         xebar = 4;
         if x <= xebar
             value = x^2/2 + x^3/6 + x^6/4320;
@@ -69,7 +70,7 @@ function generateIntravalleyAcousticScatteringRate(obj, dv, pc, cc)
     end
     
     function [value] = G2(x)
-        %> 电子谷内散射积分函数G2
+        %>电子谷内散射积分函数G2
         xebar = 4;
         if x <= xebar
             value = x^3/3 + x^4/8 + x^5/60 - x^7/5040;
