@@ -24,7 +24,6 @@ classdef ScatterringRateTableForValley < handle
     end
     
     properties
-        md
         nofScat
         maxScatRate
         xsForimpurity
