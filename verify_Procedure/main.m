@@ -4,7 +4,8 @@ clc,clear
 close all
 addpath(genpath('./BasicClasses'))
 addpath(genpath('./functions'))
-addpath(genpath('./Material_Si'))
+% addpath(genpath('./Material_Si'))
+addpath(genpath('./Material_GaN'))
 addpath(genpath('./ParallelCompute'))
 addpath(genpath('./PostProcess'))
 
@@ -28,10 +29,10 @@ ep = ElectricQuantityStatics(sh, cc);
 %验证3，波矢选择及能量相互验证
 % verifyProgram("EnergyToVector", dv, pc);
 %验证4，数据后处理
-ep.dirftVelocityWithTime(sh, mm, cc, 40, 100);
-ep.scatTypeDistribution(sh, cc);
-ep.energyDistribution(sh, mm, cc, 0.5, 100);
-ep.averageEnergyWithTime(sh, mm, cc, 2, 100);
+% ep.dirftVelocityWithTime(sh, mm, cc, 40, 100);
+% ep.scatTypeDistribution(sh, cc);
+% ep.energyDistribution(sh, mm, cc, 0.5, 100);
+% ep.averageEnergyWithTime(sh, mm, cc, 2, 100);
 % ep.electronTrace(sh, cc, 950, 'k');
 % ep.electronTrace(sh, cc, 950, 'r');
 % ep.electronTrace(sh, cc, 950, 'e');
@@ -44,8 +45,9 @@ pq.phononSpectrumPlot(mm, pc, "TO");
 pq.phononSpectrumPlot(mm, pc, "ALL");
 
 
-
-
-
+axy = [1 0 0];
+flag = axy(2) / abs(axy(2));
+alpha = flag*(acos(axy(1)/sqrt(sum(axy.^2))) - 2*pi * real(sqrt(-flag)));
+alpha/pi*180
 
 
