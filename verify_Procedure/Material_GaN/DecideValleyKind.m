@@ -21,12 +21,12 @@ classdef DecideValleyKind < handle
             obj.bsU = BandStructureU(pc);
             obj.srU = ScatterringRateTableU(pc);
             obj.spU = ScatterringProcessU;
-            obj.bsGamma1 = BandStructureGamma1(pc);
-            obj.srGamma1 = ScatterringRateTableGamma1(pc);
-            obj.spGamma1 = ScatterringProcessGamma1;
-            obj.bsGamma3 = BandStructureGamma3(pc);
-            obj.srGamma3 = ScatterringRateTableGamma3(pc);
-            obj.spGamma3 = ScatterringProcessGamma3;
+%             obj.bsGamma1 = BandStructureGamma1(pc);
+%             obj.srGamma1 = ScatterringRateTableGamma1(pc);
+%             obj.spGamma1 = ScatterringProcessGamma1;
+%             obj.bsGamma3 = BandStructureGamma3(pc);
+%             obj.srGamma3 = ScatterringRateTableGamma3(pc);
+%             obj.spGamma3 = ScatterringProcessGamma3;
         end
         
         function valleyGuidingPrinciple(obj, es)
@@ -55,9 +55,20 @@ classdef DecideValleyKind < handle
     methods(Static)
         function [value] = whichValley(es)
             %>计算电子所在能谷标号
-            axy = [es.vector(1) es.vector(2) 0];
-            flag = axy(2) / abs(axy(2));%可能会有除0错误
-            alpha = flag*(acos(axy(1)/sqrt(sum(axy.^2))) - 2*pi * real(sqrt(flag)));
+            absValley = abs(es.valley);
+            if absValley <= 6
+                axy = es.vector;
+                flagy = axy(2) / abs(axy(2));%可能会有除0错误
+                flagz = axy(3) / abs(axy(3));
+                alpha = flagy*(acos(axy(1)/sqrt(sum(axy.^2))) - 2*pi * real(sqrt(-flagy)));
+                value = flagz*(floor(alpha/(pi/3))+1);
+            elseif absValley == 11
+                value = es.valley;
+            elseif absValley == 13
+                value = es.valley;
+            else
+                error("电子所在能谷需先标记！")
+            end
         end
         
         function [type] = judgeValleyKind(es)

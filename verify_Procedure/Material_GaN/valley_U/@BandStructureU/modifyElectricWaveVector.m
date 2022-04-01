@@ -7,25 +7,25 @@ function [es] = modifyElectricWaveVector(obj, es, pc)
             case -1
                 es.vector = es.vector - pc.kn.b1;
             case 2
-                es.vector = es.vector - pc.kn.b1*rotateMatrix(pi/3, "z");
+                es.vector = es.vector - pc.kn.b2;
             case -2
-                es.vector = es.vector - pc.kn.b1*rotateMatrix(pi/3, "z");
+                es.vector = es.vector - pc.kn.b2;
             case 3
-                es.vector = es.vector + pc.kn.b2;
+                es.vector = es.vector + pc.kn.b1*rotateMatrix(pi/3, "z");
             case -3
-                es.vector = es.vector + pc.kn.b2;
+                es.vector = es.vector + pc.kn.b1*rotateMatrix(pi/3, "z");
             case 4
                 es.vector = es.vector + pc.kn.b1;
             case -4
                 es.vector = es.vector + pc.kn.b1;
             case 5
-                es.vector = es.vector + pc.kn.b1*rotateMatrix(pi/3, "z");
+                es.vector = es.vector + pc.kn.b2;
             case -5
-                es.vector = es.vector + pc.kn.b1*rotateMatrix(pi/3, "z");
+                es.vector = es.vector + pc.kn.b2;
             case 6
-                es.vector = es.vector - pc.kn.b2;
+                es.vector = es.vector - pc.kn.b1*rotateMatrix(pi/3, "z");
             case -6
-                es.vector = es.vector - pc.kn.b2;
+                es.vector = es.vector - pc.kn.b1*rotateMatrix(pi/3, "z");
             otherwise
                 error("能谷编号错误！")
         end

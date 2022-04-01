@@ -20,13 +20,15 @@ classdef PhysicConstants < handle
         ul                          %纵向声速
         ut                          %横向声速
         u                           %平均声速
+        p                           %压电常数
         epsilonL                   %低/高频相对介电常量
         epsilonH
         dGM                        %Gamma到M距离，k空间距离基准
         dGL
         dKN
-        qUU                         %谷间散射平均声子波矢大小
-        qUG
+        qU2U                         %谷间散射平均声子波矢大小
+        qU2G
+        qG2G
         maxFrequency
     end
     
@@ -40,6 +42,7 @@ classdef PhysicConstants < handle
         centerRatioU
         maxScatRateU
         xsForimpurityU
+        xsForPolarOpticalU
         UDLA
         U2UDK
         U2G1DK
@@ -89,13 +92,15 @@ classdef PhysicConstants < handle
             obj.ul = 6.6e3;
             obj.ut = 2.7e3;
             obj.u = (2*obj.ut + obj.ul)/3;
+            obj.p = 0.174;
             obj.epsilonL = 8.9;
             obj.epsilonH = 5.35;
             obj.dGM = sqrt(sum(obj.hsp.M.^2));
             obj.dGL = sqrt(sum(obj.hsp.L.^2));
             obj.dKN = 2*pi/obj.a;
-            obj.qUU = obj.dKN - (3+sqrt(3))/3*obj.dGM;
-            obj.qUG = 1.05*obj.dGM;
+            obj.qU2U = obj.dKN - (3+sqrt(3))/3*obj.dGM;
+            obj.qU2G = 1.05*obj.dGM;
+            obj.qG2G = 1.05*obj.dGM;
             obj.maxFrequency = 5e14;
             %>U能谷参数
             obj.EgU = 2.2*obj.e;
@@ -106,10 +111,11 @@ classdef PhysicConstants < handle
             obj.centerRatioU = sqrt(sum(obj.hsp.U.^2))/obj.dGM;
             obj.maxScatRateU = 3e14;
             obj.xsForimpurityU = 0.1;
+            obj.xsForPolarOpticalU = 0.1;
             obj.UDLA = 8.3*obj.e;
-            obj.U2UDK = 10e10*obj.e;
-            obj.U2G1DK = 10e10*obj.e;
-            obj.U2G3DK = 10e10*obj.e;
+            obj.U2UDK = 4e10*obj.e;
+            obj.U2G1DK = 6e10*obj.e;
+            obj.U2G3DK = 6e10*obj.e;
             %>G1能谷参数
             obj.EgG1 = 0.0*obj.e;
             obj.mtG1 = 0.197*obj.m;

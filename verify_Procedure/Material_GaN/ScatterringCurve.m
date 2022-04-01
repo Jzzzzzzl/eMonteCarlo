@@ -13,10 +13,11 @@ classdef ScatterringCurve < handle
         wMinLO
         wMaxLO
         %谷间散射对应频率
-        wgLA
-        wgLO
-        wfLA
-        wfLO
+        wPolarLO
+        wU2ULA
+        wU2ULO
+        wU2GLA
+        wU2GLO
     end
     
     methods
@@ -31,18 +32,23 @@ classdef ScatterringCurve < handle
         
         function frequencyDomain(obj, pc)
             %>各极化支频率定义域
-            obj.wMinLA = double(obj.omegaLA(0));
-            obj.wMaxLA = double(obj.omegaLA(pc.dGX));
-            obj.wMinLO = double(obj.omegaLO(pc.dGX));
-            obj.wMaxLO = double(obj.omegaLO(0));
+%             obj.wMinLA = double(obj.omegaLA(0));
+%             obj.wMaxLA = double(obj.omegaLA(pc.dGX));
+%             obj.wMinLO = double(obj.omegaLO(pc.dGX));
+%             obj.wMaxLO = double(obj.omegaLO(0));
         end
         
         function frequencyToInter(obj, pc)
             %>谷间散射对应频率
-            obj.wgLA = double(obj.omegaLA(pc.qg));
-            obj.wgLO = double(obj.omegaLO(pc.qg));
-            obj.wfLA = double(obj.omegaLA(pc.qf));
-            obj.wfLO = double(obj.omegaLO(pc.qf));
+            obj.wPolarLO = 2.2e13;
+            obj.wU2ULA = 0.8e13;
+            obj.wU2ULO = 2.3e13;
+            obj.wU2GLA = 1.2e13;
+            obj.wU2GLO = 2.2e13;
+%             obj.wU2ULA = double(obj.omegaLA(pc.qU2U));
+%             obj.wU2ULO = double(obj.omegaLO(pc.qU2U));
+%             obj.wU2GLA = double(obj.omegaLA(pc.qU2G));
+%             obj.wU2GLO = double(obj.omegaLO(pc.qU2G));
         end
         
         function frequency = phononFrequency(obj, ps)

@@ -27,6 +27,7 @@ classdef ScatterringRateTableForValley < handle
         nofScat
         maxScatRate
         xsForimpurity
+        xsForPolarOptical
     end
     
     properties
@@ -34,11 +35,14 @@ classdef ScatterringRateTableForValley < handle
         scatType
         scatTable
         scatTableAll
+        acousticPiezoelectricScatRate
         ionizedImpurityScatRate
         intraAcousticScatRateAB
         intraAcousticScatRateEM
         intraOpticalScatRateAB
         intraOpticalScatRateEM
+        polarOpticalScatRateAB
+        polarOpticalScatRateEM
         interScatRateAB
         interScatRateEM
     end
@@ -46,9 +50,11 @@ classdef ScatterringRateTableForValley < handle
     methods
         function updateScatterringRateFormula(obj, dv, pc, cc)
             %>更新散射率句柄函数
+            obj.generateAcousticPiezoelectricScatteringRate(dv, pc, cc);
             obj.generateIonizedImpurityScatteringRate(dv, pc, cc);
             obj.generateIntravalleyAcousticScatteringRate(dv, pc, cc);
             obj.generateIntravalleyOpticalScatteringRate(dv, pc, cc);
+            obj.generatePolarOpticalScatteringRate(dv, pc, cc);
             obj.generateIntervalleyScatteringRate(dv, pc, cc);
         end
         

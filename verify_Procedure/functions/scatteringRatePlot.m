@@ -4,7 +4,7 @@ function scatteringRatePlot(dv, sc, pc, cc)
     es.valley = 1;
     dv.valleyGuidingPrinciple(es);
     
-    energys = logspace(-3, 1, 100) * pc.e;
+    energys = logspace(-3, 0, 1000) * pc.e + pc.EgU;
     scatTables = zeros(length(energys), dv.sr.nofScat + 1);
     for i = 1 : length(energys)
         es.energy = energys(i);
@@ -16,11 +16,15 @@ function scatteringRatePlot(dv, sc, pc, cc)
         scatTables(i, end) = sum(scatTables(i, 1 : end-1));
     end
     figure
-    for j = 1 : dv.sr.nofScat + 1
-        slg = loglog(energys / pc.e * 1000, scatTables(:, j));
+    for j = 1 : 17
+        slg = loglog(energys / pc.e, scatTables(:, j));
         slg.LineWidth = 3;
         hold on
     end
-    xlabel("meV");
+    xlabel("eV");
     ylabel("s^{-1}")
+%     legend('ionized', 'yadian', 'intra', 'polarxishou', 'polarfashe')
+%     legend('UUabLA', 'UUabLO', 'UUemLA', 'UUemLO')
+%     legend('UG1abLA', 'UG1abLO', 'UG1emLA', 'UG1emLO')
+%     legend('UG3abLA', 'UG3abLO', 'UG3emLA', 'UG3emLO')
 end
