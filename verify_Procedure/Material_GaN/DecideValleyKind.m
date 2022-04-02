@@ -21,9 +21,9 @@ classdef DecideValleyKind < handle
             obj.bsU = BandStructureU(pc);
             obj.srU = ScatterringRateTableU(pc);
             obj.spU = ScatterringProcessU;
-%             obj.bsGamma1 = BandStructureGamma1(pc);
-%             obj.srGamma1 = ScatterringRateTableGamma1(pc);
-%             obj.spGamma1 = ScatterringProcessGamma1;
+            obj.bsGamma1 = BandStructureGamma1(pc);
+            obj.srGamma1 = ScatterringRateTableGamma1(pc);
+            obj.spGamma1 = ScatterringProcessGamma1;
 %             obj.bsGamma3 = BandStructureGamma3(pc);
 %             obj.srGamma3 = ScatterringRateTableGamma3(pc);
 %             obj.spGamma3 = ScatterringProcessGamma3;
@@ -63,9 +63,9 @@ classdef DecideValleyKind < handle
                 alpha = flagy*(acos(axy(1)/sqrt(sum(axy.^2))) - 2*pi * real(sqrt(-flagy)));
                 value = flagz*(floor(alpha/(pi/3))+1);
             elseif absValley == 11
-                value = es.valley;
+                value = 11;
             elseif absValley == 13
-                value = es.valley;
+                value = 13;
             else
                 error("电子所在能谷需先标记！")
             end

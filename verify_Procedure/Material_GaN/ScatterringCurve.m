@@ -18,6 +18,8 @@ classdef ScatterringCurve < handle
         wU2ULO
         wU2GLA
         wU2GLO
+        wG2GLA
+        wG2GLO
     end
     
     methods
@@ -45,6 +47,8 @@ classdef ScatterringCurve < handle
             obj.wU2ULO = 2.3e13;
             obj.wU2GLA = 1.2e13;
             obj.wU2GLO = 2.2e13;
+            obj.wG2GLA = 0.5e13;
+            obj.wG2GLO = 2.2e13;
 %             obj.wU2ULA = double(obj.omegaLA(pc.qU2U));
 %             obj.wU2ULO = double(obj.omegaLO(pc.qU2U));
 %             obj.wU2GLA = double(obj.omegaLA(pc.qU2G));

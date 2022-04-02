@@ -35,12 +35,15 @@ sh = parallelCompute(sh, dv, sc, pc, cc);
 ep = ElectricQuantityStatics(sh, cc);
 
 % 验证1，能带画图
-dv.bs.bandStructurePlot(50, pc);
-dv.bs.electricVelocityPlot(50, pc);
+% dv.bs.bandStructurePlot(50, pc);
+% dv.bs.electricVelocityPlot(50, pc);
 %验证2，散射表画图
+tic
 scatteringRatePlot(dv, sc, pc, cc);
+toc
 %验证3，波矢选择及能量相互验证
-% verifyProgram("EnergyToVector", dv, pc);
+verifyProgram("EnergyToVector", dv, pc, cc);
+verifyProgram("AcousticPiezoelectricScat", dv, pc, cc);
 %验证4，数据后处理
 % ep.dirftVelocityWithTime(sh, mm, cc, 40, 100);
 % ep.scatTypeDistribution(sh, cc);
@@ -56,5 +59,4 @@ scatteringRatePlot(dv, sc, pc, cc);
 % pq.phononSpectrumPlot(mm, pc, "LO");
 % pq.phononSpectrumPlot(mm, pc, "TO");
 % pq.phononSpectrumPlot(mm, pc, "ALL");
-
 

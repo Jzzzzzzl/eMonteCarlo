@@ -1,4 +1,4 @@
-classdef ScatterringProcessU < ScatterringProcessForValley
+classdef ScatterringProcessGamma1 < ScatterringProcessForValley
     %% GammaX能谷散射过程
     methods
         function [es,ps] = electricScatProcess(obj, es, ps, dv, sc, pc, cc)

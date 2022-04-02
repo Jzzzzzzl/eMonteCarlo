@@ -56,6 +56,7 @@ classdef PhysicConstants < handle
         centerRatioG1
         maxScatRateG1
         xsForimpurityG1
+        xsForPolarOpticalG1
         G1DLA
         G12UDK
         G12G3DK
@@ -68,6 +69,7 @@ classdef PhysicConstants < handle
         centerRatioG3
         maxScatRateG3
         xsForimpurityG3
+        xsForPolarOpticalG3
         G3DLA
         G32UDK
         G32G1DK
@@ -125,7 +127,8 @@ classdef PhysicConstants < handle
             obj.centerRatioG1 = 0;
             obj.maxScatRateG1 = 3e14;
             obj.xsForimpurityG1 = 0.1;
-            obj.G1DLA = 8.3*obj.e;
+            obj.xsForPolarOpticalG1 = 0.1;
+            obj.G1DLA = 12*obj.e;
             obj.G12UDK = 10e10*obj.e;
             obj.G12G3DK = 10e10*obj.e;
             %>G3能谷参数
@@ -137,6 +140,7 @@ classdef PhysicConstants < handle
             obj.centerRatioG3 = 0;
             obj.maxScatRateG3 = 3e14;
             obj.xsForimpurityG3 = 0.1;
+            obj.xsForPolarOpticalG3 = 0.1;
             obj.G3DLA = 8.3*obj.e;
             obj.G32UDK = 10e10*obj.e;
             obj.G32G1DK = 10e10*obj.e;

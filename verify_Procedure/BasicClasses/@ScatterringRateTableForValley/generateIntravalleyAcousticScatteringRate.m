@@ -14,15 +14,15 @@ function generateIntravalleyAcousticScatteringRate(obj, dv, pc, cc)
         x2a = Cstar*(sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) + sqrt(gamma));
         x1e = 0;
         x2e = 0;
-        obj.xAB = randNumber(x1a, x2a);
-        obj.xEM = randNumber(x1e, x2e);
+        obj.qAB = randNumber(x1a, x2a)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
+        obj.qEM = randNumber(x1e, x2e)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
     else
         x1a = 0;
         x2a = Cstar*(sqrt(gamma) + sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e));
         x1e = 0;
         x2e = Cstar*(sqrt(gamma) - sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e));
-        obj.xAB = randNumber(x1a, x2a);
-        obj.xEM = randNumber(x1e, x2e);
+        obj.qAB = randNumber(x1a, x2a)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
+        obj.qEM = randNumber(x1e, x2e)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
     end
     obj.intraAcousticScatRateAB = @(D, u) dv.bs.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
                                              / (2^(5/2)*pi*pc.hbar^4*u^4*pc.rho)*gamma^(-1/2) ...

@@ -22,8 +22,12 @@ classdef ScatterringRateTableForValley < handle
     %>         该函数用于更新计算电离杂质散射率的句柄函数
     % ======================================================================
     properties
-        xAB
-        xEM
+        qAB
+        qEM
+        thetaII
+        thetaAP
+        thetaPOab
+        thetaPOem
         nofScat
         maxScatRate
         xsForimpurity
@@ -48,9 +52,9 @@ classdef ScatterringRateTableForValley < handle
     end
     
     methods
-        function updateScatterringRateFormula(obj, dv, pc, cc)
+        function updateScatterringRateFormula(obj, dv, es, pc, cc)
             %>更新散射率句柄函数
-            obj.generateAcousticPiezoelectricScatteringRate(dv, pc, cc);
+            obj.generateAcousticPiezoelectricScatteringRate(dv, es, pc, cc);
             obj.generateIonizedImpurityScatteringRate(dv, pc, cc);
             obj.generateIntravalleyAcousticScatteringRate(dv, pc, cc);
             obj.generateIntravalleyOpticalScatteringRate(dv, pc, cc);

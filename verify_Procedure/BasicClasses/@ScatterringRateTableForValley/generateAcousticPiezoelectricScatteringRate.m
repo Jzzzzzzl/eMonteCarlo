@@ -1,4 +1,4 @@
-function generateAcousticPiezoelectricScatteringRate(obj, dv, pc, cc)
+function generateAcousticPiezoelectricScatteringRate(obj, dv, es, pc, cc)
     %>生成声学压电散射句柄函数
     %>     参数说明：
     %>     n：自由载流子浓度
@@ -10,5 +10,12 @@ function generateAcousticPiezoelectricScatteringRate(obj, dv, pc, cc)
                                                     *real(dv.bs.epsilon^(-1/2)) ...
                                                     *(log(1+8*dv.bs.md*dv.bs.epsilon/(pc.hbar^2*beta^2)) ...
                                                     - 1/(1+(pc.hbar^2*beta^2/(8*dv.bs.md*dv.bs.epsilon))));
-    
+    if abs(es.wavenum / pc.dGM) > 0.1
+        obj.thetaAP = acos(1-(beta^2*(exp((rand*(log(1+4*es.wavenum^2/beta^2)-1))+1)-1) / (2*es.wavenum^2)));
+    else
+        syms costheta
+        fun = log(1+2*es.wavenum^2/beta^2*(1-costheta)) - (1-costheta)/(1-costheta+beta^2/(2*es.wavenum^2)) ...
+                - rand*(log(1+4*es.wavenum^2/beta^2) - 1/(1+beta^2/(4*es.wavenum^2)));
+        obj.thetaAP = acos(vpasolve(fun));
+    end
 end
