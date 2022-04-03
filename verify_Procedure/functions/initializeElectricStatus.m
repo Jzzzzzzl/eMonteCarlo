@@ -4,6 +4,6 @@ function [es] = initializeElectricStatus(es, dv, pc, cc)
     es.energy = maxwellDistribution(pc, cc);
     es.valley = 1;
     dv.valleyGuidingPrinciple(es);
-    es = dv.bs.chooseWaveVector(es, pc);
-    es = dv.bs.computeEnergyAndVelocity(es, pc);
+    es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
+    es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
 end

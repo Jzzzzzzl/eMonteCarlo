@@ -9,7 +9,7 @@ classdef ScatterringRateTableGammaX < ScatterringRateTableForValley
             obj.scatTable = zeros(obj.nofScat, 1);
         end
         
-        function scatterringTable(obj, dv, sc, pc, cc)
+        function scatterringTable(obj, dv, es, sc, pc, cc)
             %>计算散射表
             % type = 1---------------ionized-impurity
             % type = 2---------------intra_ab_LA
@@ -30,27 +30,28 @@ classdef ScatterringRateTableGammaX < ScatterringRateTableForValley
             % type = 17--------------inter_f_em_TO
             % type = 18--------------selfscatterring
             %更新散射的句柄函数
-            obj.updateScatterringRateFormula(dv, pc, cc);
-            obj.scatTable(1) = obj.ionizedImpurityScatRate;
-            obj.scatTable(2) = obj.intraAcousticScatRateAB(pc.DLA, pc.ul);
-            obj.scatTable(3) = obj.intraAcousticScatRateAB(pc.DTA, pc.ut);
-            obj.scatTable(4) = obj.intraAcousticScatRateEM(pc.DLA, pc.ul);
-            obj.scatTable(5) = obj.intraAcousticScatRateEM(pc.DTA, pc.ut);
-            obj.scatTable(6) = obj.interScatRateAB(pc.gDKLA, 1, sc.wgLA, (pc.EgGX - pc.EgGX));
-            obj.scatTable(7) = obj.interScatRateAB(pc.gDKTA, 1, sc.wgTA, (pc.EgGX - pc.EgGX));
-            obj.scatTable(8) = obj.interScatRateAB(pc.gDKLO, 1, sc.wgLO, (pc.EgGX - pc.EgGX));
-            obj.scatTable(9) = obj.interScatRateAB(pc.fDKLA, 4, sc.wfLA, (pc.EgGX - pc.EgGX));
-            obj.scatTable(10) = obj.interScatRateAB(pc.fDKTA, 4, sc.wfTA, (pc.EgGX - pc.EgGX));
-            obj.scatTable(11) = obj.interScatRateAB(pc.fDKTO, 4, sc.wfTO, (pc.EgGX - pc.EgGX));
-            obj.scatTable(12) = obj.interScatRateEM(pc.gDKLA, 1, sc.wgLA, (pc.EgGX - pc.EgGX));
-            obj.scatTable(13) = obj.interScatRateEM(pc.gDKTA, 1, sc.wgTA, (pc.EgGX - pc.EgGX));
-            obj.scatTable(14) = obj.interScatRateEM(pc.gDKLO, 1, sc.wgLO, (pc.EgGX - pc.EgGX));
-            obj.scatTable(15) = obj.interScatRateEM(pc.fDKLA, 4, sc.wfLA, (pc.EgGX - pc.EgGX));
-            obj.scatTable(16) = obj.interScatRateEM(pc.fDKTA, 4, sc.wfTA, (pc.EgGX - pc.EgGX));
-            obj.scatTable(17) = obj.interScatRateEM(pc.fDKTO, 4, sc.wfTO, (pc.EgGX - pc.EgGX));
+            obj.updateScatterringRateFormula(dv, es, pc, cc);
+            obj.scatTable(1) = obj.ionizedImpurity;
+            obj.scatTable(2) = obj.inelasticIntraAcousticAB(pc.DLA, pc.ul);
+            obj.scatTable(3) = obj.inelasticIntraAcousticAB(pc.DTA, pc.ut);
+            obj.scatTable(4) = obj.inelasticIntraAcousticEM(pc.DLA, pc.ul);
+            obj.scatTable(5) = obj.inelasticIntraAcousticEM(pc.DTA, pc.ut);
+            obj.scatTable(6) = obj.inelasticInterAB(pc.gDKLA, 1, sc.wgLA, (pc.EgGX - pc.EgGX));
+            obj.scatTable(7) = obj.inelasticInterAB(pc.gDKTA, 1, sc.wgTA, (pc.EgGX - pc.EgGX));
+            obj.scatTable(8) = obj.inelasticInterAB(pc.gDKLO, 1, sc.wgLO, (pc.EgGX - pc.EgGX));
+            obj.scatTable(9) = obj.inelasticInterAB(pc.fDKLA, 4, sc.wfLA, (pc.EgGX - pc.EgGX));
+            obj.scatTable(10) = obj.inelasticInterAB(pc.fDKTA, 4, sc.wfTA, (pc.EgGX - pc.EgGX));
+            obj.scatTable(11) = obj.inelasticInterAB(pc.fDKTO, 4, sc.wfTO, (pc.EgGX - pc.EgGX));
+            obj.scatTable(12) = obj.inelasticInterEM(pc.gDKLA, 1, sc.wgLA, (pc.EgGX - pc.EgGX));
+            obj.scatTable(13) = obj.inelasticInterEM(pc.gDKTA, 1, sc.wgTA, (pc.EgGX - pc.EgGX));
+            obj.scatTable(14) = obj.inelasticInterEM(pc.gDKLO, 1, sc.wgLO, (pc.EgGX - pc.EgGX));
+            obj.scatTable(15) = obj.inelasticInterEM(pc.fDKLA, 4, sc.wfLA, (pc.EgGX - pc.EgGX));
+            obj.scatTable(16) = obj.inelasticInterEM(pc.fDKTA, 4, sc.wfTA, (pc.EgGX - pc.EgGX));
+            obj.scatTable(17) = obj.inelasticInterEM(pc.fDKTO, 4, sc.wfTO, (pc.EgGX - pc.EgGX));
             %累积求和
             obj.scatTableAll = cumsum(obj.scatTable);
-            obj.scatTableAll(end) = obj.maxScatRate;
+            obj.scatTableAll(end) = obj.scatTableAll(end-1);
+%             obj.scatTableAll(end) = obj.maxScatRate;
         end
         
     end

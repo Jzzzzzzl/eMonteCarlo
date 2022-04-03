@@ -6,7 +6,7 @@ function bandStructurePlot(obj, num, pc)
     for i = 1 : num
         es.vector = [tempk(i) 0 0] * pc.dGX;
         es.valley = DecideValleyKind.whichValley(es);
-        es = obj.computeEnergyAndVelocity(es, pc);
+        es = obj.computeEnergyAndGroupVelocity(es, pc);
         energyGX(i, 1) = es.vector(1) / pc.dGX;
         energyGX(i, 2) = es.energy / pc.e;
     end

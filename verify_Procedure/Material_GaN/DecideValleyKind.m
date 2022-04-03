@@ -24,9 +24,9 @@ classdef DecideValleyKind < handle
             obj.bsGamma1 = BandStructureGamma1(pc);
             obj.srGamma1 = ScatterringRateTableGamma1(pc);
             obj.spGamma1 = ScatterringProcessGamma1;
-%             obj.bsGamma3 = BandStructureGamma3(pc);
-%             obj.srGamma3 = ScatterringRateTableGamma3(pc);
-%             obj.spGamma3 = ScatterringProcessGamma3;
+            obj.bsGamma3 = BandStructureGamma3(pc);
+            obj.srGamma3 = ScatterringRateTableGamma3(pc);
+            obj.spGamma3 = ScatterringProcessGamma3;
         end
         
         function valleyGuidingPrinciple(obj, es)

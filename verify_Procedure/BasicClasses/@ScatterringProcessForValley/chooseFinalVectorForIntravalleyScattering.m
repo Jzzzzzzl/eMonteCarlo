@@ -1,5 +1,5 @@
-function [es] = chooseFinalVectorForIntravalleyScattering(~, es, ps, dv, sc, pc, frequency, flag)
-    %>谷内散射后选择电子波矢和声子状态
+function [es, ps] = chooseFinalVectorForIntravalleyScattering(~, es, ps, dv, sc, pc, frequency, flag)
+    %>谷内散射后选择电子波矢和声子状态（非弹性）
     item = 1;
     error = 1;
     maxitem = 20;
@@ -9,7 +9,7 @@ function [es] = chooseFinalVectorForIntravalleyScattering(~, es, ps, dv, sc, pc,
     phononEnergy = double(pc.hbar * frequency);
     es.energy = es.energy + flag * phononEnergy;
     while error > allowedError && item < maxitem
-        es = dv.bs.chooseWaveVector(es, pc, randNumber(0, pi));
+        es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
         ps.vector = es.vector - agoVector;
         ps = dv.bs.phononWhetherBeyondBZone(ps, pc);
         ps.getFrequency(sc);

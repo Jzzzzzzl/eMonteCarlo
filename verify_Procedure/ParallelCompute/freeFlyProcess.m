@@ -7,7 +7,7 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     es.valley = dv.whichValley(es);
     dv.valleyGuidingPrinciple(es);
     es = dv.bs.modifyElectricWaveVector(es, pc);
-    es = dv.bs.computeEnergyAndVelocity(es, pc);
+    es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
     es.position = es.position + es.velocity * dv.sr.flyTime;
     es.time = es.time + dv.sr.flyTime;
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));

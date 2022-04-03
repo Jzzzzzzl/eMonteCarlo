@@ -14,6 +14,6 @@ function [vector2] = rotateToStandardValley(~, vector1, valley)
         case -3
             vector2 = vector1*rotateMatrix(pi, "x");
         otherwise
-                error("能谷标号错误！")
+            error("能谷标号错误！")
     end
 end

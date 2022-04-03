@@ -39,27 +39,29 @@ classdef ScatterringRateTableForValley < handle
         scatType
         scatTable
         scatTableAll
-        acousticPiezoelectricScatRate
-        ionizedImpurityScatRate
-        intraAcousticScatRateAB
-        intraAcousticScatRateEM
-        intraOpticalScatRateAB
-        intraOpticalScatRateEM
-        polarOpticalScatRateAB
-        polarOpticalScatRateEM
-        interScatRateAB
-        interScatRateEM
+        ionizedImpurity
+        acousticPiezoelectric
+        elasticIntraAcoustic
+        inelasticIntraAcousticAB
+        inelasticIntraAcousticEM
+        inelasticIntraOpticalAB
+        inelasticIntraOpticalEM
+        inelasticPolarOpticalAB
+        inelasticPolarOpticalEM
+        inelasticInterAB
+        inelasticInterEM
     end
     
     methods
         function updateScatterringRateFormula(obj, dv, es, pc, cc)
             %>更新散射率句柄函数
-            obj.generateAcousticPiezoelectricScatteringRate(dv, es, pc, cc);
-            obj.generateIonizedImpurityScatteringRate(dv, pc, cc);
-            obj.generateIntravalleyAcousticScatteringRate(dv, pc, cc);
-            obj.generateIntravalleyOpticalScatteringRate(dv, pc, cc);
-            obj.generatePolarOpticalScatteringRate(dv, pc, cc);
-            obj.generateIntervalleyScatteringRate(dv, pc, cc);
+            obj.ionizedImpurityScatteringRate(dv, pc, cc);
+            obj.acousticPiezoelectricScatteringRate(dv, es, pc, cc);
+            obj.elasticIntravalleyAcousticScatteringRate(dv, pc, cc);
+            obj.inelasticIntravalleyAcousticScatteringRate(dv, pc, cc);
+            obj.inelasticIntravalleyOpticalScatteringRate(dv, pc, cc);
+            obj.inelasticPolarOpticalScatteringRate(dv, pc, cc);
+            obj.inelasticIntervalleyScatteringRate(dv, pc, cc);
         end
         
         function computeScatType(obj)

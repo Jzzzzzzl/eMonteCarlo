@@ -1,5 +1,5 @@
 function [es, ps] = chooseFinalVectorForIntervalleyScattering(~, es, ps, dv, sc, pc, frequency, flag)
-    %>选择谷间散射末态电子和声子状态
+    %>选择谷间散射末态电子和声子状态（非弹性）
     item = 1;
     error = 1;
     maxitem = 20;
@@ -9,7 +9,7 @@ function [es, ps] = chooseFinalVectorForIntervalleyScattering(~, es, ps, dv, sc,
     phononEnergy = double(pc.hbar * frequency);
     es.energy = es.energy + flag * phononEnergy;
     while error > allowedError && item < maxitem
-        es = dv.bs.chooseWaveVector(es, pc, randNumber(0, pi));
+        es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
         ps.vector = es.vector - agoVector;
         ps = dv.bs.phononWhetherBeyondBZone(ps, pc);
         ps.getFrequency(sc);

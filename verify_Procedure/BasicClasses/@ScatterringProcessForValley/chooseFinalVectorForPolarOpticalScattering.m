@@ -15,7 +15,7 @@ function [es, ps] = chooseFinalVectorForPolarOpticalScattering(~, es, ps, dv, sc
     phononEnergy = double(pc.hbar * frequency);
     es.energy = es.energy + flag * phononEnergy;
     while error > allowedError && item < maxitem
-        es = dv.bs.chooseWaveVector(es, pc, theta);
+        es = dv.bs.chooseElectricWaveVector(es, pc, theta);
         ps.vector = es.vector - agoVector;
         ps = dv.bs.phononWhetherBeyondBZone(ps, pc);
         ps.getFrequency(sc);

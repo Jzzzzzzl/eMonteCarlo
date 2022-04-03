@@ -17,7 +17,8 @@ classdef PhysicConstants < handle
         ul                          %纵向声速
         ut                          %横向声速
         u                           %平均声速
-        epsilon                   %相对介电常量
+        p                           %压电常数
+        epsilonL                   %相对介电常量
         gDKLA                       %耦合常数
         gDKTA
         gDKLO
@@ -25,6 +26,7 @@ classdef PhysicConstants < handle
         fDKTA
         fDKTO
         dGX                         %Gamma到X距离，k空间距离基准
+        dBD
         qf                          %f型谷间散射平均声子波矢大小
         qg                          %g型谷间散射平均声子波矢大小
         DLA                         %各向同性平均形变势
@@ -53,7 +55,8 @@ classdef PhysicConstants < handle
             obj.ul = 9.2e3;
             obj.ut = 4.7e3;
             obj.u = (2*obj.ut + obj.ul)/3;
-            obj.epsilon = 11.9;
+            obj.p = 0;
+            obj.epsilonL = 11.9;
             obj.gDKLA = 0.8e10*obj.e;
             obj.gDKTA = 0.5e10*obj.e;
             obj.gDKLO = 11e10*obj.e;
@@ -61,6 +64,7 @@ classdef PhysicConstants < handle
             obj.fDKTA = 0.3e10*obj.e;
             obj.fDKTO = 2e10*obj.e;
             obj.dGX = 2*pi/obj.a;
+            obj.dBD = obj.dGX;
             obj.qf = 0.95*obj.dGX;
             obj.qg = 0.3*obj.dGX;
             obj.DLA = 6.39*obj.e;
