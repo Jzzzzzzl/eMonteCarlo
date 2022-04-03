@@ -12,7 +12,7 @@ function [vector2] = rotateToGeneralValley(~, vector1, valley)
         case 3
             vector2 = vector1*rotateMatrix(-1.2305, "y")*rotateMatrix(-5*pi/6, "z");
         case -3
-            vector2 = vector1*rotateMatrix(-(pi-1.2305), "y")*rotateMatrix(-5*pi/6, "x");
+            vector2 = vector1*rotateMatrix(-(pi-1.2305), "y")*rotateMatrix(-5*pi/6, "z");
         case 4
             vector2 = vector1*rotateMatrix(-1.2305, "y")*rotateMatrix(5*pi/6, "z");
         case -4

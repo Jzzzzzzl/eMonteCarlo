@@ -6,8 +6,8 @@ function [] = verifyProgram(type, dv, pc, cc)
             allowedError = 0.001;
             for i = 1 : num
                 es = ElectricStatus;
-                es.vector = [randNumber(0.7,0.9) randNumber(-0.2, 0.2) randNumber(-0.2,0.2)] * pc.dGX;
-                es.valley = 1;
+                es.vector = [randNumber(0.7,0.9) randNumber(-0.2, 0.2) randNumber(-0.2,0.2)] * pc.dBD;
+                es.valley = 13;
                 es.valley = dv.whichValley(es);
                 dv.valleyGuidingPrinciple(es);
                 es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
@@ -36,10 +36,24 @@ function [] = verifyProgram(type, dv, pc, cc)
             es.energy = 2.5*pc.e;
             number = 2000;
             tempk = zeros(number, 3);
-            valleys = [1, -1, 2, -2, 3, -3];
+            valleys = [1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6];
             for i = 1 : number
-                index = round(randNumber(0.5, 6.5));
+                index = round(randNumber(0.5, 12.5));
                 es.valley = valleys(index);
+                es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
+                tempk(i, :) = es.vector;
+            end
+            figure
+            plot3(tempk(:,1), tempk(:,2), tempk(:,3), '*')
+            xlabel("kx");ylabel("ky");zlabel("kz");
+            legend("k-space") 
+        case "chooseWaveVectorForGamma"
+            es = ElectricStatus;
+            es.energy = 2.5*pc.e;
+            number = 2000;
+            tempk = zeros(number, 3);
+            for i = 1 : number
+                es.valley = 11;
                 es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
                 tempk(i, :) = es.vector;
             end

@@ -20,9 +20,9 @@ classdef ConfigureConstants < handle
             obj.envTemp = 300;
             obj.noFly = 100;
             obj.initEnergy = 0.0001*obj.e;
-            obj.maxVelocity = 3e5;
+            obj.maxVelocity = 3e7;
             obj.dopDensity = 1e23;
-            obj.electricField = [-10e5 0 0];
+            obj.electricField = [-1.5e7 0 0];
         end
         
     end

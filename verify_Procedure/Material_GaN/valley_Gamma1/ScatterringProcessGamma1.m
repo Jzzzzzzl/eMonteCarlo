@@ -1,7 +1,7 @@
 classdef ScatterringProcessGamma1 < ScatterringProcessForValley
-    %% GammaX能谷散射过程
+    %% Gamma1能谷散射过程
     methods
-        function [es,ps] = electricScatProcess(obj, es, ps, dv, sc, pc, cc)
+        function [es,ps] = electricScatProcess(obj, es, ps, dv, sc, pc)
             %>针对不同散射类型计算电子声子散射过程
             ps.time = es.time;
             ps.position = es.position;
@@ -11,7 +11,7 @@ classdef ScatterringProcessGamma1 < ScatterringProcessForValley
                 case 2 % acoustic piezoelectric
                     es = obj.chooseFinalVectorForAcousticPiezoelectricScattering(es, dv, pc);
                 case 3 % intra
-                    es = dv.bs.chooseWaveVector(es, pc, randNumber(0, pi));
+                    es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
                 case 4 % polar LO ab
                     ps.aborem = "ab";
                     ps.polar = "LO";
