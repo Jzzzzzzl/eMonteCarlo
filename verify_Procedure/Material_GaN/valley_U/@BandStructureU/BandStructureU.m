@@ -16,9 +16,9 @@ classdef BandStructureU < BandStructureForValley
         end
         function [es] = chooseElectricWaveVector(obj, es, pc, theta)
             %>根据能量选择电子波矢
-            obj.gamma = es.energy - obj.Eg;
-            obj.epsilon = (sqrt(1 + 4*obj.alpha*(obj.gamma)/pc.e) - 1) / (2*obj.alpha) * pc.e;
-            kStarMold = sqrt(2 * pc.m * obj.epsilon) / pc.hbar;
+            obj.epsilon = es.energy - obj.Eg;
+            obj.gamma = obj.epsilon*(1 + obj.alpha*obj.epsilon/pc.e);
+            kStarMold = sqrt(2*pc.m*obj.gamma) / pc.hbar;
             %>球空间随机选择波矢
             condition = true;
             while condition
@@ -38,9 +38,9 @@ classdef BandStructureU < BandStructureForValley
             %>计算电子能量
             tempk = obj.rotateToStandardValley(es.vector, es.valley);
             k = tempk - [0, 0, obj.centerRatio] * pc.dBD;
-            obj.epsilon = pc.hbar^2*(k(1)^2 / obj.mt + k(2)^2 / obj.mt + k(3)^2 / obj.ml) / 2;
-            obj.gamma = obj.epsilon * (1 + obj.epsilon/pc.e * obj.alpha);
-            es.energy = obj.gamma + obj.Eg;
+            obj.gamma = pc.hbar^2*(k(1)^2 / obj.mt + k(2)^2 / obj.mt + k(3)^2 / obj.ml) / 2;
+            obj.epsilon = (-1 + sqrt(1 + 4*obj.alpha*obj.gamma/pc.e)) * pc.e / (2*obj.alpha);
+            es.energy = obj.epsilon + obj.Eg;
             %>计算电子速度
             kStar = obj.Tz * k';
             vStar = pc.hbar * kStar / (pc.m * (1 + 2*obj.alpha*obj.epsilon/pc.e));

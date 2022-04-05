@@ -3,13 +3,14 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     energyTemp = es.energy;
     vectorTemp = es.vector;
     dv.sr.computeFlyTime;
-    es.vector = es.vector + (-pc.e) * cc.electricField * dv.sr.flyTime / pc.hbar;
+    time = dv.sr.flyTime;
+    es.vector = es.vector + (-pc.e) * cc.electricField * time / pc.hbar;
     es.valley = dv.whichValley(es);
     dv.valleyGuidingPrinciple(es);
     es = dv.bs.modifyElectricWaveVector(es, pc);
     es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
-    es.position = es.position + es.velocity * dv.sr.flyTime;
-    es.time = es.time + dv.sr.flyTime;
+    es.position = es.position + es.velocity * time;
+    es.time = es.time + time;
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
     es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
 end

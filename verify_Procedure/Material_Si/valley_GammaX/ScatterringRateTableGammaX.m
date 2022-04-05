@@ -9,6 +9,13 @@ classdef ScatterringRateTableGammaX < ScatterringRateTableForValley
             obj.scatTable = zeros(obj.nofScat, 1);
         end
         
+        function updateScatterringRateFormula(obj, dv, ~, pc, cc)
+            %>更新散射率句柄函数
+            obj.ionizedImpurityScatteringRate(dv, pc, cc);
+            obj.inelasticIntravalleyAcousticScatteringRate(dv, pc, cc);
+            obj.inelasticIntervalleyScatteringRate(dv, pc, cc);
+        end
+        
         function scatterringTable(obj, dv, es, sc, pc, cc)
             %>计算散射表
             % type = 1---------------ionized-impurity
@@ -32,10 +39,10 @@ classdef ScatterringRateTableGammaX < ScatterringRateTableForValley
             %更新散射的句柄函数
             obj.updateScatterringRateFormula(dv, es, pc, cc);
             obj.scatTable(1) = obj.ionizedImpurity;
-            obj.scatTable(2) = obj.inelasticIntraAcousticAB(pc.DLA, pc.ul);
-            obj.scatTable(3) = obj.inelasticIntraAcousticAB(pc.DTA, pc.ut);
-            obj.scatTable(4) = obj.inelasticIntraAcousticEM(pc.DLA, pc.ul);
-            obj.scatTable(5) = obj.inelasticIntraAcousticEM(pc.DTA, pc.ut);
+            obj.scatTable(2) = obj.inelasticIntraAcousticAB(pc.DLA);
+            obj.scatTable(3) = obj.inelasticIntraAcousticAB(pc.DTA);
+            obj.scatTable(4) = obj.inelasticIntraAcousticEM(pc.DLA);
+            obj.scatTable(5) = obj.inelasticIntraAcousticEM(pc.DTA);
             obj.scatTable(6) = obj.inelasticInterAB(pc.gDKLA, 1, sc.wgLA, (pc.EgGX - pc.EgGX));
             obj.scatTable(7) = obj.inelasticInterAB(pc.gDKTA, 1, sc.wgTA, (pc.EgGX - pc.EgGX));
             obj.scatTable(8) = obj.inelasticInterAB(pc.gDKLO, 1, sc.wgLO, (pc.EgGX - pc.EgGX));
@@ -50,8 +57,7 @@ classdef ScatterringRateTableGammaX < ScatterringRateTableForValley
             obj.scatTable(17) = obj.inelasticInterEM(pc.fDKTO, 4, sc.wfTO, (pc.EgGX - pc.EgGX));
             %累积求和
             obj.scatTableAll = cumsum(obj.scatTable);
-            obj.scatTableAll(end) = obj.scatTableAll(end-1);
-%             obj.scatTableAll(end) = obj.maxScatRate;
+            obj.scatTableAll(end) = obj.maxScatRate;
         end
         
     end

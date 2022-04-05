@@ -3,7 +3,7 @@ function [es] = chooseFinalVectorForIonizedImpurityScattering(~, es, dv, pc)
     item = 1;
     error = 1;
     maxitem = 20;
-    allowedError = 0.1;
+    allowedError = 0.2;
     
     agovMold = sqrt(sum(es.velocity.^2));
     while error > allowedError && item < maxitem

@@ -13,24 +13,21 @@ classdef PhysicConstants < handle
         %>材料一般性参数
         a                           %晶格常数
         c
+        kn
+        hsp                        %倒空间笛卡尔坐标点
         rho                         %密度
         ul                          %纵向声速
         ut                          %横向声速
         u                           %平均声速
         p                           %压电常数
         epsilonL                   %相对介电常量
-        gDKLA                       %耦合常数
-        gDKTA
-        gDKLO
-        fDKLA
-        fDKTA
-        fDKTO
+        epsilonH
         dGX                         %Gamma到X距离，k空间距离基准
         dBD
+        dGL
+        dKN
         qf                          %f型谷间散射平均声子波矢大小
         qg                          %g型谷间散射平均声子波矢大小
-        DLA                         %各向同性平均形变势
-        DTA
         maxFrequency
     end
     
@@ -44,6 +41,14 @@ classdef PhysicConstants < handle
         centerRatioGX
         maxScatRateGX
         xsForimpurityGX
+        DLA                         %各向同性平均形变势
+        DTA
+        gDKLA                       %耦合常数
+        gDKTA
+        gDKLO
+        fDKLA
+        fDKTA
+        fDKTO
     end
     
     methods
@@ -51,24 +56,25 @@ classdef PhysicConstants < handle
             %>构造函数
             obj.a = 5.431e-10;
             obj.c = 3.867e-10;
+            obj.kn.b1 = [-1.1629067753	1.1629067753	1.1629067753] * 1e10;
+            obj.kn.b2 = [1.1629067753	-1.1629067753	1.1629067753] * 1e10;
+            obj.kn.b3 = [1.1629067753	1.1629067753	-1.1629067753] * 1e10;
+            obj.hsp.G = [0.0000000000	0.0000000000	0.0000000000] * 1e10;
+            obj.hsp.X = [0.0000000000	1.1629067753	0.0000000000] * 1e10;
+            obj.hsp.L = [0.5814533877	0.5814533877	0.5814533877] * 1e10;
             obj.rho = 2330;
             obj.ul = 9.2e3;
             obj.ut = 4.7e3;
             obj.u = (2*obj.ut + obj.ul)/3;
-            obj.p = 0;
+            obj.p = 0.7;
             obj.epsilonL = 11.9;
-            obj.gDKLA = 0.8e10*obj.e;
-            obj.gDKTA = 0.5e10*obj.e;
-            obj.gDKLO = 11e10*obj.e;
-            obj.fDKLA = 2e10*obj.e;
-            obj.fDKTA = 0.3e10*obj.e;
-            obj.fDKTO = 2e10*obj.e;
-            obj.dGX = 2*pi/obj.a;
+            obj.epsilonH = 0;
+            obj.dGX = sqrt(sum(obj.hsp.X.^2));
             obj.dBD = obj.dGX;
-            obj.qf = 0.95*obj.dGX;
-            obj.qg = 0.3*obj.dGX;
-            obj.DLA = 6.39*obj.e;
-            obj.DTA = 3.01*obj.e;
+            obj.dGL = sqrt(sum(obj.hsp.L.^2));
+            obj.dKN = 2*pi/obj.a;
+            obj.qf = 0.95*obj.dBD;
+            obj.qg = 0.3*obj.dBD;
             obj.maxFrequency = 1e14;
             %>GammaX能谷参数
             obj.EgGX = 0*obj.e;
@@ -79,6 +85,14 @@ classdef PhysicConstants < handle
             obj.centerRatioGX = 0.85;
             obj.maxScatRateGX = 3e14;
             obj.xsForimpurityGX = 0.1;
+            obj.DLA = 6.39*obj.e;
+            obj.DTA = 3.01*obj.e;
+            obj.gDKLA = 0.8e10*obj.e;
+            obj.gDKTA = 0.5e10*obj.e;
+            obj.gDKLO = 11e10*obj.e;
+            obj.fDKLA = 2e10*obj.e;
+            obj.fDKTA = 0.3e10*obj.e;
+            obj.fDKTO = 2e10*obj.e;
         end
         
     end

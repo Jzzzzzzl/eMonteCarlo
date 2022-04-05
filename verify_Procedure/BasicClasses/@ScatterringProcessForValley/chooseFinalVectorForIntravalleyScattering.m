@@ -3,7 +3,7 @@ function [es, ps] = chooseFinalVectorForIntravalleyScattering(~, es, ps, dv, sc,
     item = 1;
     error = 1;
     maxitem = 20;
-    allowedError = 0.1;
+    allowedError = 0.2;
     
     agoVector = es.vector;
     phononEnergy = double(pc.hbar * frequency);

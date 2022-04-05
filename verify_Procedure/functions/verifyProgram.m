@@ -22,15 +22,25 @@ function [] = verifyProgram(type, dv, pc, cc)
             if i == num
                 disp("电子波矢选择与能量计算正反验证无误")
             end
-        case "AcousticPiezoelectricScat"
+        case "AcousticPiezoelectricScatPlot"
+            num = 500;
             es = ElectricStatus;
             es.valley = 1;
             dv.valleyGuidingPrinciple(es);
-            es.energy = 5.6*pc.e;
-            dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
-            dv.bs.computeEnergyAndGroupVelocity(es, pc);
-            dv.sr.updateScatterringRateFormula(dv, es, pc, cc);
-            disp(dv.sr.thetaAP)
+            energys = logspace(-5, 3, num) * pc.e;
+            scatTables = zeros(num, 2);
+            for i = 1 : num
+                es.energy = energys(i);
+                dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
+                dv.sr.acousticPiezoelectricScatteringRate(dv, es, pc, cc);
+                scatTables(i, 1) = energys(i);
+                scatTables(i, 2) = dv.sr.acousticPiezoelectric;
+            end
+            figure
+            slg = loglog(scatTables(:, 1) / pc.e, scatTables(:, 2));
+            slg.LineWidth = 3;
+            xlabel("meV");
+            ylabel("s^{-1}")
         case "chooseWaveVector"
             es = ElectricStatus;
             es.energy = 2.5*pc.e;
@@ -53,7 +63,7 @@ function [] = verifyProgram(type, dv, pc, cc)
             number = 2000;
             tempk = zeros(number, 3);
             for i = 1 : number
-                es.valley = 11;
+                es.valley = 1;
                 es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
                 tempk(i, :) = es.vector;
             end

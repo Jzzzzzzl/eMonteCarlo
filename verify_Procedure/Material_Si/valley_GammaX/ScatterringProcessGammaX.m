@@ -109,10 +109,6 @@ classdef ScatterringProcessGammaX < ScatterringProcessForValley
         function value = randomValley(es, type)
             %>随机选择能谷
             switch type
-                case "impurity"
-                    valleys = [1, -1, 2, -2, 3, -3];
-                    index = round(randNumber(0.5, 6.5));
-                    value = valleys(index);
                 case "interf"
                     valley0 = abs(es.valley);
                     valleys1 = [2, -2, 3, -3];

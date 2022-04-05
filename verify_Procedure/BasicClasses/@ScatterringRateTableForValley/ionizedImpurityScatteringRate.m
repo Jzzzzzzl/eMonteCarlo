@@ -9,7 +9,7 @@ function ionizedImpurityScatteringRate(obj, dv, pc, cc)
                                 / (pi*(pc.epsilon0*pc.epsilonL)^2*pc.hbar^4) ...
                                 * real(sqrt(dv.bs.gamma))*(1 + 2*dv.bs.epsilon/pc.e*dv.bs.alpha) ...
                                 / (qD^2*(qD^2 + 8*dv.bs.md*dv.bs.gamma/pc.hbar^2))*obj.xsForimpurity;
-    beta = sqrt(4*pi^2*pc.e^2*n/(pc.epsilonL*pc.epsilon0*pc.kb*cc.envTemp));
-    epsilonBeta = pc.hbar^2*beta^2/(2*pc.m);
-    obj.thetaII = acos(1 - 2*(1-rand)/(1+4*rand*dv.bs.gamma/epsilonBeta));
+    beta = real(sqrt(4*pi^2*pc.e^2*n/(pc.epsilonL*pc.epsilon0*pc.kb*cc.envTemp)));
+    epsilonBeta1 = pc.hbar^2*beta^2/(2*dv.bs.md);
+    obj.thetaII = acos(1 - 2*(1-rand)/(1+4*rand*dv.bs.gamma/epsilonBeta1));
 end

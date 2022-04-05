@@ -17,7 +17,7 @@ function [numbers] = scatTypeDistribution(~, sh, cc)
         index6 = types >=6 & types <=8;
         %g型发射声子谷间散射
         index7 = types >=12 & types <=14;
-
+        
         numbers(1,1) = numbers(1,1) + sum(double(index1));
         numbers(2,1) = numbers(2,1) + sum(double(index2));
         numbers(2,2) = numbers(2,2) + sum(double(index3));

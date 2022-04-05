@@ -53,17 +53,6 @@ classdef ScatterringRateTableForValley < handle
     end
     
     methods
-        function updateScatterringRateFormula(obj, dv, es, pc, cc)
-            %>更新散射率句柄函数
-            obj.ionizedImpurityScatteringRate(dv, pc, cc);
-            obj.acousticPiezoelectricScatteringRate(dv, es, pc, cc);
-            obj.elasticIntravalleyAcousticScatteringRate(dv, pc, cc);
-            obj.inelasticIntravalleyAcousticScatteringRate(dv, pc, cc);
-            obj.inelasticIntravalleyOpticalScatteringRate(dv, pc, cc);
-            obj.inelasticPolarOpticalScatteringRate(dv, pc, cc);
-            obj.inelasticIntervalleyScatteringRate(dv, pc, cc);
-        end
-        
         function computeScatType(obj)
             %>计算散射类型
             r = rand * obj.scatTableAll(end);

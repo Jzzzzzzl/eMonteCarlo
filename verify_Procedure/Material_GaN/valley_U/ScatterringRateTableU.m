@@ -10,6 +10,15 @@ classdef ScatterringRateTableU < ScatterringRateTableForValley
             obj.scatTable = zeros(obj.nofScat, 1);
         end
         
+        function updateScatterringRateFormula(obj, dv, ~, pc, cc)
+            %>更新散射率句柄函数
+            obj.ionizedImpurityScatteringRate(dv, pc, cc);
+            obj.acousticPiezoelectricScatteringRate(dv, es, pc, cc);
+            obj.elasticIntravalleyAcousticScatteringRate(dv, pc, cc);
+            obj.inelasticPolarOpticalScatteringRate(dv, pc, cc);
+            obj.inelasticIntervalleyScatteringRate(dv, pc, cc);
+        end
+        
         function scatterringTable(obj, dv, es, sc, pc, cc)
             %>计算散射表
             %更新散射的句柄函数
