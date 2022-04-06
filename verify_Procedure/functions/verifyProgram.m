@@ -25,10 +25,11 @@ function [] = verifyProgram(type, dv, pc, cc)
         case "AcousticPiezoelectricScatPlot"
             num = 500;
             es = ElectricStatus;
-            es.valley = 1;
+            es.valley = 11;
             dv.valleyGuidingPrinciple(es);
             energys = logspace(-5, 3, num) * pc.e;
             scatTables = zeros(num, 2);
+            tic
             for i = 1 : num
                 es.energy = energys(i);
                 dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
@@ -36,6 +37,7 @@ function [] = verifyProgram(type, dv, pc, cc)
                 scatTables(i, 1) = energys(i);
                 scatTables(i, 2) = dv.sr.acousticPiezoelectric;
             end
+            toc
             figure
             slg = loglog(scatTables(:, 1) / pc.e, scatTables(:, 2));
             slg.LineWidth = 3;

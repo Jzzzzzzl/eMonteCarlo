@@ -1,4 +1,4 @@
-function [enumber] = energyDistribution(obj, sh, mm, cc, e, N)
+function [enumber] = energyHistoryDistribution(obj, sh, mm, cc, e, N)
     %>电子能量分布
     energys = zeros(cc.superElecs, cc.noFly);
     for i = 1 : cc.superElecs

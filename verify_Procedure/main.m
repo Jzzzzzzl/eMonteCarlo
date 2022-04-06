@@ -1,8 +1,8 @@
 %% 
 addpath(genpath('./BasicClasses'))
 addpath(genpath('./functions'))
-addpath(genpath('./Material_Si'))
-% addpath(genpath('./Material_GaN'))
+% addpath(genpath('./Material_Si'))
+addpath(genpath('./Material_GaN'))
 addpath(genpath('./ParallelCompute'))
 addpath(genpath('./PostProcess'))
 
@@ -20,11 +20,11 @@ pq = PhononQuantityStatics(pc, 50);
 
 %% 
 sh = parallelCompute(sh, dv, sc, pc, cc);
-ep = ElectricQuantityStatics(sh, cc);
-
+eq = ElectricQuantityStaticsGaN(sh, pc, cc);
+% eq = ElectricQuantityStaticsSi(sh, pc, cc);
 % 验证1，能带画图
-dv.bs.bandStructurePlot(pc);
-dv.bs.electricVelocityPlot(pc);
+% dv.bs.bandStructurePlot(pc);
+% dv.bs.electricVelocityPlot(pc);
 %验证2，散射表画图
 % tic; scatteringRatePlot(dv, sc, pc, cc); toc
 %验证3，波矢选择及能量相互验证
@@ -33,13 +33,14 @@ dv.bs.electricVelocityPlot(pc);
 % verifyProgram("EnergyToVector", dv, pc, cc);
 % verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, cc);
 %验证4，数据后处理
-ep.dirftVelocityWithTime(sh, mm, cc, 40, 100);
-ep.scatTypeDistribution(sh, cc);
-% ep.energyDistribution(sh, mm, cc, 0.5, 100);
-% ep.averageEnergyWithTime(sh, mm, cc, 2, 100);
-% ep.electronTrace(sh, cc, 120, 'k');
-% ep.electronTrace(sh, cc, 1, 'r');
-% ep.electronTrace(sh, cc, 1, 'e');
+eq.dirftVelocityWithTime(sh, mm, cc, 100);
+% eq.scatTypeDistribution(sh, cc);
+eq.energyHistoryDistribution(sh, mm, cc, 0.5, 100);
+eq.averageEnergyWithTime(sh, mm, cc, 100);
+eq.valleyOccupationWithTime(sh, mm, cc, 100);
+eq.electronTrace(sh, cc, 140, 'k');
+eq.electronTrace(sh, cc, 152, 'r');
+eq.electronTrace(sh, cc, 114, 'e');
 %验证5，声子发射谱
 % pq.subPhononQuantityStatics(sh, mm);
 % pq.phononSpectrumPlot(mm, pc, "LA");
@@ -49,18 +50,42 @@ ep.scatTypeDistribution(sh, cc);
 % pq.phononSpectrumPlot(mm, pc, "ALL");
 
 
-% es = ElectricStatus;
-% es.valley = 11;
-% dv.valleyGuidingPrinciple(es);
-% es.vector = [0.045 0.0 0]*1e10;
-% es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
-% disp(es.energy/pc.e)
-% 
-% dv.sr.computeFlyTime;
-% (-pc.e) * cc.electricField * dv.sr.flyTime / pc.hbar / pc.dGM
-% 
-% dv.sr.inelasticPolarOpticalScatteringRate(dv, pc, cc);
-% [es, ps] = dv.sp.chooseFinalVectorForPolarOpticalScattering(es, ps, dv, sc, pc, sc.wPolarLO, -1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

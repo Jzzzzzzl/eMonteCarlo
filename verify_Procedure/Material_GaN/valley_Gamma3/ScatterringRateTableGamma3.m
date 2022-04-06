@@ -10,7 +10,7 @@ classdef ScatterringRateTableGamma3 < ScatterringRateTableForValley
             obj.scatTable = zeros(obj.nofScat, 1);
         end
         
-        function updateScatterringRateFormula(obj, dv, ~, pc, cc)
+        function updateScatterringRateFormula(obj, dv, es, pc, cc)
             %>更新散射率句柄函数
             obj.ionizedImpurityScatteringRate(dv, pc, cc);
             obj.acousticPiezoelectricScatteringRate(dv, es, pc, cc);
@@ -38,8 +38,7 @@ classdef ScatterringRateTableGamma3 < ScatterringRateTableForValley
             obj.scatTable(13) = obj.inelasticInterEM(pc.G32G1DK, 1, sc.wG2GLO, (pc.EgG1 - pc.EgG3));
             %累积求和
             obj.scatTableAll = cumsum(obj.scatTable);
-            obj.scatTableAll(end) = obj.scatTableAll(end-1);
-%             obj.scatTableAll(end) = obj.maxScatRate;
+            obj.scatTableAll(end) = obj.maxScatRate;
         end
         
     end

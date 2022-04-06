@@ -76,7 +76,7 @@ classdef ScatterringProcessGamma3 < ScatterringProcessForValley
     end
     
     methods(Static)
-        function value = randomValley(es, type)
+        function value = randomValley(~, type)
             %>随机选择能谷
             switch type
                 case "interG3U"

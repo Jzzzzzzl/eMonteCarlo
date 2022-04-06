@@ -10,15 +10,9 @@ function acousticPiezoelectricScatteringRate(obj, dv, es, pc, cc)
                                         * real(dv.bs.epsilon^(-1/2)) ...
                                         * (log(1+8*pc.m*dv.bs.epsilon/(pc.hbar^2*beta^2)) ...
                                          - 1/(1+(pc.hbar^2*beta^2/(8*pc.m*dv.bs.epsilon))));
-    if abs(es.wavenum / pc.dBD) > 0.1
-        obj.thetaAP = acos(1-(beta^2*(exp((rand*(log(1+4*es.wavenum^2/beta^2)-1))+1)-1) / (2*es.wavenum^2)));
-    else
-        syms costheta
-        fun = log(1+2*es.wavenum^2/beta^2*(1-costheta)) - (1-costheta)/(1-costheta+beta^2/(2*es.wavenum^2)) ...
-                - rand*(log(1+4*es.wavenum^2/beta^2) - 1/(1+beta^2/(4*es.wavenum^2)));
-        obj.thetaAP = real(acos(double(vpasolve(fun))));
-    end
-    if abs(obj.thetaAP) > pi
-        error("thetaAP大于pi！")
-    end
+    x = beta/es.wavenum;
+    y = (1 - rand)*log(x^2) + rand*log(x^2 + 4) - 4*rand/(4 + x^2);
+    f = @(m) (1 - m + x^2/2)*log(x^2 + 2*(1-m)) - (1-m)*(1+y) - x^2*y/2;
+    opt = optimset('Display', 'off');
+    obj.thetaAP = real(double(acos(fsolve(f, pi/2, opt))));
 end

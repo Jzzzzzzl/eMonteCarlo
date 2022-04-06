@@ -3,9 +3,7 @@ function electronTrace(obj, sh, cc, num, type)
     switch type
         case "k"
             tempk = zeros(cc.noFly, 3);
-            times = zeros(cc.noFly, 1);
             for i = 1 : cc.noFly
-                times(i) = sh.eHistory(num, i).time;
                 tempk(i,:) = sh.eHistory(num, i).vector;
             end
             figure

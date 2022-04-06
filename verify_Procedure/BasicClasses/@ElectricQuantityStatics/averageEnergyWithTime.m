@@ -1,4 +1,4 @@
-function averageEnergyWithTime(obj, sh, mm, cc, t, N)
+function averageEnergyWithTime(obj, sh, mm, cc, N)
     %>求电子平均能量随时间的变化关系图
     energy = zeros(cc.superElecs, cc.noFly);
     times = zeros(cc.superElecs, cc.noFly);
@@ -7,7 +7,7 @@ function averageEnergyWithTime(obj, sh, mm, cc, t, N)
         times(i, :) = [sh.eHistory(i, :).time];
     end
     %计算平均能量
-    mm.timeGrid(0, t*1e-12, N);
+    mm.timeGrid(0, obj.minimumTime, N);
     aveEnergy = zeros(mm.Nt, 2);
     for t = 1 : mm.Nt
         sumEnergy = 0;
