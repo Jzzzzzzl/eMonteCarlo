@@ -18,7 +18,6 @@ classdef ScatterringProcessForValley < handle
     %>         
     % ======================================================================
     properties
-        qAB
-        qEM
+        
     end
 end

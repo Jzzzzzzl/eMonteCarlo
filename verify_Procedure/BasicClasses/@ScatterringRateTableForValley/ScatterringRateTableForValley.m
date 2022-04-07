@@ -22,11 +22,16 @@ classdef ScatterringRateTableForValley < handle
     %>         该函数用于更新计算电离杂质散射率的句柄函数
     % ======================================================================
     properties
-        xAB
-        xEM
+        qAB
+        qEM
+        thetaII
+        thetaAP
+        thetaPOab
+        thetaPOem
         nofScat
         maxScatRate
         xsForimpurity
+        xsForPolarOptical
     end
     
     properties
@@ -34,22 +39,23 @@ classdef ScatterringRateTableForValley < handle
         scatType
         scatTable
         scatTableAll
-        ionizedImpurityScatRate
-        intraAcousticScatRateAB
-        intraAcousticScatRateEM
-        intraOpticalScatRateAB
-        intraOpticalScatRateEM
-        interScatRateAB
-        interScatRateEM
+        ionizedImpurity
+        acousticPiezoelectric
+        elasticIntraAcoustic
+        inelasticIntraAcousticAB
+        inelasticIntraAcousticEM
+        inelasticIntraOpticalAB
+        inelasticIntraOpticalEM
+        inelasticPolarOpticalAB
+        inelasticPolarOpticalEM
+        inelasticInterAB
+        inelasticInterEM
     end
     
     methods
-        function updateScatterringRateFormula(obj, dv, pc, cc)
-            %>更新散射率句柄函数
-            obj.generateIonizedImpurityScatteringRate(dv, pc, cc);
-            obj.generateIntravalleyAcousticScatteringRate(dv, pc, cc);
-            obj.generateIntravalleyOpticalScatteringRate(dv, pc, cc);
-            obj.generateIntervalleyScatteringRate(dv, pc, cc);
+        function obj = ScatterringRateTableForValley
+            %>构造函数
+            obj.flyTime = 0;
         end
         
         function computeScatType(obj)
@@ -60,7 +66,13 @@ classdef ScatterringRateTableForValley < handle
         
         function computeFlyTime(obj)
             %>计算飞行时间
-            obj.flyTime = -log(randNumber(0.01,1.0)) / obj.maxScatRate;
+            p = size(obj.scatTableAll);
+            if p(1) ~= 0
+                obj.flyTime = -log(randNumber(0.01,1.0)) / obj.scatTableAll(end);
+            else
+                obj.flyTime = 0;
+            end
+%             obj.flyTime = -log(randNumber(0.01,1.0)) / obj.maxScatRate;
         end
         
     end

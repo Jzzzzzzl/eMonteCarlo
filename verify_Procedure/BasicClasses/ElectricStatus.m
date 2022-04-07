@@ -10,6 +10,8 @@ classdef ElectricStatus < handle
         valley
         wavenum
         energy
+        gamma
+        epsilon
         velocity
         charge
         scatype

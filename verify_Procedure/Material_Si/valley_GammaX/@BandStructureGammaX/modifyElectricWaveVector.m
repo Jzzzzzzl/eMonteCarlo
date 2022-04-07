@@ -3,17 +3,17 @@ function [es] = modifyElectricWaveVector(obj, es, pc)
     if obj.whetherBeyondBrillouinZone(es, pc)
         switch es.valley
             case 1
-                es.vector(1) = es.vector(1) - 2 * pc.dGX;
+                es.vector = es.vector - (pc.kn.b2 + pc.kn.b3);
             case -1
-                es.vector(1) = es.vector(1) + 2 * pc.dGX;
+                es.vector = es.vector + (pc.kn.b2 + pc.kn.b3);
             case 2
-                es.vector(2) = es.vector(2) - 2 * pc.dGX;
+                es.vector = es.vector - (pc.kn.b1 + pc.kn.b3);
             case -2
-                es.vector(2) = es.vector(2) + 2 * pc.dGX;
+                es.vector = es.vector + (pc.kn.b1 + pc.kn.b3);
             case 3
-                es.vector(3) = es.vector(3) - 2 * pc.dGX;
+                es.vector = es.vector - (pc.kn.b1 + pc.kn.b2);
             case -3
-                es.vector(3) = es.vector(3) + 2 * pc.dGX;
+                es.vector = es.vector + (pc.kn.b1 + pc.kn.b2);
             otherwise
                 error("能谷编号错误！")
         end

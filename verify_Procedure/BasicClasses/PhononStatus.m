@@ -11,6 +11,9 @@ classdef PhononStatus < handle
     %>         
     %>
     % ======================================================================
+    properties(Constant)
+        hbar = 1.05457266e-34;
+    end
     properties
         position
         vector
@@ -39,7 +42,7 @@ classdef PhononStatus < handle
         
         function energy = get.energy(obj)
             %>能量在被调用时计算
-            energy = obj.frequency * PhysicConstants.hbar;
+            energy = obj.frequency * obj.hbar;
         end
         
         function getFrequency(obj, sc)
