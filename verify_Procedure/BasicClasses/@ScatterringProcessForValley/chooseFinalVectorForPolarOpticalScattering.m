@@ -22,4 +22,5 @@ function [es, ps] = chooseFinalVectorForPolarOpticalScattering(~, es, ps, dv, sc
         error = abs((ps.energy - phononEnergy) / ps.energy);
         item = item + 1;
     end
+    es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
 end

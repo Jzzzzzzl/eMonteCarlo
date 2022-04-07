@@ -1,7 +1,7 @@
 function scatteringRatePlot(dv, sc, pc, cc)
     %>散射率画图
     es = ElectricStatus;
-    es.valley = 11;
+    es.valley = 1;
     dv.valleyGuidingPrinciple(es);
     num = 50;
     energys = logspace(-1, 1, num) * pc.e + dv.bs.Eg;
@@ -15,9 +15,9 @@ function scatteringRatePlot(dv, sc, pc, cc)
         scatTables(i, end) = deal(dv.sr.scatTableAll(end));
     end
     figure
-    for j = 1 : 14
-        slg = loglog(energys / pc.e, scatTables(:, j));
-%         slg = semilogy(energys / pc.e, scatTables(:, j));
+    for j = 1 : dv.sr.nofScat
+%         slg = loglog(energys / pc.e, scatTables(:, j));
+        slg = semilogy(energys / pc.e, scatTables(:, j));
         slg.LineWidth = 3;
         hold on
     end

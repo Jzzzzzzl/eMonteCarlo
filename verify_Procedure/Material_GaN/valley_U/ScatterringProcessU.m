@@ -23,73 +23,73 @@ classdef ScatterringProcessU < ScatterringProcessForValley
                 case 6 % inter UU LA ab
                     ps.aborem = "ab";
                     ps.polar = "LA";
-                    es.valley = obj.randomValley(es, "interUU");
+                    es.valley = obj.randomValley("interUU");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2ULA, 1);
                 case 7 % inter UU LO ab
                     ps.aborem = "ab";
                     ps.polar = "LO";
-                    es.valley = obj.randomValley(es, "interUU");
+                    es.valley = obj.randomValley("interUU");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2ULO, 1);
                 case 8 % inter UU LA em
                     ps.aborem = "em";
                     ps.polar = "LA";
-                    es.valley = obj.randomValley(es, "interUU");
+                    es.valley = obj.randomValley("interUU");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2ULA, -1);
                 case 9 % inter UU LO em
                     ps.aborem = "em";
                     ps.polar = "LO";
-                    es.valley = obj.randomValley(es, "interUU");
+                    es.valley = obj.randomValley("interUU");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2ULO, -1);
                 case 10 % inter UG1 LA ab
                     ps.aborem = "ab";
                     ps.polar = "LA";
-                    es.valley = obj.randomValley(es, "interUG1");
+                    es.valley = obj.randomValley("interUG1");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2GLA, 1);
                 case 11 % inter UG1 LO ab
                     ps.aborem = "ab";
                     ps.polar = "LO";
-                    es.valley = obj.randomValley(es, "interUG1");
+                    es.valley = obj.randomValley("interUG1");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2GLO, 1);
                 case 12 % inter UG1 LA em
                     ps.aborem = "em";
                     ps.polar = "LA";
-                    es.valley = obj.randomValley(es, "interUG1");
+                    es.valley = obj.randomValley("interUG1");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2GLA, -1);
                 case 13 % inter UG1 LO em
                     ps.aborem = "em";
                     ps.polar = "LO";
-                    es.valley = obj.randomValley(es, "interUG1");
+                    es.valley = obj.randomValley("interUG1");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2GLO, -1);
                 case 14 % inter UG3 LA ab
                     ps.aborem = "ab";
                     ps.polar = "LA";
-                    es.valley = obj.randomValley(es, "interUG3");
+                    es.valley = obj.randomValley("interUG3");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2GLA, 1);
                 case 15 % inter UG3 LO ab
                     ps.aborem = "ab";
                     ps.polar = "LO";
-                    es.valley = obj.randomValley(es, "interUG3");
+                    es.valley = obj.randomValley("interUG3");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2GLO, 1);
                 case 16 % inter UG3 LA em
                     ps.aborem = "em";
                     ps.polar = "LA";
-                    es.valley = obj.randomValley(es, "interUG3");
+                    es.valley = obj.randomValley("interUG3");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2GLA, -1);
                 case 17 % inter UG3 LO em
                     ps.aborem = "em";
                     ps.polar = "LO";
-                    es.valley = obj.randomValley(es, "interUG3");
+                    es.valley = obj.randomValley("interUG3");
                     dv.valleyGuidingPrinciple(es);
                     [es, ps] = obj.chooseFinalVectorForIntervalleyScattering(es, ps, dv, sc, pc, sc.wU2GLO, -1);
                 case 18 % 
@@ -100,7 +100,7 @@ classdef ScatterringProcessU < ScatterringProcessForValley
     end
     
     methods(Static)
-        function value = randomValley(~, type)
+        function value = randomValley(type)
             %>随机选择能谷
             switch type
                 case "interUU"

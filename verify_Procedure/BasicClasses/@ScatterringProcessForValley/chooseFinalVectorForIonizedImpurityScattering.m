@@ -13,4 +13,5 @@ function [es] = chooseFinalVectorForIonizedImpurityScattering(~, es, dv, pc)
         error = abs((agovMold - aftervMold) / agovMold);
         item = item + 1;
     end
+    es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
 end

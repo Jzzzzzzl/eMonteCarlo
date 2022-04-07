@@ -1,4 +1,4 @@
-function inelasticPolarOpticalScatteringRate(obj, dv, pc, cc)
+function inelasticPolarOpticalScatteringRate(obj, dv, es, pc, cc)
     %>生成极化光学散射率句柄函数
     %>     参数说明：
     %>     w：某光学支的声子平均频率
@@ -7,7 +7,7 @@ function inelasticPolarOpticalScatteringRate(obj, dv, pc, cc)
     global e alpha epsilon0
     e = pc.e;
     alpha = dv.bs.alpha;
-    epsilon0 = dv.bs.epsilon;
+    epsilon0 = es.epsilon;
     
     gamma = @(epsilon) epsilon*(1 + alpha*epsilon/e);
     

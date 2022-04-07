@@ -2,8 +2,8 @@ classdef ScatterringCurve < handle
     %% 色散曲线
     properties
         frequency
-        omegaLA
-        omegaLO
+        bandLA
+        bandLO
     end
     
     properties
@@ -25,43 +25,42 @@ classdef ScatterringCurve < handle
     methods
         function obj = ScatterringCurve(pc)
             %>构造函数
-            obj.omegaLA = @(q) 0.000e13 + 8.861e3*q - 1.931e-7*q.^2;
-            obj.omegaLO = @(q) 9.473e13 + 5.876e2*q - 1.950e-7*q.^2;
+            obj.bandLA = [-2.66610530103502e-18,4.03688695146239e-09, ...
+                                1188.20113406174,-12317168559.2966];
+            obj.bandLO = [-3.60800908165332e-37,1.34049749810303e-26, ...
+                               -1.73789147769978e-16,8.42729511038591e-07, ...
+                               -498.359180281836,18002632666019.3];
             %计算定义域及谷间声子频率
             obj.frequencyDomain(pc);
             obj.frequencyToInter(pc);
         end
         
-        function frequencyDomain(obj, pc)
+        function frequencyDomain(obj, ~)
             %>各极化支频率定义域
-%             obj.wMinLA = double(obj.omegaLA(0));
-%             obj.wMaxLA = double(obj.omegaLA(pc.dGX));
-%             obj.wMinLO = double(obj.omegaLO(pc.dGX));
-%             obj.wMaxLO = double(obj.omegaLO(0));
+            obj.wMinLA = 0;
+            obj.wMaxLA = 1.0290e+13;
+            obj.wMinLO = 1.7974e+13;
+            obj.wMaxLO = 2.2343e+13;
         end
         
         function frequencyToInter(obj, pc)
             %>谷间散射对应频率
-            obj.wPolarLO = 2.2e13;
-            obj.wU2ULA = 0.8e13;
-            obj.wU2ULO = 2.3e13;
-            obj.wU2GLA = 1.2e13;
-            obj.wU2GLO = 2.2e13;
-            obj.wG2GLA = 0.5e13;
-            obj.wG2GLO = 2.2e13;
-%             obj.wU2ULA = double(obj.omegaLA(pc.qU2U));
-%             obj.wU2ULO = double(obj.omegaLO(pc.qU2U));
-%             obj.wU2GLA = double(obj.omegaLA(pc.qU2G));
-%             obj.wU2GLO = double(obj.omegaLO(pc.qU2G));
+            obj.wPolarLO = polyval(obj.bandLO, 0.4 * pc.dGL);
+            obj.wU2ULA = polyval(obj.bandLA, 0.8 * pc.dGL);
+            obj.wU2ULO = polyval(obj.bandLO, 0.8 * pc.dGL);
+            obj.wU2GLA = polyval(obj.bandLA, 0.7 * pc.dGL);
+            obj.wU2GLO = polyval(obj.bandLO, 0.7 * pc.dGL);
+            obj.wG2GLA = polyval(obj.bandLA, 0.1 * pc.dGL);
+            obj.wG2GLO = polyval(obj.bandLO, 0.1 * pc.dGL);
         end
         
         function frequency = phononFrequency(obj, ps)
             %>计算PhononStatus对象频率
             switch ps.polar
                 case "LA"
-                    frequency = double(obj.omegaLA(ps.wavenum));
+                    frequency = polyval(obj.bandLA, ps.wavenum);
                 case "LO"
-                    frequency = double(obj.omegaLO(ps.wavenum));
+                    frequency = polyval(obj.bandLO, ps.wavenum);
                 otherwise
                     error("声子极化支类型有误！")
             end

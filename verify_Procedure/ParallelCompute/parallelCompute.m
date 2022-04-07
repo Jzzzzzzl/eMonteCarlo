@@ -13,6 +13,7 @@ function [sh] = parallelCompute(sh, dv, sc, pc, cc)
             dv.sr.computeScatType;
             eGroup(i).scatype = dv.sr.scatType;
             [eGroup(i), pGroup(i)] = dv.sp.electricScatProcess(eGroup(i), pGroup(i), dv, sc, pc);
+            disp(eGroup(i))
         end
         %飞行完成后保存电子信息
         sh.eHistory(:, k) = eGroup;

@@ -111,41 +111,41 @@ classdef PhysicConstants < handle
             obj.mtU = 0.335*obj.m;
             obj.mlU = 1.704*obj.m;
             obj.alphaU = 0.5;
-            obj.nofScatU = 18;
+            obj.nofScatU = 17;
             obj.centerRatioU = sqrt(sum(obj.hsp.U.^2))/obj.dGM;
-            obj.maxScatRateU = 3e15;
+            obj.maxScatRateU = 2e16;
             obj.xsForimpurityU = 0.1;
-            obj.xsForPolarOpticalU = 0.04;
+            obj.xsForPolarOpticalU = 0.1;
             obj.UD = 8.3*obj.e;
-            obj.U2UDK = 1e10*obj.e;
-            obj.U2G1DK = 1e10*obj.e;
-            obj.U2G3DK = 2e10*obj.e;
+            obj.U2UDK = 8.3e10*obj.e;
+            obj.U2G1DK = 10e10*obj.e;
+            obj.U2G3DK = 10e10*obj.e;
             %>G1能谷参数
             obj.EgG1 = 0.0*obj.e;
             obj.mtG1 = 0.197*obj.m;
             obj.mlG1 = 0.197*obj.m;
             obj.alphaG1 = 0.37;
-            obj.nofScatG1 = 14;
+            obj.nofScatG1 = 13;
             obj.centerRatioG1 = 0;
-            obj.maxScatRateG1 = 3e15;
+            obj.maxScatRateG1 = 2e16;
             obj.xsForimpurityG1 = 0.1;
-            obj.xsForPolarOpticalG1 = 0.04;
-            obj.G1D = 2*obj.e;
-            obj.G12UDK = 2e10*obj.e;
-            obj.G12G3DK = 1e10*obj.e;
+            obj.xsForPolarOpticalG1 = 0.1;
+            obj.G1D = 8.3*obj.e;
+            obj.G12UDK = 10e10*obj.e;
+            obj.G12G3DK = 10e10*obj.e;
             %>G3能谷参数
             obj.EgG3 = 2.4*obj.e;
             obj.mtG3 = 2.412*obj.m;
             obj.mlG3 = 0.277*obj.m;
             obj.alphaG3 = 0.22;
-            obj.nofScatG3 = 14;
+            obj.nofScatG3 = 13;
             obj.centerRatioG3 = 0;
             obj.maxScatRateG3 = 3e15;
             obj.xsForimpurityG3 = 0.1;
-            obj.xsForPolarOpticalG3 = 0.04; 
+            obj.xsForPolarOpticalG3 = 0.1; 
             obj.G3D = 8.3*obj.e;
-            obj.G32UDK = 2e10*obj.e;
-            obj.G32G1DK = 0.3e10*obj.e;
+            obj.G32UDK = 1e10*obj.e;
+            obj.G32G1DK = 0.6e10*obj.e;
         end
         
     end

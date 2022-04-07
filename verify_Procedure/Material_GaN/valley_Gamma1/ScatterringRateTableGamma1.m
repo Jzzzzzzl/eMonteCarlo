@@ -12,11 +12,11 @@ classdef ScatterringRateTableGamma1 < ScatterringRateTableForValley
         
         function updateScatterringRateFormula(obj, dv, es, pc, cc)
             %>更新散射率句柄函数
-            obj.ionizedImpurityScatteringRate(dv, pc, cc);
+            obj.ionizedImpurityScatteringRate(dv, es, pc, cc);
             obj.acousticPiezoelectricScatteringRate(dv, es, pc, cc);
-            obj.elasticIntravalleyAcousticScatteringRate(dv, pc, cc);
-            obj.inelasticPolarOpticalScatteringRate(dv, pc, cc);
-            obj.inelasticIntervalleyScatteringRate(dv, pc, cc);
+            obj.elasticIntravalleyAcousticScatteringRate(dv, es, pc, cc);
+            obj.inelasticPolarOpticalScatteringRate(dv, es, pc, cc);
+            obj.inelasticIntervalleyScatteringRate(dv, es, pc, cc);
         end
         
         function scatterringTable(obj, dv, es, sc, pc, cc)
@@ -28,17 +28,17 @@ classdef ScatterringRateTableGamma1 < ScatterringRateTableForValley
             obj.scatTable(3)  = obj.elasticIntraAcoustic(pc.G1D);
             obj.scatTable(4)  = obj.inelasticPolarOpticalAB(sc.wPolarLO);
             obj.scatTable(5)  = obj.inelasticPolarOpticalEM(sc.wPolarLO);
-            obj.scatTable(6)  = obj.inelasticInterAB(pc.G12UDK, 1, sc.wU2GLA, (pc.EgU - pc.EgG1));
-            obj.scatTable(7)  = obj.inelasticInterAB(pc.G12UDK, 1, sc.wU2GLO, (pc.EgU - pc.EgG1));
-            obj.scatTable(8)  = obj.inelasticInterEM(pc.G12UDK, 1, sc.wU2GLA, (pc.EgU - pc.EgG1));
-            obj.scatTable(9)  = obj.inelasticInterEM(pc.G12UDK, 1, sc.wU2GLO, (pc.EgU - pc.EgG1));
+            obj.scatTable(6)  = obj.inelasticInterAB(pc.G12UDK, 6, sc.wU2GLA, (pc.EgU - pc.EgG1));
+            obj.scatTable(7)  = obj.inelasticInterAB(pc.G12UDK, 6, sc.wU2GLO, (pc.EgU - pc.EgG1));
+            obj.scatTable(8)  = obj.inelasticInterEM(pc.G12UDK, 6, sc.wU2GLA, (pc.EgU - pc.EgG1));
+            obj.scatTable(9)  = obj.inelasticInterEM(pc.G12UDK, 6, sc.wU2GLO, (pc.EgU - pc.EgG1));
             obj.scatTable(10) = obj.inelasticInterAB(pc.G12G3DK, 1, sc.wG2GLA, (pc.EgG3 - pc.EgG1));
             obj.scatTable(11) = obj.inelasticInterAB(pc.G12G3DK, 1, sc.wG2GLO, (pc.EgG3 - pc.EgG1));
             obj.scatTable(12) = obj.inelasticInterEM(pc.G12G3DK, 1, sc.wG2GLA, (pc.EgG3 - pc.EgG1));
             obj.scatTable(13) = obj.inelasticInterEM(pc.G12G3DK, 1, sc.wG2GLO, (pc.EgG3 - pc.EgG1));
             %累积求和
             obj.scatTableAll = cumsum(obj.scatTable);
-            obj.scatTableAll(end) = obj.maxScatRate;
+%             obj.scatTableAll(end) = obj.maxScatRate;
         end
         
     end

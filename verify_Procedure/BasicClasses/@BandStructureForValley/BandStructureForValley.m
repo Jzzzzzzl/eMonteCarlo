@@ -24,7 +24,5 @@ classdef BandStructureForValley < handle
         md
         Tz
         invTz
-        epsilon
-        gamma
     end
 end

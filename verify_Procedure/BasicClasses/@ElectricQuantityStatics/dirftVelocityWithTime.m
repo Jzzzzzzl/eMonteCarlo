@@ -11,17 +11,12 @@ function dirftVelocityWithTime(obj, sh, mm, cc, N)
     obj.aveDriftVelocity = zeros(mm.Nt, 2);
     for t = 1 : mm.Nt
         sumVelocity = 0;
-        num = 0;
         for i = 1 : cc.superElecs
             index = find(mm.time.face(t) <= times(i, :), 1);
-            if isempty(index)
-                index = cc.noFly;
-            end
-            num = num + 1;
             sumVelocity = sumVelocity + sum(velocity(i, 1:index)) / index;
         end
         obj.aveDriftVelocity(t, 1) = mm.time.point(t + 1);
-        obj.aveDriftVelocity(t, 2) = sumVelocity / num;
+        obj.aveDriftVelocity(t, 2) = sumVelocity / cc.superElecs;
     end
     
     figure

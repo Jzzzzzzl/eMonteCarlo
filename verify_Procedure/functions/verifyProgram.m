@@ -1,4 +1,4 @@
-function [] = verifyProgram(type, dv, pc, cc)
+function [] = verifyProgram(type, dv, pc, sc, cc)
     %>验证
     switch type
         case "EnergyToVector"
@@ -7,7 +7,7 @@ function [] = verifyProgram(type, dv, pc, cc)
             for i = 1 : num
                 es = ElectricStatus;
                 es.vector = [randNumber(0.7,0.9) randNumber(-0.2, 0.2) randNumber(-0.2,0.2)] * pc.dBD;
-                es.valley = 13;
+                es.valley = 11;
                 es.valley = dv.whichValley(es);
                 dv.valleyGuidingPrinciple(es);
                 es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
@@ -65,7 +65,7 @@ function [] = verifyProgram(type, dv, pc, cc)
             number = 2000;
             tempk = zeros(number, 3);
             for i = 1 : number
-                es.valley = 1;
+                es.valley = 11;
                 es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
                 tempk(i, :) = es.vector;
             end
@@ -73,5 +73,22 @@ function [] = verifyProgram(type, dv, pc, cc)
             plot3(tempk(:,1), tempk(:,2), tempk(:,3), '*')
             xlabel("kx");ylabel("ky");zlabel("kz");
             legend("k-space") 
+        case "testChooseVectorIntervalleyScattering"
+            es = ElectricStatus;
+            es.vector = [1.9813e+08 -0.1024 1.4830e+09];
+            es.valley = 3;
+            es.energy = 6.0820e-20;
+            es.gamma = 6.9363e-20;
+            es.epsilon = 6.0820e-20;
+            es.scatype = 6;
+            ps = PhononStatus;
+            dv.valleyGuidingPrinciple(es);
+            dv.sr.scatType = 6;
+            for i = 1 : 1000
+                [es, ps] = dv.sp.electricScatProcess(es, ps, dv, sc, pc);
+                if ~isreal(es.vector(1))
+                    error("出现虚数")
+                end
+            end
     end
 end

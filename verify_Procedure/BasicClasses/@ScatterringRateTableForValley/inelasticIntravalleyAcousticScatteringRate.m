@@ -1,4 +1,4 @@
-function inelasticIntravalleyAcousticScatteringRate(obj, dv, pc, cc)
+function inelasticIntravalleyAcousticScatteringRate(obj, dv, es, pc, cc)
     %>生成谷内声学散射句柄函数
     %>     参数说明：
     %>     D：形变势常量
@@ -8,28 +8,28 @@ function inelasticIntravalleyAcousticScatteringRate(obj, dv, pc, cc)
     Cstar = 4*epsilonStar^(1/2) ...
               / (pc.kb*cc.envTemp*(1-4*dv.bs.alpha*epsilonStar/pc.e));
     condition = epsilonStar / (1-4*dv.bs.alpha*epsilonStar/pc.e);
-    if dv.bs.gamma <= condition
-        x1a = Cstar*(sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) - real(sqrt(dv.bs.gamma)));
-        x2a = Cstar*(sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) + real(sqrt(dv.bs.gamma)));
+    if es.gamma <= condition
+        x1a = Cstar*(sqrt(epsilonStar)*(1+2*dv.bs.alpha*es.epsilon/pc.e) - real(sqrt(es.gamma)));
+        x2a = Cstar*(sqrt(epsilonStar)*(1+2*dv.bs.alpha*es.epsilon/pc.e) + real(sqrt(es.gamma)));
         x1e = 0;
         x2e = 0;
         obj.qAB = randNumber(x1a, x2a)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
         obj.qEM = randNumber(x1e, x2e)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
     else
         x1a = 0;
-        x2a = Cstar*(real(sqrt(dv.bs.gamma)) + sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e));
+        x2a = Cstar*(real(sqrt(es.gamma)) + sqrt(epsilonStar)*(1+2*dv.bs.alpha*es.epsilon/pc.e));
         x1e = 0;
-        x2e = Cstar*(real(sqrt(dv.bs.gamma)) - sqrt(epsilonStar)*(1+2*dv.bs.alpha*dv.bs.epsilon/pc.e));
+        x2e = Cstar*(real(sqrt(es.gamma)) - sqrt(epsilonStar)*(1+2*dv.bs.alpha*es.epsilon/pc.e));
         obj.qAB = randNumber(x1a, x2a)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
         obj.qEM = randNumber(x1e, x2e)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
     end
     obj.inelasticIntraAcousticAB = @(D) dv.bs.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
-                                             / (2^(5/2)*pi*pc.hbar^4*pc.u^4*pc.rho)*real(dv.bs.gamma^(-1/2)) ...
-                                             * ((1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) * (F1(x2a) - F1(x1a)) ...
+                                             / (2^(5/2)*pi*pc.hbar^4*pc.u^4*pc.rho)*real(es.gamma^(-1/2)) ...
+                                             * ((1+2*dv.bs.alpha*es.epsilon/pc.e) * (F1(x2a) - F1(x1a)) ...
                                              + 2*dv.bs.alpha*pc.kb*cc.envTemp/pc.e * (F2(x2a) - F2(x1a)));
     obj.inelasticIntraAcousticEM = @(D) dv.bs.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
-                                             / (2^(5/2)*pi*pc.hbar^4*pc.u^4*pc.rho)*real(dv.bs.gamma^(-1/2)) ...
-                                             * ((1+2*dv.bs.alpha*dv.bs.epsilon/pc.e) * (G1(x2e) - G1(x1e)) ...
+                                             / (2^(5/2)*pi*pc.hbar^4*pc.u^4*pc.rho)*real(es.gamma^(-1/2)) ...
+                                             * ((1+2*dv.bs.alpha*es.epsilon/pc.e) * (G1(x2e) - G1(x1e)) ...
                                              - 2*dv.bs.alpha*pc.kb*cc.envTemp/pc.e * (G2(x2e) - G2(x1e)));
                                          
     function [value] = F1(x)

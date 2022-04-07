@@ -53,6 +53,11 @@ classdef ScatterringRateTableForValley < handle
     end
     
     methods
+        function obj = ScatterringRateTableForValley
+            %>构造函数
+            obj.flyTime = 0;
+        end
+        
         function computeScatType(obj)
             %>计算散射类型
             r = rand * obj.scatTableAll(end);
@@ -61,7 +66,13 @@ classdef ScatterringRateTableForValley < handle
         
         function computeFlyTime(obj)
             %>计算飞行时间
-            obj.flyTime = -log(randNumber(0.01,1.0)) / obj.maxScatRate;
+            p = size(obj.scatTableAll);
+            if p(1) ~= 0
+                obj.flyTime = -log(randNumber(0.01,1.0)) / obj.scatTableAll(end);
+            else
+                obj.flyTime = 0;
+            end
+%             obj.flyTime = -log(randNumber(0.01,1.0)) / obj.maxScatRate;
         end
         
     end

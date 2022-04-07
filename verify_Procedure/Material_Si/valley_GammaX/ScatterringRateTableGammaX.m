@@ -9,11 +9,11 @@ classdef ScatterringRateTableGammaX < ScatterringRateTableForValley
             obj.scatTable = zeros(obj.nofScat, 1);
         end
         
-        function updateScatterringRateFormula(obj, dv, ~, pc, cc)
+        function updateScatterringRateFormula(obj, dv, es, pc, cc)
             %>更新散射率句柄函数
-            obj.ionizedImpurityScatteringRate(dv, pc, cc);
-            obj.inelasticIntravalleyAcousticScatteringRate(dv, pc, cc);
-            obj.inelasticIntervalleyScatteringRate(dv, pc, cc);
+            obj.ionizedImpurityScatteringRate(dv, es, pc, cc);
+            obj.inelasticIntravalleyAcousticScatteringRate(dv, es, pc, cc);
+            obj.inelasticIntervalleyScatteringRate(dv, es, pc, cc);
         end
         
         function scatterringTable(obj, dv, es, sc, pc, cc)
