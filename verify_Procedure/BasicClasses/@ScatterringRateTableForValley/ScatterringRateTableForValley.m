@@ -1,4 +1,4 @@
-classdef ScatterringRateTableForValley < handle
+classdef ScatterringRateTableForValley < BandStructureForValley
     %% 本文件提供能谷散射表父类
     % ======================================================================
     %>     属性说明：
@@ -53,27 +53,16 @@ classdef ScatterringRateTableForValley < handle
     end
     
     methods
-        function obj = ScatterringRateTableForValley
-            %>构造函数
-            obj.flyTime = 0;
-        end
-        
         function computeScatType(obj)
             %>计算散射类型
             r = rand * obj.scatTableAll(end);
             obj.scatType = find(obj.scatTableAll > r, 1);
         end
-        
-        function computeFlyTime(obj)
+        function computeFlyTime(obj, es)
             %>计算飞行时间
-            p = size(obj.scatTableAll);
-            if p(1) ~= 0
-                obj.flyTime = -log(randNumber(0.01,1.0)) / obj.scatTableAll(end);
-            else
-                obj.flyTime = 0;
-            end
-%             obj.flyTime = -log(randNumber(0.01,1.0)) / obj.maxScatRate;
+            energys = obj.maxScatRate(:, 1);
+            index = find(es.energy <= energys, 1);
+            obj.flyTime = -log(randNumber(0.01,1.0)) / obj.maxScatRate(index, 2);
         end
-        
     end
 end

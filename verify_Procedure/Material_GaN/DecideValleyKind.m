@@ -1,50 +1,30 @@
 classdef DecideValleyKind < handle
     %% 能谷指向类
     properties
-        bs
-        sr
-        sp
-        bsU
-        srU
-        spU
-        bsGamma1
-        srGamma1
-        spGamma1
-        bsGamma3
-        srGamma3
-        spGamma3
+        valley
+        valleyU
+        valleyG1
+        valleyG3
     end
     
     methods
         function obj = DecideValleyKind(pc)
             %>构造函数
-            obj.bsU = BandStructureU(pc);
-            obj.srU = ScatterringRateTableU(pc);
-            obj.spU = ScatterringProcessU;
-            obj.bsGamma1 = BandStructureGamma1(pc);
-            obj.srGamma1 = ScatterringRateTableGamma1(pc);
-            obj.spGamma1 = ScatterringProcessGamma1;
-            obj.bsGamma3 = BandStructureGamma3(pc);
-            obj.srGamma3 = ScatterringRateTableGamma3(pc);
-            obj.spGamma3 = ScatterringProcessGamma3;
+            obj.valleyU = ValleyU(pc);
+            obj.valleyG1 = ValleyG1(pc);
+            obj.valleyG3 = ValleyG3(pc);
         end
         
         function valleyGuidingPrinciple(obj, es)
-            %>将dv指向电子所在能谷种类
+            %>将dv指向电子所在能谷
             type = obj.judgeValleyKind(es);
             switch type
                 case "U"
-                    obj.bs = obj.bsU;
-                    obj.sr = obj.srU;
-                    obj.sp = obj.spU;
+                    obj.valley = obj.valleyU;
                 case "Gamma1"
-                    obj.bs = obj.bsGamma1;
-                    obj.sr = obj.srGamma1;
-                    obj.sp = obj.spGamma1;
+                    obj.valley = obj.valleyG1;
                 case "Gamma3"
-                    obj.bs = obj.bsGamma3;
-                    obj.sr = obj.srGamma3;
-                    obj.sp = obj.spGamma3;
+                    obj.valley = obj.valleyG3;
                 otherwise
                     error("能谷种类判断出错！")
             end

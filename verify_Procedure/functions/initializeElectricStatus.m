@@ -1,10 +1,10 @@
 function [es] = initializeElectricStatus(es, dv, pc, cc)
     %>电子初始化
+    es.valley = 11;
     es.position = [0 0 0];
-    es.energy = maxwellDistribution(pc, cc);
-    es.valley = 1;
     dv.valleyGuidingPrinciple(es);
-    es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
-    es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
-    disp(es)
+    es.energy = maxwellDistribution(pc, cc) + dv.valley.Eg;
+    k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+    es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
+    es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
 end

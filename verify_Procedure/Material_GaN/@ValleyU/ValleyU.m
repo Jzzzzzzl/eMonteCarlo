@@ -1,13 +1,19 @@
-classdef BandStructureU < BandStructureForValley
+classdef ValleyU < ScatterringProcessForValley
     %% U能谷
     methods
-        function obj = BandStructureU(pc)
+        function obj = ValleyU(pc)
             %>构造函数
             obj.Eg = pc.EgU;
             obj.mt = pc.mtU;
             obj.ml = pc.mlU;
             obj.alpha = pc.alphaU;
             obj.centerRatio = pc.centerRatioU;
+            obj.nofScat = pc.nofScatU;
+            obj.maxScatRate = pc.maxScatRateU;
+            obj.xsForimpurity = pc.xsForimpurityU;
+            obj.xsForPolarOptical = pc.xsForPolarOpticalU;
+            
+            obj.scatTable = zeros(obj.nofScat, 1);
             obj.md = (obj.mt^2*obj.ml)^(1/3);
             obj.Tz = [sqrt(pc.m / obj.mt)    0   0;
                         0   sqrt(pc.m / obj.mt)  0;
@@ -15,24 +21,19 @@ classdef BandStructureU < BandStructureForValley
             obj.invTz = inv(obj.Tz);
         end
         
-        function [es] = chooseElectricWaveVector(obj, es, pc, theta)
-            %>根据能量选择电子波矢
-            es.epsilon = es.energy - obj.Eg;
-            es.gamma = es.epsilon*(1 + obj.alpha*es.epsilon/pc.e);
-            kStarMold = sqrt(2*pc.m*es.gamma) / pc.hbar;
-            %>球空间随机选择波矢
-            condition = true;
-            while condition
-                phi = randNumber(0, 2*pi);
-                kxStar = kStarMold * sin(theta) * cos(phi);
-                kyStar = kStarMold * sin(theta) * sin(phi);
-                kzStar = kStarMold * cos(theta);
-                kStar = [kxStar, kyStar, kzStar]';
-                k = (obj.invTz * kStar)';
-                tempk = k + [0, 0,  obj.centerRatio] * pc.dBD;
-                es.vector = obj.rotateToGeneralValley(tempk, es.valley);
-                condition = obj.whetherBeyondBrillouinZone(es, pc);
-            end
+        function updateScatterringRateFormula(obj, es, pc, cc)
+            %>更新散射率句柄函数，该能谷所包含的散射类型
+            obj.ionizedImpurityScatteringRate(es, pc, cc);
+            obj.acousticPiezoelectricScatteringRate(es, pc, cc);
+            obj.elasticIntravalleyAcousticScatteringRate(es, pc, cc);
+            obj.inelasticPolarOpticalScatteringRate(es, pc, cc);
+            obj.inelasticIntervalleyScatteringRate(es, pc, cc);
+        end
+        
+        function [es] = getGeneralElectricWaveVector(obj, es, pc, k)
+            %>根据能谷标号旋转电子波矢
+            tempk = k + [0, 0,  obj.centerRatio] * pc.dBD;
+            es.vector = obj.rotateToGeneralValley(tempk, es.valley);
         end
         
         function [es] = computeEnergyAndGroupVelocity(obj, es, pc)

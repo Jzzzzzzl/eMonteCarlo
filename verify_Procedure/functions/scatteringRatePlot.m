@@ -4,18 +4,19 @@ function scatteringRatePlot(dv, sc, pc, cc)
     es.valley = 1;
     dv.valleyGuidingPrinciple(es);
     num = 50;
-    energys = logspace(-1, 1, num) * pc.e + dv.bs.Eg;
-    scatTables = zeros(length(energys), dv.sr.nofScat);
+    energys = logspace(-1, 1, num) * pc.e + dv.valley.Eg;
+    scatTables = zeros(length(energys), dv.valley.nofScat);
     for i = 1 : length(energys)
         es.energy = energys(i);
-        dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
-        dv.bs.computeEnergyAndGroupVelocity(es, pc);
-        dv.sr.scatterringTable(dv, es, sc, pc, cc);
-        scatTables(i, :) = deal(dv.sr.scatTable');
-        scatTables(i, end) = deal(dv.sr.scatTableAll(end));
+        k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+        es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
+        es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
+        dv.valley.scatterringTable(es, sc, pc, cc);
+        scatTables(i, :) = deal(dv.valley.scatTable');
+        scatTables(i, end) = deal(dv.valley.scatTableAll(end));
     end
     figure
-    for j = 1 : dv.sr.nofScat
+    for j = 1 : dv.valley.nofScat
 %         slg = loglog(energys / pc.e, scatTables(:, j));
         slg = semilogy(energys / pc.e, scatTables(:, j));
         slg.LineWidth = 3;

@@ -17,5 +17,4 @@ function bandStructurePlot(obj, pc)
     plot(energyLM(:,1), energyLM(:,2))
     xlabel("k/dLM")
     ylabel("Energy/(eV)")
-
 end

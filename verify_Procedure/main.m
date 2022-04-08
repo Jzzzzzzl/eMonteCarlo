@@ -1,5 +1,5 @@
 %% 
-rmpath(genpath(pwd))
+% rmpath(genpath(pwd))
 addpath(genpath('./BasicClasses'))
 addpath(genpath('./functions'))
 % addpath(genpath('./Material_Si'))
@@ -24,22 +24,22 @@ sh = parallelCompute(sh, dv, sc, pc, cc);
 eq = ElectricQuantityStaticsGaN(sh, pc, cc);
 % eq = ElectricQuantityStaticsSi(sh, pc, cc);
 % 验证1，能带画图
-% dv.bs.bandStructurePlot(pc);
-% dv.bs.electricVelocityPlot(pc);
+dv.valley.bandStructurePlot(pc);
+dv.valley.electricVelocityPlot(pc);
 %验证2，散射表画图
-tic; scatteringRatePlot(dv, sc, pc, cc); toc
+tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 5]); toc
 %验证3，波矢选择及能量相互验证
 verifyProgram("testChooseVectorIntervalleyScattering", dv, pc, sc, cc);
 % verifyProgram("chooseWaveVectorForGamma", dv, pc, cc);
 % verifyProgram("chooseWaveVector", dv, pc, cc);
-% verifyProgram("EnergyToVector", dv, pc, cc);
+verifyProgram("EnergyToVector", dv, pc, cc);
 % verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, cc);
 %验证4，数据后处理
 eq.dirftVelocityWithTime(sh, mm, cc, 100);
 % eq.scatTypeDistribution(sh, cc);
 % eq.energyHistoryDistribution(sh, mm, cc, 5, 100);
 eq.averageEnergyWithTime(sh, mm, cc, 100);
-eq.valleyOccupationWithTime(sh, mm, cc, 100);
+eq.valleyOccupationWithTime(sh, mm, cc, 1000);
 eq.electronTrace(sh, cc, 140, 'k');
 % eq.electronTrace(sh, cc, 152, 'r');
 % eq.electronTrace(sh, cc, 114, 'e');

@@ -1,4 +1,4 @@
-classdef ScatterringProcessForValley < handle
+classdef ScatterringProcessForValley < ScatterringRateTableForValley
     %% 本文件提供能谷散射过程父类
     % ======================================================================
     %>     属性说明：
