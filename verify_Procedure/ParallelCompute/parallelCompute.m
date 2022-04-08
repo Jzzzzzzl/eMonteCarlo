@@ -10,7 +10,7 @@ function [sh] = parallelCompute(sh, dv, sc, pc, cc)
             eGroup(i) = freeFlyProcess(eGroup(i), dv, pc, cc);
             %散射段
             dv.valleyGuidingPrinciple(eGroup(i));
-            dv.valley.scatterringTable(eGroup(i), sc, pc, cc);
+            dv.valley.scatteringTable(eGroup(i), sc, pc, cc);
             dv.valley.computeScatType;
             eGroup(i).scatype = dv.valley.scatType;
             [eGroup(i), pGroup(i)] = dv.valley.scatteringProcess(dv, eGroup(i), pGroup(i), sc, pc);

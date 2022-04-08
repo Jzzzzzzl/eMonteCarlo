@@ -1,4 +1,4 @@
-function scatterringTable(obj, es, sc, pc, cc)
+function scatteringTable(obj, es, sc, pc, cc)
     %>计算散射表
     %更新散射的句柄函数
     obj.updateScatterringRateFormula(es, pc, cc);

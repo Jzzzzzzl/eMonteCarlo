@@ -10,7 +10,7 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
         k = obj.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
         es = obj.getGeneralElectricWaveVector(es, pc, k);
         es = obj.computeEnergyAndGroupVelocity(es, pc);
-        obj.scatterringTable(es, sc, pc, cc);
+        obj.scatteringTable(es, sc, pc, cc);
         scatTables(i, :) = deal(obj.scatTable');
         scatTables(i, end) = deal(obj.scatTableAll(end));
     end

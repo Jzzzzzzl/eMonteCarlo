@@ -1,20 +1,14 @@
 classdef DecideValleyKind < handle
     %% 能谷指向类
     properties
-        bs
-        sr
-        sp
-        bsGammaX
-        srGammaX
-        spGammaX
+        valley
+        valleyGX
     end
     
     methods
         function obj = DecideValleyKind(pc)
             %>构造函数
-            obj.bsGammaX = BandStructureGammaX(pc);
-            obj.srGammaX = ScatterringRateTableGammaX(pc);
-            obj.spGammaX = ScatterringProcessGammaX;
+            obj.valleyGX = ValleyGX(pc);
         end
         
         function valleyGuidingPrinciple(obj, es)
@@ -22,9 +16,7 @@ classdef DecideValleyKind < handle
             type = obj.judgeValleyKind(es);
             switch type
                 case "GammaX"
-                    obj.bs = obj.bsGammaX;
-                    obj.sr = obj.srGammaX;
-                    obj.sp = obj.spGammaX;
+                    obj.valley = obj.valleyGX;
                 otherwise
                     error("能谷种类判断出错！")
             end
