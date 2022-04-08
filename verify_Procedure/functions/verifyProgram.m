@@ -2,26 +2,30 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
     %>验证
     switch type
         case "EnergyToVector"
+            %>验证选择波矢和能量计算是否可逆
             num = 1000;
             allowedError = 0.001;
-            for i = 1 : num
-                es = ElectricStatus;
-                es.vector = [randNumber(0.7,0.9) randNumber(-0.2, 0.2) randNumber(-0.2,0.2)] * pc.dBD;
-                es.valley = 11;
-                es.valley = dv.whichValley(es);
-                dv.valleyGuidingPrinciple(es);
-                es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
-                item = es.energy;
-                es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
-                es = dv.bs.computeEnergyAndGroupVelocity(es, pc);
-                disp(es.energy / pc.e)
-                if abs((es.energy - item)/item) > allowedError
-                    error("能量正反验证错误！")
+            es = ElectricStatus;
+            valleys = [1, 11, 13];
+            for n = 1 : 3
+                es.valley = valleys(n);
+                for i = 1 : num
+                    es.vector = [randNumber(-0.9, 0.9) randNumber(-0.9, 0.9) ...
+                                     randNumber(-0.9, 0.9)] * pc.dBD;
+                    es.valley = dv.whichValley(es);
+                    dv.valleyGuidingPrinciple(es);
+                    es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
+                    item = es.energy;
+                    k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                    es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
+                    es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
+    %                 disp(es.energy / pc.e)
+                    if abs((es.energy - item)/item) > allowedError
+                        error("能量正反验证错误！")
+                    end
                 end
             end
-            if i == num
-                disp("电子波矢选择与能量计算正反验证无误")
-            end
+            
         case "AcousticPiezoelectricScatPlot"
             num = 500;
             es = ElectricStatus;
@@ -32,10 +36,11 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
             tic
             for i = 1 : num
                 es.energy = energys(i);
-                dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
-                dv.sr.acousticPiezoelectricScatteringRate(dv, es, pc, cc);
+                k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
+                dv.valley.acousticPiezoelectricScatteringRate(es, pc, cc);
                 scatTables(i, 1) = energys(i);
-                scatTables(i, 2) = dv.sr.acousticPiezoelectric;
+                scatTables(i, 2) = dv.valley.acousticPiezoelectric;
             end
             toc
             figure
@@ -43,7 +48,8 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
             slg.LineWidth = 3;
             xlabel("meV");
             ylabel("s^{-1}")
-        case "chooseWaveVector"
+            
+        case "ValleyStructureOfValleyU"
             es = ElectricStatus;
             es.energy = 2.5*pc.e;
             number = 2000;
@@ -52,43 +58,36 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
             for i = 1 : number
                 index = round(randNumber(0.5, 12.5));
                 es.valley = valleys(index);
-                es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
+                dv.valleyGuidingPrinciple(es);
+                k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
                 tempk(i, :) = es.vector;
             end
             figure
             plot3(tempk(:,1), tempk(:,2), tempk(:,3), '*')
             xlabel("kx");ylabel("ky");zlabel("kz");
-            legend("k-space") 
-        case "chooseWaveVectorForGamma"
+            legend("k-space")
+            
+        case "ValleyStructureOfValleyGamma"
             es = ElectricStatus;
             es.energy = 2.5*pc.e;
             number = 2000;
             tempk = zeros(number, 3);
-            for i = 1 : number
-                es.valley = 11;
-                es = dv.bs.chooseElectricWaveVector(es, pc, randNumber(0, pi));
-                tempk(i, :) = es.vector;
-            end
+            valleys = [11, 13];
             figure
-            plot3(tempk(:,1), tempk(:,2), tempk(:,3), '*')
-            xlabel("kx");ylabel("ky");zlabel("kz");
-            legend("k-space") 
-        case "testChooseVectorIntervalleyScattering"
-            es = ElectricStatus;
-            es.vector = [1.9813e+08 -0.1024 1.4830e+09];
-            es.valley = 3;
-            es.energy = 6.0820e-20;
-            es.gamma = 6.9363e-20;
-            es.epsilon = 6.0820e-20;
-            es.scatype = 6;
-            ps = PhononStatus;
-            dv.valleyGuidingPrinciple(es);
-            dv.sr.scatType = 6;
-            for i = 1 : 1000
-                [es, ps] = dv.sp.electricScatProcess(es, ps, dv, sc, pc);
-                if ~isreal(es.vector(1))
-                    error("出现虚数")
+            hold on
+            for n = 1 : 2
+                es.valley = valleys(n);
+                dv.valleyGuidingPrinciple(es);
+                for i = 1 : number
+                    k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                    es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
+                    tempk(i, :) = es.vector;
                 end
+                plot3(tempk(:,1), tempk(:,2), tempk(:,3), '*')
             end
+            xlabel("kx");ylabel("ky");zlabel("kz");
+            legend("Gmma1", "Gamma3")
+            
     end
 end

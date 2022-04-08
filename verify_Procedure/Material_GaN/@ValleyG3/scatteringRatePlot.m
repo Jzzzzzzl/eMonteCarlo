@@ -16,15 +16,15 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
     end
     figure
     for j = mn(1) : mn(2)
-%         slg = loglog(energys / pc.e, scatTables(:, j));
-        slg = semilogy(energys / pc.e, scatTables(:, j));
+        slg = loglog(energys / pc.e, scatTables(:, j));
+%         slg = semilogy(energys / pc.e, scatTables(:, j));
         slg.LineWidth = 3;
         hold on
     end
     xlabel("eV");
     ylabel("s^{-1}")
-    legends = ['ionized', 'piezoelectric', 'intravalley', 'polarAB', 'polarEM', ...
-                   'G3UabLA', 'G3UabLO', 'G3UemLA', 'G3UemLO', ...
-                   'G3G1abLA', 'G3G1abLO', 'G3G1emLA', 'G3G1emLO'];
+    legends = ["ionized", "piezoelectric", "intravalley", "polarAB", "polarEM", ...
+                   "G3UabLA", "G3UabLO", "G3UemLA", "G3UemLO", ...
+                   "G3G1abLA", "G3G1abLO", "G3G1emLA", "G3G1emLO"];
     legend(legends(mn(1) : mn(2)))
 end

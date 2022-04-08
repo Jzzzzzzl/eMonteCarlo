@@ -16,7 +16,7 @@ classdef ConfigureConstants < handle
     
     methods
         function obj = ConfigureConstants
-            obj.superElecs = 20;
+            obj.superElecs = 2000;
             obj.envTemp = 300;
             obj.noFly = 1000;
             obj.initEnergy = 0.0001*obj.e;

@@ -28,7 +28,7 @@ classdef SimulationHistory < handle
             obj.generatePhononsHistory(cc);
         end
         
-        function generateElectrics(obj, dv, pc, cc)
+        function generateElectrics(obj, dv, pc, cc, valley)
             %>生成电子群
             obj.eGroup = repmat(ElectricStatus(dv, pc, cc), cc.superElecs, 1);
         end

@@ -24,25 +24,24 @@ sh = parallelCompute(sh, dv, sc, pc, cc);
 eq = ElectricQuantityStaticsGaN(sh, pc, cc);
 % eq = ElectricQuantityStaticsSi(sh, pc, cc);
 % 验证1，能带画图
-dv.valley.bandStructurePlot(pc);
-dv.valley.electricVelocityPlot(pc);
+% dv.valley.bandStructurePlot(pc);
+% dv.valley.electricVelocityPlot(pc);
 %验证2，散射表画图
-tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 5]); toc
-%验证3，波矢选择及能量相互验证
-verifyProgram("testChooseVectorIntervalleyScattering", dv, pc, sc, cc);
-% verifyProgram("chooseWaveVectorForGamma", dv, pc, cc);
-% verifyProgram("chooseWaveVector", dv, pc, cc);
-verifyProgram("EnergyToVector", dv, pc, cc);
-% verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, cc);
+% tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 18]); toc
+%验证3，验证函数
+% verifyProgram("EnergyToVector", dv, pc, sc, cc);
+% verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, sc, cc);
+% verifyProgram("ValleyStructureOfValleyGamma", dv, pc, sc, cc);
+% verifyProgram("ValleyStructureOfValleyU", dv, pc, sc, cc);
 %验证4，数据后处理
 eq.dirftVelocityWithTime(sh, mm, cc, 100);
 % eq.scatTypeDistribution(sh, cc);
-% eq.energyHistoryDistribution(sh, mm, cc, 5, 100);
+eq.energyHistoryDistribution(sh, mm, cc, 5, 100);
 eq.averageEnergyWithTime(sh, mm, cc, 100);
 eq.valleyOccupationWithTime(sh, mm, cc, 1000);
-eq.electronTrace(sh, cc, 140, 'k');
-% eq.electronTrace(sh, cc, 152, 'r');
-% eq.electronTrace(sh, cc, 114, 'e');
+eq.electronTrace(sh, cc, 1400, 'k');
+eq.electronTrace(sh, cc, 1512, 'r');
+eq.electronTrace(sh, cc, 114, 'e');
 %验证5，声子发射谱
 % pq.subPhononQuantityStatics(sh, mm);
 % pq.phononSpectrumPlot(mm, pc, "LA");
