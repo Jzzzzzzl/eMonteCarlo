@@ -1,4 +1,4 @@
-function [ps] = phononWhetherBeyondBZone(~, ps, pc)
+function [ps] = phononWhetherBeyondBZ(ps, pc)
     %>声子波矢长度修正
     if double(ps.wavenum / pc.dGL) > 1.0
         waveNum = ps.wavenum;

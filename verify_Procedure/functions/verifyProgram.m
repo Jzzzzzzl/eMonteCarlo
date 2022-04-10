@@ -12,7 +12,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
                 for i = 1 : num
                     es.vector = [randNumber(-0.9, 0.9) randNumber(-0.9, 0.9) ...
                                      randNumber(-0.9, 0.9)] * pc.dBD;
-                    es.valley = dv.whichValley(es);
+                    es.valley = EPWaveVectorModify.whichValley(es);
                     dv.valleyGuidingPrinciple(es);
                     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
                     item = es.energy;
@@ -70,7 +70,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
             
         case "ValleyStructureOfValleyGamma"
             es = ElectricStatus;
-            es.energy = 2.5*pc.e;
+            es.energy = 3*pc.e;
             number = 2000;
             tempk = zeros(number, 3);
             valleys = [11, 13];

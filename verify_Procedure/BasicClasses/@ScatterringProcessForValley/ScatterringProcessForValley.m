@@ -20,4 +20,9 @@ classdef ScatterringProcessForValley < ScatterringRateTableForValley
     properties
         
     end
+    
+    methods
+        [k] = chooseStandardVectorForElasticScattering(obj, es, pc, type)
+        [k] = chooseStandardVectorForInelasticScattering(obj, es, pc, type, frequency, flag)
+    end
 end

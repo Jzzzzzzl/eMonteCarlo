@@ -10,19 +10,17 @@ classdef ConfigureConstants < handle
         envTemp
         electricField
         noFly
-        initEnergy
         maxVelocity
     end
     
     methods
         function obj = ConfigureConstants
-            obj.superElecs = 1000;
+            obj.superElecs = 500;
             obj.envTemp = 300;
-            obj.noFly = 3000;
-            obj.initEnergy = 0.0001*obj.e;
+            obj.noFly = 100;
             obj.maxVelocity = 3e7;
             obj.dopDensity = 1e23;
-            obj.electricField = [-1.5e7 0 0];
+            obj.electricField = [-1e7 0 0];
         end
         
     end

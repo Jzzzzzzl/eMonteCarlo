@@ -1,4 +1,4 @@
-classdef ValleyG3 < ScatterringProcessForValley
+classdef ValleyG3 < ScatterringProcessForValley & EPWaveVectorModify
     %% U能谷
     methods
         function obj = ValleyG3(pc)

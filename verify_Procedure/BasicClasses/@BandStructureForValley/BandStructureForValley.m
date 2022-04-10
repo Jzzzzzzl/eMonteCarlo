@@ -25,4 +25,8 @@ classdef BandStructureForValley < handle
         Tz
         invTz
     end
+    
+    methods
+        [k] = generateStandardElectricWaveVector(obj, es, pc, theta)
+    end
 end

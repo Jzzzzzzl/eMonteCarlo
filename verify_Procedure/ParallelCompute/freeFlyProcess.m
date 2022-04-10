@@ -7,11 +7,16 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     dv.valley.computeFlyTime(es);
     es.time = es.time + dv.valley.flyTime;
     es.vector = es.vector + (-pc.e) * cc.electricField * dv.valley.flyTime / pc.hbar;
-%     es = dv.valley.modifyElectricWaveVector(es, pc);
-    es.valley = dv.whichValley(es);
+    es = dv.valley.modifyElectricWaveVector(es, pc);
     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     es.position = es.position + es.velocity * dv.valley.flyTime;
     
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
     es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
+%     if abs(es.perdrift) > 1e7
+%         disp(energyTemp)
+%         disp(vectorMold)
+%         disp(es)
+%         error("漂移速度太大！")
+%     end
 end

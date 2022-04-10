@@ -8,7 +8,7 @@ function bandStructurePlot(obj, pc)
     for i = 1 : num
         es.vector = tempk(i) * vectorLM + pc.hsp.L;
         es.valley = 1;
-        es.valley = DecideValleyKind.whichValley(es);
+        es.valley = EPWaveVectorModify.whichValley(es);
         es = obj.computeEnergyAndGroupVelocity(es, pc);
         energyLM(i, 1) = tempk(i);
         energyLM(i, 2) = es.energy / pc.e;

@@ -53,6 +53,16 @@ classdef ScatterringRateTableForValley < BandStructureForValley
     end
     
     methods
+        ionizedImpurityScatteringRate(obj, es, pc, cc)
+        inelasticIntervalleyScatteringRate(obj, es, pc, cc)
+        inelasticPolarOpticalScatteringRate(obj, es, pc, cc)
+        acousticPiezoelectricScatteringRate(obj, es, pc, cc)
+        elasticIntravalleyAcousticScatteringRate(obj, es, pc, cc)
+        inelasticIntravalleyOpticalScatteringRate(obj, es, pc, cc)
+        inelasticIntravalleyAcousticScatteringRate(obj, es, pc, cc)
+    end
+    
+    methods
         function computeScatType(obj)
             %>计算散射类型
             r = rand * obj.scatTableAll(end);

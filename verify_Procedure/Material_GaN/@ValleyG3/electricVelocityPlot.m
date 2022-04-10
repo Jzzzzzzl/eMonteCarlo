@@ -7,7 +7,7 @@ function electricVelocityPlot(obj, pc)
     for i = 1 : num
         es.vector = tempk(i) * pc.hsp.M;
         es.valley = 13;
-        es.valley = DecideValleyKind.whichValley(es);
+        es.valley = EPWaveVectorModify.whichValley(es);
         es = obj.computeEnergyAndGroupVelocity(es, pc);
         velocityGM(i, 1) = tempk(i);
         velocityGM(i, 2) = es.velocity(1);

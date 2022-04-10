@@ -82,9 +82,11 @@ function [es,ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
         case 14 % 
             return;
     end
+    es = obj.modifyElectricWaveVector(es, pc);
     
     if ~isequal(ps.polar, "non")
         ps.vector = es.vector - vectorTemp;
+        ps = dv.valley.phononWhetherBeyondBZ(ps, pc);
         ps.getFrequency(sc);
     end
     
