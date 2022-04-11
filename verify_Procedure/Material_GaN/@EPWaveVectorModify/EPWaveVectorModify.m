@@ -10,8 +10,8 @@ classdef EPWaveVectorModify < handle
     end
     
     methods(Static)
-        [value] = whichValley(es)
         [ps] = phononWhetherBeyondBZ(ps, pc)
         [bool] = electricWhetherBeyondBZ(k, pc)
+        [value] = whichValley(es)
     end
 end

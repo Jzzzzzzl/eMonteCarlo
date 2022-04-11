@@ -1,10 +1,6 @@
 function [k] = generateStandardElectricWaveVector(obj, es, pc, theta)
     %>根据能量选择电子波矢
     es.epsilon = es.energy - obj.Eg;
-    if es.epsilon < 0
-        disp(es)
-        error("电子能量与所在能谷不匹配！")
-    end
     es.gamma = es.epsilon*(1 + obj.alpha*es.epsilon/pc.e);
     kStarMold = sqrt(2*pc.m*es.gamma) / pc.hbar;
     %>球空间随机选择波矢

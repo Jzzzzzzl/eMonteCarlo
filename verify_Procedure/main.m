@@ -24,8 +24,8 @@ sh = parallelCompute(sh, dv, sc, pc, cc);
 eq = ElectricQuantityStaticsGaN(sh, pc, cc);
 % eq = ElectricQuantityStaticsSi(sh, pc, cc);
 % 验证1，能带画图
-% dv.valley.bandStructurePlot(pc);
-% dv.valley.electricVelocityPlot(pc);
+% dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.M);
+% dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.M);
 %验证2，散射表画图
 % tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 12]); toc
 %验证3，验证函数
@@ -50,13 +50,6 @@ eq.electronTrace(sh, cc, 20, 'k');
 % pq.phononSpectrumPlot(mm, pc, "TO");
 % pq.phononSpectrumPlot(mm, pc, "ALL");
 
-
-es = ElectricStatus;
-es.valley = 4;
-es.vector = [-7.6335   -9.5250    7.0339]*1e9;
-dv.valleyGuidingPrinciple(es);
-dv.valley.computeEnergyAndGroupVelocity(es, pc);
-disp(es.energy)
 
 
 

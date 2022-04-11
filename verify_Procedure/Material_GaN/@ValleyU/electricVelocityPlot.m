@@ -1,20 +1,20 @@
-function electricVelocityPlot(obj, pc)
+function electricVelocityPlot(obj, pc, pointA, pointB)
     %>电子速度画图
     num = 100;
-    velocityLM = zeros(num, 2);
+    velocityAB = zeros(num, 2);
     tempk = linspace(0.01, 0.99, num);
     es = ElectricStatus;
-    vectorLM = pc.hsp.M - pc.hsp.L;
+    vectorAB = pointB - pointA;
     for i = 1 : num
-        es.vector = tempk(i) * vectorLM + pc.hsp.L;
+        es.vector = tempk(i) * vectorAB + pointA;
         es.valley = 1;
         es.valley = EPWaveVectorModify.whichValley(es);
         es = obj.computeEnergyAndGroupVelocity(es, pc);
-        velocityLM(i, 1) = tempk(i);
-        velocityLM(i, 2) = es.velocity(3);
+        velocityAB(i, 1) = tempk(i);
+        velocityAB(i, 2) = es.velocity(3);
     end
     figure
-    plot(velocityLM(:,1), velocityLM(:,2))
-    xlabel("k/dLM")
+    plot(velocityAB(:,1), velocityAB(:,2))
+    xlabel(".a.u")
     ylabel("Velocity/(m/s)")
 end

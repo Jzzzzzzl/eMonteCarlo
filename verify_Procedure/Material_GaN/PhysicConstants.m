@@ -15,7 +15,7 @@ classdef PhysicConstants < handle
         b
         c
         kn
-        hsp                        %倒空间笛卡尔坐标点
+        hsp                        %倒空间笛卡尔高对称点
         rho                         %密度
         ul                          %纵向声速
         ut                          %横向声速
@@ -29,9 +29,6 @@ classdef PhysicConstants < handle
         dGK
         dGA
         dKN
-        qU2U                         %谷间散射平均声子波矢大小
-        qU2G
-        qG2G
         maxFrequency
     end
     
@@ -106,9 +103,6 @@ classdef PhysicConstants < handle
             obj.dGK = sqrt(sum(obj.hsp.K.^2));
             obj.dGA = sqrt(sum(obj.hsp.A.^2));
             obj.dKN = 2*pi/obj.a;
-            obj.qU2U = obj.dKN - (3+sqrt(3))/3*obj.dGM;
-            obj.qU2G = 1.05*obj.dBD;
-            obj.qG2G = 1.05*obj.dBD;
             obj.maxFrequency = 5e14;
             %>U能谷参数
             obj.EgU = 2.2717*obj.e;

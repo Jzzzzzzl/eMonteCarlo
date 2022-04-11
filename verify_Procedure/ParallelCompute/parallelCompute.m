@@ -14,7 +14,6 @@ function [sh] = parallelCompute(sh, dv, sc, pc, cc)
             dv.valley.computeScatType;
             eGroup(i).scatype = dv.valley.scatType;
             [eGroup(i), pGroup(i)] = dv.valley.scatteringProcess(dv, eGroup(i), pGroup(i), sc, pc);
-%             disp(eGroup(i))
         end
         %飞行完成后保存电子信息
         sh.eHistory(:, k) = eGroup;

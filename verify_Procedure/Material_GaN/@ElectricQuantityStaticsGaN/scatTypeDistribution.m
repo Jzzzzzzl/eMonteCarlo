@@ -1,4 +1,4 @@
-function [numbers] = scatTypeDistribution(~, sh, cc)
+function scatTypeDistribution(obj, sh, cc)
     %>散射种类分布
     numbers = zeros(7, 2);
     for i = 1 : cc.superElecs

@@ -1,21 +1,20 @@
-function bandStructurePlot(obj, pc)
+function bandStructurePlot(obj, pc, pointA, pointB)
     %>电子能带画图
     num = 100;
-    energyLM = zeros(num, 2);
+    energyAB = zeros(num, 2);
     tempk = linspace(0.01, 0.99, num);
     es = ElectricStatus;
-    vectorLM = pc.hsp.M - pc.hsp.L;
+    vectorAB = pointB - pointA;
     for i = 1 : num
-%         es.vector = tempk(i) * vectorLM + pc.hsp.L;
-        es.vector = tempk(i) * pc.hsp.U;
+        es.vector = tempk(i) * vectorAB + pointA;
         es.valley = 1;
         es.valley = EPWaveVectorModify.whichValley(es);
         es = obj.computeEnergyAndGroupVelocity(es, pc);
-        energyLM(i, 1) = tempk(i);
-        energyLM(i, 2) = es.energy / pc.e;
+        energyAB(i, 1) = tempk(i);
+        energyAB(i, 2) = es.energy / pc.e;
     end
     figure
-    plot(energyLM(:,1), energyLM(:,2))
-    xlabel("k/dLM")
+    plot(energyAB(:,1), energyAB(:,2))
+    xlabel(".a.u")
     ylabel("Energy/(eV)")
 end

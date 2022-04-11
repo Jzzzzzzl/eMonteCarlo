@@ -1,6 +1,6 @@
 function [es] = initializeElectricStatus(es, dv, pc, cc)
     %>电子初始化
-    es.valley = 11;
+    es.valley = cc.initValley;
     es.position = [0 0 0];
     dv.valleyGuidingPrinciple(es);
     es.energy = maxwellDistribution(pc, cc) + dv.valley.Eg;

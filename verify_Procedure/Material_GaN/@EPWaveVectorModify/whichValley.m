@@ -12,6 +12,7 @@ function [value] = whichValley(es)
     elseif absValley == 13
         value = 13;
     else
-        error("电子所在能谷需先标记！")
+        disp(es)
+        error("能谷标号错误！")
     end
 end

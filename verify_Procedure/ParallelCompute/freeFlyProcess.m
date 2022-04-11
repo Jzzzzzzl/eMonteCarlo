@@ -2,8 +2,6 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     %% 自由飞行过程
     energyTemp = es.energy;
     vectorTemp = es.vector;
-    valleyTemp = es.valley;
-    
     
     dv.valleyGuidingPrinciple(es);
     dv.valley.computeFlyTime(es);
@@ -15,14 +13,4 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
     es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
-%     if abs(es.perdrift) > 1e8
-%         disp("飞行前电子状态为：")
-%         disp(vectorTemp)
-%         disp(valleyTemp)
-%         disp(energyTemp)
-%         disp("飞行后电子状态为：")
-%         disp(es)
-%         disp(vectorMold)
-%         error("漂移速度太大！")
-%     end
 end

@@ -37,24 +37,13 @@ classdef ElectricQuantityStatics < handle
             disp(['电子迁移率为： ', num2str(obj.mobility * 1e4), '  cm^2/(V*s)']);
         end
         
-        function electronDiffusionCoefficient(obj, sh, cc)
-            %>计算扩散系数
-            diffusion = zeros(cc.superElecs, 1);
-            for i = 1 : cc.superElecs
-                sum2ave = 0;
-                for j = 2 : cc.noFly
-                    x = sh.eHistory(i, j).position - sh.eHistory(i, j-1).position;
-                    sum2ave = sum2ave + x(1)^2;
-                end
-                ave2ave = sum2ave / (cc.noFly - 1);
-                x = sh.eHistory(i, end).position - sh.eHistory(i, 1).position;
-                t = sh.eHistory(i, end).time - sh.eHistory(i, 1).time;
-                aveave2 = x(1)^2;
-                diffusion(i) = (ave2ave - aveave2) / t;
-            end
-            obj.diffusionCoe = abs(sum(diffusion) / cc.superElecs);
-            disp(['电子扩散系数为： ', num2str(obj.diffusionCoe * 1e4), '  cm^2/s']);
-        end
     end
     
+    methods
+        energyHistoryDistribution(obj, sh, mm, cc, e, N)
+        averageEnergyWithTime(obj, sh, mm, cc, N)
+        dirftVelocityWithTime(obj, sh, mm, cc, N)
+        electronDiffusionCoefficient(obj, sh, cc)
+        electronTrace(obj, sh, cc, num, type)
+    end
 end

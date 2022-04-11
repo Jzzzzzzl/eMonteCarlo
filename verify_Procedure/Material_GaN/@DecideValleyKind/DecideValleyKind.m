@@ -29,6 +29,6 @@ classdef DecideValleyKind < handle
                 error("能谷种类判断出错！")
             end
         end
+        
     end
-    
 end
