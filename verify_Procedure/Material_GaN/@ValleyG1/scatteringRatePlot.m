@@ -3,7 +3,7 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
     es = ElectricStatus;
     es.valley = 11;
     num = 50;
-    energys = logspace(-5, 0, num) * pc.e + obj.Eg;
+    energys = logspace(-2, 1, num) * pc.e + obj.Eg;
     scatTables = zeros(length(energys), obj.nofScat);
     for i = 1 : length(energys)
         es.energy = energys(i);
@@ -24,7 +24,6 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
     xlabel("eV");
     ylabel("s^{-1}")
     legends = ["ionized", "piezoelectric", "intravalley", "polarAB", "polarEM", ...
-                   "G1UabLA", "G1UabLO", "G1UemLA", "G1UemLO", ...
-                   "G1G3abLA", "G1G3abLO", "G1G3emLA", "G1G3emLO", "ALL"];
+                   "G1UabLO", "G1UemLO", "G1G3abLO", "G1G3emLO", "ALL"];
     legend(legends(mn(1) : mn(2)))
 end

@@ -5,7 +5,7 @@ function bandStructurePlot(obj, pc)
     tempk = linspace(0.01, 0.99, num);
     es = ElectricStatus;
     for i = 1 : num
-        es.vector = tempk(i) * pc.hsp.M;
+        es.vector = tempk(i) * pc.hsp.A;
         es.valley = 13;
         es.valley = EPWaveVectorModify.whichValley(es);
         es = obj.computeEnergyAndGroupVelocity(es, pc);

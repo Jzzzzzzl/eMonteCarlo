@@ -24,7 +24,6 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
     xlabel("eV");
     ylabel("s^{-1}")
     legends = ["ionized", "piezoelectric", "intravalley", "polarAB", "polarEM", ...
-                   "G3UabLA", "G3UabLO", "G3UemLA", "G3UemLO", ...
-                   "G3G1abLA", "G3G1abLO", "G3G1emLA", "G3G1emLO", "ALL"];
+                   "G3UabLO", "G3UemLO", "G3G1abLO", "G3G1emLO", "ALL"];
     legend(legends(mn(1) : mn(2)))
 end

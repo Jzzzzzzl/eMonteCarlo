@@ -15,12 +15,15 @@ classdef ConfigureConstants < handle
     
     methods
         function obj = ConfigureConstants
-            obj.superElecs = 500;
+            obj.superElecs = 1000;
             obj.envTemp = 300;
-            obj.noFly = 100;
+            obj.noFly = 5000;
             obj.maxVelocity = 3e7;
             obj.dopDensity = 1e23;
-            obj.electricField = [-1e7 0 0];
+%             pointA = [0.0000000000	0.0000000000	0.6106662907];
+            pointM = [0.9957671513	0.5749064329	0.0000000000];
+            eFieldMold = -5e7;
+            obj.electricField = eFieldMold * pointM/(sqrt(sum(pointM.^2)));
         end
         
     end

@@ -23,66 +23,39 @@ function [es,ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
             ps.polar = "LO";
             k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'po', sc.wPolarLO, -1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
-        case 6 % inter G3U LA ab
-            ps.aborem = "ab";
-            ps.polar = "LA";
-            es.valley = randomValley(es, "interG3U");
-            dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wU2GLA, 1);
-            es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-        case 7 % inter G3U LO ab
+        case 6 % inter G3U LO ab
             ps.aborem = "ab";
             ps.polar = "LO";
             es.valley = randomValley(es, "interG3U");
             dv.valleyGuidingPrinciple(es);
             k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wU2GLO, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-        case 8 % inter G3U LA em
-            ps.aborem = "em";
-            ps.polar = "LA";
-            es.valley = randomValley(es, "interG3U");
-            dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wU2GLA, -1);
-            es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-        case 9 % inter G3U LO em
+        case 7 % inter G3U LO em
             ps.aborem = "em";
             ps.polar = "LO";
             es.valley = randomValley(es, "interG3U");
             dv.valleyGuidingPrinciple(es);
             k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wU2GLO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-        case 10 % inter G3G1 LA ab
-            ps.aborem = "ab";
-            ps.polar = "LA";
-            es.valley = randomValley(es, "interG3G1");
-            dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wG2GLA, 1);
-            es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-        case 11 % inter G3G1 LO ab
+        case 8 % inter G3G1 LO ab
             ps.aborem = "ab";
             ps.polar = "LO";
             es.valley = randomValley(es, "interG3G1");
             dv.valleyGuidingPrinciple(es);
             k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wG2GLO, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-        case 12 % inter G3G1 LA em
-            ps.aborem = "em";
-            ps.polar = "LA";
-            es.valley = randomValley(es, "interG3G1");
-            dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wG2GLA, -1);
-            es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-        case 13 % inter G3G1 LO em
+        case 9 % inter G3G1 LO em
             ps.aborem = "em";
             ps.polar = "LO";
             es.valley = randomValley(es, "interG3G1");
             dv.valleyGuidingPrinciple(es);
             k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wG2GLO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-        case 14 % 
+        case 10 % 
             return;
     end
     es = obj.modifyElectricWaveVector(es, pc);
+    es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     
     if ~isequal(ps.polar, "non")
         ps.vector = es.vector - vectorTemp;

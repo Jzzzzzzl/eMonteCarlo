@@ -27,7 +27,7 @@ eq = ElectricQuantityStaticsGaN(sh, pc, cc);
 % dv.valley.bandStructurePlot(pc);
 % dv.valley.electricVelocityPlot(pc);
 %验证2，散射表画图
-tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 5]); toc
+% tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 12]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, sc, cc);
@@ -40,7 +40,7 @@ eq.dirftVelocityWithTime(sh, mm, cc, 100);
 eq.averageEnergyWithTime(sh, mm, cc, 100);
 eq.valleyOccupationWithTime(sh, mm, cc, 10);
 eq.electronTrace(sh, cc, 20, 'k');
-eq.electronTrace(sh, cc, 15, 'r');
+% eq.electronTrace(sh, cc, 15, 'r');
 % eq.electronTrace(sh, cc, 114, 'e');
 %验证5，声子发射谱
 % pq.subPhononQuantityStatics(sh, mm);
@@ -51,6 +51,12 @@ eq.electronTrace(sh, cc, 15, 'r');
 % pq.phononSpectrumPlot(mm, pc, "ALL");
 
 
+es = ElectricStatus;
+es.valley = 4;
+es.vector = [-7.6335   -9.5250    7.0339]*1e9;
+dv.valleyGuidingPrinciple(es);
+dv.valley.computeEnergyAndGroupVelocity(es, pc);
+disp(es.energy)
 
 
 

@@ -7,18 +7,12 @@ function scatteringTable(obj, es, sc, pc, cc)
     obj.scatTable(3)  = obj.elasticIntraAcoustic(pc.UD);
     obj.scatTable(4)  = obj.inelasticPolarOpticalAB(sc.wPolarLO);
     obj.scatTable(5)  = obj.inelasticPolarOpticalEM(sc.wPolarLO);
-    obj.scatTable(6)  = obj.inelasticInterAB(pc.U2UDK, 6, sc.wU2ULA, (pc.EgU - pc.EgU));
-    obj.scatTable(7)  = obj.inelasticInterAB(pc.U2UDK, 6, sc.wU2ULO, (pc.EgU - pc.EgU));
-    obj.scatTable(8)  = obj.inelasticInterEM(pc.U2UDK, 6, sc.wU2ULA, (pc.EgU - pc.EgU));
-    obj.scatTable(9)  = obj.inelasticInterEM(pc.U2UDK, 6, sc.wU2ULO, (pc.EgU - pc.EgU));
-    obj.scatTable(10) = obj.inelasticInterAB(pc.U2G1DK, 1, sc.wU2GLA, (pc.EgG1 - pc.EgU));
-    obj.scatTable(11) = obj.inelasticInterAB(pc.U2G1DK, 1, sc.wU2GLO, (pc.EgG1 - pc.EgU));
-    obj.scatTable(12) = obj.inelasticInterEM(pc.U2G1DK, 1, sc.wU2GLA, (pc.EgG1 - pc.EgU));
-    obj.scatTable(13) = obj.inelasticInterEM(pc.U2G1DK, 1, sc.wU2GLO, (pc.EgG1 - pc.EgU));
-    obj.scatTable(14) = obj.inelasticInterAB(pc.U2G3DK, 1, sc.wU2GLA, (pc.EgG3 - pc.EgU));
-    obj.scatTable(15) = obj.inelasticInterAB(pc.U2G3DK, 1, sc.wU2GLO, (pc.EgG3 - pc.EgU));
-    obj.scatTable(16) = obj.inelasticInterEM(pc.U2G3DK, 1, sc.wU2GLA, (pc.EgG3 - pc.EgU));
-    obj.scatTable(17) = obj.inelasticInterEM(pc.U2G3DK, 1, sc.wU2GLO, (pc.EgG3 - pc.EgU));
+    obj.scatTable(6)  = obj.inelasticInterAB(pc.U2UDK, 6, sc.wU2ULO, (pc.EgU - pc.EgU));
+    obj.scatTable(7)  = obj.inelasticInterEM(pc.U2UDK, 6, sc.wU2ULO, (pc.EgU - pc.EgU));
+    obj.scatTable(8)  = obj.inelasticInterAB(pc.U2G1DK, 1, sc.wU2GLO, (pc.EgG1 - pc.EgU));
+    obj.scatTable(9)  = obj.inelasticInterEM(pc.U2G1DK, 1, sc.wU2GLO, (pc.EgG1 - pc.EgU));
+    obj.scatTable(10) = obj.inelasticInterAB(pc.U2G3DK, 1, sc.wU2GLO, (pc.EgG3 - pc.EgU));
+    obj.scatTable(11) = obj.inelasticInterEM(pc.U2G3DK, 1, sc.wU2GLO, (pc.EgG3 - pc.EgU));
     %累积求和
     obj.scatTableAll = cumsum(obj.scatTable);
     energys = obj.maxScatRate(:, 1);

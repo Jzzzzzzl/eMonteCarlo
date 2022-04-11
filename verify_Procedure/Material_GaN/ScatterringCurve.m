@@ -45,13 +45,10 @@ classdef ScatterringCurve < handle
         
         function frequencyToInter(obj, pc)
             %>谷间散射对应频率
-            obj.wPolarLO = polyval(obj.bandLO, 0.4 * pc.dGL);
-            obj.wU2ULA = polyval(obj.bandLA, 0.8 * pc.dGL);
-            obj.wU2ULO = polyval(obj.bandLO, 0.8 * pc.dGL);
-            obj.wU2GLA = polyval(obj.bandLA, 0.7 * pc.dGL);
-            obj.wU2GLO = polyval(obj.bandLO, 0.7 * pc.dGL);
-            obj.wG2GLA = polyval(obj.bandLA, 0.1 * pc.dGL);
-            obj.wG2GLO = polyval(obj.bandLO, 0.1 * pc.dGL);
+            obj.wPolarLO = 1.3825e+14;
+            obj.wU2ULO = 1.0002e+14;
+            obj.wU2GLO = 1.0002e+14;
+            obj.wG2GLO = 1.0002e+14;
         end
         
         function frequency = phononFrequency(obj, ps)
