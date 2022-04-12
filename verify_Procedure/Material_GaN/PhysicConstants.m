@@ -112,10 +112,8 @@ classdef PhysicConstants < handle
             obj.maxFrequency = 5e14;
             %>U能谷参数
             obj.EgU = 2.2*obj.e;
-%             obj.mtU = 0.335*obj.m;
-%             obj.mlU = 1.704*obj.m;
-            obj.mtU = 0.2856*obj.m;
-            obj.mlU = 0.2856*obj.m;
+            obj.mtU = 0.335*obj.m;
+            obj.mlU = 1.704*obj.m;
             obj.alphaU = 0.385;
             obj.nofScatU = 18;
             obj.centerRatioU = sqrt(sum(obj.hsp.U.^2))/obj.dGM;
@@ -129,10 +127,8 @@ classdef PhysicConstants < handle
             obj.U2G3DK = 0.5e10*obj.e;
             %>G1能谷参数
             obj.EgG1 = 0.0*obj.e;
-%             obj.mtG1 = 0.197*obj.m;
-%             obj.mlG1 = 0.197*obj.m;
-            obj.mtG1 = 0.2*obj.m;
-            obj.mlG1 = 0.2*obj.m;
+            obj.mtG1 = 0.197*obj.m;
+            obj.mlG1 = 0.197*obj.m;
             obj.alphaG1 = 0.37;
             obj.nofScatG1 = 14;
             obj.centerRatioG1 = 0;
@@ -145,10 +141,8 @@ classdef PhysicConstants < handle
             obj.G12G3DK = 0.5e10*obj.e;
             %>G3能谷参数
             obj.EgG3 = 2.4*obj.e;
-%             obj.mtG3 = 0.277*obj.m;
-%             obj.mlG3 = 2.412*obj.m;
-            obj.mtG3 = 0.3858*obj.m;
-            obj.mlG3 = 0.3858*obj.m;
+            obj.mtG3 = 0.277*obj.m;
+            obj.mlG3 = 2.412*obj.m;
             obj.alphaG3 = 0.22;
             obj.nofScatG3 = 14;
             obj.centerRatioG3 = 0;
