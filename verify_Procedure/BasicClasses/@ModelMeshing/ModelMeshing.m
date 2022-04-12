@@ -9,6 +9,8 @@ classdef ModelMeshing < handle
         modelx
         modely
         time
+    end
+    properties
         NW
         NE
         NX
@@ -17,35 +19,50 @@ classdef ModelMeshing < handle
     end
     
     methods
+        
+        function modelXGrid(obj, xMin, xMax, N, ratio, layerNum)
+            %>生成x方向网格
+            obj.NX = N;
+            if nargin == 4
+                obj.modelx = obj.meshGrid(obj.modelx, xMin, xMax, N);
+            elseif nargin == 6
+                obj.modelx = obj.meshGrid(obj.modelx, xMin, xMax, N, ratio, layerNum);
+            end
+        end
+        
+        function modelYGrid(obj, yMin, yMax, N, ratio, layerNum)
+            %>生成y方向网格
+            obj.NY = N;
+            if nargin == 4
+                obj.modely = obj.meshGrid(obj.modely, yMin, yMax, N);
+            elseif nargin == 6
+                obj.modely = obj.meshGrid(obj.modely, yMin, yMax, N, ratio, layerNum);
+            end
+        end
+        
         function frequencyGrid(obj, wMin, wMax, N)
             %>生成频率网格
             obj.NW = N;
-            obj.frequency = GridClass(wMin, wMax, N);
+            obj.frequency = obj.meshGrid(obj.frequency, wMin, wMax, N);
         end
         
         function energyGrid(obj, eMin, eMax, N)
             %>生成能量网格
             obj.NE = N;
-            obj.energy = GridClass(eMin, eMax, N);
-        end
-        
-        function modelXGrid(obj, xMin, xMax, N)
-            %>生成x方向网格
-            obj.NX = N;
-            obj.modelx = GridClass(xMin, xMax, N);
-        end
-        
-        function modelYGrid(obj, yMin, yMax, N)
-            %>生成y方向网格
-            obj.NY = N;
-            obj.modely = GridClass(yMin, yMax, N);
+            obj.energy = obj.meshGrid(obj.energy, eMin, eMax, N);
         end
         
         function timeGrid(obj, tMin, tMax, N)
             %>生成时间网格
             obj.Nt = N;
-            obj.time = GridClass(tMin, tMax, N);
+            obj.time = obj.meshGrid(obj.time, tMin, tMax, N);
         end
         
+    end
+    methods
+        modelMeshingGridPlot(obj)
+    end
+    methods(Static)
+        [grid] = meshGrid(grid, min, max, N, ratio, layerNum)
     end
 end
