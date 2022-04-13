@@ -16,6 +16,6 @@ function solveMatrix(obj, iterNum)
             temp = temp / ap;
             obj.result(rowID) = temp;
         end
-        obj.getResidual;
+%         obj.getResidual;
     end
 end

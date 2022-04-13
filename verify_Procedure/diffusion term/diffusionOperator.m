@@ -1,7 +1,7 @@
 function diffusionOperator(eqn, mm, lambda, phi)
     %>
     %>循环内部x面
-    for i = 2 : mm.NX
+    for i = 2 : mm.NX 
         dx_left = mm.modelx.face(i) - mm.modelx.point(i);
         dx_right = mm.modelx.point(i+1) - mm.modelx.face(i);
         dx = dx_left + dx_right;
@@ -21,7 +21,7 @@ function diffusionOperator(eqn, mm, lambda, phi)
         deltaX = mm.modelx.face(i+1) - mm.modelx.face(i);
         for j = 2 : mm.NY
             dy_top = mm.modely.point(j+1) - mm.modely.face(j);
-            dv_bottom = mm.modely.face(j) - mm.modely.point(j);
+            dy_bottom = mm.modely.face(j) - mm.modely.point(j);
             dy = dy_top +  dy_bottom;
             diffCoefficient = lambda.datay(i+1, j)*deltaX / dy;
             bottomCellID = getGlobalID(mm.NX, mm.NY, i, j - 1);
@@ -52,7 +52,7 @@ function diffusionOperator(eqn, mm, lambda, phi)
         eqn.addToRHS(globalID, diffCoefficient*c2);
     end
     %>循环左右边界面
-    dright = mm.modelx.face(mm.NX+1) - mm.modelx.point(NX+1);
+    dright = mm.modelx.face(mm.NX+1) - mm.modelx.point(mm.NX+1);
     dleft = mm.modelx.point(2) - mm.modelx.face(1);
     for j = 1 : mm.NY
         deltaY = mm.modely.face(j+1) - mm.modely.face(j);

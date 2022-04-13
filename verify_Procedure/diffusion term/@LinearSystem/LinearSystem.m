@@ -15,8 +15,8 @@ classdef LinearSystem < handle
             %>构造函数
             obj.matrixSize = 5 * nx * ny - 2*nx - 2 * ny;
             obj.rowNumber = nx * ny;
-            obj.rowStartID = int8(zeros(obj.rowNumber + 1, 1));
-            obj.columnID = int8(zeros(obj.matrixSize, 1));
+            obj.rowStartID = zeros(obj.rowNumber + 1, 1);
+            obj.columnID = zeros(obj.matrixSize, 1);
             obj.matrix = zeros(obj.matrixSize, 1);
             obj.b = zeros(obj.rowNumber, 1);
             obj.result = zeros(obj.rowNumber, 1);

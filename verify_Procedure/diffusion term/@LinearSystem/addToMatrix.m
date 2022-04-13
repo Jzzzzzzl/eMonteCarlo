@@ -1,7 +1,7 @@
 function addToMatrix(obj, rowID, colID, value)
     %>
     found = false;
-    globalID = 0;
+    globalID = 1;
     for i = obj.rowStartID(rowID) : obj.rowStartID(rowID+1) - 1
         if colID == obj.columnID(i)
             globalID = i;

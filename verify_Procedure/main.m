@@ -61,49 +61,69 @@ NY = 50;
 mm.modelXGrid(0, 1, NX);
 mm.modelYGrid(0, 1, NY);
 % mm.modelMeshingGridPlot;
+phi = ColocateField(mm);
+rho = StaggeredField(mm, 1, 1);
+velocity = StaggeredField(mm, 1, 1);
+massflux = StaggeredField(mm);
+multiplyStaggered(mm, massflux, rho, velocity);
 
-grandv = ColocateField(mm);
-velocity = StaggeredField(mm);
+sc = ColocateField(mm, 0.1);
+lambda = StaggeredField(mm, 2, 2);
+eqn = LinearSystem(NX, NY);
 
-for i = 1 : NX + 1
-    for j = 1 : NY + 2
-        velocity.datax(i, j) = mm.modelx.face(i) * mm.modely.point(j);
-    end
+for i = 2 : mm.NX + 1
+    phi.top(i, :) = [1.0    0.0];
+    phi.bottom(i, :) = [0.0    0.0];
 end
-for i = 1 : NX + 2
-    for j = 1 : NY + 1
-        velocity.datay(i, j) = mm.modely.face(j)^2 / 2;
-    end
+for j = 2 : mm.NY + 1
+    phi.left(j, :) = [0.0    1.0];
+    phi.right(j, :) = [1.0    0.0];
 end
-% velocity.plotFieldX(mm)
-% velocity.plotFieldY(mm)
-% velocity.plotVectorField(mm)
-% 
-% velocity.computeDivergence(mm)
-
-% eqn = LinearSystem(2, 2);
-% eqn.matrix(1) = 3;
-% eqn.matrix(2) = -1;
-% eqn.matrix(3) = 1;
-% eqn.matrix(4) = 1;
-% eqn.matrix(5) = 3;
-% eqn.matrix(6) = -1;
-% eqn.matrix(7) = -1;
-% eqn.matrix(8) = 2;
-% eqn.matrix(9) = -1;
-% eqn.matrix(10) = 1;
-% eqn.matrix(11) = 1;
-% eqn.matrix(12) = 4;
-% 
-% eqn.b(1) = 1;
-% eqn.b(2) = 8;
-% eqn.b(3) = 0;
-% eqn.b(4) = -2;
-% 
-% eqn.solveMatrix(50);
-% disp(eqn.result)
+for i = 1 : 20
+    eqn.initialize;
+    eqn.setInitialGuess(mm, phi);
+    diffusionOperator(eqn, mm, lambda, phi);
+    convectionOperator(eqn, mm, massflux, phi);
+    sourceOperator(eqn, mm, sc);
+%     eqn.displayOneEquation(395);
+    eqn.relax(0.9);
+    eqn.solveMatrix(50);
+    eqn.updateField(mm, phi);
+end
 
 
+
+% diffusionOperator(eqn, mm, lambda, phi);
+% eqn.displayOneEquation(395);
+
+% sourceOperator(eqn, mm, sc);
+% eqn.solveMatrix(1000)
+% eqn.updateField(mm, phi);
+phi.plotField(mm)
+
+
+
+
+
+
+% grandv = ColocateField(mm);
+% velocity = StaggeredField(mm);
+% 
+% for i = 1 : NX + 1
+%     for j = 1 : NY + 2
+%         velocity.datax(i, j) = mm.modelx.face(i) * mm.modely.point(j);
+%     end
+% end
+% for i = 1 : NX + 2
+%     for j = 1 : NY + 1
+%         velocity.datay(i, j) = mm.modely.face(j)^2 / 2;
+%     end
+% end
+% velocity.plotFieldX(mm);
+% velocity.plotFieldY(mm);
+% velocity.plotVectorField(mm);
+
+% velocity.computeDivergence(mm);
 
 
 
