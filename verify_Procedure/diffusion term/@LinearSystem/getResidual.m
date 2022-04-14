@@ -1,5 +1,5 @@
 function getResidual(obj)
-    %>
+    %>计算误差
     error = 0;
     for rowID = 1 : obj.rowNumber
         ap = 0;

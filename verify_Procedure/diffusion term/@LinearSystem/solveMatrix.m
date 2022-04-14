@@ -1,5 +1,5 @@
 function solveMatrix(obj, iterNum)
-    %>
+    %>高斯赛德尔求解矩阵
     for iter = 1 : iterNum
         for rowID = 1 : obj.rowNumber
             temp = obj.b(rowID);
@@ -16,6 +16,6 @@ function solveMatrix(obj, iterNum)
             temp = temp / ap;
             obj.result(rowID) = temp;
         end
-%         obj.getResidual;
+        obj.getResidual;
     end
 end

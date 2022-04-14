@@ -1,5 +1,5 @@
 function multiplyStaggered(mm, result, field1, field2)
-    %>
+    %>交叉网格乘法
     for i = 1 : mm.NX + 1
         for j = 1 : mm.NY + 2
             result.datax(i, j) = field1.datax(i, j) * field2.datax(i, j);

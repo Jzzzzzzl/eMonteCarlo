@@ -1,5 +1,5 @@
 function addToMatrix(obj, rowID, colID, value)
-    %>
+    %>添加数值到CSR顺序表中
     found = false;
     globalID = 1;
     for i = obj.rowStartID(rowID) : obj.rowStartID(rowID+1) - 1
