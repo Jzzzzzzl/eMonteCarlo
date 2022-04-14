@@ -1,5 +1,5 @@
 function convectionOperator(eqn, mm, massflux, phi)
-    %>
+    %>对流项离散算子
     %>循环内部x面
     for i = 2 : mm.NX
         for j = 1 : mm.NY

@@ -1,7 +1,7 @@
 %% 
 % rmpath(genpath(pwd))
-% addpath(genpath('./BasicClasses'))
-% addpath(genpath('./diffusion term'))
+addpath(genpath('./BasicClasses'))
+addpath(genpath('./diffusion term'))
 % addpath(genpath('./functions'))
 % % addpath(genpath('./Material_Si'))
 % addpath(genpath('./Material_GaN'))

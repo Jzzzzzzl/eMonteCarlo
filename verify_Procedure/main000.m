@@ -3,8 +3,8 @@ clc,clear
 close all
 
 mm = ModelMeshing;
-NX = 20;
-NY = 20;
+NX = 50;
+NY = 50;
 mm.modelXGrid(0, 1, NX);
 mm.modelYGrid(0, 1, NY);
 % mm.modelMeshingGridPlot;
@@ -67,35 +67,35 @@ mm.modelYGrid(0, 1, NY);
 % end
 % phi.plotField(mm)
 %% 热点验证
-pVelocity = 8e3;
-tao = 3e-13;
-
-phi = ColocateField(mm);
-lambda = StaggeredField(mm, 1, 1);
-rho = StaggeredField(mm, 1, 1);
-velocity = StaggeredField(mm, pVelocity, pVelocity);
-massflux = StaggeredField(mm);
-multiplyStaggered(mm, massflux, rho, velocity);
-sp = ColocateField(mm, 1/tao);
-sc = ColocateField(mm, 0);
-eqn = LinearSystem(NX, NY);
-for i = 2 : mm.NX + 1
-    phi.top(i, :) = [0.0    0.0];
-    phi.bottom(i, :) = [0.0    0.0];
-end
-for j = 2 : mm.NY + 1
-    phi.left(j, :) = [0.0    0.0];
-    phi.right(j, :) = [0.0    0.0];
-end
-sc.data(round(mm.NX/2), round(mm.NY/2)) = -1e14;
-for k = 1 : 1
-    eqn.initialize;
-    eqn.setInitialGuess(mm, phi);
-%     diffusionOperator(eqn, mm, lambda, phi);
-    convectionOperator(eqn, mm, massflux, phi);
-    sourceOperator(eqn, mm, sp, sc);
-%     eqn.displayOneEquation(400);
-    eqn.solveMatrix(10);
-    eqn.updateField(mm, phi);
-end
-phi.plotField(mm)
+% pVelocity = 8e3;
+% tao = 3e-13;
+% 
+% phi = ColocateField(mm);
+% lambda = StaggeredField(mm, 1, 1);
+% rho = StaggeredField(mm, 1, 1);
+% velocity = StaggeredField(mm, pVelocity, pVelocity);
+% massflux = StaggeredField(mm);
+% multiplyStaggered(mm, massflux, rho, velocity);
+% sp = ColocateField(mm, 1/tao);
+% sc = ColocateField(mm, 0);
+% eqn = LinearSystem(NX, NY);
+% for i = 2 : mm.NX + 1
+%     phi.top(i, :) = [0.0    0.0];
+%     phi.bottom(i, :) = [0.0    0.0];
+% end
+% for j = 2 : mm.NY + 1
+%     phi.left(j, :) = [0.0    0.0];
+%     phi.right(j, :) = [0.0    0.0];
+% end
+% sc.data(round(mm.NX/2), round(mm.NY/2)+1) = -1e14;
+% for k = 1 : 1
+%     eqn.initialize;
+%     eqn.setInitialGuess(mm, phi);
+% %     diffusionOperator(eqn, mm, lambda, phi);
+%     convectionOperator(eqn, mm, massflux, phi);
+%     sourceOperator(eqn, mm, sp, sc);
+% %     eqn.displayOneEquation(400);
+%     eqn.solveMatrix(10);
+%     eqn.updateField(mm, phi);
+% end
+% phi.plotField(mm)

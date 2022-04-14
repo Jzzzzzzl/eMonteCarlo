@@ -1,5 +1,5 @@
 function diffusionOperator(eqn, mm, lambda, phi)
-    %>
+    %>扩散项离散算子
     %>循环内部x面
     for i = 2 : mm.NX 
         dx_left = mm.modelx.face(i) - mm.modelx.point(i);
