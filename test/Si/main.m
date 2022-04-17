@@ -1,12 +1,12 @@
 %% 
-% rmpath(genpath(pwd))
+rmpath(genpath('/home/jiang/eMonteCarlo'))
 addpath(genpath('./BasicClasses'))
 addpath(genpath('./OperatorTerms'))
 addpath(genpath('./functions'))
 addpath(genpath('./Material_Si'))
-% addpath(genpath('./Material_GaN'))
 addpath(genpath('./ParallelCompute'))
 addpath(genpath('./PostProcess'))
+addpath(genpath('./test/Si'))
 
 %%
 clc,clear
