@@ -14,6 +14,7 @@ function [vector2] = rotateToGeneralValley(~, vector1, valley)
         case -3
             vector2 = vector1*rotateMatrix(-pi, "x");
         otherwise
+            disp(valley)
             error("能谷标号错误！")
     end
 end

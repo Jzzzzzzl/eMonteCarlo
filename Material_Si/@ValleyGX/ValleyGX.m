@@ -1,4 +1,4 @@
-classdef ValleyGX < ScatterringProcessForValley
+classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
     %% GammaX能谷
     methods
         function obj = ValleyGX(pc)

@@ -1,6 +1,7 @@
 function [es] = modifyElectricWaveVector(obj, es, pc)
     %>对超出第一布里渊区波矢进行修正
-    if obj.whetherBeyondBrillouinZone(es, pc)
+    if obj.electricWhetherBeyondBZ(es.vector, pc)
+        es.valley = obj.whichValley(es);
         switch es.valley
             case 1
                 es.vector = es.vector - (pc.kn.b2 + pc.kn.b3);
@@ -17,6 +18,6 @@ function [es] = modifyElectricWaveVector(obj, es, pc)
             otherwise
                 error("能谷编号错误！")
         end
-        es.valley = DecideValleyKind.whichValley(es);
     end
+    es.valley = obj.whichValley(es);
 end
