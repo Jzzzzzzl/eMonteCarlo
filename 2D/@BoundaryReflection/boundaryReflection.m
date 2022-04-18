@@ -1,4 +1,4 @@
-function [bool] = boundaryReflection(obj, mm, rAgo, es)
+function [bool] = boundaryReflection(obj, rAgo, es)
     %>MESFET型结构边界反射
     bool = false;
     rAfter = es.position;
@@ -7,8 +7,8 @@ function [bool] = boundaryReflection(obj, mm, rAgo, es)
     x1 = rAgo(1);y1 = rAgo(2);z1 = rAgo(3);
     x2 = rAfter(1);y2 = rAfter(2);z2 = rAfter(3);
     
-    while x2 < mm.modelx.face(1) || x2 > mm.modelx.face(end) ||...
-            y2 < mm.modely.face(1) || y2 > mm.modely.face(end)
+    while x2 < obj.modelx.face(1) || x2 > obj.modelx.face(end) ||...
+            y2 < obj.modely.face(1) || y2 > obj.modely.face(end)
         thetas = zeros(8, 1);
         thetas(1) = obj.directAngle(x1,y1,obj.nodes(1,1),obj.nodes(1,2),obj.nodes(2,1),obj.nodes(2,2));
         thetas(2) = obj.directAngle(x1,y1,obj.nodes(2,1),obj.nodes(2,2),obj.nodes(3,1),obj.nodes(3,2));
@@ -43,13 +43,13 @@ function [bool] = boundaryReflection(obj, mm, rAgo, es)
             case 1
                 %下边界发生镜面反射
                 %利用斜率相等求交点
-                y0 = mm.modely.face(1);
+                y0 = obj.modely.face(1);
                 x0 = x1 + (y0 - y1) / (y2 - y1)*(x2 - x1);
                 x2 = x2;
                 y2 = -1*y2;
             case 2
                 %右边界发生镜面反射
-                x0 = mm.modelx.face(mm.NX+1);
+                x0 = obj.modelx.face(obj.NX+1);
                 y0 = y1 + (y2 - y1) / (x2 - x1)*(x0-x1);
                 x2 = 2*x0 - x2;
                 y2 = y2;
@@ -61,13 +61,13 @@ function [bool] = boundaryReflection(obj, mm, rAgo, es)
                 break;
             case 4
                 %漏极/栅极之间发生镜面反射
-                y0 = mm.modely.face(mm.NY+1);
+                y0 = obj.modely.face(obj.NY+1);
                 x0 = x1 + (y0 - y1) / (y2 - y1)*(x2 - x1);
                 x2 = x2; %#ok<*ASGSL>
                 y2 = 2*y0 - y2;
             case 5
                 %栅极发生漫反射
-                y0 = mm.modely.face(mm.NY+1);
+                y0 = obj.modely.face(obj.NY+1);
                 x0 = x1 + (y0 - y1) / (y2 - y1)*(x2 - x1);
                 rou = sqrt((x2 - x0)^2+(y2 - y0)^2);
                 alpha = rand*pi;
@@ -75,7 +75,7 @@ function [bool] = boundaryReflection(obj, mm, rAgo, es)
                 y2 = y0 - rou*sin(alpha);
             case 6
                 %源极/栅极之间发生镜面反射
-                y0 = mm.modely.face(mm.NY+1);
+                y0 = obj.modely.face(obj.NY+1);
                 x0 = x1 + (y0 - y1) / (y2 - y1)*(x2 - x1);
                 x2 = x2;
                 y2 = 2*y0 - y2;
@@ -87,7 +87,7 @@ function [bool] = boundaryReflection(obj, mm, rAgo, es)
                 break;
             case 8
                 %左边界发射镜面反射
-                x0 = mm.modelx.face(1);
+                x0 = obj.modelx.face(1);
                 y0 = y1 + (y2 - y1) / (x2 - x1)*(x0 - x1);
                 x2 = -1*x2;
                 y2 = y2;

@@ -1,4 +1,4 @@
-function modelMeshingGridPlot(obj)
+function meshPlot(obj)
     %>模型网格画图
     X = obj.modelx.face;
     Y = obj.modely.face;

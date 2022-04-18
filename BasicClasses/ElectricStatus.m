@@ -24,7 +24,7 @@ classdef ElectricStatus < handle
             %>构造函数
             obj.time = 0;
             if nargin == 3
-                obj = initializeElectricStatus(obj, dv, pc, cc);
+                initializeElectricStatus(obj, dv, pc, cc);
             end
         end
         

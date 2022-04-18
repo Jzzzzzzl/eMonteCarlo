@@ -1,4 +1,4 @@
-function readXElectricField(obj, mm)
+function readXElectricField(obj)
     %>
     try
         load XeField.dat
@@ -9,5 +9,5 @@ function readXElectricField(obj, mm)
     XeField(:,1) = 1e-6 * XeField(:,1);
     XeField(:,2) = 1e-6 * XeField(:,2);
     XeField(:,3) = 1e2 * XeField(:,3);
-    obj.fieldInterpolation(mm, XeField, obj.xField);
+    obj.fieldInterpolation(XeField, obj.xField);
 end

@@ -1,4 +1,4 @@
-classdef BoundaryReflection < handle
+classdef BoundaryReflection < ModelMeshing
     %% 
     properties
         dSource
@@ -9,22 +9,22 @@ classdef BoundaryReflection < handle
     end
     
     methods
-        function buildModelNodes(obj, mm)
+        function buildModelNodes(obj)
             %>建立节点坐标
             obj.nodes = zeros(8, 2);
-            obj.nodes(1,:) = [mm.modelx.face(1), mm.modely.face(1)];
-            obj.nodes(2,:) = [mm.modelx.face(mm.NX+1), mm.modely.face(1)];
-            obj.nodes(3,:) = [mm.modelx.face(mm.NX+1), mm.modely.face(mm.NY+1)];
-            obj.nodes(4,:) = [mm.modelx.face(mm.NX+1) - obj.dDrain, mm.modely.face(mm.NY+1)];
-            obj.nodes(5,:) = [mm.modelx.face(1) + obj.pGate + obj.dGate, mm.modely.face(mm.NY+1)];
-            obj.nodes(6,:) = [mm.modelx.face(1) + obj.pGate, mm.modely.face(mm.NY+1)];
-            obj.nodes(7,:) = [mm.modelx.face(1) + obj.dSource, mm.modely.face(mm.NY+1)];
-            obj.nodes(8,:) = [mm.modelx.face(1), mm.modely.face(mm.NY+1)];
+            obj.nodes(1,:) = [obj.modelx.face(1), obj.modely.face(1)];
+            obj.nodes(2,:) = [obj.modelx.face(obj.NX+1), obj.modely.face(1)];
+            obj.nodes(3,:) = [obj.modelx.face(obj.NX+1), obj.modely.face(obj.NY+1)];
+            obj.nodes(4,:) = [obj.modelx.face(obj.NX+1) - obj.dDrain, obj.modely.face(obj.NY+1)];
+            obj.nodes(5,:) = [obj.modelx.face(1) + obj.pGate + obj.dGate, obj.modely.face(obj.NY+1)];
+            obj.nodes(6,:) = [obj.modelx.face(1) + obj.pGate, obj.modely.face(obj.NY+1)];
+            obj.nodes(7,:) = [obj.modelx.face(1) + obj.dSource, obj.modely.face(obj.NY+1)];
+            obj.nodes(8,:) = [obj.modelx.face(1), obj.modely.face(obj.NY+1)];
         end
     end
     
     methods
-        [bool] = boundaryReflection(obj, mm, rAgo, es)
+        [bool] = boundaryReflection(obj, rAgo, es)
     end
     
     methods(Static)

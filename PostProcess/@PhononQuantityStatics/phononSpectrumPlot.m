@@ -1,8 +1,7 @@
-function [wNumab] = phononSpectrumPlot(obj, mm, pc, type)
+function [wNumab] = phononSpectrumPlot(obj, pc, cc, type)
     %>声子谱画图
-    wNumab = zeros(obj.NW, 2);
-    wNumem = zeros(obj.NW, 2);
-    mm.frequencyGrid(obj.minFrequency, obj.maxFrequency, obj.NW);
+    wNumab = zeros(cc.NW, 2);
+    wNumem = zeros(cc.NW, 2);
     switch type
         case "LA"
             tempab = obj.phLAab;
@@ -21,11 +20,11 @@ function [wNumab] = phononSpectrumPlot(obj, mm, pc, type)
             tempem = obj.phALLem;
     end
 
-    for k = 1 : obj.NW
+    for k = 1 : cc.NW
         wNumab(k, 1) = tempab(k).num;
-        wNumab(k, 2) = pc.hbar * mm.frequency.point(k + 1) / pc.e * 1000;
+        wNumab(k, 2) = pc.hbar * cc.frequency.point(k + 1) / pc.e * 1000;
         wNumem(k, 1) = tempem(k).num;
-        wNumem(k, 2) = pc.hbar * mm.frequency.point(k + 1) / pc.e * 1000;
+        wNumem(k, 2) = pc.hbar * cc.frequency.point(k + 1) / pc.e * 1000;
     end
     figure
     slg = plot(wNumab(:, 1), wNumab(:, 2));

@@ -32,17 +32,18 @@ classdef ElectricQuantityStatics < handle
         
         function electronMobility(obj, pc, cc)
             %>计算迁移率
+            n = max(max(cc.dopDensity.data));
             obj.mobility = obj.e*obj.diffusionCoe ...
-                            / (pc.kb*cc.envTemp*(1 + 0.35355*cc.dopDensity/(2.18e21*cc.envTemp^(3/2))));
+                            / (pc.kb*cc.envTemp*(1 + 0.35355*n/(2.18e21*cc.envTemp^(3/2))));
             disp(['电子迁移率为： ', num2str(obj.mobility * 1e4), '  cm^2/(V*s)']);
         end
         
     end
     
     methods
-        energyHistoryDistribution(obj, sh, mm, cc, e, N)
-        averageEnergyWithTime(obj, sh, mm, cc, N)
-        dirftVelocityWithTime(obj, sh, mm, cc, N)
+        energyHistoryDistribution(obj, sh, cc, e, N)
+        averageEnergyWithTime(obj, sh, cc, N)
+        dirftVelocityWithTime(obj, sh, cc, N)
         electronDiffusionCoefficient(obj, sh, cc)
         electronTrace(obj, sh, cc, num, type)
     end

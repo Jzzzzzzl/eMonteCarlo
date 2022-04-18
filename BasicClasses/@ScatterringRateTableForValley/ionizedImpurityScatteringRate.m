@@ -3,7 +3,11 @@ function ionizedImpurityScatteringRate(obj, es, pc, cc)
     %>     参数说明：
     %>     n：某位置掺杂浓度
     % ======================================================================
-    n = cc.dopDensity;
+    try
+        n = cc.computeDopingDensity(es);
+    catch
+        n = max(max(cc.dopDensity.data));
+    end
     qD = sqrt(pc.e^2*n / (pc.epsilon0*pc.epsilonL*pc.kb*cc.envTemp));
     obj.ionizedImpurity = sqrt(2)*pc.e^4*n*obj.md^(3/2) ...
                                 / (pi*(pc.epsilon0*pc.epsilonL)^2*pc.hbar^4) ...

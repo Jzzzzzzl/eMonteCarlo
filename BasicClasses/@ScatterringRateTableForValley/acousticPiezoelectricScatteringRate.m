@@ -3,7 +3,11 @@ function acousticPiezoelectricScatteringRate(obj, es, pc, cc)
     %>     参数说明：
     %>     n：自由载流子浓度
     % ======================================================================
-    n = cc.dopDensity;
+    try
+        n = cc.computeDopingDensity(es);
+    catch
+        n = max(max(cc.dopDensity.data));
+    end
     beta = real(sqrt(4*pi^2*pc.e^2*n/(pc.epsilonL*pc.epsilon0*pc.kb*cc.envTemp)));
     obj.acousticPiezoelectric = sqrt(obj.md)*pc.e^2*pc.p^2*pc.kb*cc.envTemp ...
                                         / (sqrt(8)*(pc.epsilonL*pc.epsilon0)^2*pc.hbar^2*pc.rho*pc.u^2) ...

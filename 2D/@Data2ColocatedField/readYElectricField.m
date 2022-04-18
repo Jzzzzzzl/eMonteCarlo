@@ -1,4 +1,4 @@
-function readYElectricField(obj, mm)
+function readYElectricField(obj)
     %>
     try
         load YeField.dat
@@ -9,5 +9,5 @@ function readYElectricField(obj, mm)
     YeField(:,1) = 1e-6 * YeField(:,1);
     YeField(:,2) = 1e-6 * YeField(:,2);
     YeField(:,3) = 1e2 * YeField(:,3);
-    obj.fieldInterpolation(mm, YeField, obj.yField);
+    obj.fieldInterpolation(YeField, obj.yField);
 end

@@ -32,5 +32,17 @@ function electronTrace(obj, sh, cc, num, type)
             plot(positions * 1e9, energys / obj.e, '-')
             xlabel("nm");ylabel("eV");
             legend("electron energy")
+        case 'xy'
+            positions = zeros(cc.noFly, 2);
+            for i = 1 : cc.noFly
+                positions(i, 1) = sh.eHistory(num, i).position(1);
+                positions(i, 2) = sh.eHistory(num, i).position(2);
+            end
+            figure
+            rectangle('Position',[0 0 cc.modelx.face(end)*1e9 cc.modely.face(end)*1e9]);
+            hold on;
+            plot(positions(:, 1) * 1e9, positions(:, 2) * 1e9, '-')
+            xlabel("nm");ylabel("nm");
+            legend("real-space")
     end
 end
