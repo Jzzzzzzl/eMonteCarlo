@@ -13,8 +13,17 @@ clc,clear
 close all
 pc = PhysicConstants;
 cc = ConfigureConstants;
-dv = DecideValleyKind(pc);
-sc = ScatterringCurve(pc);
+% dv = DecideValleyKind(pc);
+sc = ScatteringCurve(cc, pc);
+
+tic
+sc.fitBandCoefficient(pc)
+toc
+%% 
+
+
+
+
 sh = SimulationHistory(dv, pc, cc);
 
 mm = ModelMeshing;

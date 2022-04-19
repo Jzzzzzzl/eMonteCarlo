@@ -14,7 +14,7 @@ close all
 pc = PhysicConstants;
 cc = ConfigureConstants;
 dv = DecideValleyKind(pc);
-sc = ScatterringCurve(pc);
+sc = ScatteringCurve(pc);
 sh = SimulationHistory(dv, pc, cc);
 
 mm = ModelMeshing;

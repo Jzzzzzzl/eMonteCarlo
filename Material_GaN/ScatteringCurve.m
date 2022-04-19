@@ -1,4 +1,4 @@
-classdef ScatterringCurve < handle
+classdef ScatteringCurve < handle
     %% 色散曲线
     properties
         frequency

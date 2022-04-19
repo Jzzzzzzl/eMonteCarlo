@@ -15,7 +15,8 @@ addpath(genpath('./PostProcess'))
 pc = PhysicConstants;
 cc = ConfigureConstants;
 dv = DecideValleyKind(pc);
-sc = ScatterringCurve(pc);
+sc = ScatteringCurve(cc, pc);
+clc
 sh = SimulationHistory(dv, pc, cc);
 pq = PhononQuantityStatics(pc, cc);
 

@@ -28,7 +28,12 @@ classdef PhysicConstants < handle
         dKN
         qf                          %f型谷间散射平均声子波矢大小
         qg                          %g型谷间散射平均声子波矢大小
-        maxFrequency
+        gammaG                 %Gruneisen非谐参数
+        C44
+        miu                        %剪切模量
+        thetaD                    %德拜温度
+        omegaD                  %德拜频率
+        V0                          %单原子体积
     end
     
     properties
@@ -75,7 +80,12 @@ classdef PhysicConstants < handle
             obj.dKN = 2*pi/obj.a;
             obj.qf = 0.95*obj.dBD;
             obj.qg = 0.3*obj.dBD;
-            obj.maxFrequency = 1e14;
+            obj.gammaG = 0.73;
+            obj.C44 = 75e9;
+            obj.miu = obj.C44;
+            obj.thetaD = 643;
+            obj.omegaD = obj.thetaD*obj.kb/obj.hbar;
+            obj.V0 = sqrt(3)*obj.c^3/8;
             %>GammaX能谷参数
             obj.EgGX = 0*obj.e;
             obj.mtGX = 0.196*obj.m;
