@@ -11,7 +11,7 @@ close all
 % addpath(genpath('./ParallelCompute'))
 % addpath(genpath('./PostProcess'))
 
-%% 
+
 pc = PhysicConstants;
 cc = ConfigureConstants;
 dv = DecideValleyKind(pc);
@@ -41,7 +41,7 @@ eq.averageEnergyWithTime(sh, cc, 100);
 eq.electronTrace(sh, cc, 25, 'k');
 eq.electronTrace(sh, cc, 56, 'r');
 eq.electronTrace(sh, cc, 35, 'e');
-eq.electronTrace(sh, cc, 56, 'xy');
+eq.electronTrace(sh, cc, 16, 'xy');
 
 %验证5，声子发射谱
 pq.subPhononQuantityStatics(sh, cc);

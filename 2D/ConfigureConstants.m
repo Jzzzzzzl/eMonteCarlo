@@ -30,7 +30,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.xsforSourceB = 9e20;
             obj.envTemp = 300;
             obj.maxVelocity = 3e5;
-            obj.maxFrequency = 15.5e12;
+            obj.maxFrequency = 9.6e13;
             obj.initValley = 1;
             obj.dSource = 0.1e-6;
             obj.pGate = 0.2e-6;

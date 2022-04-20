@@ -6,7 +6,7 @@ function fitBandCoefficient(obj, pc)
     obj.band = zeros(m, n + 4);
     obj.band(:, 1 : n) = deal(Si_band_GX);
     obj.band(:, 1) = linspace(0, pc.dGX, m)';
-    obj.band(:, 2 : n) = obj.band(:, 2 : n)*1e12;
+    obj.band(:, 2 : n) = obj.band(:, 2 : n)*2*pi*1e12;
     
     k = obj.band(:, 1);
     %>LA
