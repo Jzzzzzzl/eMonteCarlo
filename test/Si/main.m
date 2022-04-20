@@ -13,21 +13,11 @@ clc,clear
 close all
 pc = PhysicConstants;
 cc = ConfigureConstants;
-% dv = DecideValleyKind(pc);
+dv = DecideValleyKind(pc);
 sc = ScatteringCurve(cc, pc);
-
-tic
-sc.fitBandCoefficient(pc)
-toc
-%% 
-
-
-
-
 sh = SimulationHistory(dv, pc, cc);
-
 mm = ModelMeshing;
-pq = PhononQuantityStatics(pc, 50);
+pq = PhononQuantityStatics(cc);
 
 %% 
 sh = parallelCompute(sh, dv, sc, pc, cc);

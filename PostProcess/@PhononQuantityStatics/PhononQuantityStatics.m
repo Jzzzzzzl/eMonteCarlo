@@ -2,8 +2,6 @@ classdef PhononQuantityStatics < handle
     %% 声子统计类
     properties
         minimumTime
-        minFrequency
-        maxFrequency
         frequencys
         aborems
         polars
@@ -27,10 +25,8 @@ classdef PhononQuantityStatics < handle
     end
     
     methods
-        function obj = PhononQuantityStatics(pc, cc)
+        function obj = PhononQuantityStatics(cc)
             %>构造函数
-            obj.minFrequency = 0;
-            obj.maxFrequency = pc.maxFrequency;
             obj.initializeVariables(cc);
         end
         

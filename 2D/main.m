@@ -2,14 +2,14 @@
 clc,clear
 close all
 
-rmpath(genpath('/home/jiang/eMonteCarlo')); clc
-addpath(genpath('./2D/'))
-addpath(genpath('./BasicClasses'))
-addpath(genpath('./OperatorTerms'))
-addpath(genpath('./functions'))
-addpath(genpath('./Material_Si'))
-addpath(genpath('./ParallelCompute'))
-addpath(genpath('./PostProcess'))
+% rmpath(genpath('/home/jiang/eMonteCarlo')); clc
+% addpath(genpath('./2D/'))
+% addpath(genpath('./BasicClasses'))
+% addpath(genpath('./OperatorTerms'))
+% addpath(genpath('./functions'))
+% addpath(genpath('./Material_Si'))
+% addpath(genpath('./ParallelCompute'))
+% addpath(genpath('./PostProcess'))
 
 %% 
 pc = PhysicConstants;
@@ -18,7 +18,7 @@ dv = DecideValleyKind(pc);
 sc = ScatteringCurve(cc, pc);
 clc
 sh = SimulationHistory(dv, pc, cc);
-pq = PhononQuantityStatics(pc, cc);
+pq = PhononQuantityStatics(cc);
 
 %% 
 sh = parallelCompute(sh, dv, sc, pc, cc);
@@ -38,18 +38,27 @@ eq.scatTypeDistribution(sh, cc);
 eq.energyHistoryDistribution(sh, cc, 0.5, 100);
 eq.averageEnergyWithTime(sh, cc, 100);
 
-eq.electronTrace(sh, cc, 20, 'k');
-eq.electronTrace(sh, cc, 15, 'r');
-eq.electronTrace(sh, cc, 14, 'e');
-eq.electronTrace(sh, cc, 5, 'xy');
+eq.electronTrace(sh, cc, 25, 'k');
+eq.electronTrace(sh, cc, 56, 'r');
+eq.electronTrace(sh, cc, 35, 'e');
+eq.electronTrace(sh, cc, 56, 'xy');
 
 %验证5，声子发射谱
 pq.subPhononQuantityStatics(sh, cc);
-pq.phononSpectrumPlot(pc, cc, "LA");
-pq.phononSpectrumPlot(pc, cc, "TA");
-pq.phononSpectrumPlot(pc, cc, "LO");
-pq.phononSpectrumPlot(pc, cc, "TO");
-pq.phononSpectrumPlot(pc, cc, "ALL");
+tic
+pq.heatGenerationRate(sh, pc, cc, sc);
+toc
+pq.solveFarDistributionFunction(cc, sc);
+pq.plotnAndnDot(cc);
+pq.computeTF(cc, sc, pc)
+pq.computeTeff(cc, pc, sc)
+
+
+pq.plotSpectrum(pc, cc, "LA");
+pq.plotSpectrum(pc, cc, "TA");
+pq.plotSpectrum(pc, cc, "LO");
+pq.plotSpectrum(pc, cc, "TO");
+pq.plotSpectrum(pc, cc, "ALL");
 
 cc.dopDensity.plotField(cc);
 cc.eleConc.plotField(cc);

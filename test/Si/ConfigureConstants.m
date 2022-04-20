@@ -12,6 +12,7 @@ classdef ConfigureConstants < handle
         noFly
         maxVelocity
         initValley
+        NW
     end
     
     methods
@@ -24,6 +25,7 @@ classdef ConfigureConstants < handle
             obj.initValley = 1;
             eFieldMold = -10e5;
             obj.electricField = [eFieldMold 0 0];
+            obj.NW = 20;
         end
         
     end

@@ -1,17 +1,18 @@
-function solveFarDistributionFunction(obj, cc)
+function solveFarDistributionFunction(obj, cc, sc)
     %>远平衡分布函数求解
     for k = 1 : cc.NW
-        if tao.LA(k+1) ~= 0
-            solven(obj.n.LA, obj.nDot.LA, cc, gvLA(k+1), taoLA(k+1));
+        disp(k)
+        if sc.taoLA(k+1) ~= 0
+            solven(obj.n(k).LA, obj.nDot(k).LA, cc, sc.gvLA(k+1), sc.taoLA(k+1));
         end
-        if tao.TA(k+1) ~= 0
-            solven(obj.n.TA, obj.nDot.TA, cc, gvTA(k+1), taoTA(k+1));
+        if sc.taoTA(k+1) ~= 0
+            solven(obj.n(k).TA, obj.nDot(k).TA, cc, sc.gvTA(k+1), sc.taoTA(k+1));
         end
-        if tao.LO(k+1) ~= 0
-            solven(obj.n.LO, obj.nDot.LO, cc, gvLO(k+1), taoLO(k+1));
+        if sc.taoLO(k+1) ~= 0
+            solven(obj.n(k).LO, obj.nDot(k).LO, cc, sc.gvLO(k+1), sc.taoLO(k+1));
         end
-        if tao.TO(k+1) ~= 0
-            solven(obj.n.TO, obj.nDot.TO, cc, gvTO(k+1), taoTO(k+1));
+        if sc.taoTO(k+1) ~= 0
+            solven(obj.n(k).TO, obj.nDot(k).TO, cc, sc.gvTO(k+1), sc.taoTO(k+1));
         end
     end
     
@@ -19,8 +20,8 @@ function solveFarDistributionFunction(obj, cc)
         %>求解子函数
         massflux = StaggeredField(cc, gv, gv);
         sp = ColocateField(cc, 1/tao);
-        sc = ColocateField(cc);
-        multiplyColocated(sc, field2, ColocateField(cc, -1));
+        Sc = ColocateField(cc);
+        multiplyColocated(cc, Sc, field2, ColocateField(cc, -1));
         eqn = LinearSystem(cc.NX, cc.NY);
         for i = 2 : cc.NX + 1
             field1.top(i, :) = [0.0    0.0];
@@ -33,8 +34,8 @@ function solveFarDistributionFunction(obj, cc)
         eqn.initialize;
         eqn.setInitialGuess(cc, field1);
         convectionOperator(eqn, cc, massflux, field1);
-        sourceOperator(eqn, cc, sp, sc);
-        eqn.solveMatrix(50);
+        sourceOperator(eqn, cc, sp, Sc);
+        eqn.solveMatrix(10);
         eqn.updateField(cc, field1);
     end
 end

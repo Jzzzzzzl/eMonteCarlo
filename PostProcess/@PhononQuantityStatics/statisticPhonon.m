@@ -1,6 +1,5 @@
 function statisticPhonon(obj, cc)
-    % 网格划分
-    cc.frequencyGrid(obj.minFrequency, obj.maxFrequency, cc.nw);
+    %>分类统计声子
     % index用于筛选时间内声子
     index = obj.times <= obj.minimumTime;
     % index0用于筛选吸收类型声子

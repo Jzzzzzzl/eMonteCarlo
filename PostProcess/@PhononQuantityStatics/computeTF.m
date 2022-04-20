@@ -1,5 +1,5 @@
-function computeTF(obj, cc, sc)
-    %>
+function computeTF(obj, cc, sc, pc)
+    %>计算扩散温度
     sourceB = ColocateField(cc);
     for i = 1 : cc.NX
         for j = 1 : cc.NY
@@ -7,19 +7,19 @@ function computeTF(obj, cc, sc)
             energyLO = 0; energyTO = 0;
             for k = 1 : cc.NW
                 deltaw = cc.frequency.face(k+1) - cc.frequency.face(k);
-                if cc.frequency.point(k+1) >= sc.wMinLA && cc.frequency.point(k+1) <= sc.wMaxLA
+                if sc.gvLA(k+1) ~= 0
                     energyLA = energyLA + obj.n(k).LA.data(i+1, j+1)*pc.hbar*cc.frequency.point(k+1)*deltaw ...
                                  / (sc.gvLA(k+1)*sc.taoLA(k+1));
                 end
-                if cc.frequency.point(k+1) >= sc.wMinTA && cc.frequency.point(k+1) <= sc.wMaxTA
+                if sc.gvTA(k+1) ~= 0
                     energyTA = energyTA + obj.n(k).TA.data(i+1, j+1)*pc.hbar*cc.frequency.point(k+1)*deltaw ...
                                  / (sc.gvTA(k+1)*sc.taoTA(k+1));
                 end
-                if cc.frequency.point(k+1) >= sc.wMinLO && cc.frequency.point(k+1) <= sc.wMaxLO
+                if sc.gvLO(k+1) ~= 0
                     energyLO = energyLO + obj.n(k).LO.data(i+1, j+1)*pc.hbar*cc.frequency.point(k+1)*deltaw ...
                                  / (sc.gvLO(k+1)*sc.taoLO(k+1));
                 end
-                if cc.frequency.point(k+1) >= sc.wMinTO && cc.frequency.point(k+1) <= sc.wMaxTO
+                if sc.gvTO(k+1) ~= 0
                     energyTO = energyTO + obj.n(k).TO.data(i+1, j+1)*pc.hbar*cc.frequency.point(k+1)*deltaw ...
                                  / (sc.gvTO(k+1)*sc.taoTO(k+1));
                 end
@@ -31,7 +31,7 @@ function computeTF(obj, cc, sc)
     lambda = StaggeredField(cc, cc.k, cc.k);
     obj.TF = ColocateField(cc, cc.envTemp);
     sp = ColocateField(cc);
-    sc = sourceB;
+    Sc = sourceB;
     eqn = LinearSystem(cc.NX, cc.NY);
     for i = 2 : cc.NX + 1
         obj.TF.top(i, :) = [0.0    cc.envTemp];
@@ -44,8 +44,8 @@ function computeTF(obj, cc, sc)
     eqn.initialize;
     eqn.setInitialGuess(cc, obj.TF);
     diffusionOperator(eqn, cc, lambda, obj.TF);
-    sourceOperator(eqn, cc, sp, sc);
+    sourceOperator(eqn, cc, sp, Sc);
     eqn.solveMatrix(500);
     eqn.updateField(cc, obj.TF);
-    
+    obj.TF.plotField(cc);
 end

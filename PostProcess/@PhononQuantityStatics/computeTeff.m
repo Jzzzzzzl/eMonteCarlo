@@ -32,7 +32,7 @@ function computeTeff(obj, cc, pc, sc)
                         energyTO = energyTO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTO(k+1);
                     end
                 end
-                energyLeft(i+1, j+1) = (energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
+                energyLeft.data(i+1, j+1) = (energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
                 % 方程右边
                 energyLA = 0; energyTA = 0;
                 energyLO = 0; energyTO = 0;
@@ -52,9 +52,9 @@ function computeTeff(obj, cc, pc, sc)
                         energyTO = energyTO + (obj.n(k).TO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTO(k+1);
                     end
                 end
-                energyRight(i+1, j+1) = (energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
+                energyRight.data(i+1, j+1) = (energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
                 % 左右校准
-                error(p) = double(abs((energyRight(i+1, j+1) - energyLeft(i+1, j+1)) / energyRight(i+1, j+1)));
+                error(p) = double(abs((energyRight.data(i+1, j+1) - energyLeft.data(i+1, j+1)) / energyRight.data(i+1, j+1)));
                 if error(p) < errorMax
                     break;
                 end

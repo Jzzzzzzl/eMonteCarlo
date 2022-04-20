@@ -1,4 +1,4 @@
-function [wNumab] = phononSpectrumPlot(obj, pc, cc, type)
+function plotSpectrum(obj, pc, cc, type)
     %>声子谱画图
     wNumab = zeros(cc.NW, 2);
     wNumem = zeros(cc.NW, 2);

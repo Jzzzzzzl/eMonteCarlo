@@ -1,5 +1,5 @@
 function readDopingDensity(obj)
-    %>
+    %>读取掺杂浓度
     try
         load TotalDoping.dat
     catch

@@ -10,108 +10,108 @@ function [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
         case 2 % intra_ab_LA
             ps.aborem = "ab";
             ps.polar = "LA";
-            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'intra', sc.omegaLA(obj.qAB), 1);
+            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'intra', polyval(sc.bandLA, obj.qAB), 1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 3 % intra_ab_TA
             ps.aborem = "ab";
             ps.polar = "TA";
-            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'intra', sc.omegaTA(obj.qAB), 1);
+            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'intra', polyval(sc.bandTA, obj.qAB), 1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 4 % intra_em_LA
             ps.aborem = "em";
             ps.polar = "LA";
-            while sc.omegaLA(obj.qEM)*pc.hbar >= es.energy; obj.qEM = obj.qEM * 0.8; end
-            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'intra', sc.omegaLA(obj.qEM), -1);
+            while polyval(sc.bandLA, obj.qEM)*pc.hbar >= es.energy; obj.qEM = obj.qEM * 0.8; end
+            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'intra', polyval(sc.bandLA, obj.qEM), -1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 5 % intra_em_TA
             ps.aborem = "em";
             ps.polar = "TA";
-            while sc.omegaTA(obj.qEM)*pc.hbar >= es.energy; obj.qEM = obj.qEM * 0.8; end
-            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'intra', sc.omegaTA(obj.qEM), -1);
+            while polyval(sc.bandTA, obj.qEM)*pc.hbar >= es.energy; obj.qEM = obj.qEM * 0.8; end
+            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'intra', polyval(sc.bandTA, obj.qEM), -1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 6 % inter_g_ab_LA
             ps.aborem = "ab";
             ps.polar = "LA";
             es.valley = randomValley(es, "interg");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaLA(pc.qg), 1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wgLA, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 7 % inter_g_ab_TA
             ps.aborem = "ab";
             ps.polar = "TA";
             es.valley = randomValley(es, "interg");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaTA(pc.qg), 1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wgTA, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 8 % inter_g_ab_LO
             ps.aborem = "ab";
             ps.polar = "LO";
             es.valley = randomValley(es, "interg");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaLO(pc.qg), 1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wgLO, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 9 % inter_f_ab_LA
             ps.aborem = "ab";
             ps.polar = "LA";
             es.valley = randomValley(es, "interf");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaLA(pc.qf), 1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wfLA, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 10 % inter_f_ab_TA
             ps.aborem = "ab";
             ps.polar = "TA";
             es.valley = randomValley(es, "interf");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaTA(pc.qf), 1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wfTA, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 11 % inter_f_ab_TO
             ps.aborem = "ab";
             ps.polar = "TO";
             es.valley = randomValley(es, "interf");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaTO(pc.qf), 1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wfTO, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 12 % inter_g_em_LA
             ps.aborem = "em";
             ps.polar = "LA";
             es.valley = randomValley(es, "interg");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaLA(pc.qg), -1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wgLA, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 13 % inter_g_em_TA
             ps.aborem = "em";
             ps.polar = "TA";
             es.valley = randomValley(es, "interg");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaTA(pc.qg), -1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wgTA, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 14 % inter_g_em_LO
             ps.aborem = "em";
             ps.polar = "LO";
             es.valley = randomValley(es, "interg");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaLO(pc.qg), -1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wgLO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 15 % inter_f_em_LA
             ps.aborem = "em";
             ps.polar = "LA";
             es.valley = randomValley(es, "interf");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaLA(pc.qf), -1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wfLA, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 16 % inter_f_em_TA
             ps.aborem = "em";
             ps.polar = "TA";
             es.valley = randomValley(es, "interf");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaTA(pc.qf), -1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wfTA, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 17 % inter_f_em_TO
             ps.aborem = "em";
             ps.polar = "TO";
             es.valley = randomValley(es, "interf");
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.omegaTO(pc.qf), -1);
+            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wfTO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 18 % 
             return;
