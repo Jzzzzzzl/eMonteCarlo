@@ -1,10 +1,6 @@
 classdef EPWaveVectorModify < handle
     %% 
     
-    properties
-        
-    end
-    
     methods
         [es] = modifyElectricWaveVector(obj, es, pc)
     end

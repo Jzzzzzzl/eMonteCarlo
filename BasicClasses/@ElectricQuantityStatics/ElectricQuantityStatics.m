@@ -1,5 +1,5 @@
 classdef ElectricQuantityStatics < handle
-    %% 后处理类
+    %% 电子性质统计类
     properties(Constant)
         e = 1.602176634e-19;
     end

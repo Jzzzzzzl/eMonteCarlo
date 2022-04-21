@@ -1,8 +1,5 @@
 function ionizedImpurityScatteringRate(obj, es, pc, cc)
     %>生成电离杂质散射句柄函数(弹性)
-    %>     参数说明：
-    %>     n：某位置掺杂浓度
-    % ======================================================================
     try
         n = cc.computeDopingDensity(es);
     catch

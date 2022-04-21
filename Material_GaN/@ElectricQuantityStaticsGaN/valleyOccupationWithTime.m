@@ -1,4 +1,4 @@
-function valleyOccupationWithTime(obj, sh, mm, cc, N)
+function valleyOccupationWithTime(obj, sh, cc, N)
     %>能谷占据率随时间变化图
     valleys = zeros(cc.superElecs, cc.noFly);
     times = zeros(cc.superElecs, cc.noFly);
@@ -6,15 +6,15 @@ function valleyOccupationWithTime(obj, sh, mm, cc, N)
         valleys(i, :) = [sh.eHistory(i, :).valley];
         times(i, :) = [sh.eHistory(i, :).time];
     end
-    mm.timeGrid(0, obj.minimumTime, N);
-    obj.occupyRate = zeros(mm.Nt, 4);
-    for t = 1 : mm.Nt
+    cc.timeGrid(0, obj.minimumTime, N);
+    obj.occupyRate = zeros(cc.Nt, 4);
+    for t = 1 : cc.Nt
         num = 0;
         numU = 0;
         numG1 = 0;
         numG3 = 0;
         for i = 1 : cc.superElecs
-            index = find(mm.time.face(t) <= times(i, :), 1);
+            index = find(cc.time.face(t) <= times(i, :), 1);
             if isempty(index)
                 continue;
             end
@@ -30,7 +30,7 @@ function valleyOccupationWithTime(obj, sh, mm, cc, N)
                 error("能谷标号错误！")
             end
         end
-        obj.occupyRate(t, 1) = mm.time.point(t + 1);
+        obj.occupyRate(t, 1) = cc.time.point(t + 1);
         obj.occupyRate(t, 2) = numU / num;
         obj.occupyRate(t, 3) = numG1 / num;
         obj.occupyRate(t, 4) = numG3 / num;

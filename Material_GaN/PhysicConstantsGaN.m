@@ -1,37 +1,13 @@
-classdef PhysicConstants < handle
+classdef PhysicConstantsGaN < PhysicConstants
     %% 物理常量类
-    properties(Constant)
-        e = 1.602176634e-19;
-        m = 9.10956e-31;
-        kb = 1.380649e-23;
-        h = 6.6260755e-34;
-        hbar = 1.05457266e-34;
-        epsilon0 = 8.854187817e-12;
-    end
-    
     properties
-        %>材料一般性参数
-        a                           %晶格常数
-        b
-        c
-        kn
-        hsp                        %倒空间笛卡尔高对称点
-        rho                         %密度
-        ul                          %纵向声速
-        ut                          %横向声速
-        u                           %平均声速
-        p                           %压电常数
-        epsilonL                   %低/高频相对介电常量
-        epsilonH
-        dGM                        %Gamma到M距离，k空间距离基准
-        dBD
-        dGL
-        dGK
-        dGA
-        dKN
-        maxFrequency
+        gammaG                 %Gruneisen非谐参数
+        C44
+        miu                        %剪切模量
+        thetaD                    %德拜温度
+        omegaD                  %德拜频率
+        V0                          %单原子体积
     end
-    
     properties
         %>U能谷参数
         EgU                       %U能谷带差，以G1能谷为基准点
@@ -76,7 +52,7 @@ classdef PhysicConstants < handle
     end
     
     methods
-        function obj = PhysicConstants
+        function obj = PhysicConstantsGaN
             %>构造函数
             obj.a = 3.216e-10;
             obj.b = 3.216e-10;
@@ -103,7 +79,13 @@ classdef PhysicConstants < handle
             obj.dGK = sqrt(sum(obj.hsp.K.^2));
             obj.dGA = sqrt(sum(obj.hsp.A.^2));
             obj.dKN = 2*pi/obj.a;
-            obj.maxFrequency = 5e14;
+            
+            obj.gammaG = 0.73;
+            obj.C44 = 75e9;
+            obj.miu = obj.C44;
+            obj.thetaD = 643;
+            obj.omegaD = obj.thetaD*obj.kb/obj.hbar;
+            obj.V0 = sqrt(3)*obj.c^3/8;
             %>U能谷参数
             obj.EgU = 2.2717*obj.e;
             obj.mtU = 0.335*obj.m;

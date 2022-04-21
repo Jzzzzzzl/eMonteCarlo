@@ -1,9 +1,15 @@
 classdef ScatteringCurve < handle
     %% 色散曲线
     properties
-        frequency
+        band
         bandLA
         bandLO
+        gvLA
+        gvLO
+        dosLA
+        dosLO
+        taoLA
+        taoLO
     end
     
     properties
@@ -23,32 +29,20 @@ classdef ScatteringCurve < handle
     end
     
     methods
-        function obj = ScatterringCurve(pc)
+        function obj = ScatteringCurve(cc, pc)
             %>构造函数
-            obj.bandLA = [-2.66610530103502e-18,4.03688695146239e-09, ...
-                                1188.20113406174,-12317168559.2966];
-            obj.bandLO = [-3.60800908165332e-37,1.34049749810303e-26, ...
-                               -1.73789147769978e-16,8.42729511038591e-07, ...
-                               -498.359180281836,18002632666019.3];
-            %计算定义域及谷间声子频率
-            obj.frequencyDomain(pc);
+            obj.initializeVariables(cc);
+            obj.fitBandCoefficient(pc);
             obj.frequencyToInter(pc);
-        end
-        
-        function frequencyDomain(obj, ~)
-            %>各极化支频率定义域
-            obj.wMinLA = 0;
-            obj.wMaxLA = 1.0290e+13;
-            obj.wMinLO = 1.7974e+13;
-            obj.wMaxLO = 2.2343e+13;
+            obj.computeGroupVelocityDOSTao(cc, pc)
         end
         
         function frequencyToInter(obj, pc)
             %>谷间散射对应频率
-            obj.wPolarLO = 1.3825e+14;
-            obj.wU2ULO = 1.0002e+14;
-            obj.wU2GLO = 1.0002e+14;
-            obj.wG2GLO = 1.0002e+14;
+            obj.wPolarLO = polyval(obj.bandLO, 0.5 * pc.dBD);
+            obj.wU2ULO = polyval(obj.bandLO, 0.1 * pc.dBD);
+            obj.wU2GLO = polyval(obj.bandLO, 0.1 * pc.dBD);
+            obj.wG2GLO = polyval(obj.bandLO, 0.1 * pc.dBD);
         end
         
         function frequency = phononFrequency(obj, ps)
@@ -61,8 +55,14 @@ classdef ScatteringCurve < handle
                 otherwise
                     error("声子极化支类型有误！")
             end
-            
         end
         
     end
+    
+    methods
+        initializeVariables(obj, cc)
+        fitBandCoefficient(obj, pc)
+        computeGroupVelocityDOSTao(obj, cc, pc)
+    end
+    
 end

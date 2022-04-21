@@ -5,8 +5,6 @@ function inelasticIntervalleyScatteringRate(obj, es, pc, cc)
     %>     Zf：某一类型散射可供选择的等效能谷数
     %>     w：某极化支/某散射类型的声子平均频率
     %>     de：散射终态能谷与散射初态能谷极小值之差
-    %>     
-    % ======================================================================
     epsilonTempAB = @(w, de) es.epsilon + pc.hbar * w - de;
     obj.inelasticInterAB = @(DK, Zf, w, de) DK^2*obj.md^(3/2)*Zf ... 
                                   / (sqrt(2)*pi*pc.rho*pc.hbar^3 * w) ...

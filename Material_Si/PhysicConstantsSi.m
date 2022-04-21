@@ -1,31 +1,6 @@
-classdef PhysicConstants < handle
+classdef PhysicConstantsSi < PhysicConstants
     %% 物理常量类
-    properties(Constant)
-        e = 1.602176634e-19;
-        m = 9.10956e-31;
-        kb = 1.380649e-23;
-        h = 6.6260755e-34;
-        hbar = 1.05457266e-34;
-        epsilon0 = 8.854187817e-12;
-    end
-    
     properties
-        %>材料一般性参数
-        a                           %晶格常数
-        c
-        kn
-        hsp                        %倒空间笛卡尔坐标点
-        rho                         %密度
-        ul                          %纵向声速
-        ut                          %横向声速
-        u                           %平均声速
-        p                           %压电常数
-        epsilonL                   %相对介电常量
-        epsilonH
-        dGX                         %Gamma到X距离，k空间距离基准
-        dBD
-        dGL
-        dKN
         qf                          %f型谷间散射平均声子波矢大小
         qg                          %g型谷间散射平均声子波矢大小
         gammaG                 %Gruneisen非谐参数
@@ -57,7 +32,7 @@ classdef PhysicConstants < handle
     end
     
     methods
-        function obj = PhysicConstants
+        function obj = PhysicConstantsSi
             %>构造函数
             obj.a = 5.431e-10;
             obj.c = 3.867e-10;

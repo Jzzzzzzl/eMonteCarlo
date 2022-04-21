@@ -1,5 +1,5 @@
 classdef Data2ColocatedField < BoundaryReflection
-    %% 
+    %% 数据读取类
     properties
         xField
         yField

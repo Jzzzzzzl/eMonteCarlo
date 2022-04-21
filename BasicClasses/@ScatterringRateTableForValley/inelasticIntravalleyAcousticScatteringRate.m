@@ -2,8 +2,6 @@ function inelasticIntravalleyAcousticScatteringRate(obj, es, pc, cc)
     %>生成谷内声学散射句柄函数
     %>     参数说明：
     %>     D：形变势常量
-    %>     u：横波/纵波波速
-    % ======================================================================
     epsilonStar = obj.md*pc.u^2/2;
     Cstar = 4*epsilonStar^(1/2) ...
               / (pc.kb*cc.envTemp*(1-4*obj.alpha*epsilonStar/pc.e));

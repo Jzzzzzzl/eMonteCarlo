@@ -11,18 +11,17 @@ addpath(genpath('./test/Si'))
 %%
 clc,clear
 close all
-pc = PhysicConstants;
+pc = PhysicConstantsSi;
 cc = ConfigureConstants;
 dv = DecideValleyKind(pc);
 sc = ScatteringCurve(cc, pc);
 sh = SimulationHistory(dv, pc, cc);
-mm = ModelMeshing;
 pq = PhononQuantityStatics(cc);
 
 %% 
 sh = parallelCompute(sh, dv, sc, pc, cc);
-% eq = ElectricQuantityStaticsGaN(sh, pc, cc);
 eq = ElectricQuantityStaticsSi(sh, pc, cc);
+pq.minimumTime = eq.minimumTime;
 % 验证1，能带画图
 dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.X);
 dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.X);
@@ -34,21 +33,21 @@ verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("ValleyStructureOfValleyGamma", dv, pc, sc, cc);
 % verifyProgram("ValleyStructureOfValleyU", dv, pc, sc, cc);
 %验证4，数据后处理
-eq.dirftVelocityWithTime(sh, mm, cc, 100);
+eq.dirftVelocityWithTime(sh, cc, 100);
 eq.scatTypeDistribution(sh, cc);
-eq.energyHistoryDistribution(sh, mm, cc, 0.5, 100);
-eq.averageEnergyWithTime(sh, mm, cc, 100);
+eq.energyHistoryDistribution(sh, cc, 0.5, 100);
+eq.averageEnergyWithTime(sh, cc, 100);
 % eq.valleyOccupationWithTime(sh, mm, cc, 10);
 eq.electronTrace(sh, cc, 20, 'k');
 eq.electronTrace(sh, cc, 15, 'r');
-eq.electronTrace(sh, cc, 114, 'e');
+eq.electronTrace(sh, cc, 14, 'e');
 %验证5，声子发射谱
-% pq.subPhononQuantityStatics(sh, mm);
-% pq.phononSpectrumPlot(mm, pc, "LA");
-% pq.phononSpectrumPlot(mm, pc, "TA");
-% pq.phononSpectrumPlot(mm, pc, "LO");
-% pq.phononSpectrumPlot(mm, pc, "TO");
-% pq.phononSpectrumPlot(mm, pc, "ALL");
+pq.subPhononQuantityStatics(sh, cc);
+pq.plotSpectrum(pc, cc, "LA");
+pq.plotSpectrum(pc, cc, "TA");
+pq.plotSpectrum(pc, cc, "LO");
+pq.plotSpectrum(pc, cc, "TO");
+pq.plotSpectrum(pc, cc, "ALL");
 
 
 

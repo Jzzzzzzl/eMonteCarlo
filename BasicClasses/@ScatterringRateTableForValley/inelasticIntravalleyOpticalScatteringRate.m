@@ -3,7 +3,6 @@ function inelasticIntravalleyOpticalScatteringRate(obj, es, pc, cc)
     %>     参数说明：
     %>     DK：耦合常数
     %>     w：某极化支/某散射类型的声子平均频率
-    % ======================================================================
     epsilonTempAB = @(w) es.epsilon + pc.hbar * w;
     obj.inelasticIntraOpticalAB = @(DK, w) DK^2*obj.md^(3/2) ... 
                                             / (sqrt(2)*pi*pc.rho*pc.hbar^3 * w) ...

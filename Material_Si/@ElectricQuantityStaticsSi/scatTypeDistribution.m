@@ -1,6 +1,6 @@
-function [numbers] = scatTypeDistribution(~, sh, cc)
+function scatTypeDistribution(obj, sh, cc)
     %>散射种类分布
-    numbers = zeros(4, 2);
+    obj.numbers = zeros(4, 2);
     for i = 1 : cc.superElecs
         types = [sh.eHistory(i,:).scatype];
         %电离杂质散射
@@ -18,16 +18,16 @@ function [numbers] = scatTypeDistribution(~, sh, cc)
         %g型发射声子谷间散射
         index7 = types >=12 & types <=14;
         
-        numbers(1,1) = numbers(1,1) + sum(double(index1));
-        numbers(2,1) = numbers(2,1) + sum(double(index2));
-        numbers(2,2) = numbers(2,2) + sum(double(index3));
-        numbers(3,1) = numbers(3,1) + sum(double(index4));
-        numbers(3,2) = numbers(3,2) + sum(double(index5));
-        numbers(4,1) = numbers(4,1) + sum(double(index6));
-        numbers(4,2) = numbers(4,2) + sum(double(index7));
+        obj.numbers(1,1) = obj.numbers(1,1) + sum(double(index1));
+        obj.numbers(2,1) = obj.numbers(2,1) + sum(double(index2));
+        obj.numbers(2,2) = obj.numbers(2,2) + sum(double(index3));
+        obj.numbers(3,1) = obj.numbers(3,1) + sum(double(index4));
+        obj.numbers(3,2) = obj.numbers(3,2) + sum(double(index5));
+        obj.numbers(4,1) = obj.numbers(4,1) + sum(double(index6));
+        obj.numbers(4,2) = obj.numbers(4,2) + sum(double(index7));
     end
-    numbers = numbers / (cc.superElecs * cc.noFly);
+    obj.numbers = obj.numbers / (cc.superElecs * cc.noFly);
     figure
-    bar(numbers,'stacked')
+    bar(obj.numbers,'stacked')
     set(gca,'xticklabel',{'impurity', 'intra', 'interf', 'interg'})
 end

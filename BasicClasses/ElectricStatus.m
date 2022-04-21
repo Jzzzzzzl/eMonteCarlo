@@ -1,9 +1,5 @@
 classdef ElectricStatus < handle
     %% 本文件提供超电子对象父类
-    % ======================================================================
-    %>     属性说明：
-    %>     
-    % ======================================================================
     properties
         position
         vector
@@ -20,12 +16,21 @@ classdef ElectricStatus < handle
     end
     
     methods
-        function obj = ElectricStatus(dv, pc, cc)
-            %>构造函数
+        
+        function initializeElectricStatus(obj, dv, pc, cc)
+            %>电子初始化
             obj.time = 0;
-            if nargin == 3
-                initializeElectricStatus(obj, dv, pc, cc);
-            end
+            obj.perdrift = 0;
+            obj.valley = cc.initValley;
+            obj.position(1) = randNumber(cc.modelx.face(1), cc.dSource);
+            obj.position(2) = randNumber(cc.modely.face(end-1), cc.modely.face(end));
+            obj.position(3) = 0;
+            obj.charge = cc.superElecCharge;
+            dv.valleyGuidingPrinciple(obj);
+            obj.energy = maxwellDistribution(pc, cc) + dv.valley.Eg;
+            k = dv.valley.generateStandardElectricWaveVector(obj, pc, randNumber(0, pi));
+            obj = dv.valley.getGeneralElectricWaveVector(obj, pc, k);
+            obj = dv.valley.computeEnergyAndGroupVelocity(obj, pc);
         end
         
         function wavenum = get.wavenum(obj)

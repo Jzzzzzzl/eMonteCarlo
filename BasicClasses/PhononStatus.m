@@ -1,16 +1,5 @@
 classdef PhononStatus < handle
     %% 本文件提供超声子对象父类
-    % ======================================================================
-    %>     属性说明：
-    %>
-    % ======================================================================
-    %>     函数说明：
-    %> （1）
-    %>         
-    %> （2）
-    %>         
-    %>
-    % ======================================================================
     properties(Constant)
         hbar = 1.05457266e-34;
     end
@@ -27,7 +16,7 @@ classdef PhononStatus < handle
     
     methods
         
-        function obj = PhononStatus
+        function initializePhononStatus(obj)
             %>构造函数
             obj.time = 0;
             obj.polar = "non";

@@ -1,5 +1,7 @@
 function [k] = chooseStandardVectorForElasticScattering(obj, es, pc, type)
     %>选择弹性散射末态电子标准波矢
+    %> 参数说明：
+    %     type：'ap'/'ii'/'intra'
     switch type
         case 'ap'
             %>声学压电散射角

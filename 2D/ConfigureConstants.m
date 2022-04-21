@@ -14,23 +14,20 @@ classdef ConfigureConstants < Data2ColocatedField
         initValley
         mLength
         mWidth
-        nx
-        ny
-        nw
         k
     end
     
     methods
         function obj = ConfigureConstants
             %>构造函数
-            obj.superElecs = 100;
-            obj.noFly = 300;
+            obj.superElecs = 10;
+            obj.noFly = 100;
             
             obj.xsfornDot = 1e8;
             obj.xsforSourceB = 9e20;
             obj.envTemp = 300;
             obj.maxVelocity = 3e5;
-            obj.maxFrequency = 9.6e13;
+            obj.maxFrequency = 10e13;
             obj.initValley = 1;
             obj.dSource = 0.1e-6;
             obj.pGate = 0.2e-6;

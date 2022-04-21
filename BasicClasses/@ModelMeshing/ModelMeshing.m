@@ -1,9 +1,8 @@
 classdef ModelMeshing < handle
     %% 本文件提供网格划分类
-    % ======================================================================
     %>     包括的网格类型有：
     %> frequency/energy/modelx/modely/time
-    %> 若为一维模型，则NY = 1，实际按二维进行计算，取中间值
+    %> 若为一维模型，则NY = 1，实际按二维进行计算
     properties
         frequency
         energy

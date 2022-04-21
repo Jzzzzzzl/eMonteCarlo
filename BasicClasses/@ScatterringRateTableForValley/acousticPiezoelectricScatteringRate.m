@@ -1,8 +1,5 @@
 function acousticPiezoelectricScatteringRate(obj, es, pc, cc)
     %>生成声学压电散射句柄函数
-    %>     参数说明：
-    %>     n：自由载流子浓度
-    % ======================================================================
     try
         n = cc.computeDopingDensity(es);
     catch

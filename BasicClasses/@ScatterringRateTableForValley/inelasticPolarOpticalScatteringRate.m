@@ -2,8 +2,6 @@ function inelasticPolarOpticalScatteringRate(obj, es, pc, cc)
     %>生成极化光学散射率句柄函数
     %>     参数说明：
     %>     w：某光学支的声子平均频率
-    %>
-    % ======================================================================
     global e alpha epsilon0
     e = pc.e;
     alpha = obj.alpha;
