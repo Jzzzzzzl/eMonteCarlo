@@ -12,15 +12,17 @@ classdef ConfigureConstants < Data2ColocatedField
         initValley
         mLength
         mWidth
-        eFieldMold
+        eField
         dopdensity
     end
     
     methods
         function obj = ConfigureConstants
-            obj.superElecs = 20;
-            obj.noFly = 1000;
-            obj.eFieldMold = -10e5;
+            obj.superElecs = 2000;
+            obj.noFly = 10000;
+            obj.eField = [100e-12 -1e5
+                             110e-12 -10e5
+                             1 -1e5];
             obj.dopdensity = 1e23;
             
             obj.envTemp = 300;
@@ -41,7 +43,6 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.frequencyGrid(0, obj.maxFrequency, obj.NW);
             obj.modelXGrid(0, obj.mLength, obj.NX);
             obj.modelYGrid(0, obj.mWidth, obj.NY);
-            obj.xField = ColocateField(obj, obj.eFieldMold);
             obj.eleConc = ColocateField(obj, obj.dopdensity);
             obj.dopDensity = ColocateField(obj, obj.dopdensity);
             obj.computeSuperElectricCharge;

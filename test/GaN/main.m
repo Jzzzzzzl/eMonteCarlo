@@ -4,7 +4,7 @@ addpath(genpath('./BasicClasses'))
 addpath(genpath('./OperatorTerms'))
 addpath(genpath('./functions'))
 addpath(genpath('./Material_GaN'))
-addpath(genpath('./ParallelCompute'))
+addpath(genpath('./MaterialParallelCompute'))
 addpath(genpath('./PostProcess'))
 addpath(genpath('./test/GaN'))
 

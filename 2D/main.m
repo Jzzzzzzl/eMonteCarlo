@@ -5,7 +5,7 @@ addpath(genpath('./BasicClasses'))
 addpath(genpath('./OperatorTerms'))
 addpath(genpath('./functions'))
 addpath(genpath('./Material_Si'))
-addpath(genpath('./ParallelCompute'))
+addpath(genpath('./DeviceParallelCompute'))
 addpath(genpath('./PostProcess'))
 
 %% 
