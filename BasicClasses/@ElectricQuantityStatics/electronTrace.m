@@ -1,6 +1,18 @@
 function electronTrace(obj, sh, cc, num, type)
     %>单电子轨迹图
     switch type
+        case "v"
+            tempv = zeros(cc.noFly, 3);
+            for i = 1 : cc.noFly
+                tempv(i, :) = sh.eHistory(num, i).velocity;
+            end
+            figure
+            hold on
+            for i = 1 : 3
+                plot(tempv(:, 1), 'r*')
+                plot(tempv(:, 2), 'g-')
+            end
+            legend("vx", "vy")
         case "k"
             tempk = zeros(cc.noFly, 3);
             for i = 1 : cc.noFly
