@@ -87,11 +87,7 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.omegaD = obj.thetaD*obj.kb/obj.hbar;
             obj.V0 = sqrt(3)*obj.c^3/8;
             %>U能谷参数
-<<<<<<< HEAD:verify_Procedure/Material_GaN/PhysicConstants.m
-            obj.EgU = 2.2*obj.e;
-=======
             obj.EgU = 2.2717*obj.e;
->>>>>>> jiang:Material_GaN/PhysicConstantsGaN.m
             obj.mtU = 0.335*obj.m;
             obj.mlU = 1.704*obj.m;
             obj.alphaU = 0.385;
