@@ -5,6 +5,7 @@ classdef ModelMeshing < handle
     %> 若为一维模型，则NY = 1，实际按二维进行计算
     properties
         frequency
+        vector
         energy
         modelx
         modely
@@ -12,6 +13,7 @@ classdef ModelMeshing < handle
     end
     properties
         NW
+        NQ
         NE
         NX
         NY
@@ -38,6 +40,12 @@ classdef ModelMeshing < handle
             elseif nargin == 6
                 obj.modely = obj.meshGrid(obj.modely, yMin, yMax, N, ratio, layerNum);
             end
+        end
+        
+        function waveVectorGrid(obj, qMin, qMax, N)
+            %>生成波矢网格
+            obj.NQ = N;
+            obj.vector = obj.meshGrid(obj.frequency, qMin, qMax, N);
         end
         
         function frequencyGrid(obj, wMin, wMax, N)

@@ -14,6 +14,7 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
         scatTables(i, :) = deal(obj.scatTable');
         scatTables(i, end) = deal(obj.scatTableAll(end));
     end
+    if mn(2) > pc.nofScatU; mn(2) = pc.nofScatU; end
     figure
     for j = mn(1) : mn(2)
 %         slg = loglog(energys / pc.e, scatTables(:, j));

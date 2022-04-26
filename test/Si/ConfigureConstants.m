@@ -18,11 +18,11 @@ classdef ConfigureConstants < Data2ColocatedField
     
     methods
         function obj = ConfigureConstants
-            obj.superElecs = 2000;
-            obj.noFly = 2000;
-            obj.eField = [20e-12 -1e5
-                             21e-12 -10e5
-                             1 -1e5];
+            obj.superElecs = 200;
+            obj.noFly = 500;
+%             obj.eField = [1, -100e5];
+            obj.eField = [4e-12 -1e5
+                             1 -100e5];
             obj.dopdensity = 1e23;
             
             obj.envTemp = 300;

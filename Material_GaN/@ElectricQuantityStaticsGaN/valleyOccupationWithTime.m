@@ -14,8 +14,8 @@ function valleyOccupationWithTime(obj, sh, cc, N)
         numG1 = 0;
         numG3 = 0;
         for i = 1 : cc.superElecs
-            index = find(cc.time.face(t) <= times(i, :), 1);
-            if isempty(index)
+            index = find(cc.time.face(t) <= times(i, :), 1) - 1;
+            if isempty(index) || index == 0
                 continue;
             end
             num = num + 1;

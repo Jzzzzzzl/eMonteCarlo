@@ -33,16 +33,17 @@ pq.minimumTime = eq.minimumTime;
 % verifyProgram("ValleyStructureOfValleyGamma", dv, pc, sc, cc);
 % verifyProgram("ValleyStructureOfValleyU", dv, pc, sc, cc);
 %验证4，数据后处理
-eq.dirftVelocityWithTime(sh, cc, 100);
-eq.scatTypeDistribution(sh, cc);
-eq.energyHistoryDistribution(sh, cc, 0.5, 100);
+eq.pulsesFieldDirftVelocityWithTime(sh, cc, 100);
+eq.waveVectorDistribution(sh, pc, cc, [5.53e-12 7.53e-12 2]);
+% eq.scatTypeDistribution(sh, cc);
+% eq.energyHistoryDistribution(sh, cc, 0.5, 100);
 eq.averageEnergyWithTime(sh, cc, 100);
 % eq.valleyOccupationWithTime(sh, mm, cc, 10);
 % eq.electronTrace(sh, cc, 20, 'k');
 % eq.electronTrace(sh, cc, 15, 'r');
 % eq.electronTrace(sh, cc, 14, 'e');
 %验证5，声子发射谱
-pq.subPhononQuantityStatics(sh, cc);
+% pq.subPhononQuantityStatics(sh, cc);
 % pq.plotSpectrum(pc, cc, "LA");
 % pq.plotSpectrum(pc, cc, "TA");
 % pq.plotSpectrum(pc, cc, "LO");

@@ -14,10 +14,11 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
         scatTables(i, :) = deal(obj.scatTable');
         scatTables(i, end) = deal(obj.scatTableAll(end));
     end
+    if mn(2) > pc.nofScatG3; mn(2) = pc.nofScatG3; end
     figure
     for j = mn(1) : mn(2)
-        slg = loglog(energys / pc.e, scatTables(:, j));
-%         slg = semilogy(energys / pc.e, scatTables(:, j));
+%         slg = loglog(energys / pc.e, scatTables(:, j));
+        slg = semilogy(energys / pc.e, scatTables(:, j));
         slg.LineWidth = 3;
         hold on
     end
