@@ -21,6 +21,7 @@ pq = PhononQuantityStatics(cc);
 %% 
 sh = parallelCompute(sh, dv, sc, pc, cc);
 eq = ElectricQuantityStaticsGaN(sh, pc, cc);
+clear sh.eHistory
 pq.minimumTime = eq.minimumTime;
 % 验证1，能带画图
 % dv.valley.bandStructurePlot(pc, pc.hsp.L, pc.hsp.M);
@@ -33,15 +34,21 @@ pq.minimumTime = eq.minimumTime;
 % verifyProgram("ValleyStructureOfValleyGamma", dv, pc, sc, cc);
 % verifyProgram("ValleyStructureOfValleyU", dv, pc, sc, cc);
 %验证4，数据后处理
-eq.pulsesFieldDirftVelocityWithTime(sh, cc, 100);
-eq.waveVectorDistribution(sh, pc, cc, [0.0e-12 0.1e-12 5]);
-% eq.scatTypeDistribution(sh, cc);
-% eq.energyHistoryDistribution(sh, cc, 5, 100);
-eq.averageEnergyWithTime(sh, cc, 100);
-% eq.valleyOccupationWithTime(sh, cc, 100);
-% eq.electronTrace(sh, cc, 20, 'k');
-% eq.electronTrace(sh, cc, 35, 'r');
-% eq.electronTrace(sh, cc, 14, 'e');
+eq.averageEnergyWithTime(cc, 100);
+eq.energyHistoryDistribution(cc, 100);
+eq.pulsesFieldDirftVelocityWithTime(cc, 100);
+eq.waveVectorDistribution(dv, pc, cc, [5.96e-12 6.15e-12 3]);
+eq.plotProperties
+
+eq.computeDriftVelocityWithElectricField(cc)
+
+eq.scatTypeDistribution(cc, 'U');
+eq.scatTypeDistribution(cc, 'G1');
+eq.scatTypeDistribution(cc, 'G3');
+eq.valleyOccupationWithTime(cc, 100);
+% eq.electronTrace(cc, 20, 'k');
+% eq.electronTrace(cc, 35, 'r');
+% eq.electronTrace(cc, 24, 'e');
 %验证5，声子发射谱
 % pq.subPhononQuantityStatics(sh, cc);
 % pq.plotSpectrum(pc, cc, "LA");
@@ -49,23 +56,6 @@ eq.averageEnergyWithTime(sh, cc, 100);
 % pq.plotSpectrum(pc, cc, "LO");
 % pq.plotSpectrum(pc, cc, "TO");
 % pq.plotSpectrum(pc, cc, "ALL");
-
-
-% figure
-% slg = plot(eq.aveDriftVelocity(2:end, 1)*1e12, eq.aveDriftVelocity(2:end, 2)*100);
-% slg.LineWidth = 2;
-% xlabel("ps");ylabel("cm/s");
-% legend("drift velocity")
-% 
-% eq.electronTrace(sh, cc, 40, 'v');
-
-
-
-
-
-
-
-
 
 
 

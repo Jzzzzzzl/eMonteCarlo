@@ -7,44 +7,55 @@ classdef ElectricQuantityStatics < handle
     properties
         aveTotalTime
         minimumTime
-        mobility
+        mobilityTime
+        mobilityField
         aveDriftVelocity
+        aveEnergy
+        driftVfield
+        enumbers
+        qnumbers
         diffusionCoe
+        diffusionField
         occupyRate
+        occupyField
+    end
+    
+    properties
+        positions
+        vectors
+        energys
+        times
+        perdrifts
+        valleys
+        scatypes
     end
     
     methods
         function obj = ElectricQuantityStatics(sh, pc, cc)
             %>构造函数
-            obj.averageTotalFlyTime(sh, cc);
-            obj.electronDiffusionCoefficient(sh, cc)
+            obj.extractElectricHistoryInformation(sh, cc)
+            obj.averageTotalFlyTime(cc);
+            obj.electronDiffusionCoefficient(cc)
             obj.electronMobility(pc, cc)
         end
         
-        function averageTotalFlyTime(obj, sh, cc)
+        function averageTotalFlyTime(obj, cc)
             %>计算平均总飞行时间
-            times = [sh.eHistory(:, end).time];
-            obj.aveTotalTime = sum(times) / cc.superElecs;
-            obj.minimumTime = min(min(times));
+            endTimes = obj.times(:, end);
+            obj.aveTotalTime = sum(endTimes) / cc.superElecs;
+            obj.minimumTime = min(endTimes);
             disp(['平均总模拟时间： ', num2str(obj.aveTotalTime * 1e12), '  ps']);
             disp(['最短运动时间为： ', num2str(obj.minimumTime * 1e12), '  ps']);
-        end
-        
-        function electronMobility(obj, pc, cc)
-            %>计算迁移率
-            n = max(max(cc.dopDensity.data));
-            obj.mobility = obj.e*obj.diffusionCoe ...
-                            / (pc.kb*cc.envTemp*(1 + 0.35355*n/(2.18e21*cc.envTemp^(3/2))));
-            disp(['电子迁移率为： ', num2str(obj.mobility * 1e4), '  cm^2/(V*s)']);
         end
         
     end
     
     methods
-        energyHistoryDistribution(obj, sh, cc, e, N)
-        averageEnergyWithTime(obj, sh, cc, N)
-        dirftVelocityWithTime(obj, sh, cc, N)
-        electronDiffusionCoefficient(obj, sh, cc)
-        electronTrace(obj, sh, cc, num, type)
+        averageEnergyWithTime(obj, cc, N)
+        electronDiffusionCoefficient(obj, cc)
+        energyHistoryDistribution(obj, cc, N)
+        extractElectricHistoryInformation(obj, sh, cc)
+        plotProperties(obj)
+        pulsesFieldDirftVelocityWithTime(obj, cc, N)
     end
 end
