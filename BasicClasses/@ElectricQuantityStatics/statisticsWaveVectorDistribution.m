@@ -2,7 +2,7 @@ function statisticsWaveVectorDistribution(obj, dv, pc, cc, time)
     %>电子波矢分量分布图
     tic
     es = ElectricStatus;
-    cc.waveVectorGrid(-0.4*pc.dBD, 0.4*pc.dBD, 30);
+    cc.waveVectorGrid(-0.4*pc.dBD, 0.4*pc.dBD, 60);
     qVector = zeros(cc.superElecs, 3);
     obj.qnumbers = zeros(cc.NQ, time(3) + 2);
     for j = 1 : time(3) + 1

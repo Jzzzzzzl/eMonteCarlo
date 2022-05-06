@@ -1,4 +1,4 @@
-function computeDiffusionCoefficientWithTime(obj, cc)
+function computeDiffusionCoefficientWithTime(obj, cc, N)
     %>计算扩散系数随时间变化关系图
     tic
     cc.timeGrid(0, 0.999*obj.minimumTime, N);

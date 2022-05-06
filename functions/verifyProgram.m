@@ -51,7 +51,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
             
         case "ValleyStructureOfValleyU"
             es = ElectricStatus;
-            es.energy = 2.5*pc.e;
+            es.energy = 8.5*pc.e;
             number = 2000;
             tempk = zeros(number, 3);
             valleys = [1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6];

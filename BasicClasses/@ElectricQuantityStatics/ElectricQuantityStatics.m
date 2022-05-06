@@ -31,12 +31,10 @@ classdef ElectricQuantityStatics < handle
     end
     
     methods
-        function obj = ElectricQuantityStatics(sh, pc, cc)
+        function obj = ElectricQuantityStatics(sh, cc)
             %>构造函数
             obj.extractElectricHistoryInformation(sh, cc)
             obj.averageTotalFlyTime(cc);
-            obj.electronDiffusionCoefficient(cc)
-            obj.electronMobility(pc, cc)
         end
         
         function averageTotalFlyTime(obj, cc)

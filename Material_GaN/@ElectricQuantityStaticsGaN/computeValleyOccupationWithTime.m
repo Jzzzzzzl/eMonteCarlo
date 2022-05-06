@@ -1,4 +1,4 @@
-function valleyOccupationWithTime(obj, cc, N)
+function computeValleyOccupationWithTime(obj, cc, N)
     %>能谷占据率随时间变化图
     cc.timeGrid(0, 0.999*obj.minimumTime, N);
     obj.occupyRate = zeros(cc.Nt, 4);

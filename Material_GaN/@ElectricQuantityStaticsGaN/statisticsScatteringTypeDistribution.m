@@ -1,4 +1,4 @@
-function scatTypeDistribution(obj, cc, type)
+function statisticsScatteringTypeDistribution(obj, cc, type)
     %>散射种类分布
     snumbers = zeros(7, 2);
     switch type

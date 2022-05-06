@@ -4,14 +4,12 @@ function computeDriftVelocityWithElectricField(obj, cc)
     if isempty(obj.aveDriftVelocity)
         error("请先计算pulsesFieldDirftVelocityWithTime函数！")
     end
-    [n, ~] = size(cc.eField);
+    n = find(cc.eField(:, 1) >= obj.minimumTime, 1);
     obj.driftVfield = zeros(n, 2);
     for i = 1 : n
         index = find(obj.aveDriftVelocity(:, 1) >= cc.eField(i, 1) * 1e12, 1) - 2;
         if isempty(index)
             [index, ~] = size(obj.aveDriftVelocity);
-        elseif index < 0
-            continue;
         end
         obj.driftVfield(i, 1) = abs(cc.eField(i, 2));
         obj.driftVfield(i, 2) = obj.aveDriftVelocity(index, 2);

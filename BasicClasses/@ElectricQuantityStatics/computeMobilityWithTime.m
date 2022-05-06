@@ -2,7 +2,7 @@ function computeMobilityWithTime(obj, cc, pc)
     %>计算迁移率随时间变化图
     tic
     [n, ~] = size(obj.diffusionCoe);
-    dop = max(max(cc.dopDensity.data));
+    dop = max(max(cc.dopDensity.data))*0.1;
     obj.mobilityTime = zeros(n, 2);
     for t = 1 : n
         obj.mobilityTime(t, 1) = obj.diffusionCoe(t, 1);
