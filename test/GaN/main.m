@@ -4,8 +4,7 @@ addpath(genpath('./BasicClasses'))
 addpath(genpath('./OperatorTerms'))
 addpath(genpath('./functions'))
 addpath(genpath('./Material_GaN'))
-addpath(genpath('./MaterialParallelCompute'))
-addpath(genpath('./PostProcess'))
+addpath(genpath('./ParallelCompute/MaterialParallelCompute'))
 addpath(genpath('./test/GaN'))
 
 %%
@@ -25,15 +24,17 @@ eq = ElectricQuantityStaticsGaN(sh, cc);
 sh.eHistory = [];
 pq.minimumTime = eq.minimumTime;
 % 验证1，能带画图
-% dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.K);
-% dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
+dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.K);
+dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
 %验证2，散射表画图
-% tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 15]); toc
+tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 15]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, sc, cc);
 % verifyProgram("ValleyStructureOfValleyGamma", dv, pc, sc, cc);
 % verifyProgram("ValleyStructureOfValleyU", dv, pc, sc, cc);
+% verifyProgram("SingleValleyDrifVelocityWithMaxScatRate", dv, pc, sc, cc);
+
 %验证4，数据后处理
 eq.computeAverageEnergyWithTime(cc, 1000);
 eq.computeDiffusionCoefficientWithTime(cc, 50);
@@ -63,8 +64,30 @@ eq.plotElectronTrace(cc, 2, 'k');
 % pq.plotSpectrum(pc, cc, "ALL");
 
 
-% es = ElectricStatus;
-% es.initializeElectricStatus(dv, pc, cc);
-% [es] = freeFlyProcess(es, dv, pc, cc);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -54,8 +54,6 @@ function [es,ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
         case 10 % 
             return;
     end
-    es = obj.modifyElectricWaveVector(es, pc);
-    es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     
     if ~isequal(ps.polar, "non")
         ps.vector = es.vector - vectorTemp;
@@ -67,8 +65,10 @@ function [es,ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
         %>随机选择能谷
         switch type
             case "interG3U"
-                valleys = [1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6];
-                index = round(randNumber(0.5, 12.5));
+                valleys = [1, -1, 2, -2, 3, -3, ...
+                              4, -4, 5, -5, 6, -6, ...
+                              1, -1, 1, -1];
+                index = round(randNumber(0.5, length(valleys)+0.5));
                 value = valleys(index);
             case "interG3G1"
                 value = 11;

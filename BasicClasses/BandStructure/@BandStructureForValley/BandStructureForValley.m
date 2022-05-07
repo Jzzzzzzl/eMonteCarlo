@@ -2,12 +2,14 @@ classdef BandStructureForValley < handle
     %% 本文件提供能谷能带结构相关计算的父类
     properties
         Eg
+        alpha
+        invTz
+    end
+    properties
         mt
         ml
         md
-        alpha
         Tz
-        invTz
         centerRatio
     end
     

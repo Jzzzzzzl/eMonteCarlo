@@ -13,5 +13,5 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     es.position = es.position + es.velocity * dv.valley.flyTime;
     
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
-    es.perdrift = abs(es.energy - energyTemp) / (pc.hbar * vectorMold);
+    es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
 end

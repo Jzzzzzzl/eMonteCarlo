@@ -34,6 +34,7 @@ classdef ValleyG1 < ScatterringProcessForValley & EPWaveVectorModify
             %>根据能谷标号旋转电子波矢
             tempk = k + [0, 0,  obj.centerRatio] * pc.dBD;
             es.vector = obj.rotateToGeneralValley(tempk, es.valley);
+            es = obj.computeEnergyAndGroupVelocity(es, pc);
         end
         
         function [es] = computeEnergyAndGroupVelocity(obj, es, pc)
