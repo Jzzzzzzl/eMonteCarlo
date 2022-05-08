@@ -66,8 +66,7 @@ function [es,ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
         switch type
             case "interG3U"
                 valleys = [1, -1, 2, -2, 3, -3, ...
-                              4, -4, 5, -5, 6, -6, ...
-                              1, -1, 1, -1];
+                              4, -4, 5, -5, 6, -6];
                 index = round(randNumber(0.5, length(valleys)+0.5));
                 value = valleys(index);
             case "interG3G1"

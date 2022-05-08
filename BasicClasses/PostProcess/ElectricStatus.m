@@ -30,7 +30,6 @@ classdef ElectricStatus < handle
             obj.energy = maxwellDistribution(pc, cc) + dv.valley.Eg;
             k = dv.valley.generateStandardElectricWaveVector(obj, pc, randNumber(0, pi));
             obj = dv.valley.getGeneralElectricWaveVector(obj, pc, k);
-            obj = dv.valley.computeEnergyAndGroupVelocity(obj, pc);
         end
         
         function wavenum = get.wavenum(obj)
