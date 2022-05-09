@@ -31,9 +31,9 @@ classdef ElectricQuantityStatics < handle
     end
     
     methods
-        function obj = ElectricQuantityStatics(sh, cc)
+        function obj = ElectricQuantityStatics(cc)
             %>构造函数
-            obj.extractElectricHistoryInformation(sh, cc)
+            obj.extractElectricHistoryInformation(cc);
             obj.averageTotalFlyTime(cc);
         end
         

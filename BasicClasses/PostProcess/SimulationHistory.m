@@ -3,8 +3,6 @@ classdef SimulationHistory < handle
     properties
         eGroup
         pGroup
-        eHistory
-        pHistory
     end
     
     methods
@@ -12,8 +10,6 @@ classdef SimulationHistory < handle
             %>构造函数
             obj.generateElectrics(dv, pc, cc);
             obj.generatePhonons(cc);
-            obj.generateElectricsHistory(cc);
-            obj.generatePhononsHistory(cc);
         end
         
         function generateElectrics(obj, dv, pc, cc)
@@ -32,16 +28,6 @@ classdef SimulationHistory < handle
                 obj.pGroup(i) = PhononStatus;
                 obj.pGroup(i).initializePhononStatus;
             end
-        end
-        
-        function generateElectricsHistory(obj, cc)
-            %>生成电子历史信息
-            obj.eHistory = repmat(ElectricStatus, cc.superElecs, cc.noFly);
-        end
-        
-        function generatePhononsHistory(obj, cc)
-            %>生成声子历史信息
-            obj.pHistory = repmat(PhononStatus, cc.superElecs, cc.noFly);
         end
         
     end

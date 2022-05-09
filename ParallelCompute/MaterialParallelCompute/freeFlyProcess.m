@@ -14,6 +14,4 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
     es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
     
-%     es = dv.valley.modifyElectricWaveVector(es, pc);
-%     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
 end

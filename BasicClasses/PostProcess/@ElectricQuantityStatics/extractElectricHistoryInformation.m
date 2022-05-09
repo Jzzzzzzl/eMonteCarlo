@@ -1,30 +1,33 @@
-function extractElectricHistoryInformation(obj, sh, cc)
+function extractElectricHistoryInformation(obj, cc)
     %>提取电子历史信息
     tic
-    positionsTemp = zeros(1, 3, cc.superElecs, cc.noFly);
-    vectorsTemp = zeros(1, 3, cc.superElecs, cc.noFly);
-    energysTemp = zeros(cc.superElecs, cc.noFly);
-    timesTemp = zeros(cc.superElecs, cc.noFly);
-    perdriftsTemp = zeros(cc.superElecs, cc.noFly);
-    valleysTemp = zeros(cc.superElecs, cc.noFly);
-    scatypesTemp = zeros(cc.superElecs, cc.noFly);
-    for i = 1 : cc.superElecs
-        for j = 1 : cc.noFly
-            positionsTemp(:, :, i, j) = sh.eHistory(i, j).position;
-            vectorsTemp(:, :, i, j) = sh.eHistory(i, j).vector;
+    obj.positions = zeros(1, 3, cc.superElecs, cc.noFly);
+    obj.vectors = zeros(1, 3, cc.superElecs, cc.noFly);
+    obj.energys = zeros(cc.superElecs, cc.noFly);
+    obj.times = zeros(cc.superElecs, cc.noFly);
+    obj.perdrifts = zeros(cc.superElecs, cc.noFly);
+    obj.valleys = zeros(cc.superElecs, cc.noFly);
+    obj.scatypes = zeros(cc.superElecs, cc.noFly);
+    
+    eIndex = 0;
+    flyIndex = 1;
+    fileID = fopen('/home/jiang/documents/eMdatas/ElectronLog.dat');
+    while ~feof(fileID)
+        eIndex = eIndex + 1;
+        if eIndex > cc.superElecs
+            eIndex = 1;
+            flyIndex = flyIndex + 1;
         end
-        energysTemp(i, :) = [sh.eHistory(i, :).energy];
-        timesTemp(i, :) = [sh.eHistory(i, :).time];
-        perdriftsTemp(i, :) = [sh.eHistory(i, :).perdrift];
-        valleysTemp(i, :) = [sh.eHistory(i, :).valley];
-        scatypesTemp(i, :) = [sh.eHistory(i, :).scatype];
+        strline = fgetl(fileID);
+        dataline = textscan(strline, '%f');
+        obj.positions(:, :, eIndex, flyIndex) = deal(dataline{1}(1:3)');
+        obj.vectors(:, :, eIndex, flyIndex) = deal(dataline{1}(4:6)');
+        obj.energys(eIndex, flyIndex) = deal(dataline{1}(7)');
+        obj.times(eIndex, flyIndex) = deal(dataline{1}(8)');
+        obj.perdrifts(eIndex, flyIndex) = deal(dataline{1}(9)');
+        obj.valleys(eIndex, flyIndex) = deal(dataline{1}(10)');
+        obj.scatypes(eIndex, flyIndex) = deal(dataline{1}(11)');
     end
-    obj.positions = positionsTemp;
-    obj.vectors = vectorsTemp;
-    obj.energys = energysTemp;
-    obj.times = timesTemp;
-    obj.perdrifts = perdriftsTemp;
-    obj.valleys = valleysTemp;
-    obj.scatypes = scatypesTemp;
+    fclose(fileID);
     disp(['数据提取完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

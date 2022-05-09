@@ -19,12 +19,12 @@ classdef ConfigureConstants < Data2ColocatedField
     
     methods
         function obj = ConfigureConstants(pc)
-            obj.superElecs = 500;
-            obj.noFly = 3000;
-            obj.eField = [1e-12 -1e7
-                             2e-12 -2.2e7
-                             1 -1e7];
-%             obj.generateElectricField(5);
+            obj.superElecs = 1000;
+            obj.noFly = 32000;
+%             obj.eField = [1e-12 -1e7
+%                              2e-12 -2.2e7
+%                              1 -1e7];
+            obj.generateElectricField(30);
 %             obj.eField = [1 -3.0e7];
             obj.direction = pc.hsp.M / pc.dGM;
 %             obj.direction = [1 0 0];
@@ -49,9 +49,9 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.eField = zeros(N, 2);
             obj.eField(:, 1) = linspace(deltaTime, N*deltaTime, N);
             obj.eField(end, 1) = 1;
-            obj.eField(:, 2) = -1*linspace(1, 3, N)*1e7;
+            obj.eField(:, 2) = -1*linspace(0.1, 5, N)*1e7;
 %             obj.eField(:, 2) = -1*logspace(6, 8, N)*0.6;
-            disp(['建议飞行次数设置为： ', num2str(N*deltaTime*1e12 / 0.0007 * 1.3)]);
+            disp(['建议飞行次数设置为： ', num2str(N*deltaTime*1e12 / 0.0011 * 1.2)]);
         end
         
         function modelMeshAndBuildNodesAndReadData(obj)
