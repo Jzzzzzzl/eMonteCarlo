@@ -1,4 +1,4 @@
-function extractElectricHistoryInformation(obj, cc)
+function extractElectricHistoryInformation(obj, fileID, cc)
     %>提取电子历史信息
     tic
     obj.positions = zeros(1, 3, cc.superElecs, cc.noFly);
@@ -11,7 +11,6 @@ function extractElectricHistoryInformation(obj, cc)
     
     eIndex = 0;
     flyIndex = 1;
-    fileID = fopen('/home/jiang/documents/eMdatas/ElectronLog.dat');
     while ~feof(fileID)
         eIndex = eIndex + 1;
         if eIndex > cc.superElecs

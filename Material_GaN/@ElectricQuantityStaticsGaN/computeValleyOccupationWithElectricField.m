@@ -6,7 +6,7 @@ function computeValleyOccupationWithElectricField(obj, cc)
     n = find(cc.eField(:, 1) >= obj.minimumTime, 1);
     obj.occupyField = zeros(n, 4);
     for i = 1 : n
-        index = find(obj.occupyRate(:, 1) >= cc.eField(i, 1) * 1e12, 1) - 2;
+        index = find(obj.occupyRate(:, 1) >= cc.eField(i, 1) * 1e12, 1) - 1;
         if isempty(index)
             [index, ~] = size(obj.occupyRate);
         end

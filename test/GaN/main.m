@@ -19,13 +19,14 @@ pq = PhononQuantityStatics(cc);
 
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
-eq = ElectricQuantityStaticsGaN(cc);
+fileID = fopen('/home/jiang/documents/eMdatas/ElectronLog.dat');
+eq = ElectricQuantityStaticsGaN(fileID, cc);
 pq.minimumTime = eq.minimumTime;
 % 验证1，能带画图
-% dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.K);
+dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.K);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
 %验证2，散射表画图
-% tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 15]); toc
+tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 15]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, sc, cc);
@@ -35,24 +36,24 @@ pq.minimumTime = eq.minimumTime;
 
 %验证4，数据后处理
 eq.computeAverageEnergyWithTime(cc, 1000);
-eq.computeDiffusionCoefficientWithTime(cc, 50);
+eq.computeDiffusionCoefficientWithTime(cc, 300);
 eq.computeDiffusionCoefficientWithElectricField(cc);
 eq.computeDirftVelocityWithTime(cc, 1000);
 eq.computeDriftVelocityWithElectricField(cc);
 eq.computeMobilityWithTime(cc, pc);
 eq.computeMobilityWithElectricField(cc);
 eq.statisticsEnergyHistoryDistribution(cc, 1000);
-eq.statisticsWaveVectorDistribution(dv, pc, cc, [0e-12 0.01e-12 3]);
+eq.statisticsWaveVectorDistribution(dv, pc, cc, [0.01e-12 0.1e-12 3]);
 eq.plotGeneralProperties
 
-% eq.statisticsScatteringTypeDistribution(cc, 'U');
-% eq.statisticsScatteringTypeDistribution(cc, 'G1');
-% eq.statisticsScatteringTypeDistribution(cc, 'G3');
+eq.statisticsScatteringTypeDistribution(cc, 'U');
+eq.statisticsScatteringTypeDistribution(cc, 'G1');
+eq.statisticsScatteringTypeDistribution(cc, 'G3');
 eq.computeValleyOccupationWithTime(cc, 1000);
 eq.computeValleyOccupationWithElectricField(cc);
-eq.plotElectronTrace(cc, 2, 'k');
-% eq.plotElectronTrace(cc, 3, 'r');
-% eq.plotElectronTrace(cc, 8, 'e');
+eq.plotElectronTrace(cc, 12, 'k');
+eq.plotElectronTrace(cc, 13, 'r');
+eq.plotElectronTrace(cc, 81, 'e');
 %验证5，声子发射谱
 % pq.subPhononQuantityStatics(sh, cc);
 % pq.plotSpectrum(pc, cc, "LA");

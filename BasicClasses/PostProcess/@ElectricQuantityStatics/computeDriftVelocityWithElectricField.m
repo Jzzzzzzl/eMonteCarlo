@@ -7,7 +7,7 @@ function computeDriftVelocityWithElectricField(obj, cc)
     n = find(cc.eField(:, 1) >= obj.minimumTime, 1);
     obj.driftVfield = zeros(n, 2);
     for i = 1 : n
-        index = find(obj.aveDriftVelocity(:, 1) >= cc.eField(i, 1) * 1e12, 1) - 2;
+        index = find(obj.aveDriftVelocity(:, 1) >= cc.eField(i, 1) * 1e12, 1) - 1;
         if isempty(index)
             [index, ~] = size(obj.aveDriftVelocity);
         end
