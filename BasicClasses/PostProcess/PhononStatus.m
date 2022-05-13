@@ -18,6 +18,8 @@ classdef PhononStatus < handle
         
         function initializePhononStatus(obj)
             %>构造函数
+            obj.position = [0 0 0];
+            obj.vector = [0 0 0];
             obj.time = 0;
             obj.polar = "non";
             obj.aborem = "non";

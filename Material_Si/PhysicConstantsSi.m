@@ -68,8 +68,8 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.alphaGX = 0.5;
             obj.nofScatGX = 18;
             obj.centerRatioGX = 0.85;
-            obj.maxScatRateGX = [1*obj.e 4.4e13; ...
-                                          99*obj.e 3e14];
+            obj.maxScatRateGX = [1.0*obj.e 6.2e13;
+                                          99*obj.e 1.2e14];
             obj.xsForimpurityGX = 0.1;
             obj.DLA = 6.39*obj.e;
             obj.DTA = 3.01*obj.e;

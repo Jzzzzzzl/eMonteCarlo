@@ -23,10 +23,10 @@ fileID = fopen('/home/jiang/documents/eMdatas/ElectronLog.dat');
 eq = ElectricQuantityStaticsGaN(fileID, cc);
 pq.minimumTime = eq.minimumTime;
 % 验证1，能带画图
-dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.K);
+% dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.K);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
 %验证2，散射表画图
-tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 15]); toc
+% tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 15]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, sc, cc);
@@ -43,7 +43,7 @@ eq.computeDriftVelocityWithElectricField(cc);
 eq.computeMobilityWithTime(cc, pc);
 eq.computeMobilityWithElectricField(cc);
 eq.statisticsEnergyHistoryDistribution(cc, 1000);
-eq.statisticsWaveVectorDistribution(dv, pc, cc, [0.01e-12 0.1e-12 3]);
+eq.statisticsWaveVectorDistribution(dv, pc, cc, [0.01e-12 0.01e-12 3]);
 eq.plotGeneralProperties
 
 eq.statisticsScatteringTypeDistribution(cc, 'U');

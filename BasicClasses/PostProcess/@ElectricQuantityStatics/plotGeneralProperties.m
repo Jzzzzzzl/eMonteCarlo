@@ -15,6 +15,7 @@ function plotGeneralProperties(obj)
     %>漂移速度随时间变化图
     subplot(4, 2, 3)
     slg = plot(obj.aveDriftVelocity(:, 1), obj.aveDriftVelocity(:, 2)*100);
+%     slg = loglog(obj.aveDriftVelocity(:, 1), obj.aveDriftVelocity(:, 2)*100);
     slg.LineWidth = 2;
     xlabel("ps"); ylabel("cm/s");
     title("drift velocity")
@@ -32,8 +33,8 @@ function plotGeneralProperties(obj)
     hold off
     %>漂移速度随电场变化图
     subplot(4, 2, 5)
-%     slg = loglog(obj.driftVfield(:, 1), obj.driftVfield(:, 2)*100, '-*');
-    slg = plot(obj.driftVfield(:, 1), obj.driftVfield(:, 2)*100, '-*');
+    slg = loglog(obj.driftVfield(:, 1), obj.driftVfield(:, 2)*100, '-*');
+%     slg = plot(obj.driftVfield(:, 1), obj.driftVfield(:, 2)*100, '-*');
     slg.LineWidth = 2;
     xlabel("V/m"); ylabel("cm/s");
     title("drift velocity with eField")

@@ -28,5 +28,5 @@ function extractElectricHistoryInformation(obj, fileID, cc)
         obj.scatypes(eIndex, flyIndex) = deal(dataline{1}(11)');
     end
     fclose(fileID);
-    disp(['数据提取完成！耗时：', sprintf('%.2f', toc), ' s'])
+    disp(['电子历史数据提取完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

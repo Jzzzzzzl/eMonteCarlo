@@ -104,14 +104,14 @@ classdef PhysicConstantsGaN < PhysicConstants
             
             %>>>>>>>G1能谷参数
             obj.EgG1 = 0.0*obj.e;
-            obj.mtG1 = 0.15*obj.m;
-            obj.mlG1 = 0.15*obj.m;
-            obj.alphaG1 = 0.04;
+            obj.mtG1 = 0.14*obj.m;
+            obj.mlG1 = 0.14*obj.m;
+            obj.alphaG1 = 0.18;
             obj.nofScatG1 = 10;
             obj.centerRatioG1 = 0;
-            obj.maxScatRateG1 = [99*obj.e 8e14];
+            obj.maxScatRateG1 = [99*obj.e 1e15];
             obj.xsForimpurityG1 = 0.5;
-            obj.xsForPolarOpticalG1 = 0.07;%0.03
+            obj.xsForPolarOpticalG1 = 0.055;
             obj.G1D = 8.3*obj.e;
             obj.G12UDK = 15e10*obj.e;
             obj.G12G3DK = 10e10*obj.e;
