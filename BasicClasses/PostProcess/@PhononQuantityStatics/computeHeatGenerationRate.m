@@ -1,8 +1,7 @@
-function heatGenerationRate(obj, sh, pc, cc, sc)
+function computeHeatGenerationRate(obj, pc, cc, sc)
     %>计算热产生率
     % 循环所有频率段，尤其注意不同极化支的频率范围
     for k = 1 : cc.NW
-        disp(k)
         deltaw = cc.frequency.face(k+1) - cc.frequency.face(k);
         pLAab = sh.eHistory(obj.phLAab(k).pop);
         pLAem = sh.eHistory(obj.phLAem(k).pop);

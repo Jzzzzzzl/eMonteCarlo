@@ -1,4 +1,4 @@
-function statisticPhonon(obj, cc)
+function statisticPolarizationPhononGroup(obj, cc)
     %>分类统计声子
     % index用于筛选时间内声子
     index = obj.times <= obj.minimumTime;
@@ -14,7 +14,7 @@ function statisticPhonon(obj, cc)
         index3 = obj.polars == "LA";
         indexab = index & index0 & index2 & index3;
         indexem = index & index1 & index2 & index3;
-        % pop中存储单个频率段对应的声子群在sh.pHistory中的标号
+        % pop中存储单个频率段对应的声子群的标号
         obj.phLAab(k).pop = find(indexab);
         obj.phLAem(k).pop = find(indexem);
         % num中存储单个频率段对应的声子数目

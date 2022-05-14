@@ -23,7 +23,7 @@ elog = fopen('/home/jiang/documents/eMdatas/ElectronLog.dat');
 plog = fopen('/home/jiang/documents/eMdatas/PhononLog.dat');
 eq = ElectricQuantityStaticsSi(elog, cc);
 pq.minimumTime = eq.minimumTime;
-pq.extractPhononHistoryInformation(obj, plog, cc)
+pq.extractPhononHistoryInformation(plog, cc);
 % 验证1，能带画图
 dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.X);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.X);
@@ -60,17 +60,8 @@ pq.plotSpectrum(pc, cc, "ALL");
 
 
 
-
-strline = "123 non em 256";
-dataline = textscan(strline, '%f %s %s %f');
-
-
-
-
-
-
-
-
-
+stringline = "1 2 3 em ab non";
+dataline = textscan(stringline, '%f %f %f %s %s %s');
+index = isequal(dataline{6}, "non")
 
 

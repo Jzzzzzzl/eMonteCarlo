@@ -19,9 +19,9 @@ classdef ConfigureConstants < Data2ColocatedField
     
     methods
         function obj = ConfigureConstants(pc)
-            obj.superElecs = 5;
-            obj.noFly = 10;
-            obj.eField = [1, -10e5];
+            obj.superElecs = 20;
+            obj.noFly = 50;
+            obj.eField = [1, -100e5];
 %             obj.eField = [4e-12 -1e5
 %                              1 -100e5];
 %             obj.generateElectricField(5);

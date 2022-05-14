@@ -18,14 +18,14 @@ function extractElectricHistoryInformation(obj, fileID, cc)
             flyIndex = flyIndex + 1;
         end
         strline = fgetl(fileID);
-        dataline = textscan(strline, '%f');
-        obj.positions(:, :, eIndex, flyIndex) = deal(dataline{1}(1:3)');
-        obj.vectors(:, :, eIndex, flyIndex) = deal(dataline{1}(4:6)');
-        obj.energys(eIndex, flyIndex) = deal(dataline{1}(7)');
-        obj.times(eIndex, flyIndex) = deal(dataline{1}(8)');
-        obj.perdrifts(eIndex, flyIndex) = deal(dataline{1}(9)');
-        obj.valleys(eIndex, flyIndex) = deal(dataline{1}(10)');
-        obj.scatypes(eIndex, flyIndex) = deal(dataline{1}(11)');
+        dataline = textscan(strline, '%f %f %f %f %f %f %f %f %f %f %f');
+        obj.positions(:, :, eIndex, flyIndex) = [dataline{1} dataline{2} dataline{3}];
+        obj.vectors(:, :, eIndex, flyIndex) = [dataline{4} dataline{5} dataline{6}];
+        obj.energys(eIndex, flyIndex) = dataline{7};
+        obj.times(eIndex, flyIndex) = dataline{8};
+        obj.perdrifts(eIndex, flyIndex) = dataline{9};
+        obj.valleys(eIndex, flyIndex) = dataline{10};
+        obj.scatypes(eIndex, flyIndex) = dataline{11};
     end
     fclose(fileID);
     disp(['电子历史数据提取完成！耗时：', sprintf('%.2f', toc), ' s'])
