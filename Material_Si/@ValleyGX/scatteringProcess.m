@@ -116,8 +116,6 @@ function [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
         case 18 % 
             return;
     end
-    es = obj.modifyElectricWaveVector(es, pc);
-    es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     
     if ~isequal(ps.polar, "non")
         ps.vector = es.vector - vectorTemp;

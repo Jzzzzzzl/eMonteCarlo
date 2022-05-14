@@ -3,7 +3,7 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
     es = ElectricStatus;
     es.valley = 11;
     num = 50;
-    energys = logspace(-2, 1, num) * pc.e + obj.Eg;
+    energys = logspace(-1, 1, num) * pc.e + obj.Eg;
     scatTables = zeros(length(energys), obj.nofScat);
     for i = 1 : length(energys)
         es.energy = energys(i);
@@ -14,6 +14,7 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
         scatTables(i, :) = deal(obj.scatTable');
         scatTables(i, end) = deal(obj.scatTableAll(end));
     end
+    if mn(2) > pc.nofScatG1; mn(2) = pc.nofScatG1; end
     figure
     for j = mn(1) : mn(2)
 %         slg = loglog(energys / pc.e, scatTables(:, j));

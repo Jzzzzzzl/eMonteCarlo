@@ -34,6 +34,7 @@ classdef ValleyG3 < ScatterringProcessForValley & EPWaveVectorModify
             %>根据能谷标号旋转电子波矢
             tempk = k + [0, 0,  obj.centerRatio] * pc.dBD;
             es.vector = obj.rotateToGeneralValley(tempk, es.valley);
+            es = obj.computeEnergyAndGroupVelocity(es, pc);
         end
         
         function [es] = computeEnergyAndGroupVelocity(obj, es, pc)
@@ -45,7 +46,7 @@ classdef ValleyG3 < ScatterringProcessForValley & EPWaveVectorModify
             es.energy = es.epsilon + obj.Eg;
             %>计算电子速度
             kStar = obj.Tz * k';
-            vStar = pc.hbar * kStar / (pc.m * (1 + 2*obj.alpha*es.epsilon/pc.e));
+            vStar = pc.hbar * kStar / (1 * pc.m * (1 + 2*obj.alpha*es.epsilon/pc.e));
             velocity = (obj.invTz * vStar)';
             es.velocity = obj.rotateToGeneralValley(velocity, es.valley);
         end

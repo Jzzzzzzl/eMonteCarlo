@@ -1,10 +1,10 @@
 classdef ElectricQuantityStaticsSi < ElectricQuantityStatics
     %% 
     properties
-        numbers
+        snumbers
     end
     
     methods
-        scatTypeDistribution(obj, sh, cc)
+        statisticsScatteringTypeDistribution(obj, sh, cc)
     end
 end
