@@ -1,7 +1,7 @@
 function solveFarDistributionFunction(obj, cc, sc)
     %>远平衡分布函数求解
+    tic
     for k = 1 : cc.NW
-        disp(k)
         if sc.taoLA(k+1) ~= 0
             solven(obj.n(k).LA, obj.nDot(k).LA, cc, sc.gvLA(k+1), sc.taoLA(k+1));
         end
@@ -15,6 +15,7 @@ function solveFarDistributionFunction(obj, cc, sc)
             solven(obj.n(k).TO, obj.nDot(k).TO, cc, sc.gvTO(k+1), sc.taoTO(k+1));
         end
     end
+    disp(['远平衡分布函数求解完成！耗时：', sprintf('%.2f', toc), ' s'])
     
     function solven(field1, field2, cc, gv, tao)
         %>求解子函数
@@ -35,7 +36,7 @@ function solveFarDistributionFunction(obj, cc, sc)
         eqn.setInitialGuess(cc, field1);
         convectionOperator(eqn, cc, massflux, field1);
         sourceOperator(eqn, cc, sp, Sc);
-        eqn.solveMatrix(10);
+        eqn.solveMatrix(500);
         eqn.updateField(cc, field1);
     end
 end

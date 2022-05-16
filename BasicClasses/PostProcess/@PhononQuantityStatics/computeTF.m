@@ -28,7 +28,7 @@ function computeTF(obj, cc, sc, pc)
         end
     end
     
-    lambda = StaggeredField(cc, cc.k, cc.k);
+    lambda = StaggeredField(cc, pc.k, pc.k);
     obj.TF = ColocateField(cc, cc.envTemp);
     sp = ColocateField(cc);
     Sc = sourceB;

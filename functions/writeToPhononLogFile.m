@@ -8,4 +8,5 @@ function writeToPhononLogFile(fileID, group, cc)
             fprintf(fileID, '%s \t %s \n', group(i).aborem, group(i).polar);
         end
     end
+    fclose(fileID);
 end

@@ -5,7 +5,7 @@ classdef ElectricQuantityStaticsGaN < ElectricQuantityStatics
     end
     
     methods
-        scatTypeDistribution(obj, sh, cc)
-        valleyOccupationWithTime(obj, sh, mm, cc, N)
+        scatTypeDistribution(obj, cc)
+        valleyOccupationWithTime(obj, mm, cc, N)
     end
 end

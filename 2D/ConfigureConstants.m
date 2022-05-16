@@ -5,6 +5,7 @@ classdef ConfigureConstants < Data2ColocatedField
     end
     
     properties
+        filePath
         xsfornDot
         xsforSourceB
         envTemp
@@ -14,16 +15,17 @@ classdef ConfigureConstants < Data2ColocatedField
         initValley
         mLength
         mWidth
-        k
+        localWorkers
     end
     
     methods
-        function obj = ConfigureConstants
+        function obj = ConfigureConstants(~)
             %>构造函数
-            obj.superElecs = 10;
+            obj.superElecs = 20;
             obj.noFly = 100;
             
-            obj.xsfornDot = 1e8;
+            obj.localWorkers = 20;
+            obj.xsfornDot = 1;%1e8
             obj.xsforSourceB = 9e20;
             obj.envTemp = 300;
             obj.maxVelocity = 3e5;
@@ -38,7 +40,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.NX = 50;
             obj.NY = 50;
             obj.NW = 50;
-            obj.k = 148;
+            obj.filePath = '/home/jiang/documents/eMdatas';
             obj.modelMeshAndBuildNodesAndReadData;
         end
         

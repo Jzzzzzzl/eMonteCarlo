@@ -2,7 +2,7 @@ function computeDirftVelocityWithTime(obj, cc, N)
     %>漂移速度随时间变化
     tic
     cc.timeGrid(0, obj.minimumTime*0.999, N);
-    obj.aveDriftVelocity = zeros(cc.Nt, 2);
+    obj.driftVtime = zeros(cc.Nt, 2);
     %>构造索引表
     timeEnd = [0, cc.eField(:, 1)'];
     for t = 1 : cc.Nt
@@ -17,8 +17,8 @@ function computeDirftVelocityWithTime(obj, cc, N)
                 sumVelocity = sumVelocity + obj.perdrifts(i, index1);
             end
         end
-        obj.aveDriftVelocity(t, 1) = cc.time.point(t + 1) * 1e12;
-        obj.aveDriftVelocity(t, 2) = sumVelocity / cc.superElecs;
+        obj.driftVtime(t, 1) = cc.time.point(t + 1) * 1e12;
+        obj.driftVtime(t, 2) = sumVelocity / cc.superElecs;
     end
     disp(['漂移速度随时间变化计算完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

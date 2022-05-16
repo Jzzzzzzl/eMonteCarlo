@@ -43,7 +43,7 @@ classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
             es.energy = es.epsilon + obj.Eg;
             %>计算电子速度
             kStar = obj.Tz * k';
-            vStar = pc.hbar * kStar / (1 * pc.m * (1 + 2*obj.alpha*es.epsilon/pc.e));
+            vStar = pc.hbar * kStar / (pc.m * (1 + 2*obj.alpha*es.epsilon/pc.e));
             velocity = (obj.invTz * vStar)';
             es.velocity = obj.rotateToGeneralValley(velocity, es.valley);
         end

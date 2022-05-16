@@ -1,4 +1,4 @@
-function getResidual(obj)
+function [error] = getResidual(obj)
     %>计算误差
     error = 0;
     for rowID = 1 : obj.rowNumber
@@ -17,5 +17,4 @@ function getResidual(obj)
         error = error + residualInRow;
     end
     error = error / obj.rowNumber;
-    disp(error)
 end

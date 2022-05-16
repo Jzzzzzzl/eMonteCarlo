@@ -1,16 +1,17 @@
 function initializeVariables(obj, cc)
     %>初始化声子分类统计变量
-    FrequncyStatics = struct("pop", {0}, "num", {0});
-    obj.phLAab = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phLAem = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phTAab = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phTAem = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phLOab = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phLOem = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phTOab = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phTOem = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phALLab = repmat(FrequncyStatics, cc.NW, 1);
-    obj.phALLem = repmat(FrequncyStatics, cc.NW, 1);
+    basisStatics = struct("pop", {0}, "num", {0});
+    obj.phLAab = repmat(basisStatics, cc.NW, 1);
+    obj.phLAem = repmat(basisStatics, cc.NW, 1);
+    obj.phTAab = repmat(basisStatics, cc.NW, 1);
+    obj.phTAem = repmat(basisStatics, cc.NW, 1);
+    obj.phLOab = repmat(basisStatics, cc.NW, 1);
+    obj.phLOem = repmat(basisStatics, cc.NW, 1);
+    obj.phTOab = repmat(basisStatics, cc.NW, 1);
+    obj.phTOem = repmat(basisStatics, cc.NW, 1);
+    obj.phALLab = repmat(basisStatics, cc.NW, 1);
+    obj.phALLem = repmat(basisStatics, cc.NW, 1);
+    obj.phPosition = repmat(basisStatics, cc.NX*cc.NY, 1);
     
     polar = struct('LA', {0}, 'TA', {0}, 'LO', {0}, 'TO', {0});
     obj.pTeff =repmat(polar, cc.NW, 1);
