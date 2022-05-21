@@ -5,7 +5,7 @@ function [] = parallelCompute(sh, dv, sc, pc, cc)
     
     tic
     parGrid = linspace(0, cc.noFly, cc.localWorkers+1);
-    p = parpool(cc.localWorkers);
+%     p = parpool(cc.localWorkers);
     for k = 1 : cc.noFly
         parfor i = 1 : cc.superElecs
             %自由飞行段
@@ -24,7 +24,7 @@ function [] = parallelCompute(sh, dv, sc, pc, cc)
         %输出计算进度
         disp(['计算进度： ', sprintf('%.2f', k / cc.noFly * 100), '%']);
     end
-    delete(p);
+%     delete(p);
     disp(['计算总用时： ', sprintf('%.2f', toc), ' s']);
     
 end

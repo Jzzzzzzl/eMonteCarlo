@@ -15,20 +15,23 @@ classdef ConfigureConstants < Data2ColocatedField
         eField
         direction
         dopdensity
+        filePath
+        localWorkers
     end
     
     methods
         function obj = ConfigureConstants(pc)
-            obj.superElecs = 1000;
-            obj.noFly = 5000;
+            obj.superElecs = 200;
+            obj.noFly = 2000;
 %             obj.eField = [1e-12 -3.0e6
 %                              2e-12 -4.0e7
 %                              1 -3.0e6];
-%             obj.generateElectricField(20);
+            obj.generateElectricField(8);
 %             obj.eField = [1 -3.0e7];
             obj.direction = pc.hsp.M / pc.dGM;
 %             obj.direction = [1 0 0];
             
+            obj.localWorkers = 20;
             obj.dopdensity = 1e23;
             obj.envTemp = 300;
             obj.maxVelocity = 3e7;
@@ -40,6 +43,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.NX = 1;
             obj.NY = 1;
             obj.NW = 100;
+            obj.filePath = '/home/jiang/documents/eMdatas';
             obj.modelMeshAndBuildNodesAndReadData;
         end
         
@@ -51,7 +55,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.eField(end, 1) = 1;
             obj.eField(:, 2) = -1*linspace(0.1, 5, N)*1e7;
 %             obj.eField(:, 2) = -1*logspace(6, 8, N)*0.6;
-            disp(['建议飞行次数设置为： ', num2str(N*deltaTime*1e12 / 0.001 * 1.2)]);
+            disp(['建议飞行次数设置为： ', num2str(N*deltaTime*1e12 / 0.00096 * 1.2)]);
         end
         
         function modelMeshAndBuildNodesAndReadData(obj)

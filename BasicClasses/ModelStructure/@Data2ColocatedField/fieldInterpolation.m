@@ -10,7 +10,9 @@ function fieldInterpolation(obj, field1, field2)
         yPoint = obj.modely.face(end) - obj.modely.point(j+1);
         yFace = yface(find(yface > yPoint, 1));
         index = field1(:, 2) == yFace;
-        values = field1(index, :);
+        valuex = field1(index, :);
+        [~, iv, ~] = unique(valuex(:, 1), 'rows');
+        values = valuex(iv, :);
         for i = 1 : obj.NX
             field2.data(i+1, j+1) = spline(values(:, 1), values(:, 3), obj.modelx.point(i+1));
         end

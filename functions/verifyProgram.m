@@ -29,6 +29,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
         case "AcousticPiezoelectricScatPlot"
             num = 500;
             es = ElectricStatus;
+            es.position = [0 0 0];
             es.valley = 11;
             dv.valleyGuidingPrinciple(es);
             energys = logspace(-5, 3, num) * pc.e;
@@ -52,6 +53,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
         case "ValleyStructureOfValleyU"
             es = ElectricStatus;
             es.energy = 8.5*pc.e;
+            es.position = [0 0 0];
             number = 2000;
             tempk = zeros(number, 3);
             valleys = [1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6];
@@ -71,6 +73,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
         case "ValleyStructureOfValleyGamma"
             es = ElectricStatus;
             es.energy = 3*pc.e;
+            es.position = [0 0 0];
             number = 2000;
             tempk = zeros(number, 3);
             valleys = [11, 13];

@@ -1,10 +1,6 @@
 function ionizedImpurityScatteringRate(obj, es, pc, cc)
     %>生成电离杂质散射句柄函数(弹性)
-    try
-        n = cc.computeDopingDensity(es);
-    catch
-        n = max(max(cc.dopDensity.data));
-    end
+    n = cc.computeDopingDensity(es);
     qD = sqrt(pc.e^2*n / (pc.epsilon0*pc.epsilonL*pc.kb*cc.envTemp));
     obj.ionizedImpurity = sqrt(2)*pc.e^4*n*obj.md^(3/2) ...
                                 / (pi*(pc.epsilon0*pc.epsilonL)^2*pc.hbar^4) ...

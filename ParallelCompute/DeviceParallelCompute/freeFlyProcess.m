@@ -10,8 +10,9 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     es.vector = es.vector + (-pc.e) * eField * dv.valley.flyTime / pc.hbar;
     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     rAgo = es.position;
-    es.position = es.position + es.velocity * dv.valley.flyTime;
-    if cc.boundaryReflection(rAgo, es)
+    es.position = es.position - sign(eField).*abs(es.velocity) * dv.valley.flyTime;
+    bool = cc.boundaryReflection(rAgo, es);
+    if bool
         timeTemp = es.time;
         es.initializeElectricStatus(dv, pc, cc);
         es.time = timeTemp;
