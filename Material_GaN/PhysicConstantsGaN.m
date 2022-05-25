@@ -94,13 +94,13 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.alphaU = 0.2;
             obj.nofScatU = 12;
             obj.centerRatioU = sqrt(sum(obj.hsp.U.^2))/obj.dGM;
-            obj.maxScatRateU = [99*obj.e 4.5e14];
+            obj.maxScatRateU = [99*obj.e 4.0e14];
             obj.xsForimpurityU = 0.1;
-            obj.xsForPolarOpticalU = 0.1;
+            obj.xsForPolarOpticalU = 1;
             obj.UD = 8.3*obj.e;
             obj.U2UDK = 10e10*obj.e;
             obj.U2G1DK = 10e10*obj.e;
-            obj.U2G3DK = 20e10*obj.e;%这个对G3占比影响很大
+            obj.U2G3DK = 25e10*obj.e;%这个对G3占比影响很大
             
             %>>>>>>>G1能谷参数
             obj.EgG1 = 0.0*obj.e;
@@ -109,11 +109,11 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.alphaG1 = 0.3;
             obj.nofScatG1 = 10;
             obj.centerRatioG1 = 0;
-            obj.maxScatRateG1 = [99*obj.e 2e14];
+            obj.maxScatRateG1 = [99*obj.e 3.0e14];
             obj.xsForimpurityG1 = 0.5;
-            obj.xsForPolarOpticalG1 = 0.01;
+            obj.xsForPolarOpticalG1 = 0.35;
             obj.G1D = 8.3*obj.e;
-            obj.G12UDK = 10e10*obj.e;
+            obj.G12UDK = 15e10*obj.e;
             obj.G12G3DK = 10e10*obj.e;
             
             %>>>>>>>>G3能谷参数
@@ -123,9 +123,9 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.alphaG3 = 0.62;
             obj.nofScatG3 = 10;
             obj.centerRatioG3 = 0;
-            obj.maxScatRateG3 = [99*obj.e 2.0e15];
+            obj.maxScatRateG3 = [99*obj.e 3.0e15];
             obj.xsForimpurityG3 = 0.1;
-            obj.xsForPolarOpticalG3 = 0.1;
+            obj.xsForPolarOpticalG3 = 1;
             obj.G3D = 8.3*obj.e;
             obj.G32UDK = 10e10*obj.e;
             obj.G32G1DK = 3e10*obj.e;

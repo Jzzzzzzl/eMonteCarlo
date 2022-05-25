@@ -18,6 +18,7 @@ classdef ElectricQuantityStatics < handle
         diffusionField
         occupyRate
         occupyField
+        current
     end
     
     properties

@@ -25,9 +25,11 @@ function computeValleyOccupationWithTime(obj, cc, N)
             end
         end
         obj.occupyRate(t, 1) = cc.time.point(t + 1) * 1e12;
-        obj.occupyRate(t, 2) = numU / num;
-        obj.occupyRate(t, 3) = numG1 / num;
-        obj.occupyRate(t, 4) = numG3 / num;
+        if num ~= 0
+            obj.occupyRate(t, 2) = numU / num;
+            obj.occupyRate(t, 3) = numG1 / num;
+            obj.occupyRate(t, 4) = numG3 / num;
+        end
     end
     figure
     hold on

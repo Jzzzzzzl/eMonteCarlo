@@ -22,7 +22,7 @@ classdef ConfigureConstants < Data2ColocatedField
         function obj = ConfigureConstants(~)
             %>构造函数
             obj.superElecs = 200;
-            obj.noFly = 30000;
+            obj.noFly = 50000;
             
             obj.localWorkers = 20;
             obj.xsfornDot = 1;%1e8
@@ -31,7 +31,6 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.maxVelocity = 3e5;
             obj.maxFrequency = 10e13;
             obj.initValley = 11;
-            obj.dSource = 0;
             obj.mLength = 0.3e-6;
             obj.mWidth = 0.1e-6;
             obj.NX = 50;

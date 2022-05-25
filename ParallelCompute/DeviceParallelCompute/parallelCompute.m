@@ -7,6 +7,7 @@ function [] = parallelCompute(sh, dv, sc, pc, cc)
     parGrid = linspace(0, cc.noFly, cc.localWorkers+1);
 %     p = parpool(cc.localWorkers);
     for k = 1 : cc.noFly
+        cc.computeInducedElectricField(pc, eGroup);
         parfor i = 1 : cc.superElecs
             %自由飞行段
             eGroup(i) = freeFlyProcess(eGroup(i), dv, pc, cc);

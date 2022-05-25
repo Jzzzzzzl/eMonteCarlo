@@ -21,12 +21,12 @@ classdef ConfigureConstants < Data2ColocatedField
     
     methods
         function obj = ConfigureConstants(pc)
-            obj.superElecs = 200;
-            obj.noFly = 2000;
-%             obj.eField = [1e-12 -3.0e6
-%                              2e-12 -4.0e7
-%                              1 -3.0e6];
-            obj.generateElectricField(8);
+            obj.superElecs = 1000;
+            obj.noFly = 5000;
+            obj.eField = [1e-12 -3.0e6
+                              2e-12 -4.0e7
+                              1 -3.0e6];
+%             obj.generateElectricField(20);
 %             obj.eField = [1 -3.0e7];
             obj.direction = pc.hsp.M / pc.dGM;
 %             obj.direction = [1 0 0];

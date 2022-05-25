@@ -62,7 +62,13 @@ eq.plotElectronTrace(cc, 8, 'e');
 % pq.plotSpectrum(pc, cc, "ALL");
 
 
-
+%% 
+writeDataToFile('aveEtime', cc, eq.aveEtime)
+writeDataToFile('driftVfield', cc, eq.driftVfield)
+writeDataToFile('occupyField', cc, eq.occupyField)
+writeDataToFile('enumbers', cc, eq.enumbers)
+writeDataToFile('occupyRate', cc, eq.occupyRate)
+writeDataToFile('driftVtime', cc, eq.driftVtime)
 
 
 

@@ -8,6 +8,7 @@ classdef Data2ColocatedField < BoundaryReflection
         dopDensity
         superElecs
         superElecCharge
+        xFieldCopy
     end
     
     methods
@@ -18,8 +19,10 @@ classdef Data2ColocatedField < BoundaryReflection
             obj.xyField = ColocateField(obj);
             obj.eleConc = ColocateField(obj);
             obj.dopDensity = ColocateField(obj);
+            obj.xFieldCopy = ColocateField(obj);
             %>读取数据
             obj.readXElectricField;
+            obj.xFieldCopy.data = obj.xField.data;
             obj.readYElectricField;
             obj.readDopingDensity;
             obj.readElectricConcentration;

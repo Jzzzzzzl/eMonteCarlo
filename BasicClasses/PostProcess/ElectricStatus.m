@@ -22,7 +22,9 @@ classdef ElectricStatus < handle
             obj.time = 0;
             obj.perdrift = 0;
             obj.valley = cc.initValley;
-            obj.position(1) = randNumber(cc.modelx.face(1), cc.dSource);
+%             obj.position(1) = randNumber(cc.modelx.face(35), cc.modelx.face(36));
+            obj.position(1) = randNumber(cc.modelx.face(end-1), cc.modelx.face(end));
+%             obj.position(1) = randNumber(cc.modelx.face(1), cc.dSource);
             obj.position(2) = randNumber(cc.modely.face(end-1), cc.modely.face(end));
             obj.position(3) = 0;
             obj.charge = cc.superElecCharge;
