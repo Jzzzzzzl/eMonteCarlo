@@ -34,7 +34,7 @@ classdef ElectricQuantityStatics < handle
     methods
         function obj = ElectricQuantityStatics(cc)
             %>构造函数
-            fileID = fopen([cc.filePath '/eDatas/ElectronLog']);
+            fileID = fopen([cc.filePath 'ElectronLog']);
             obj.extractElectricHistoryInformation(fileID, cc);
             obj.averageTotalFlyTime(cc);
         end

@@ -6,5 +6,4 @@ function writeToElectricLogFile(fileID, group, cc)
         fprintf(fileID, '%.5g \t %.5g \t %.5g \t', group(i).energy, group(i).time, group(i).perdrift);
         fprintf(fileID, '%d \t %d \n', group(i).valley, group(i).scatype);
     end
-    fclose(fileID);
 end

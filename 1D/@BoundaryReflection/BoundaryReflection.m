@@ -1,11 +1,15 @@
 classdef BoundaryReflection < ModelMeshing
-    %% MESFET型结构边界反射类
+    %% Gunn型结构边界反射类
     properties
-        dSource
-        pGate%>起始点
-        dGate
-        dDrain
-        nodes
+        d1
+        d2
+        d3
+        mLength
+        mWidth
+        leftIndex
+        rightIndex
+        sczWidth   %电子积累层厚度
+        initPosition
     end
     
     methods

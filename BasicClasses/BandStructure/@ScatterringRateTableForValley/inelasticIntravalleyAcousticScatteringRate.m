@@ -2,33 +2,34 @@ function inelasticIntravalleyAcousticScatteringRate(obj, es, pc, cc)
     %>生成谷内声学散射句柄函数
     %>     参数说明：
     %>     D：形变势常量
+    T = cc.computeDeviceTemperature(es);
     epsilonStar = obj.md*pc.u^2/2;
     Cstar = 4*epsilonStar^(1/2) ...
-              / (pc.kb*cc.envTemp*(1-4*obj.alpha*epsilonStar/pc.e));
+              / (pc.kb*T*(1-4*obj.alpha*epsilonStar/pc.e));
     condition = epsilonStar / (1-4*obj.alpha*epsilonStar/pc.e);
     if es.gamma <= condition
         x1a = Cstar*(sqrt(epsilonStar)*(1+2*obj.alpha*es.epsilon/pc.e) - real(sqrt(es.gamma)));
         x2a = Cstar*(sqrt(epsilonStar)*(1+2*obj.alpha*es.epsilon/pc.e) + real(sqrt(es.gamma)));
         x1e = 0;
         x2e = 0;
-        obj.qAB = randNumber(x1a, x2a)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
-        obj.qEM = randNumber(x1e, x2e)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
+        obj.qAB = randNumber(x1a, x2a)*pc.kb*T / (pc.hbar*pc.u);
+        obj.qEM = randNumber(x1e, x2e)*pc.kb*T / (pc.hbar*pc.u);
     else
         x1a = 0;
         x2a = Cstar*(real(sqrt(es.gamma)) + sqrt(epsilonStar)*(1+2*obj.alpha*es.epsilon/pc.e));
         x1e = 0;
         x2e = Cstar*(real(sqrt(es.gamma)) - sqrt(epsilonStar)*(1+2*obj.alpha*es.epsilon/pc.e));
-        obj.qAB = randNumber(x1a, x2a)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
-        obj.qEM = randNumber(x1e, x2e)*pc.kb*cc.envTemp / (pc.hbar*pc.u);
+        obj.qAB = randNumber(x1a, x2a)*pc.kb*T / (pc.hbar*pc.u);
+        obj.qEM = randNumber(x1e, x2e)*pc.kb*T / (pc.hbar*pc.u);
     end
-    obj.inelasticIntraAcousticAB = @(D) obj.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
+    obj.inelasticIntraAcousticAB = @(D) obj.md^(1/2)*(pc.kb*T)^3*D^2 ...
                                              / (2^(5/2)*pi*pc.hbar^4*pc.u^4*pc.rho)*real(es.gamma^(-1/2)) ...
                                              * ((1+2*obj.alpha*es.epsilon/pc.e) * (F1(x2a) - F1(x1a)) ...
-                                             + 2*obj.alpha*pc.kb*cc.envTemp/pc.e * (F2(x2a) - F2(x1a)));
-    obj.inelasticIntraAcousticEM = @(D) obj.md^(1/2)*(pc.kb*cc.envTemp)^3*D^2 ...
+                                             + 2*obj.alpha*pc.kb*T/pc.e * (F2(x2a) - F2(x1a)));
+    obj.inelasticIntraAcousticEM = @(D) obj.md^(1/2)*(pc.kb*T)^3*D^2 ...
                                              / (2^(5/2)*pi*pc.hbar^4*pc.u^4*pc.rho)*real(es.gamma^(-1/2)) ...
                                              * ((1+2*obj.alpha*es.epsilon/pc.e) * (G1(x2e) - G1(x1e)) ...
-                                             - 2*obj.alpha*pc.kb*cc.envTemp/pc.e * (G2(x2e) - G2(x1e)));
+                                             - 2*obj.alpha*pc.kb*T/pc.e * (G2(x2e) - G2(x1e)));
                                          
     function [value] = F1(x)
         %>电子谷内散射积分函数F1

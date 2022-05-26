@@ -1,22 +1,12 @@
 function computeInducedElectricField(obj, pc, eGroup)
-    %>
+    %>计算感生电场并更新xField
     p = [eGroup(:).position];
     x = p(1:3:end);
-    [~, ix] = max(obj.xField.data);
-    leftIndex = ix(obj.NY+1) - 5;
-    [~, ix] = min(obj.xField.data);
-    rightIndex = ix(obj.NY+1) + 2;
-    
-    d1 = 100e-9;
-    d2 = 100e-9;
-    d3 = 100e-9;
-    ratioD = 0.4;
-    deltax = ratioD*d3;
-    index = x >= (d1+d2) & x <= (d1+d2+deltax);
-    numbers = sum(double(index));
-    inducedE = 0.1*numbers*obj.superElecCharge/deltax/(pc.epsilonL*pc.epsilon0);
-    
+    indexs = x >= (obj.d1+obj.d2) & x <= (obj.d1+obj.d2+obj.sczWidth);
+    numbers = sum(double(indexs));
+    inducedE = obj.xsforInduce*numbers*obj.superElecCharge/...
+                   obj.sczWidth/(pc.epsilonL*pc.epsilon0);
     obj.xField.data = obj.xFieldCopy.data;
-    obj.xField.data(leftIndex:rightIndex, obj.NY+1) = ...
-               obj.xField.data(leftIndex:rightIndex, obj.NY+1) + inducedE;
+    obj.xField.data(obj.leftIndex : obj.rightIndex, obj.NY+1) = ...
+               obj.xField.data(obj.leftIndex : obj.rightIndex, obj.NY+1) + inducedE;
 end

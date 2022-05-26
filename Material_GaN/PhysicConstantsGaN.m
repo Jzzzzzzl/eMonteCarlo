@@ -73,6 +73,8 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.p = 0.375;
             obj.epsilonL = 8.9;
             obj.epsilonH = 5.35;
+            obj.maxVelocity = 3e7;
+            obj.maxFrequency = 10e13;
             obj.dGM = sqrt(sum(obj.hsp.M.^2));
             obj.dBD = obj.dGM;
             obj.dGL = sqrt(sum(obj.hsp.L.^2));

@@ -1,5 +1,5 @@
 function readXElectricField(obj)
-    %>
+    %>读取x方向电场数据
     try
         load XeField.dat
     catch
@@ -9,5 +9,5 @@ function readXElectricField(obj)
     XeField(:,1) = 1e-6 * XeField(:,1);
     XeField(:,2) = 1e-6 * XeField(:,2);
     XeField(:,3) = 1e2 * XeField(:,3);
-    obj.fieldInterpolation(XeField, obj.xField);
+    obj.fieldInterpolation(XeField, obj.xFieldCopy);
 end

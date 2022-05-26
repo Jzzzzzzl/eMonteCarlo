@@ -1,6 +1,6 @@
 function [] = writeDataToFile(filename, cc, datax, datay)
     %>
-    fid = fopen([cc.filePath '/Datas/' filename], 'w+');
+    fid = fopen([cc.filePath 'postDatas/' filename], 'w+');
     if nargin == 3
         m = size(datax);
         for i = 1 : m(1)

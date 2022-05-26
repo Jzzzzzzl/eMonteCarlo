@@ -1,5 +1,5 @@
 function readElectricConcentration(obj)
-    %>
+    %>读取电子浓度信息
     try
         load Eleconc.dat
     catch

@@ -17,5 +17,4 @@ function fieldInterpolation(obj, field1, field2)
             field2.data(i+1, j+1) = spline(values(:, 1), values(:, 3), obj.modelx.point(i+1));
         end
     end
-    
 end

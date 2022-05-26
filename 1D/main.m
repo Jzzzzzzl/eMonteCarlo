@@ -16,7 +16,9 @@ dv = DecideValleyKind(pc);
 sc = ScatteringCurve(cc, pc);
 sh = SimulationHistory(dv, pc, cc);
 pq = PhononQuantityStatics(cc);
-
+%%
+% verifyProgram('inducedElectricField1D', dv, pc, sc, cc)
+verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
 eq = ElectricQuantityStaticsGaN(cc);
@@ -50,10 +52,8 @@ eq.plotElectronTrace(cc, 15, 'xy');
 cc.dopDensity.plotField(cc);
 cc.eleConc.plotField(cc);
 cc.xFieldCopy.plotField(cc);
-cc.yField.plotField(cc);
+cc.yFieldCopy.plotField(cc);
 cc.xyField.plotField(cc);
-
-
 
 tGrid = linspace(8, 18, 3)*1e-12;
 figure
@@ -80,34 +80,7 @@ writeDataToFile('xEfield', cc, cc.modelx.point*1e9, cc.xField.data(2:end-1, 2))
 
 
 
-cc.timeGrid(0, 0.999*eq.minimumTime, 50);
-p = zeros(1, 3, cc.superElecs, cc.Nt);
-h = figure;
-filename = [cc.filePath '/Datas/test.gif'];
-for t = 1 : cc.Nt
-    for i = 1 : cc.superElecs
-        index = find(eq.times(i, :) >= cc.time.face(t), 1);
-        p(:, :, i, t) = deal(eq.positions(:, :, i, index));
-    end
-    x = squeeze(p(:, 1, :, t))*1e9;
-    y = squeeze(p(:, 2, :, t))*1e9;
-    plot(x, y, 'o')
-    axis([0 cc.modelx.face(end)*1e9 0 cc.modely.face(end)*1e9])
-    drawnow;
-    
-    frame = getframe(h);
-    im = frame2im(frame);
-    [imind, cm] = rgb2ind(im, 256);
-    if t == 1
-        imwrite(imind, cm, filename, 'gif', 'Loopcount', inf);
-    else
-        imwrite(imind, cm, filename, 'gif', 'WriteMode', 'append');
-    end
-end
 
-n = 80;
-deltax = 40e-9;
-E = 0.1*n*cc.superElecCharge/deltax/(pc.epsilonL*pc.epsilon0)
 
 
 

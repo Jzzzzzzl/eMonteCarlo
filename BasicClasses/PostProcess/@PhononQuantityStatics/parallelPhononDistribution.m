@@ -3,7 +3,7 @@ function parallelPhononDistribution(obj, cc)
     tic
     p = parpool(cc.localWorkers);
     spmd
-        path = '/home/jiang/documents/eMdatas/pDatas/';
+        path = '/home/jiang/documents/eMdatas/epDatas/';
         filename = [path 'PhononLogPart' num2str(labindex)];
         fileID = fopen(filename);
         sumF = zeros(cc.NX, cc.NY, 4, cc.NW);
