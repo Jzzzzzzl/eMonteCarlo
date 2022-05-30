@@ -71,10 +71,10 @@ mm.modelYGrid(0, 1, NY);
 % plot(mm.modelx.point(:), f(mm.modelx.point(:)))
 %% 热点验证
 pVelocity = 8e3;
-tao = 3e-13;
+tao = 3.6e-12;
 
 phi = ColocateField(mm);
-lambda = StaggeredField(mm, 1, 1);
+% lambda = StaggeredField(mm, 1, 1);
 rho = StaggeredField(mm, 1, 1);
 velocity = StaggeredField(mm, pVelocity, pVelocity);
 massflux = StaggeredField(mm);
@@ -91,7 +91,7 @@ for j = 2 : mm.NY + 1
     phi.right(j, :) = [0.0    0.0];
 end
 sc.data(round(mm.NX/2), round(mm.NY/2)+1) = -1e14;
-for k = 1 : 1
+for k = 1 : 10
     eqn.initialize;
     eqn.setInitialGuess(mm, phi);
 %     diffusionOperator(eqn, mm, lambda, phi);
@@ -102,6 +102,13 @@ for k = 1 : 1
     eqn.updateField(mm, phi);
 end
 phi.plotField(mm)
+
+% nDot = ColocateField(mm);
+% nDot.data(round(mm.NX/2), round(mm.NY/2)+1) = 1e14;
+% solven(phi, nDot, mm, pVelocity, tao)
+% phi.plotField(mm)
+%%
+
 %% 一维电势场求解
 % e = 1.602176634e-19;
 % kb = 1.380649e-23;

@@ -3,7 +3,7 @@ function computeTerminalCurrent(obj, cc)
     outEles = zeros(cc.Nt, 1);
     for i = 1 : cc.superElecs
         xPositions = squeeze(obj.positions(:, 1, i, 2:end));
-        index = xPositions == cc.modelx.face(1);
+        index = xPositions >= cc.initPosition(1);
         timeEles = obj.times(i, index);
         if ~isempty(timeEles)
             for k = 1 : length(timeEles)

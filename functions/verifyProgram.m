@@ -130,7 +130,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
                 cc.xField.data(cc.leftIndex : cc.rightIndex, cc.NY+1) = ...
                            cc.xField.data(cc.leftIndex : cc.rightIndex, cc.NY+1) + inducedE;
                 plot(cc.modelx.point(2:end)*1e9, cc.xField.data(2:end, 2))
-                axis([0 cc.modelx.face(end)*1e9 -3e7 8e7])
+                axis([0 cc.modelx.face(end)*1e9 -3e7 3e8])
                 title(['区域内超电子数：' num2str(numbers(i))])
                 drawnow;
             end

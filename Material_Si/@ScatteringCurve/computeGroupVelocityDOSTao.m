@@ -23,7 +23,7 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         invSumTao = 0;
         if obj.gvLA(i+1) ~= 0
             % Umklapp Scattering
-            invTaou = 2*pc.gammaG^2*pc.kb*cc.envTemp ...
+            invTaou = 2*pc.gammaG^2*pc.kb*cc.initTemp ...
                        * cc.frequency.point(i+1)^2/(pc.miu*pc.V0*pc.omegaD);
             % Boundary Scattering
             invTaob = obj.gvLA(i+1)/(cc.modelx.face(end) - cc.modelx.face(1));
@@ -33,7 +33,7 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         end
         invSumTao = 0;
         if obj.gvTA(i+1) ~= 0
-            invTaou = 2*pc.gammaG^2*pc.kb*cc.envTemp ...
+            invTaou = 2*pc.gammaG^2*pc.kb*cc.initTemp ...
                        * cc.frequency.point(i+1)^2/(pc.miu*pc.V0*pc.omegaD);
             invTaob = obj.gvTA(i+1)/(cc.modelx.face(end) - cc.modelx.face(1));
             invSumTao = invSumTao + invTaou + invTaob;
@@ -41,7 +41,7 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         end
         invSumTao = 0;
         if obj.gvLO(i+1) ~= 0
-            invTaou = 2*pc.gammaG^2*pc.kb*cc.envTemp ...
+            invTaou = 2*pc.gammaG^2*pc.kb*cc.initTemp ...
                        * cc.frequency.point(i+1)^2/(pc.miu*pc.V0*pc.omegaD);
             invTaob = obj.gvLO(i+1)/(cc.modelx.face(end) - cc.modelx.face(1));
             invSumTao = invSumTao + invTaou + invTaob;
@@ -49,7 +49,7 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         end
         invSumTao = 0;
         if obj.gvTO(i+1) ~= 0
-            invTaou = 2*pc.gammaG^2*pc.kb*cc.envTemp ...
+            invTaou = 2*pc.gammaG^2*pc.kb*cc.initTemp ...
                        * cc.frequency.point(i+1)^2/(pc.miu*pc.V0*pc.omegaD);
             invTaob = obj.gvTO(i+1)/(cc.modelx.face(end) - cc.modelx.face(1));
             invSumTao = invSumTao + invTaou + invTaob;

@@ -5,7 +5,7 @@ addpath(genpath('./OperatorTerms'))
 addpath(genpath('./functions'))
 addpath(genpath('./Material_GaN'))
 addpath(genpath('./ParallelCompute/DeviceParallelCompute'))
-addpath(genpath('./1D/'))
+addpath(genpath('./1D_GaN/'))
 
 %% 
 clc,clear
@@ -17,7 +17,7 @@ sc = ScatteringCurve(cc, pc);
 sh = SimulationHistory(dv, pc, cc);
 pq = PhononQuantityStatics(cc);
 %%
-% verifyProgram('inducedElectricField1D', dv, pc, sc, cc)
+verifyProgram('inducedElectricField1D', dv, pc, sc, cc)
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
@@ -32,6 +32,7 @@ eq = ElectricQuantityStaticsGaN(cc);
 
 eq.computeAverageEnergyWithTime(cc, 1000);
 eq.statisticsEnergyHistoryDistribution(cc, 1000);
+eq.computeDirftVelocityWithTime(cc, 300);
 eq.plotGeneralProperties
 eq.computeValleyOccupationWithTime(cc, 1000);
 eq.computeTerminalCurrent(cc)
@@ -40,7 +41,7 @@ eq.plotElectronTrace(cc, 2, 'k');
 eq.plotElectronTrace(cc, 1, 'r');
 eq.plotElectronTrace(cc, 2, 'e');
 eq.plotElectronTrace(cc, 0, 'd')
-eq.plotElectronTrace(cc, 15, 'xy');
+eq.plotElectronTrace(cc, 156, 'xy');
 
 %验证5，声子发射谱
 % pq.plotSpectrum(pc, cc, "LA");
@@ -76,12 +77,7 @@ legend(sprintfc('%g', linspace(1, n(2) - 1, n(2) - 1)))
 writeDataToFile('aveEtime', cc, eq.aveEtime)
 writeDataToFile('currrent', cc, eq.current)
 writeDataToFile('occupyRate', cc, eq.occupyRate)
-writeDataToFile('xEfield', cc, cc.modelx.point*1e9, cc.xField.data(2:end-1, 2))
-
-
-
-
-
+writeDataToFile('xEfield', cc, cc.modelx.point*1e9, cc.xFieldCopy.data(2:end-1, 2))
 
 
 

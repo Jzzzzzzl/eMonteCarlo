@@ -17,8 +17,8 @@ classdef ConfigureConstants < Data2ColocatedField
     methods
         function obj = ConfigureConstants(pc)
             %>构造函数
-            obj.superElecs = 100;
-            obj.noFly = 100000;
+            obj.superElecs = 1000;
+            obj.noFly = 20000;%0.0029455
             
             obj.initValley = 11;
             obj.initTemp = 300;
@@ -32,8 +32,8 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.d3 = 100e-9;
             obj.mWidth = 100e-9;
             obj.mLength = obj.d1+obj.d2+obj.d3;
-            obj.xsforInduce = 0.1;
-            obj.sczWidth = 0.4*obj.d3;
+            obj.xsforInduce = 0.05;
+            obj.sczWidth = 0.3*obj.d3;
             obj.initPosition = [299 300 0 100]*1e-9;
             obj.NX = 50;
             obj.NY = 1;

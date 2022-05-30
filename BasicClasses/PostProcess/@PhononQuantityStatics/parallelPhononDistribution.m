@@ -1,12 +1,13 @@
 function parallelPhononDistribution(obj, cc)
     %>并行处理声子Log文件
     tic
-    p = parpool(cc.localWorkers);
+    startMatlabPool(cc.localWorkers);
+    path = cc.filePath;
     spmd
-        path = '/home/jiang/documents/eMdatas/epDatas/';
         filename = [path 'PhononLogPart' num2str(labindex)];
         fileID = fopen(filename);
         sumF = zeros(cc.NX, cc.NY, 4, cc.NW);
+        sumN = zeros(cc.NW, 4, 2);
         while ~feof(fileID)
             strline = fgetl(fileID);
             dataline = textscan(strline, '%f %f %f %f %f %f %f %f %s %s');
@@ -24,23 +25,31 @@ function parallelPhononDistribution(obj, cc)
                 case 'ab'
                     switch string(dataline{10})
                         case 'LA'
+                            sumN(k, 1, 1) = sumN(k, 1, 1) + 1;
                             sumF(i, j, 1, k) = sumF(i, j, 1, k) - dataline{7};
                         case 'TA'
+                            sumN(k, 2, 1) = sumN(k, 2, 1) + 1;
                             sumF(i, j, 2, k) = sumF(i, j, 2, k) - dataline{7};
                         case 'LO'
+                            sumN(k, 3, 1) = sumN(k, 3, 1) + 1;
                             sumF(i, j, 3, k) = sumF(i, j, 3, k) - dataline{7};
                         case 'TO'
+                            sumN(k, 4, 1) = sumN(k, 4, 1) + 1;
                             sumF(i, j, 4, k) = sumF(i, j, 4, k) - dataline{7};
                     end
                 case 'em'
                     switch string(dataline{10})
                         case 'LA'
+                            sumN(k, 1, 2) = sumN(k, 1, 2) + 1;
                             sumF(i, j, 1, k) = sumF(i, j, 1, k) + dataline{7};
                         case 'TA'
+                            sumN(k, 2, 2) = sumN(k, 2, 2) + 1;
                             sumF(i, j, 2, k) = sumF(i, j, 2, k) + dataline{7};
                         case 'LO'
+                            sumN(k, 3, 2) = sumN(k, 3, 2) + 1;
                             sumF(i, j, 3, k) = sumF(i, j, 3, k) + dataline{7};
                         case 'TO'
+                            sumN(k, 4, 2) = sumN(k, 4, 2) + 1;
                             sumF(i, j, 4, k) = sumF(i, j, 4, k) + dataline{7};
                     end
             end
@@ -48,9 +57,10 @@ function parallelPhononDistribution(obj, cc)
         fclose(fileID);
     end
     obj.allSumF = sumF{1};
+    obj.allSumN = sumN{1};
     for i = 2 : cc.localWorkers
         obj.allSumF = obj.allSumF + sumF{i};
+        obj.allSumN = obj.allSumN + sumN{i};
     end
-    delete(p)
     disp(['声子历史数据处理结束！耗时：', sprintf('%.2f', toc), ' s'])
 end

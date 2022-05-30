@@ -4,26 +4,26 @@ function plotSpectrum(obj, pc, cc, type)
     wNumem = zeros(cc.NW, 2);
     switch type
         case "LA"
-            tempab = obj.phLAab;
-            tempem = obj.phLAem;
+            tempab = obj.allSumN(:, 1, 1);
+            tempem = obj.allSumN(:, 1, 2);
         case "TA"
-            tempab = obj.phTAab;
-            tempem = obj.phTAem;
+            tempab = obj.allSumN(:, 2, 1);
+            tempem = obj.allSumN(:, 2, 2);
         case "LO"
-            tempab = obj.phLOab;
-            tempem = obj.phLOem;
+            tempab = obj.allSumN(:, 3, 1);
+            tempem = obj.allSumN(:, 3, 2);
         case "TO"
-            tempab = obj.phTOab;
-            tempem = obj.phTOem;
+            tempab = obj.allSumN(:, 4, 1);
+            tempem = obj.allSumN(:, 4, 2);
         case "ALL"
-            tempab = obj.phALLab;
-            tempem = obj.phALLem;
+            tempab = obj.allSumN(:, 1, 1) + obj.allSumN(:, 2, 1) + obj.allSumN(:, 3, 1) + obj.allSumN(:, 4, 1);
+            tempem = obj.allSumN(:, 1, 2) + obj.allSumN(:, 2, 2) + obj.allSumN(:, 3, 2) + obj.allSumN(:, 4, 2);
     end
 
     for k = 1 : cc.NW
-        wNumab(k, 1) = tempab(k).num;
+        wNumab(k, 1) = tempab(k);
         wNumab(k, 2) = pc.hbar * cc.frequency.point(k + 1) / pc.e * 1000;
-        wNumem(k, 1) = tempem(k).num;
+        wNumem(k, 1) = tempem(k);
         wNumem(k, 2) = pc.hbar * cc.frequency.point(k + 1) / pc.e * 1000;
     end
     figure

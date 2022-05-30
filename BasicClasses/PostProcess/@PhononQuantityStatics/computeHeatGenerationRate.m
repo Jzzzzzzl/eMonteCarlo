@@ -2,8 +2,8 @@ function computeHeatGenerationRate(obj, pc, cc, sc)
     %>计算热产生率
     % 循环所有频率段，尤其注意不同极化支的频率范围
     tic
-    for k = 1 : cc.NW
-        deltaw = cc.frequency.face(k+1) - cc.frequency.face(k);
+    for k = 2 : cc.NW
+        deltaw = cc.frequency.face(cc.NW/2+1) - cc.frequency.face(cc.NW/2);
         % 扫描模型内部区域
         for i = 1 : cc.NX
             for j = 1 : cc.NY

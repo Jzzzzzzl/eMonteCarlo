@@ -1,69 +1,84 @@
 function computeTeff(obj, cc, pc, sc)
     %>计算等效温度
-    obj.Teff = ColocateField(cc, cc.envTemp);
-    energyLeft = ColocateField(cc);
-    energyRight = ColocateField(cc);
-    % 循环控制变量
-    number = 2000;
-    deltaT = 0.1;
+    tic
+    obj.Teff = ColocateField(cc, cc.initTemp);
+    teff = obj.TF.data;
+    number = 200;
+    deltaT = 1;
     errorMax = 1e-3;
-    
-    for i = 1 : cc.NX
-        for j = 1 : cc.NY
-            error = zeros(number, 1);
-            flag = -1;% 用于控制温度增减
+    error = zeros(number, 1);
+    flag = -1;% 用于控制温度增减
+    startMatlabPool(cc.localWorkers);
+    njobs = floor(cc.NX*cc.NY/cc.localWorkers)+1;
+    indexs = zeros(cc.localWorkers, 2);
+    for i = 1 : cc.localWorkers
+        indexs(i, 1) = 1 + njobs * (i - 1);
+        indexs(i, 2) = indexs(i, 1) + njobs - 1;
+    end
+    indexs(end, 2) = cc.NX*cc.NY;
+    spmd
+        No = indexs(labindex, 1);
+        while No <= indexs(labindex, 2)
+            [i, j] = getInverseGlobalID(cc.NX, cc.NY, No);
             for p = 1 : number
                 % 方程左边
                 energyLA = 0; energyTA = 0;
                 energyLO = 0; energyTO = 0;
-                for k = 1 : cc.NW
+                for k = 2 : cc.NW
                     deltaw = cc.frequency.face(k+1) - cc.frequency.face(k);
-                    NLeft = 1 / (exp(pc.hbar*cc.frequency.point(k+1) / (pc.kb*obj.Teff.data(i+1, j+1))) - 1);
-                    if cc.frequency.point(k+1) >= sc.wMinLA && cc.frequency.point(k+1) <= sc.wMaxLA
+                    NLeft = 1 / (exp(pc.hbar*cc.frequency.point(k+1) / (pc.kb*teff(i+1, j+1))) - 1);
+                    if sc.gvLA(k+1) ~= 0
                         energyLA = energyLA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLA(k+1);
                     end
-                    if cc.frequency.point(k+1) >= sc.wMinTA && cc.frequency.point(k+1) <= sc.wMaxTA
+                    if sc.gvTA(k+1) ~= 0
                         energyTA = energyTA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTA(k+1);
                     end
-                    if cc.frequency.point(k+1) >= sc.wMinLO && cc.frequency.point(k+1) <= sc.wMaxLO
+                    if sc.gvLO(k+1) ~= 0
                         energyLO = energyLO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLO(k+1);
                     end
-                    if cc.frequency.point(k+1) >= sc.wMinTO && cc.frequency.point(k+1) <= sc.wMaxTO
+                    if sc.gvTO(k+1) ~= 0
                         energyTO = energyTO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTO(k+1);
                     end
                 end
-                energyLeft.data(i+1, j+1) = (energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
+                energyLeft = (energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
                 % 方程右边
                 energyLA = 0; energyTA = 0;
                 energyLO = 0; energyTO = 0;
-                for k = 1 : cc.NW
+                for k = 2 : cc.NW
                     deltaw = cc.frequency.face(k+1) - cc.frequency.face(k);
                     NRight = 1 / (exp(pc.hbar*cc.frequency.point(k+1) / (pc.kb*obj.TF.data(i+1, j+1))) - 1);
-                    if cc.frequency.point(k+1) >= sc.wMinLA && cc.frequency.point(k+1) <= sc.wMaxLA
+                    if sc.gvLA(k+1) ~= 0
                         energyLA = energyLA + (obj.n(k).LA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLA(k+1);
                     end
-                    if cc.frequency.point(k+1) >= sc.wMinTA && cc.frequency.point(k+1) <= sc.wMaxTA
+                    if sc.gvTA(k+1) ~= 0
                         energyTA = energyTA + (obj.n(k).TA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTA(k+1);
                     end
-                    if cc.frequency.point(k+1) >= sc.wMinLO && cc.frequency.point(k+1) <= sc.wMaxLO
+                    if sc.gvLO(k+1) ~= 0
                         energyLO = energyLO + (obj.n(k).LO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLO(k+1);
                     end
-                    if cc.frequency.point(k+1) >= sc.wMinTO && cc.frequency.point(k+1) <= sc.wMaxTO
+                    if sc.gvTO(k+1) ~= 0
                         energyTO = energyTO + (obj.n(k).TO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTO(k+1);
                     end
                 end
-                energyRight.data(i+1, j+1) = (energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
+                energyRight = (energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
                 % 左右校准
-                error(p) = double(abs((energyRight.data(i+1, j+1) - energyLeft.data(i+1, j+1)) / energyRight.data(i+1, j+1)));
+                error(p) = double(abs((energyRight - energyLeft) / energyRight));
                 if error(p) < errorMax
                     break;
                 end
                 if p >= 2 && (error(p) - error(p-1)) > 0
                     flag = -1*flag;
                 end
-                obj.Teff.data(i+1, j+1) = obj.Teff.data(i+1, j+1) + flag*deltaT;
+                teff(i+1, j+1) = teff(i+1, j+1) + flag*deltaT;
             end
+            No = No + 1;
         end
     end
-
+    obj.Teff.data = teff{1};
+    for i = 2 : cc.localWorkers
+        obj.Teff.data = obj.Teff.data + teff{i};
+    end
+    obj.Teff.data = obj.Teff.data/cc.localWorkers;
+    obj.Teff.plotField(cc)
+    disp(['等效温度求解完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

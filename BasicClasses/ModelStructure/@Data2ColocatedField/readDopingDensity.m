@@ -9,5 +9,5 @@ function readDopingDensity(obj)
     TotalDoping(:,1) = 1e-6 * TotalDoping(:,1);
     TotalDoping(:,2) = 1e-6 * TotalDoping(:,2);
     TotalDoping(:,3) = 1e6 * TotalDoping(:,3);
-    obj.fieldInterpolation(TotalDoping, obj.dopDensity);
+    obj.fieldInterpolation(TotalDoping, obj.dopDensity, 'direct');
 end

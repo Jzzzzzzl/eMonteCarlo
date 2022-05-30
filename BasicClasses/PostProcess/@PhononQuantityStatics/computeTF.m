@@ -29,23 +29,23 @@ function computeTF(obj, cc, sc, pc)
     end
     
     lambda = StaggeredField(cc, pc.k, pc.k);
-    obj.TF = ColocateField(cc, cc.envTemp);
-    sp = ColocateField(cc);
+    obj.TF = ColocateField(cc, cc.initTemp);
+    Sp = ColocateField(cc);
     Sc = sourceB;
     eqn = LinearSystem(cc.NX, cc.NY);
     for i = 2 : cc.NX + 1
-        obj.TF.top(i, :) = [0.0    cc.envTemp];
-        obj.TF.bottom(i, :) = [0.0    cc.envTemp];
+        obj.TF.top(i, :) = [0.0    cc.initTemp];
+        obj.TF.bottom(i, :) = [0.0    cc.initTemp];
     end
     for j = 2 : cc.NY + 1
-        obj.TF.left(j, :) = [0.0    cc.envTemp];
-        obj.TF.right(j, :) = [0.0    cc.envTemp];
+        obj.TF.left(j, :) = [0.0    cc.initTemp];
+        obj.TF.right(j, :) = [0.0    cc.initTemp];
     end
     eqn.initialize;
     eqn.setInitialGuess(cc, obj.TF);
     diffusionOperator(eqn, cc, lambda, obj.TF);
-    sourceOperator(eqn, cc, sp, Sc);
-    eqn.solveMatrix(500);
+    sourceOperator(eqn, cc, Sp, Sc);
+    eqn.solveMatrix(10000);
     eqn.updateField(cc, obj.TF);
     obj.TF.plotField(cc);
 end

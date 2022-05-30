@@ -50,6 +50,8 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.p = 0.7;
             obj.epsilonL = 11.9;
             obj.epsilonH = 0;
+            obj.maxVelocity = 3e5;
+            obj.maxFrequency = 10e13;
             obj.dGX = sqrt(sum(obj.hsp.X.^2));
             obj.dBD = obj.dGX;
             obj.dGL = sqrt(sum(obj.hsp.L.^2));

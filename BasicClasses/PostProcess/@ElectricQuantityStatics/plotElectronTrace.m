@@ -42,7 +42,7 @@ function plotElectronTrace(obj, cc, num, type)
             hold off
             
         case 'd'
-            cc.timeGrid(0, 0.999*obj.minimumTime, 50);
+            cc.timeGrid(0, 0.999*obj.minimumTime, 100);
             p = zeros(1, 3, cc.superElecs, cc.Nt);
             h = figure;
             filename = [cc.filePath 'postDatas/test.gif'];

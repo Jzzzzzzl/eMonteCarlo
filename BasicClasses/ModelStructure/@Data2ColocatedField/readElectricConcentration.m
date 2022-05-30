@@ -9,5 +9,5 @@ function readElectricConcentration(obj)
     Eleconc(:,1) = 1e-6 * Eleconc(:,1);
     Eleconc(:,2) = 1e-6 * Eleconc(:,2);
     Eleconc(:,3) = 1e6 * Eleconc(:,3);
-    obj.fieldInterpolation(Eleconc, obj.eleConc);
+    obj.fieldInterpolation(Eleconc, obj.eleConc, 'direct');
 end

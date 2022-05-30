@@ -55,6 +55,6 @@ classdef Data2ColocatedField < BoundaryReflection
         readYElectricField(obj)
         readDopingDensity(obj)
         readElectricConcentration(obj)
-        fieldInterpolation(obj, field1, field2)
+        fieldInterpolation(obj, field1, field2, method)
     end
 end
