@@ -70,7 +70,7 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.ul = 6.6e3;
             obj.ut = 2.7e3;
             obj.u = (2*obj.ut + obj.ul)/3;
-            obj.p = 0.375;
+            obj.p = 0.61948;
             obj.epsilonL = 8.9;
             obj.epsilonH = 5.35;
             obj.maxVelocity = 3e7;

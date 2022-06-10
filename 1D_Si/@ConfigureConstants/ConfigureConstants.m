@@ -18,7 +18,7 @@ classdef ConfigureConstants < Data2ColocatedField
         function obj = ConfigureConstants(pc)
             %>构造函数
             obj.superElecs = 1000;
-            obj.noFly = 10000;%0.0029455
+            obj.noFly = 20000;%0.0029455
             
             obj.initValley = 1;
             obj.initTemp = 300;

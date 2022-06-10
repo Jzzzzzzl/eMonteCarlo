@@ -8,6 +8,7 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     es.time = es.time + dv.valley.flyTime;
     eField = cc.computeElectricField(es);
     es.vector = es.vector + (-pc.e) * eField * dv.valley.flyTime / pc.hbar;
+    es = dv.valley.modifyElectricWaveVector(es, pc);
     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     rAgo = es.position;
     es.position = es.position + cc.direction.*es.velocity * dv.valley.flyTime;

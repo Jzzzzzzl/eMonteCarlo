@@ -17,8 +17,7 @@ function solveMatrix(obj, iterNum)
             obj.result(rowID) = temp;
         end
         errorMax = obj.getResidual;
-        disp(errorMax)
-        if errorMax <= 1e-15
+        if errorMax <= 1e-7
             break;
         end
     end

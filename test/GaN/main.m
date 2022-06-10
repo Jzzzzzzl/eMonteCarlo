@@ -22,10 +22,10 @@ parallelCompute(sh, dv, sc, pc, cc);
 eq = ElectricQuantityStaticsGaN(cc);
 pq.minimumTime = eq.minimumTime;
 % 验证1，能带画图
-dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.L);
+% dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.L);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
 %验证2，散射表画图
-tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 15]); toc
+tic; dv.valley.scatteringRatePlot(sc, pc, cc, [6, 11]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, sc, cc);

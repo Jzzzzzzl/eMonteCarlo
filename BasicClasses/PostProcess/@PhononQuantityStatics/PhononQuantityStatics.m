@@ -3,7 +3,8 @@ classdef PhononQuantityStatics < handle
     properties
         allSumF
         allSumN
-        minimumTime
+        minTime
+        maxTime
         nDot
         Q
         n

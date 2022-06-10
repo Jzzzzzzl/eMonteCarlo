@@ -5,18 +5,17 @@ classdef ConfigureConstants < Data2ColocatedField
     end
     
     properties
-        noFly
-        envTemp
         maxVelocity
         maxFrequency
         initValley
+        initPosition
         mLength
         mWidth
         eField
         direction
         dopdensity
-        filePath
         localWorkers
+        initTemp
     end
     
     methods
@@ -32,11 +31,12 @@ classdef ConfigureConstants < Data2ColocatedField
 %             obj.direction = [1 0 0];
             
             obj.localWorkers = 20;
+            obj.initTemp = 300;
             obj.dopdensity = 1e23;
-            obj.envTemp = 300;
             obj.maxVelocity = 3e7;
             obj.maxFrequency = 1.5e14;
-            obj.initValley = 11;
+            obj.initPosition = [0 0 0 100]*1e-9;
+            obj.initValley = 13;
             obj.dSource = 0;
             obj.mLength = 1;
             obj.mWidth = 1;
@@ -65,6 +65,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.modelYGrid(0, obj.mWidth, obj.NY);
             obj.eleConc = ColocateField(obj, obj.dopdensity);
             obj.dopDensity = ColocateField(obj, obj.dopdensity);
+            obj.deviceTemp = ColocateField(obj, obj.initTemp);
             obj.computeSuperElectricCharge;
         end
         

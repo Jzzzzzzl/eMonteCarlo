@@ -1,5 +1,6 @@
 function computeTF(obj, cc, sc, pc)
     %>计算扩散温度
+    tic
     sourceB = ColocateField(cc);
     for i = 1 : cc.NX
         for j = 1 : cc.NY
@@ -27,7 +28,6 @@ function computeTF(obj, cc, sc, pc)
             sourceB.data(i+1, j+1) = cc.xsforSourceB*(energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
         end
     end
-    
     lambda = StaggeredField(cc, pc.k, pc.k);
     obj.TF = ColocateField(cc, cc.initTemp);
     Sp = ColocateField(cc);
@@ -48,4 +48,5 @@ function computeTF(obj, cc, sc, pc)
     eqn.solveMatrix(10000);
     eqn.updateField(cc, obj.TF);
     obj.TF.plotField(cc);
+    disp(['扩散温度求解完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

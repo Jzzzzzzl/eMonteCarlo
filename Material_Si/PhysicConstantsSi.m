@@ -47,8 +47,7 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.ul = 9.2e3;
             obj.ut = 4.7e3;
             obj.u = (2*obj.ut + obj.ul)/3;
-            obj.p = 0.7;
-            obj.epsilonL = 11.9;
+            obj.epsilonL = 13;
             obj.epsilonH = 0;
             obj.maxVelocity = 3e5;
             obj.maxFrequency = 10e13;
