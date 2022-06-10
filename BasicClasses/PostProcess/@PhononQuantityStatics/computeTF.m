@@ -1,5 +1,6 @@
 function computeTF(obj, cc, sc, pc)
     %>计算扩散温度
+    tic
     sourceB = ColocateField(cc);
     for i = 1 : cc.NX
         for j = 1 : cc.NY
@@ -27,25 +28,25 @@ function computeTF(obj, cc, sc, pc)
             sourceB.data(i+1, j+1) = cc.xsforSourceB*(energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;
         end
     end
-    
-    lambda = StaggeredField(cc, cc.k, cc.k);
-    obj.TF = ColocateField(cc, cc.envTemp);
-    sp = ColocateField(cc);
+    lambda = StaggeredField(cc, pc.k, pc.k);
+    obj.TF = ColocateField(cc, cc.initTemp);
+    Sp = ColocateField(cc);
     Sc = sourceB;
     eqn = LinearSystem(cc.NX, cc.NY);
     for i = 2 : cc.NX + 1
-        obj.TF.top(i, :) = [0.0    cc.envTemp];
-        obj.TF.bottom(i, :) = [0.0    cc.envTemp];
+        obj.TF.top(i, :) = [0.0    cc.initTemp];
+        obj.TF.bottom(i, :) = [0.0    cc.initTemp];
     end
     for j = 2 : cc.NY + 1
-        obj.TF.left(j, :) = [0.0    cc.envTemp];
-        obj.TF.right(j, :) = [0.0    cc.envTemp];
+        obj.TF.left(j, :) = [0.0    cc.initTemp];
+        obj.TF.right(j, :) = [0.0    cc.initTemp];
     end
     eqn.initialize;
     eqn.setInitialGuess(cc, obj.TF);
     diffusionOperator(eqn, cc, lambda, obj.TF);
-    sourceOperator(eqn, cc, sp, Sc);
-    eqn.solveMatrix(500);
+    sourceOperator(eqn, cc, Sp, Sc);
+    eqn.solveMatrix(10000);
     eqn.updateField(cc, obj.TF);
     obj.TF.plotField(cc);
+    disp(['扩散温度求解完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

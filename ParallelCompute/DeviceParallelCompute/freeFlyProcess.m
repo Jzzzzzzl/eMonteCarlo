@@ -11,10 +11,14 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     es = dv.valley.modifyElectricWaveVector(es, pc);
     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     rAgo = es.position;
-    es.position = es.position + es.velocity * dv.valley.flyTime;
+    es.position = es.position + cc.direction.*es.velocity * dv.valley.flyTime;
     bool = cc.boundaryReflection(rAgo, es);
-    if bool; initializeElectricStatus(es, dv, pc, cc); end
-    
+    if bool
+        timeTemp = es.time;
+        es.initializeElectricStatus(dv, pc, cc);
+        es.time = timeTemp;
+    end
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
     es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
+    
 end

@@ -5,41 +5,45 @@ classdef ConfigureConstants < Data2ColocatedField
     end
     
     properties
-        noFly
-        envTemp
         maxVelocity
         maxFrequency
         initValley
+        initPosition
         mLength
         mWidth
         eField
         direction
         dopdensity
+        localWorkers
+        initTemp
     end
     
     methods
         function obj = ConfigureConstants(pc)
             obj.superElecs = 1000;
             obj.noFly = 5000;
-%             obj.eField = [1e-12 -3.0e6
-%                              2e-12 -4.0e7
-%                              1 -3.0e6];
+            obj.eField = [1e-12 -3.0e6
+                              2e-12 -4.0e7
+                              1 -3.0e6];
 %             obj.generateElectricField(20);
 %             obj.eField = [1 -3.0e7];
             obj.direction = pc.hsp.M / pc.dGM;
 %             obj.direction = [1 0 0];
-            	
+
+            obj.localWorkers = 20;
+            obj.initTemp = 300;
             obj.dopdensity = 1e23;
-            obj.envTemp = 300;
             obj.maxVelocity = 3e7;
             obj.maxFrequency = 1.5e14;
-            obj.initValley = 11;
+            obj.initPosition = [0 0 0 100]*1e-9;
+            obj.initValley = 13;
             obj.dSource = 0;
             obj.mLength = 1;
             obj.mWidth = 1;
             obj.NX = 1;
             obj.NY = 1;
             obj.NW = 100;
+            obj.filePath = '/home/jiang/documents/eMdatas';
             obj.modelMeshAndBuildNodesAndReadData;
         end
         
@@ -51,7 +55,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.eField(end, 1) = 1;
             obj.eField(:, 2) = -1*linspace(0.1, 5, N)*1e7;
 %             obj.eField(:, 2) = -1*logspace(6, 8, N)*0.6;
-            disp(['建议飞行次数设置为： ', num2str(N*deltaTime*1e12 / 0.001 * 1.2)]);
+            disp(['建议飞行次数设置为： ', num2str(N*deltaTime*1e12 / 0.00096 * 1.2)]);
         end
         
         function modelMeshAndBuildNodesAndReadData(obj)
@@ -61,6 +65,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.modelYGrid(0, obj.mWidth, obj.NY);
             obj.eleConc = ColocateField(obj, obj.dopdensity);
             obj.dopDensity = ColocateField(obj, obj.dopdensity);
+            obj.deviceTemp = ColocateField(obj, obj.initTemp);
             obj.computeSuperElectricCharge;
         end
         

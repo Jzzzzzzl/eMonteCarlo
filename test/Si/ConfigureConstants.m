@@ -1,10 +1,11 @@
 classdef ConfigureConstants < Data2ColocatedField
     %% 运行参数类
     properties(Constant)
-        e =1.602176634e-19;
+        e = 1.602176634e-19;
     end
     
     properties
+        parGrid
         noFly
         envTemp
         maxVelocity
@@ -15,18 +16,21 @@ classdef ConfigureConstants < Data2ColocatedField
         eField
         direction
         dopdensity
+        xsfornDot
+        localWorkers
     end
     
     methods
         function obj = ConfigureConstants(pc)
             obj.superElecs = 20;
-            obj.noFly = 50;
-            obj.eField = [1, -100e5];
+            obj.noFly = 500;
+            obj.eField = [1, -1e5];
 %             obj.eField = [4e-12 -1e5
 %                              1 -100e5];
 %             obj.generateElectricField(5);
             obj.direction = [1 0 0];
             
+            obj.localWorkers = 20;
             obj.dopdensity = 1e23;
             obj.envTemp = 300;
             obj.maxVelocity = 3e5;
@@ -37,7 +41,8 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.mWidth = 1;
             obj.NX = 1;
             obj.NY = 1;
-            obj.NW = 100;
+            obj.NW = 10;
+            obj.xsfornDot = 1e9;
             obj.modelMeshAndBuildNodesAndReadData;
         end
         

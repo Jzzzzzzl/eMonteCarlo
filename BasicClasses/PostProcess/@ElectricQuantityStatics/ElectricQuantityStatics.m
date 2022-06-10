@@ -9,8 +9,8 @@ classdef ElectricQuantityStatics < handle
         minimumTime
         mobilityTime
         mobilityField
-        aveDriftVelocity
-        aveEnergy
+        aveEtime
+        driftVtime
         driftVfield
         enumbers
         qnumbers
@@ -18,6 +18,7 @@ classdef ElectricQuantityStatics < handle
         diffusionField
         occupyRate
         occupyField
+        current
     end
     
     properties
@@ -31,8 +32,9 @@ classdef ElectricQuantityStatics < handle
     end
     
     methods
-        function obj = ElectricQuantityStatics(fileID, cc)
+        function obj = ElectricQuantityStatics(cc)
             %>构造函数
+            fileID = fopen([cc.filePath 'ElectronLog']);
             obj.extractElectricHistoryInformation(fileID, cc);
             obj.averageTotalFlyTime(cc);
         end

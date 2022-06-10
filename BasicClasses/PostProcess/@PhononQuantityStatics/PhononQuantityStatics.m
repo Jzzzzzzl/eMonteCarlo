@@ -1,37 +1,23 @@
 classdef PhononQuantityStatics < handle
     %% 声子统计类
     properties
-        minimumTime
-        xpositions
-        ypositions
-        vectors
-        frequencys
-        aborems
-        polars
-        times
-        phLAab
-        phLAem
-        phTAab
-        phTAem
-        phLOab
-        phLOem
-        phTOab
-        phTOem
-        phALLab
-        phALLem
+        allSumF
+        allSumN
+        minTime
+        maxTime
         nDot
         Q
         n
         TF
         Teff
         pTeff
+        polar
     end
     
     methods
         function obj = PhononQuantityStatics(cc)
             %>构造函数
             obj.initializeVariables(cc);
-            
         end
         
         

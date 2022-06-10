@@ -1,4 +1,4 @@
-function [] = verifyProgram(type, dv, pc, sc, cc)
+function [] = verifyProgram(type, dv, pc, ~, cc)
     %>验证
     switch type
         case "EnergyToVector"
@@ -29,6 +29,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
         case "AcousticPiezoelectricScatPlot"
             num = 500;
             es = ElectricStatus;
+            es.position = [0 0 0];
             es.valley = 11;
             dv.valleyGuidingPrinciple(es);
             energys = logspace(-5, 3, num) * pc.e;
@@ -52,6 +53,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
         case "ValleyStructureOfValleyU"
             es = ElectricStatus;
             es.energy = 8.5*pc.e;
+            es.position = [0 0 0];
             number = 2000;
             tempk = zeros(number, 3);
             valleys = [1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6];
@@ -71,6 +73,7 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
         case "ValleyStructureOfValleyGamma"
             es = ElectricStatus;
             es.energy = 3*pc.e;
+            es.position = [0 0 0];
             number = 2000;
             tempk = zeros(number, 3);
             valleys = [11, 13];
@@ -116,5 +119,29 @@ function [] = verifyProgram(type, dv, pc, sc, cc)
             end
             plot(perdrift(:, 1), perdrift(:, 2), '*')
             legend(['vd = ', num2str(sum(perdrift(:, 2)).*1e-7), ' x10^7 cm/s'])
+            
+        case 'inducedElectricField1D'
+            N = 100;
+            numbers = linspace(1, cc.superElecs, N);
+            for i = 1 : N
+                inducedE = cc.xsforInduce*numbers(i)*cc.superElecCharge/...
+                               cc.sczWidth/(pc.epsilonL*pc.epsilon0);
+                cc.xField.data = cc.xFieldCopy.data;
+                cc.xField.data(cc.leftIndex : cc.rightIndex, cc.NY+1) = ...
+                           cc.xField.data(cc.leftIndex : cc.rightIndex, cc.NY+1) + inducedE;
+                plot(cc.modelx.point(2:end)*1e9, cc.xField.data(2:end, 2))
+                axis([0 cc.modelx.face(end)*1e9 -3e7 3e8])
+                title(['区域内超电子数：' num2str(numbers(i))])
+                drawnow;
+            end
+            
+        case 'verifyConfigureSettings'
+            if rem(cc.noFly/cc.localWorkers, 1) ~= 0
+                error('将飞行次数设置为核数的整数倍！')
+            end
+            if exist([cc.filePath 'ElectronLog'], 'file')
+                error('先将文件夹清空！')
+            end
+            disp('没问题了，开始模拟吧！')
     end
 end

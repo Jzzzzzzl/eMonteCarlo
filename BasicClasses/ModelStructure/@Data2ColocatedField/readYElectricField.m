@@ -1,5 +1,5 @@
 function readYElectricField(obj)
-    %>
+    %>读取y方向电场数据
     try
         load YeField.dat
     catch
@@ -9,5 +9,5 @@ function readYElectricField(obj)
     YeField(:,1) = 1e-6 * YeField(:,1);
     YeField(:,2) = 1e-6 * YeField(:,2);
     YeField(:,3) = 1e2 * YeField(:,3);
-    obj.fieldInterpolation(YeField, obj.yField);
+    obj.fieldInterpolation(YeField, obj.yFieldCopy, 'spline');
 end

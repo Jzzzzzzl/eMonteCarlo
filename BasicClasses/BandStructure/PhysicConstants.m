@@ -30,6 +30,10 @@ classdef PhysicConstants < handle
         %>相对介电常量
         epsilonL
         epsilonH
+        %>最大群速度
+        maxVelocity
+        %>最大频率
+        maxFrequency
         %>k空间距离
         dBD
         dGA

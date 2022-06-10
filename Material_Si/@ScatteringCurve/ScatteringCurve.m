@@ -1,5 +1,5 @@
 classdef ScatteringCurve < handle
-    %% 色散曲线
+    %% 色散曲线类
     properties
         band
         bandLA

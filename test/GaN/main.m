@@ -19,14 +19,13 @@ pq = PhononQuantityStatics(cc);
 
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
-fileID = fopen('/home/jiang/documents/eMdatas/ElectronLog.dat');
-eq = ElectricQuantityStaticsGaN(fileID, cc);
+eq = ElectricQuantityStaticsGaN(cc);
 pq.minimumTime = eq.minimumTime;
 % 验证1，能带画图
-% dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.K);
+% dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.L);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
 %验证2，散射表画图
-% tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 15]); toc
+tic; dv.valley.scatteringRatePlot(sc, pc, cc, [6, 11]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("AcousticPiezoelectricScatPlot", dv, pc, sc, cc);
@@ -46,14 +45,14 @@ eq.statisticsEnergyHistoryDistribution(cc, 1000);
 eq.statisticsWaveVectorDistribution(dv, pc, cc, [0.01e-12 0.01e-12 3]);
 eq.plotGeneralProperties
 
-eq.statisticsScatteringTypeDistribution(cc, 'U');
-eq.statisticsScatteringTypeDistribution(cc, 'G1');
-eq.statisticsScatteringTypeDistribution(cc, 'G3');
+% eq.statisticsScatteringTypeDistribution(cc, 'U');
+% eq.statisticsScatteringTypeDistribution(cc, 'G1');
+% eq.statisticsScatteringTypeDistribution(cc, 'G3');
 eq.computeValleyOccupationWithTime(cc, 1000);
 eq.computeValleyOccupationWithElectricField(cc);
-eq.plotElectronTrace(cc, 12, 'k');
-eq.plotElectronTrace(cc, 13, 'r');
-eq.plotElectronTrace(cc, 81, 'e');
+% eq.plotElectronTrace(cc, 1, 'k');
+% eq.plotElectronTrace(cc, 1, 'r');
+eq.plotElectronTrace(cc, 8, 'e');
 %验证5，声子发射谱
 % pq.subPhononQuantityStatics(sh, cc);
 % pq.plotSpectrum(pc, cc, "LA");
@@ -63,7 +62,13 @@ eq.plotElectronTrace(cc, 81, 'e');
 % pq.plotSpectrum(pc, cc, "ALL");
 
 
-
+%% 
+writeDataToFile('aveEtime', cc, eq.aveEtime)
+writeDataToFile('driftVfield', cc, eq.driftVfield)
+writeDataToFile('occupyField', cc, eq.occupyField)
+writeDataToFile('enumbers', cc, eq.enumbers)
+writeDataToFile('occupyRate', cc, eq.occupyRate)
+writeDataToFile('driftVtime', cc, eq.driftVtime)
 
 
 

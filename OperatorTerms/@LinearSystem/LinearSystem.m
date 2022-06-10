@@ -83,6 +83,6 @@ classdef LinearSystem < handle
         addToMatrix(obj, rowID, colID, value)
         addToRHS(obj, rowID, value)
         solveMatrix(obj, iterNum)
-        getResidual(obj)
+        [error] = getResidual(obj)
     end
 end

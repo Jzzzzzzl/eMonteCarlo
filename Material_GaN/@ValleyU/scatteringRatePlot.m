@@ -1,6 +1,7 @@
 function scatteringRatePlot(obj, sc, pc, cc, mn)
     %>散射率画图
     es = ElectricStatus;
+    es.position = [0 0 0];
     es.valley = 1;
     num = 50;
     energys = logspace(-1, 1, num) * pc.e + obj.Eg;

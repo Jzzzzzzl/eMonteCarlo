@@ -9,6 +9,7 @@ classdef PhysicConstantsSi < PhysicConstants
         thetaD                    %德拜温度
         omegaD                  %德拜频率
         V0                          %单原子体积
+        k
     end
     
     properties
@@ -46,9 +47,10 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.ul = 9.2e3;
             obj.ut = 4.7e3;
             obj.u = (2*obj.ut + obj.ul)/3;
-            obj.p = 0.7;
-            obj.epsilonL = 11.9;
+            obj.epsilonL = 13;
             obj.epsilonH = 0;
+            obj.maxVelocity = 3e5;
+            obj.maxFrequency = 10e13;
             obj.dGX = sqrt(sum(obj.hsp.X.^2));
             obj.dBD = obj.dGX;
             obj.dGL = sqrt(sum(obj.hsp.L.^2));
@@ -61,6 +63,7 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.thetaD = 643;
             obj.omegaD = obj.thetaD*obj.kb/obj.hbar;
             obj.V0 = sqrt(3)*obj.c^3/8;
+            obj.k = 148;
             %>GammaX能谷参数
             obj.EgGX = 0*obj.e;
             obj.mtGX = 0.196*obj.m;

@@ -1,4 +1,4 @@
-%% 
+%% 硅性质验证程序
 rmpath(genpath('/home/jiang/eMonteCarlo'))
 addpath(genpath('./BasicClasses'))
 addpath(genpath('./OperatorTerms'))
@@ -15,15 +15,19 @@ cc = ConfigureConstants(pc);
 dv = DecideValleyKind(pc);
 sc = ScatteringCurve(cc, pc);
 sh = SimulationHistory(dv, pc, cc);
-pq = PhononQuantityStatics(cc);
+pq = PhononQuantityStatics;
 
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
-elog = fopen('/home/jiang/documents/eMdatas/ElectronLog.dat');
-plog = fopen('/home/jiang/documents/eMdatas/PhononLog.dat');
+elog = fopen('/home/jiang/documents/eMdatas/eDatas/ElectronLog');
 eq = ElectricQuantityStaticsSi(elog, cc);
 pq.minimumTime = eq.minimumTime;
-pq.extractPhononHistoryInformation(plog, cc);
+pq.phononQuantityStatics(cc);
+pq.parallelPhononDistribution(cc);
+pq.computeHeatGenerationRate(pc, cc, sc);
+pq.solveFarDistributionFunction(cc, sc);
+pq.plotnAndnDot(cc)
+pq.computeTF(cc, sc, pc);
 % 验证1，能带画图
 dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.X);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.X);

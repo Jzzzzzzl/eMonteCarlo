@@ -22,8 +22,8 @@ classdef ElectricStatus < handle
             obj.time = 0;
             obj.perdrift = 0;
             obj.valley = cc.initValley;
-            obj.position(1) = randNumber(cc.modelx.face(1), cc.dSource);
-            obj.position(2) = randNumber(cc.modely.face(end-1), cc.modely.face(end));
+            obj.position(1) = randNumber(cc.initPosition(1), cc.initPosition(2));
+            obj.position(2) = randNumber(cc.initPosition(3), cc.initPosition(4));
             obj.position(3) = 0;
             obj.charge = cc.superElecCharge;
             dv.valleyGuidingPrinciple(obj);
