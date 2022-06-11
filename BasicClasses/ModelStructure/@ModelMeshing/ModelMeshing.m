@@ -3,6 +3,14 @@ classdef ModelMeshing < handle
     %>     包括的网格类型有：
     %> frequency/energy/modelx/modely/time
     %> 若为一维模型，则NY = 1，实际按二维进行计算
+    properties(Constant)
+        e = 1.602176634e-19;
+        m = 9.10956e-31;
+        kb = 1.380649e-23;
+        h = 6.6260755e-34;
+        hbar = 1.05457266e-34;
+        epsilon0 = 8.854187817e-12;
+    end
     properties
         frequency
         vector

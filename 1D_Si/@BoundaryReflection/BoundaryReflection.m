@@ -10,6 +10,8 @@ classdef BoundaryReflection < ModelMeshing
         rightIndex
         sczWidth   %电子积累层厚度
         initPosition
+        
+        xsforInduce
     end
     
     methods
