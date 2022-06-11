@@ -1,10 +1,10 @@
 %% 二维模型主程序
-rmpath(genpath('/home/jiang/eMonteCarlo'))
-addpath(genpath('./BasicClasses'))
-addpath(genpath('./OperatorTerms'))
-addpath(genpath('./functions'))
-addpath(genpath('./Material_Si'))
-addpath(genpath('./ParallelCompute/DeviceParallelCompute'))
+rmpath(genpath('/home/jiang/eMonteCarlo/'))
+addpath(genpath('./BasicClasses/'))
+addpath(genpath('./OperatorTerms/'))
+addpath(genpath('./functions/'))
+addpath(genpath('./Material_Si/'))
+addpath(genpath('./ParallelCompute/DeviceParallelCompute/'))
 addpath(genpath('./1D_Si/'))
 
 %% 

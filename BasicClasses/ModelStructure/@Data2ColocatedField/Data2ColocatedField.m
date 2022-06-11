@@ -14,6 +14,13 @@ classdef Data2ColocatedField < BoundaryReflection
         noFly
         superElecs
         superElecCharge
+        maxFrequency
+        xsfornDot
+        xsforSourceB
+        initValley
+        localWorkers
+        direction
+        initTemp
     end
     properties
         elog
@@ -22,7 +29,6 @@ classdef Data2ColocatedField < BoundaryReflection
         fileIndex
         parGrid
     end
-
     
     methods
         function obj = Data2ColocatedField

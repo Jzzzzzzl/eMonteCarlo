@@ -1,19 +1,5 @@
 classdef ConfigureConstants < Data2ColocatedField
     %% 运行参数类
-    properties(Constant)
-        e = 1.602176634e-19;
-    end
-    properties
-        xsforInduce
-        xsfornDot
-        xsforSourceB
-        maxFrequency
-        initValley
-        localWorkers
-        direction
-        initTemp
-    end
-    
     methods
         function obj = ConfigureConstants(pc)
             %>构造函数
