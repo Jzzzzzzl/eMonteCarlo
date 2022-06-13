@@ -1,5 +1,6 @@
 function computeTerminalCurrent(obj, cc)
     %>计算端电流
+    tic
     outEles = zeros(cc.Nt, 1);
     for i = 1 : cc.superElecs
         xPositions = squeeze(obj.positions(:, 1, i, 2:end));
@@ -12,12 +13,13 @@ function computeTerminalCurrent(obj, cc)
             end
         end
     end
-    obj.current = zeros(cc.Nt, 2);
+    obj.curTime = zeros(cc.Nt, 2);
     for i = 1 : cc.Nt
         deltat = cc.time.face(i+1) - cc.time.face(i);
-        obj.current(i, 1) = cc.time.point(i+1)*1e12;
-        obj.current(i, 2) = cc.superElecCharge*outEles(i)/deltat;
+        obj.curTime(i, 1) = cc.time.point(i+1)*1e12;
+        obj.curTime(i, 2) = cc.superElecCharge*outEles(i)/deltat;
     end
+    disp(['端电流随时间变化计算完成！耗时： ', sprintf('%.2f', toc), ' s']);
     figure
-    plot(obj.current(:, 1), obj.current(:, 2))
+    plot(obj.curTime(:, 1), obj.curTime(:, 2))
 end

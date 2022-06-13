@@ -1,7 +1,5 @@
 classdef ModelMeshing < handle
     %% 本文件提供网格划分类
-    %>     包括的网格类型有：
-    %> frequency/energy/modelx/modely/time
     %> 若为一维模型，则NY = 1，实际按二维进行计算
     properties(Constant)
         e = 1.602176634e-19;
@@ -11,6 +9,7 @@ classdef ModelMeshing < handle
         hbar = 1.05457266e-34;
         epsilon0 = 8.854187817e-12;
     end
+    
     properties
         frequency
         vector
@@ -19,6 +18,7 @@ classdef ModelMeshing < handle
         modely
         time
     end
+    
     properties
         NW
         NQ
@@ -76,7 +76,7 @@ classdef ModelMeshing < handle
         
     end
     methods
-        modelMeshingGridPlot(obj)
+        meshPlot(obj)
     end
     methods(Static)
         [grid] = meshGrid(grid, min, max, N, ratio, layerNum)

@@ -1,44 +1,27 @@
 classdef ScatteringCurve < handle
     %% 色散曲线类
     properties
+        %>极化支结构体
+        polar
+        %>能带存储矩阵
+        qband
+        %>能带结构体
         band
-        bandLA
-        bandTA
-        bandLO
-        bandTO
-        gvLA
-        gvTA
-        gvLO
-        gvTO
-        dosLA
-        dosTA
-        dosLO
-        dosTO
-        taoLA
-        taoTA
-        taoLO
-        taoTO
+        %>群速度结构体
+        gv
+        %>态密度结构体
+        dos
+        %>弛豫时间结构体
+        tao
     end
     
     properties
         %各极化支频率定义域
-        wMinLA
-        wMaxLA
-        wMinTA
-        wMaxTA
-        wMinLO
-        wMaxLO
-        wMinTO
-        wMaxTO
+        wMin
+        wMax
         %谷间散射对应频率
-        wgLA
-        wgTA
-        wgLO
-        wgTO
-        wfLA
-        wfTA
-        wfLO
-        wfTO
+        wg
+        wf
     end
     
     methods
@@ -46,33 +29,33 @@ classdef ScatteringCurve < handle
             %>构造函数
             obj.initializeVariables(cc);
             obj.fitBandCoefficient(pc);
-            obj.frequencyToInter(pc);
+            obj.frequencyToInterScat(pc);
             obj.computeGroupVelocityDOSTao(cc, pc)
         end
         
-        function frequencyToInter(obj, pc)
+        function frequencyToInterScat(obj, pc)
             %>谷间散射对应频率
-            obj.wgLA = polyval(obj.bandLA, pc.qg);
-            obj.wgTA = polyval(obj.bandTA, pc.qg);
-            obj.wgLO = polyval(obj.bandLO, pc.qg);
-            obj.wgTO = polyval(obj.bandTO, pc.qg);
-            obj.wfLA = polyval(obj.bandLA, pc.qf);
-            obj.wfTA = polyval(obj.bandTA, pc.qf);
-            obj.wfLO = polyval(obj.bandLO, pc.qf);
-            obj.wfTO = polyval(obj.bandTO, pc.qf);
+            obj.wg.LA = polyval(obj.band.LA, pc.qg);
+            obj.wg.TA = polyval(obj.band.TA, pc.qg);
+            obj.wg.LO = polyval(obj.band.LO, pc.qg);
+            obj.wg.TO = polyval(obj.band.TO, pc.qg);
+            obj.wf.LA = polyval(obj.band.LA, pc.qf);
+            obj.wf.TA = polyval(obj.band.TA, pc.qf);
+            obj.wf.LO = polyval(obj.band.LO, pc.qf);
+            obj.wf.TO = polyval(obj.band.TO, pc.qf);
         end
         
         function frequency = phononFrequency(obj, ps)
             %>计算PhononStatus对象频率
             switch ps.polar
                 case "LA"
-                    frequency = polyval(obj.bandLA, ps.wavenum);
+                    frequency = polyval(obj.band.LA, ps.wavenum);
                 case "TA"
-                    frequency = polyval(obj.bandTA, ps.wavenum);
+                    frequency = polyval(obj.band.TA, ps.wavenum);
                 case "LO"
-                    frequency = polyval(obj.bandLO, ps.wavenum);
+                    frequency = polyval(obj.band.LO, ps.wavenum);
                 case "TO"
-                    frequency = polyval(obj.bandTO, ps.wavenum);
+                    frequency = polyval(obj.band.TO, ps.wavenum);
                 otherwise
                     error("声子极化支类型有误！")
             end
@@ -82,6 +65,7 @@ classdef ScatteringCurve < handle
     methods
         initializeVariables(obj, cc)
         fitBandCoefficient(obj, pc)
+        getBandDataFromOther(obj, cc)
         computeGroupVelocityDOSTao(obj, cc, pc)
     end
     

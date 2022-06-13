@@ -16,23 +16,36 @@ classdef ScatterringRateTableForValley < BandStructureForValley
     %>     scatTableAll：累积散射表
     % ======================================================================
     properties
+        %>谷内散射声子波矢大小
         qAB
         qEM
-        thetaII
-        thetaAP
+        %>声学压电散射散射角
+        thetaAPiezo
+        %>谷内极化光学散射散射角
         thetaPOab
         thetaPOem
+        %>电离杂质散射散射角
+        thetaIImpu
+        %>散射类型数量
         nofScat
+        %>最大散射率
         maxScatRate
+        %>电离杂质散射修正系数
         xsForimpurity
+        %>极化光学散射修正系数
         xsForPolarOptical
+        %>飞行时间
         flyTime
+        %>散射类型
         scatType
+        %>散射表
         scatTable
+        %>散射率累加表
         scatTableAll
     end
     
     properties
+        %>各种散射率句柄函数
         ionizedImpurity
         acousticPiezoelectric
         elasticIntraAcoustic
@@ -47,13 +60,13 @@ classdef ScatterringRateTableForValley < BandStructureForValley
     end
     
     methods
-        ionizedImpurityScatteringRate(obj, es, pc, cc)
-        inelasticIntervalleyScatteringRate(obj, es, pc, cc)
-        inelasticPolarOpticalScatteringRate(obj, es, pc, cc)
-        acousticPiezoelectricScatteringRate(obj, es, pc, cc)
-        elasticIntravalleyAcousticScatteringRate(obj, es, pc, cc)
-        inelasticIntravalleyOpticalScatteringRate(obj, es, pc, cc)
-        inelasticIntravalleyAcousticScatteringRate(obj, es, pc, cc)
+        ionizedImpurityScatteringRate(obj, es, pc)
+        inelasticIntervalleyScatteringRate(obj, es, pc)
+        inelasticPolarOpticalScatteringRate(obj, es, pc)
+        acousticPiezoelectricScatteringRate(obj, es, pc)
+        elasticIntravalleyAcousticScatteringRate(obj, es, pc)
+        inelasticIntravalleyOpticalScatteringRate(obj, es, pc)
+        inelasticIntravalleyAcousticScatteringRate(obj, es, pc)
     end
     
     methods

@@ -5,10 +5,10 @@ function [k] = chooseStandardVectorForElasticScattering(obj, es, pc, type)
     switch type
         case 'ap'
             %>声学压电散射角
-            theta = obj.thetaAP;
+            theta = obj.thetaAPiezo;
         case 'ii'
             %>电离杂质散射角
-            theta = obj.thetaII;
+            theta = obj.thetaIImpu;
         case 'intra'
             %>谷内弹性散射角
             theta = randNumber(0, pi);

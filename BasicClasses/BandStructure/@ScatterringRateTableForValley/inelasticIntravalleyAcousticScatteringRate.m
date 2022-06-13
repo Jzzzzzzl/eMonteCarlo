@@ -1,8 +1,8 @@
-function inelasticIntravalleyAcousticScatteringRate(obj, es, pc, cc)
+function inelasticIntravalleyAcousticScatteringRate(obj, es, pc)
     %>生成谷内声学散射句柄函数
     %>     参数说明：
     %>     D：形变势常量
-    T = cc.computeDeviceTemperature(es);
+    T = es.devTem;
     epsilonStar = obj.md*pc.u^2/2;
     Cstar = 4*epsilonStar^(1/2) ...
               / (pc.kb*T*(1-4*obj.alpha*epsilonStar/pc.e));
@@ -30,7 +30,7 @@ function inelasticIntravalleyAcousticScatteringRate(obj, es, pc, cc)
                                              / (2^(5/2)*pi*pc.hbar^4*pc.u^4*pc.rho)*real(es.gamma^(-1/2)) ...
                                              * ((1+2*obj.alpha*es.epsilon/pc.e) * (G1(x2e) - G1(x1e)) ...
                                              - 2*obj.alpha*pc.kb*T/pc.e * (G2(x2e) - G2(x1e)));
-                                         
+    
     function [value] = F1(x)
         %>电子谷内散射积分函数F1
         xabar = 3.5;

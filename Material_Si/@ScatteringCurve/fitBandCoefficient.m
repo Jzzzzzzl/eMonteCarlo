@@ -3,38 +3,38 @@ function fitBandCoefficient(obj, pc)
     load Si_band_GX.dat
     
     [m ,n] = size(Si_band_GX);
-    obj.band = zeros(m, n + 4);
-    obj.band(:, 1 : n) = deal(Si_band_GX);
-    obj.band(:, 1) = linspace(0, pc.dGX, m)';
-    obj.band(:, 2 : n) = obj.band(:, 2 : n)*2*pi*1e12;
+    obj.qband = zeros(m, n + 4);
+    obj.qband(:, 1 : n) = deal(Si_band_GX);
+    obj.qband(:, 1) = linspace(0, pc.dGX, m)';
+    obj.qband(:, 2 : n) = obj.qband(:, 2 : n)*2*pi*1e12;
     
-    k = obj.band(:, 1);
+    k = obj.qband(:, 1);
     %>LA
-    f = obj.band(:, 2);
-    obj.wMinLA = min(f);
-    obj.wMaxLA = max(f);
-    obj.bandLA = polyfit(k, f, 5);
-    gvLAdiff = polyder(obj.bandLA);
-    obj.band(:, n+1) = abs(polyval(gvLAdiff, obj.band(:, 1)));
+    f = obj.qband(:, 2);
+    obj.wMin.LA = min(f);
+    obj.wMax.LA = max(f);
+    obj.band.LA = polyfit(k, f, 5);
+    gvLAdiff = polyder(obj.band.LA);
+    obj.qband(:, n+1) = abs(polyval(gvLAdiff, obj.qband(:, 1)));
     %>TA
-    f = obj.band(:, 3);
-    obj.wMinTA = min(f);
-    obj.wMaxTA = max(f);
-    obj.bandTA = polyfit(k, f, 5);
-    gvTAdiff = polyder(obj.bandTA);
-    obj.band(:, n+2) = abs(polyval(gvTAdiff, obj.band(:, 1)));
+    f = obj.qband(:, 3);
+    obj.wMin.TA = min(f);
+    obj.wMax.TA = max(f);
+    obj.band.TA = polyfit(k, f, 5);
+    gvTAdiff = polyder(obj.band.TA);
+    obj.qband(:, n+2) = abs(polyval(gvTAdiff, obj.qband(:, 1)));
     %>LO
-    f = obj.band(:, 5);
-    obj.wMinLO = min(f);
-    obj.wMaxLO = max(f);
-    obj.bandLO = polyfit(k, f, 5);
-    gvLOdiff = polyder(obj.bandLO);
-    obj.band(:, n+3) = abs(polyval(gvLOdiff, obj.band(:, 1)));
+    f = obj.qband(:, 5);
+    obj.wMin.LO = min(f);
+    obj.wMax.LO = max(f);
+    obj.band.LO = polyfit(k, f, 5);
+    gvLOdiff = polyder(obj.band.LO);
+    obj.qband(:, n+3) = abs(polyval(gvLOdiff, obj.qband(:, 1)));
     %>TO
-    f = obj.band(:, 6);
-    obj.wMinTO = min(f);
-    obj.wMaxTO = max(f);
-    obj.bandTO = polyfit(k, f, 7);
-    gvTOdiff = polyder(obj.bandTO);
-    obj.band(:, n+4) = abs(polyval(gvTOdiff, obj.band(:, 1)));
+    f = obj.qband(:, 6);
+    obj.wMin.TO = min(f);
+    obj.wMax.TO = max(f);
+    obj.band.TO = polyfit(k, f, 7);
+    gvTOdiff = polyder(obj.band.TO);
+    obj.qband(:, n+4) = abs(polyval(gvTOdiff, obj.qband(:, 1)));
 end

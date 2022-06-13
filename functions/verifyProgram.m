@@ -6,6 +6,9 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             num = 10000;
             allowedError = 0.001;
             es = ElectricStatus;
+            es.time = 0;
+            es.position = [0 0 0];
+            cc.computePositionParameters(es);
             valleys = [1, 11, 13];
             for n = 1 : length(valleys)
                 es.valley = valleys(n);
@@ -143,5 +146,38 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
                 error('先将文件夹清空！')
             end
             disp('没问题了，开始模拟吧！')
+            
+        case 'youshifangxiangdianchang'
+            r = 1;
+            figure
+            hold on
+            d = [-1 -1 0];
+            rtheta = atan(d(1) / d(3));
+            rphi = atan(d(2) / d(1));
+            if isnan(rtheta)
+                rtheta = pi/2;
+            elseif rtheta == 0
+                rtheta = sign(d(3)) * pi/2 - pi/2;
+            end
+            rMatrix = rotateMatrix(rtheta, 'y');
+            if isnan(rphi)
+                rphi = 0;
+            end
+            rMatrix = rotateMatrix(rphi, 'z') * rMatrix;
+            for i = 1 : 200
+                theta = 0.2;
+                phi = randNumber(0, 2*pi);
+                x = r * sin(theta) * cos(phi);
+                y = r * sin(theta) * sin(phi);
+                z = r * cos(theta);
+                m = rMatrix * [x y z]';
+                plot3(m(1), m(2), m(3), '*')
+            end
+            [x, y, z] = sphere();
+            surf(r*x, r*y, r*z)
+            xlabel("x")
+            ylabel("y")
+            zlabel("z")
+
     end
 end

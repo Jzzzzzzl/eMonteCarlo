@@ -1,5 +1,8 @@
 function [grid] = meshGrid(grid, min, max, N, ratio, layerNum)
     %>网格划分
+    if ~(isscalar(min) && isscalar(max) && isscalar(N))
+        error("输入变量不是标量！")
+    end
     grid.face = zeros(N + 1, 1);
     grid.point = zeros(N + 2, 1);
     grid.face(1) = min;

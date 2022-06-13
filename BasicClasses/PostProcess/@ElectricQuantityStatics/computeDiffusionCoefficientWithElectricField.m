@@ -1,18 +1,18 @@
 function computeDiffusionCoefficientWithElectricField(obj, cc)
     %>计算不同电场下的扩散系数
     tic
-    if isempty(obj.diffusionCoe)
-        error("请先计算computeDiffusionCoefficientWithTime函数！")
+    if isempty(obj.dcoTime)
+        error("请先计算扩散系数随时间变化！")
     end
-    n = find(cc.eField(:, 1) >= obj.minimumTime, 1);
-    obj.diffusionField = zeros(n, 2);
+    n = find(cc.eFieldInput(:, 1) >= obj.minTime, 1);
+    obj.dcoField = zeros(n, 2);
     for i = 1 : n
-        index = find(obj.diffusionCoe(:, 1) >= cc.eField(i, 1) * 1e12, 1) - 1;
+        index = find(obj.dcoTime(:, 1) >= cc.eFieldInput(i, 1) * 1e12, 1) - 1;
         if isempty(index)
-            [index, ~] = size(obj.diffusionCoe);
+            [index, ~] = size(obj.dcoTime);
         end
-        obj.diffusionField(i, 1) = abs(cc.eField(i, 2));
-        obj.diffusionField(i, 2) = obj.diffusionCoe(index, 2);
+        obj.dcoField(i, 1) = abs(cc.eFieldInput(i, 2));
+        obj.dcoField(i, 2) = obj.dcoTime(index, 2);
     end
     disp(['扩散系数随电场变化关系计算完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

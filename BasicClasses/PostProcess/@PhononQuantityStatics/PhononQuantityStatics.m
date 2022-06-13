@@ -19,7 +19,6 @@ classdef PhononQuantityStatics < handle
             %>构造函数
             obj.initializeVariables(cc);
         end
-        
-        
     end
+    
 end

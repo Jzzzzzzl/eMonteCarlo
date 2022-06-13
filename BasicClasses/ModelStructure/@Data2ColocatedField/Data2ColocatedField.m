@@ -10,33 +10,8 @@ classdef Data2ColocatedField < BoundaryReflection
         dopDensity
         deviceTemp
     end
-    properties
-        noFly
-        superElecs
-        superElecCharge
-        maxFrequency
-        xsfornDot
-        xsforSourceB
-        initValley
-        localWorkers
-        direction
-        initTemp
-    end
-    properties
-        elog
-        plog
-        filePath
-        fileIndex
-        parGrid
-    end
     
     methods
-        function obj = Data2ColocatedField
-            obj.elog = 0;
-            obj.plog = 0;
-            obj.fileIndex = 0;
-        end
-        
         function data2ColocatedField(obj)
             %>构造数据场
             obj.xField = ColocateField(obj);
@@ -62,5 +37,6 @@ classdef Data2ColocatedField < BoundaryReflection
         readDopingDensity(obj)
         readElectricConcentration(obj)
         fieldInterpolation(obj, field1, field2, method)
+        computeSuperElectricCharge(obj)
     end
 end
