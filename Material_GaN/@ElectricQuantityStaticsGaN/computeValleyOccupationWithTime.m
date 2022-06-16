@@ -1,7 +1,7 @@
 function computeValleyOccupationWithTime(obj, cc, N)
     %>能谷占据率随时间变化图
-    cc.timeGrid(0, 0.999*obj.minimumTime, N);
-    obj.occupyRate = zeros(cc.Nt, 4);
+    cc.timeGrid(0, 0.999*obj.minTime, N);
+    obj.occTime = zeros(cc.Nt, 4);
     for t = 1 : cc.Nt
         num = 0;
         numU = 0;
@@ -24,18 +24,18 @@ function computeValleyOccupationWithTime(obj, cc, N)
                 error("能谷标号错误！")
             end
         end
-        obj.occupyRate(t, 1) = cc.time.point(t + 1) * 1e12;
+        obj.occTime(t, 1) = cc.time.point(t + 1) * 1e12;
         if num ~= 0
-            obj.occupyRate(t, 2) = numU / num;
-            obj.occupyRate(t, 3) = numG1 / num;
-            obj.occupyRate(t, 4) = numG3 / num;
+            obj.occTime(t, 2) = numU / num;
+            obj.occTime(t, 3) = numG1 / num;
+            obj.occTime(t, 4) = numG3 / num;
         end
     end
     figure
     hold on
-    n = size(obj.occupyRate);
+    n = size(obj.occTime);
     for i = 2 : n(2)
-        slg = plot(obj.occupyRate(:, 1), obj.occupyRate(:, i));
+        slg = plot(obj.occTime(:, 1), obj.occTime(:, i));
         slg.LineWidth = 2;
     end
     xlabel("ps"); ylabel(".a.u");

@@ -151,8 +151,8 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             r = 1;
             figure
             hold on
-            d = [-1 -1 0];
-            rtheta = atan(d(1) / d(3));
+            d = [-1e5 1e5 0];
+            rtheta = atan(-d(1) / d(3));
             rphi = atan(d(2) / d(1));
             if isnan(rtheta)
                 rtheta = pi/2;
@@ -165,7 +165,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             end
             rMatrix = rotateMatrix(rphi, 'z') * rMatrix;
             for i = 1 : 200
-                theta = 0.2;
+                theta = 0.1;
                 phi = randNumber(0, 2*pi);
                 x = r * sin(theta) * cos(phi);
                 y = r * sin(theta) * sin(phi);
@@ -174,7 +174,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
                 plot3(m(1), m(2), m(3), '*')
             end
             [x, y, z] = sphere();
-            surf(r*x, r*y, r*z)
+            mesh(r*x, r*y, r*z)
             xlabel("x")
             ylabel("y")
             zlabel("z")

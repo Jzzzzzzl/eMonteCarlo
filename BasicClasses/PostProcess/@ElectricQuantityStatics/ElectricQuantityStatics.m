@@ -68,6 +68,18 @@ classdef ElectricQuantityStatics < handle
             disp(['最短运动时间为： ', num2str(obj.minTime * 1e12), '  ps']);
         end
         
+        function computeAllProperties(obj, dv, pc, cc)
+            %>计算所有特性
+            obj.computeAverageEnergyWithTime(cc, 1000);
+            obj.computeDiffusionCoefficientWithTime(cc, 300);
+            obj.computeDiffusionCoefficientWithElectricField(cc);
+            obj.computeDirftVelocityWithTime(cc, 300);
+            obj.computeDriftVelocityWithElectricField(cc);
+            obj.computeMobilityWithTime(cc);
+            obj.computeMobilityWithElectricField(cc);
+            obj.statisticsEnergyHistoryDistribution(cc, 1000);
+            obj.statisticsWaveVectorDistribution(dv, pc, cc, [0.01e-12 1.0e-12 3]);
+        end
     end
     
     methods

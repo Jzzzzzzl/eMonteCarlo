@@ -135,7 +135,7 @@ function [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
                 valleys1 = [2, -2, 3, -3];
                 valleys2 = [1, -1, 3, -3];
                 valleys3 = [1, -1, 2, -2];
-                index = round(randNumber(0.5, 4.5));
+                index = round(randNumber(0.5, length(valleys1)+0.5));
                 switch valley0
                     case 1
                         value = valleys1(index);

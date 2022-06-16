@@ -6,7 +6,7 @@ function [es] = freeFlyProcess(es, dv, pc)
     dv.valleyGuidingPrinciple(es);
     dv.valley.computeFlyTime(es);
     es.time = es.time + dv.valley.flyTime;
-    es.vector = es.vector + (-pc.e) * es.devField*dv.valley.flyTime / pc.hbar;
+    es.vector = es.vector - pc.e * es.devField * dv.valley.flyTime / pc.hbar;
     es = dv.valley.modifyElectricWaveVector(es, pc);
     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     es.position = es.position + es.velocity * dv.valley.flyTime;

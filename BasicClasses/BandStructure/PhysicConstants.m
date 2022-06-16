@@ -56,6 +56,8 @@ classdef PhysicConstants < handle
         V0
         %>热导率常量
         k
+        %>散射角优势散射类型
+        bscatype
     end
 
 end

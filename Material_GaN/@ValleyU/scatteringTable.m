@@ -1,7 +1,9 @@
-function scatteringTable(obj, es, sc, pc, cc)
+function scatteringTable(obj, es, sc, pc)
     %>计算散射表
     %更新散射的句柄函数
-    obj.updateScatterringRateFormula(es, pc, cc);
+    obj.updateScatterringRateFormula(es, pc);
+    obj.scatTable = zeros(obj.nofScat, 1);
+    obj.scatTableAll = zeros(obj.nofScat, 1);
     obj.scatTable(1)  = obj.ionizedImpurity;
     obj.scatTable(2)  = obj.acousticPiezoelectric;
     obj.scatTable(3)  = obj.elasticIntraAcoustic(pc.UD);

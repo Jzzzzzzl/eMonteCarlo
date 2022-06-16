@@ -21,13 +21,13 @@ classdef ValleyG3 < ScatterringProcessForValley & EPWaveVectorModify
             obj.invTz = inv(obj.Tz);
         end
         
-        function updateScatterringRateFormula(obj, es, pc, cc)
+        function updateScatterringRateFormula(obj, es, pc)
             %>更新散射率句柄函数，该能谷所包含的散射类型
-            obj.ionizedImpurityScatteringRate(es, pc, cc);
-            obj.acousticPiezoelectricScatteringRate(es, pc, cc);
-            obj.elasticIntravalleyAcousticScatteringRate(es, pc, cc);
-            obj.inelasticPolarOpticalScatteringRate(es, pc, cc);
-            obj.inelasticIntervalleyScatteringRate(es, pc, cc);
+            obj.ionizedImpurityScatteringRate(es, pc);
+            obj.acousticPiezoelectricScatteringRate(es, pc);
+            obj.elasticIntravalleyAcousticScatteringRate(es, pc);
+            obj.inelasticPolarOpticalScatteringRate(es, pc);
+            obj.inelasticIntervalleyScatteringRate(es, pc);
         end
         
         function [es] = getGeneralElectricWaveVector(obj, es, pc, k)
