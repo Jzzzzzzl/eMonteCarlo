@@ -1,6 +1,7 @@
 classdef ElectricStatus < handle
     %% 本文件提供超电子对象父类
     properties
+        id
         position
         vector
         valley

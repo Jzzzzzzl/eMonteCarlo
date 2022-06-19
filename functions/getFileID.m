@@ -11,7 +11,7 @@ function [] = getFileID(cc, k)
             fclose(cc.plog);
         end
         cc.fileIndex = index;
-        cc.elog = fopen([cc.filePath, 'ElectronLog'], 'a+');
+        cc.elog = fopen([cc.filePath, 'ElectronLogPart', num2str(index)], 'a+');
         cc.plog = fopen([cc.filePath 'PhononLogPart', num2str(index)], 'a+');
     end
 end

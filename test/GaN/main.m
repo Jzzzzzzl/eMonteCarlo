@@ -30,7 +30,7 @@ eq = ElectricQuantityStaticsGaN(cc);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
 % sc.plotScatteringCurve(pc);
 %验证2，散射表画图
-tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 18]); toc
+tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 20]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("youshifangxiangdianchang", dv, pc, sc, cc);
@@ -43,9 +43,9 @@ tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 18]); toc
 eq.computeAllProperties(dv, pc, cc);
 eq.plotGeneralProperties;
 
-eq.statisticsScatteringTypeDistribution(cc, 'U');
-eq.statisticsScatteringTypeDistribution(cc, 'G1');
-eq.statisticsScatteringTypeDistribution(cc, 'G3');
+% eq.statisticsScatteringTypeDistribution(cc, 'U');
+% eq.statisticsScatteringTypeDistribution(cc, 'G1');
+% eq.statisticsScatteringTypeDistribution(cc, 'G3');
 eq.computeValleyOccupationWithTime(cc, 1000);
 eq.computeValleyOccupationWithElectricField(cc);
 % eq.plotElectronTrace(cc, 2, 'k');

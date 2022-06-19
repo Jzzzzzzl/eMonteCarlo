@@ -12,7 +12,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
             obj.NW = 100;
             obj.initValley = 1;
             obj.initPosition = [0 0 0 0];
-            obj.initDopDen = 1e23;
+            obj.initDopDen = 1e24;%不同掺杂浓度可能引起最大散射率的变化
             obj.modelMeshingAndReadData(pc);
             obj.filePath = '/home/jiang/documents/eMdatas/epDatas/';
         end

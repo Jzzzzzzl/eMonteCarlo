@@ -1,7 +1,6 @@
 function computeTeff(obj, cc, pc, sc, type)
     %>计算等效温度
     tic
-    obj.Teff = ColocateField(cc, cc.initTemp);
     teff = obj.TF.data;
     number = 200;
     deltaT = 1;
@@ -9,16 +8,9 @@ function computeTeff(obj, cc, pc, sc, type)
     error = zeros(number, 1);
     flag = -1;% 用于控制温度增减
     startMatlabPool(cc.localWorkers);
-    njobs = floor(cc.NX*cc.NY/cc.localWorkers)+1;
-    indexs = zeros(cc.localWorkers, 2);
-    for i = 1 : cc.localWorkers
-        indexs(i, 1) = 1 + njobs * (i - 1);
-        indexs(i, 2) = indexs(i, 1) + njobs - 1;
-    end
-    indexs(end, 2) = cc.NX*cc.NY;
     spmd
-        No = indexs(labindex, 1);
-        while No <= indexs(labindex, 2)
+        No = obj.jobIndexs(labindex, 1);
+        while No <= obj.jobIndexs(labindex, 2)
             [i, j] = getInverseGlobalID(cc.NX, cc.NY, No);
             for p = 1 : number
                 % 方程左边
@@ -29,33 +21,33 @@ function computeTeff(obj, cc, pc, sc, type)
                     NLeft = 1 / (exp(pc.hbar*cc.frequency.point(k+1) / (pc.kb*teff(i+1, j+1))) - 1);
                     switch type
                         case 'LA'
-                            if sc.gvLA(k+1) ~= 0
-                                energyLA = energyLA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLA(k+1);
+                            if sc.gv.LA(k+1) ~= 0
+                                energyLA = energyLA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.LA(k+1);
                             end
                         case 'TA'
-                            if sc.gvTA(k+1) ~= 0
-                                energyTA = energyTA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTA(k+1);
+                            if sc.gv.TA(k+1) ~= 0
+                                energyTA = energyTA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.TA(k+1);
                             end
                         case 'LO'
-                            if sc.gvLO(k+1) ~= 0
-                                energyLO = energyLO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLO(k+1);
+                            if sc.gv.LO(k+1) ~= 0
+                                energyLO = energyLO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.LO(k+1);
                             end
                         case 'TO'
-                            if sc.gvTO(k+1) ~= 0
-                                energyTO = energyTO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTO(k+1);
+                            if sc.gv.TO(k+1) ~= 0
+                                energyTO = energyTO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.TO(k+1);
                             end
                         case 'ALL'
-                            if sc.gvLA(k+1) ~= 0
-                                energyLA = energyLA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLA(k+1);
+                            if sc.gv.LA(k+1) ~= 0
+                                energyLA = energyLA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.LA(k+1);
                             end
-                            if sc.gvTA(k+1) ~= 0
-                                energyTA = energyTA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTA(k+1);
+                            if sc.gv.TA(k+1) ~= 0
+                                energyTA = energyTA + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.TA(k+1);
                             end
-                            if sc.gvLO(k+1) ~= 0
-                                energyLO = energyLO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLO(k+1);
+                            if sc.gv.LO(k+1) ~= 0
+                                energyLO = energyLO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.LO(k+1);
                             end
-                            if sc.gvTO(k+1) ~= 0
-                                energyTO = energyTO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTO(k+1);
+                            if sc.gv.TO(k+1) ~= 0
+                                energyTO = energyTO + NLeft*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.TO(k+1);
                             end
                     end
                 end
@@ -68,33 +60,33 @@ function computeTeff(obj, cc, pc, sc, type)
                     NRight = 1 / (exp(pc.hbar*cc.frequency.point(k+1) / (pc.kb*obj.TF.data(i+1, j+1))) - 1);
                     switch type
                         case 'LA'
-                            if sc.gvLA(k+1) ~= 0
-                                energyLA = energyLA + (obj.n(k).LA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLA(k+1);
+                            if sc.gv.LA(k+1) ~= 0
+                                energyLA = energyLA + (obj.n(k).LA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.LA(k+1);
                             end
                         case 'TA'
-                            if sc.gvTA(k+1) ~= 0
-                                energyTA = energyTA + (obj.n(k).TA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTA(k+1);
+                            if sc.gv.TA(k+1) ~= 0
+                                energyTA = energyTA + (obj.n(k).TA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.TA(k+1);
                             end
                         case 'LO'
-                            if sc.gvLO(k+1) ~= 0
-                                energyLO = energyLO + (obj.n(k).LO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLO(k+1);
+                            if sc.gv.LO(k+1) ~= 0
+                                energyLO = energyLO + (obj.n(k).LO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.LO(k+1);
                             end
                         case 'TO'
-                            if sc.gvTO(k+1) ~= 0
-                                energyTO = energyTO + (obj.n(k).TO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTO(k+1);
+                            if sc.gv.TO(k+1) ~= 0
+                                energyTO = energyTO + (obj.n(k).TO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.TO(k+1);
                             end
                         case 'ALL'
-                            if sc.gvLA(k+1) ~= 0
-                                energyLA = energyLA + (obj.n(k).LA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLA(k+1);
+                            if sc.gv.LA(k+1) ~= 0
+                                energyLA = energyLA + (obj.n(k).LA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.LA(k+1);
                             end
-                            if sc.gvTA(k+1) ~= 0
-                                energyTA = energyTA + (obj.n(k).TA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTA(k+1);
+                            if sc.gv.TA(k+1) ~= 0
+                                energyTA = energyTA + (obj.n(k).TA.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.TA(k+1);
                             end
-                            if sc.gvLO(k+1) ~= 0
-                                energyLO = energyLO + (obj.n(k).LO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvLO(k+1);
+                            if sc.gv.LO(k+1) ~= 0
+                                energyLO = energyLO + (obj.n(k).LO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.LO(k+1);
                             end
-                            if sc.gvTO(k+1) ~= 0
-                                energyTO = energyTO + (obj.n(k).TO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gvTO(k+1);
+                            if sc.gv.TO(k+1) ~= 0
+                                energyTO = energyTO + (obj.n(k).TO.data(i+1, j+1) + NRight)*pc.hbar*cc.frequency.point(k+1)*deltaw / sc.gv.TO(k+1);
                             end
                     end
                 end
@@ -112,14 +104,22 @@ function computeTeff(obj, cc, pc, sc, type)
             No = No + 1;
         end
     end
-    obj.Teff.data = teff{1};
+    
     for i = 2 : cc.localWorkers
-        obj.Teff.data = obj.Teff.data + teff{i};
+        teff{1} = teff{1} + teff{i};
     end
-    obj.Teff.data = obj.Teff.data/cc.localWorkers;
-    obj.Teff.plotField(cc)
-    hold on
-    plot(cc.modelx.point, obj.TF.data(:, 2), 'LineWidth', 2)
-    legend([string(type) "TF"])
+    teff{1} = teff{1}/cc.localWorkers;
+    switch type
+        case 'LA'
+            obj.pTeff.LA.data = teff{1};
+        case 'TA'
+            obj.pTeff.TA.data = teff{1};
+        case 'LO'
+            obj.pTeff.LO.data = teff{1};
+        case 'TO'
+            obj.pTeff.TO.data = teff{1};
+        case 'ALL'
+            obj.Teff.data = teff{1};
+    end
     disp(['等效温度求解完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

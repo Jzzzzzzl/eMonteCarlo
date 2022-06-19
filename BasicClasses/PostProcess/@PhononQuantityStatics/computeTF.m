@@ -8,21 +8,21 @@ function computeTF(obj, cc, sc, pc)
             energyLO = 0; energyTO = 0;
             for k = 1 : cc.NW
                 deltaw = cc.frequency.face(k+1) - cc.frequency.face(k);
-                if sc.gvLA(k+1) ~= 0
+                if sc.gv.LA(k+1) ~= 0
                     energyLA = energyLA + obj.n(k).LA.data(i+1, j+1)*pc.hbar*cc.frequency.point(k+1)*deltaw ...
-                                 / (sc.gvLA(k+1)*sc.taoLA(k+1));
+                                 / (sc.gv.LA(k+1)*sc.tao.LA(k+1));
                 end
-                if sc.gvTA(k+1) ~= 0
+                if sc.gv.TA(k+1) ~= 0
                     energyTA = energyTA + obj.n(k).TA.data(i+1, j+1)*pc.hbar*cc.frequency.point(k+1)*deltaw ...
-                                 / (sc.gvTA(k+1)*sc.taoTA(k+1));
+                                 / (sc.gv.TA(k+1)*sc.tao.TA(k+1));
                 end
-                if sc.gvLO(k+1) ~= 0
+                if sc.gv.LO(k+1) ~= 0
                     energyLO = energyLO + obj.n(k).LO.data(i+1, j+1)*pc.hbar*cc.frequency.point(k+1)*deltaw ...
-                                 / (sc.gvLO(k+1)*sc.taoLO(k+1));
+                                 / (sc.gv.LO(k+1)*sc.tao.LO(k+1));
                 end
-                if sc.gvTO(k+1) ~= 0
+                if sc.gv.TO(k+1) ~= 0
                     energyTO = energyTO + obj.n(k).TO.data(i+1, j+1)*pc.hbar*cc.frequency.point(k+1)*deltaw ...
-                                 / (sc.gvTO(k+1)*sc.taoTO(k+1));
+                                 / (sc.gv.TO(k+1)*sc.tao.TO(k+1));
                 end
             end
             sourceB.data(i+1, j+1) = cc.xsforSourceB*(energyLA + energyTA + energyLO + energyTO) / (2*pi)^3;

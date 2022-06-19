@@ -91,7 +91,7 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.V0 = sqrt(3)*obj.c^3/8;
             obj.k = 1000;
             obj.bscatype = 2;
-            %>>>>>>>>U能谷参数
+            %>>>>>>>>>>>>U能谷参数<<<<<<<<<<<<<
             obj.EgU = 2.0*obj.e;
             obj.mtU = 0.335*obj.m;
             obj.mlU = 0.335*obj.m;
@@ -107,7 +107,7 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.U2UDK = 10e10*obj.e;
             obj.U2G1DK = 10e10*obj.e;
             obj.U2G3DK = 20e10*obj.e;%这个对G3占比影响很大
-            %>>>>>>>G1能谷参数
+            %>>>>>>>>>>>>G1能谷参数<<<<<<<<<<<<<
             obj.EgG1 = 0.0*obj.e;
             obj.mtG1 = 0.197*obj.m;
             obj.mlG1 = 0.197*obj.m;
@@ -120,9 +120,9 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.xsForimpurityG1 = 0.6;
             obj.xsForPolarOpticalG1 = 0.5;
             obj.G1D = 8.3*obj.e;
-            obj.G12UDK = 15e10*obj.e;
+            obj.G12UDK = 10e10*obj.e;
             obj.G12G3DK = 10e10*obj.e;
-            %>>>>>>>>G3能谷参数
+            %>>>>>>>>>>>>G3能谷参数<<<<<<<<<<<<<
             obj.EgG3 = 2.2*obj.e;
             obj.mtG3 = 0.277*obj.m;
             obj.mlG3 = 2.412*obj.m;

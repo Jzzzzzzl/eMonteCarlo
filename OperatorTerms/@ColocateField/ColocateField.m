@@ -24,7 +24,7 @@ classdef ColocateField < handle
     end
     
     methods
-        plotField(obj, mm)
+        plotField(obj, mm, ~)
         initializeDataValue(obj, mm, initiaValue)
     end
 end

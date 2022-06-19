@@ -33,6 +33,17 @@ classdef ConfigureConstants < Data2ColocatedField
         mLength
         %>模型宽度
         mWidth
+        %>感生电场长宽
+        sczLength
+        sczWidth
+        %感生电场修正系数
+        xsforInduce
+        %>感生电场区域及下标
+        indRegion
+        induceEl
+        induceEr
+        induceEt
+        induceEb
         %>noFly并行索引
         parGrid
         %>电子存储文件指针
@@ -58,6 +69,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.elog = 0;
             obj.plog = 0;
             obj.fileIndex = 0;
+            obj.initPosition = [0 0 0 0];
         end
         
         function updateConfigureConstants(obj)
@@ -68,7 +80,6 @@ classdef ConfigureConstants < Data2ColocatedField
                 obj.mLength = obj.d1 + obj.d2 + obj.d3;
             end
             obj.parGrid = linspace(0, obj.noFly, obj.localWorkers+1);
-            obj.initPosition = [0 0 0 0];
         end
         
     end

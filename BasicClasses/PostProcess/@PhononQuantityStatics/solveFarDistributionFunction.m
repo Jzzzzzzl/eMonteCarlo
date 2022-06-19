@@ -2,17 +2,17 @@ function solveFarDistributionFunction(obj, cc, sc)
     %>远平衡分布函数求解
     tic
     for k = 1 : cc.NW
-        if sc.taoLA(k+1) ~= 0
-            solven(obj.n(k).LA, obj.nDot(k).LA, cc, sc.gvLA(k+1), sc.taoLA(k+1));
+        if sc.tao.LA(k+1) ~= 0
+            solven(obj.n(k).LA, obj.nDot(k).LA, cc, sc.gv.LA(k+1), sc.tao.LA(k+1));
         end
-        if sc.taoTA(k+1) ~= 0
-            solven(obj.n(k).TA, obj.nDot(k).TA, cc, sc.gvTA(k+1), sc.taoTA(k+1));
+        if sc.tao.TA(k+1) ~= 0
+            solven(obj.n(k).TA, obj.nDot(k).TA, cc, sc.gv.TA(k+1), sc.tao.TA(k+1));
         end
-        if sc.taoLO(k+1) ~= 0
-            solven(obj.n(k).LO, obj.nDot(k).LO, cc, sc.gvLO(k+1), sc.taoLO(k+1));
+        if sc.tao.LO(k+1) ~= 0
+            solven(obj.n(k).LO, obj.nDot(k).LO, cc, sc.gv.LO(k+1), sc.tao.LO(k+1));
         end
-        if sc.taoTO(k+1) ~= 0
-            solven(obj.n(k).TO, obj.nDot(k).TO, cc, sc.gvTO(k+1), sc.taoTO(k+1));
+        if sc.tao.TO(k+1) ~= 0
+            solven(obj.n(k).TO, obj.nDot(k).TO, cc, sc.gv.TO(k+1), sc.tao.TO(k+1));
         end
     end
     disp(['远平衡分布函数求解完成！耗时：', sprintf('%.2f', toc), ' s'])

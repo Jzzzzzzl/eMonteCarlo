@@ -11,9 +11,9 @@ addpath(genpath('./1D_Si/'))
 clc,clear
 close all
 pc = PhysicConstantsSi;
-cc = ConfigureConstants(pc);
+cc = ConfigureConstantsSi(pc);
 dv = DecideValleyKind(pc);
-sc = ScatteringCurve(cc, pc);
+sc = ScatteringCurveSi(cc, pc);
 
 sc.getBandDataFromOther(cc);
 
@@ -25,47 +25,48 @@ verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
 eq = ElectricQuantityStaticsSi(cc);
-% pq.minTime = 38.43e-12;
-% pq.maxTime = 138.43e-12;
-pq.minTime = 30e-12;
-pq.maxTime = 300e-12;
+%%
+pq.minTime = 0e-12;
+pq.maxTime = 85e-12;
 pq.parallelPhononDistribution(cc);
-
+%%
 pq.initializeVariables(cc);
 pq.computeHeatGenerationRate(pc, cc, sc);
 pq.solveFarDistributionFunction(cc, sc);
 
-pq.plotFullFrequencyPeoperties(pq.n, cc)
 pq.plotFullFrequencyPeoperties(pq.Q, cc)
 pq.plotFullFrequencyPeoperties(pq.nDot, cc)
-
+pq.plotFullFrequencyPeoperties(pq.n, cc)
+%% 
 pq.computeTF(cc, sc, pc)
+pq.computeTeff(cc, pc, sc, 'LA')
+pq.computeTeff(cc, pc, sc, 'TA')
 pq.computeTeff(cc, pc, sc, 'LO')
-pq.TF.plotField(cc)
-pq.Teff.plotField(cc)
-% eq.computeAverageEnergyWithTime(cc, 1000);
-% eq.statisticsEnergyHistoryDistribution(cc, 1000);
-% eq.computeDirftVelocityWithTime(cc, 300);
-% eq.plotGeneralProperties
-% eq.computeValleyOccupationWithTime(cc, 1000);
-% eq.computeTerminalCurrent(cc)
-% eq.statisticsScatteringTypeDistribution(cc);
+pq.computeTeff(cc, pc, sc, 'TO')
+pq.computeTeff(cc, pc, sc, 'ALL')
 
+pq.TF.plotField(cc)
+pq.pTeff.LA.plotField(cc)
+pq.pTeff.TA.plotField(cc)
+pq.pTeff.LO.plotField(cc)
+pq.pTeff.TO.plotField(cc)
+pq.Teff.plotField(cc)
+legend("TF", "LATeff", "TATeff", "LOTeff", "TOTeff", "Teff")
 %% 
 eq.plotElectronTrace(cc, 2, 'k')
 eq.plotElectronTrace(cc, 1, 'r')
-eq.plotElectronTrace(cc, 99, 'e')
+eq.plotElectronTrace(cc, 9, 'e')
 eq.plotElectronTrace(cc, 0, 'd')
-eq.plotElectronTrace(cc, 156, 'xy')
+eq.plotElectronTrace(cc, 16, 'xy')
 
-%验证5，声子发射谱
+%%
 pq.plotSpectrum(pc, cc, "LA", [150, 170, 0.1, 99.9])
 pq.plotSpectrum(pc, cc, "TA", [150, 170, 0.1, 99.9])
 pq.plotSpectrum(pc, cc, "LO", [150, 170, 0.1, 99.9])
 pq.plotSpectrum(pc, cc, "TO", [150, 170, 0.1, 99.9])
 pq.plotSpectrum(pc, cc, "ALL", [0.1, 150, 0.1, 99.9])
-
-cc.dopDensity.plotField(cc)
+%%
+cc.dopDensity.plotField(cc, 'n')
 cc.eleConc.plotField(cc)
 cc.xFieldCopy.plotField(cc)
 cc.yFieldCopy.plotField(cc)
@@ -88,14 +89,6 @@ for k = 1 : cc.NW
 end
 
 save data cc pc pq sc
-
-
-
-
-
-
-
-
 
 
 

@@ -128,12 +128,12 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             numbers = linspace(1, cc.superElecs, N);
             for i = 1 : N
                 inducedE = cc.xsforInduce*numbers(i)*cc.superElecCharge/...
-                               cc.sczWidth/(pc.epsilonL*pc.epsilon0);
+                               cc.sczLength/(pc.epsilonL*pc.epsilon0);
                 cc.xField.data = cc.xFieldCopy.data;
-                cc.xField.data(cc.leftIndex : cc.rightIndex, cc.NY+1) = ...
-                           cc.xField.data(cc.leftIndex : cc.rightIndex, cc.NY+1) + inducedE;
+                cc.xField.data(cc.induceEl : cc.induceEr, cc.NY+1) = ...
+                           cc.xField.data(cc.induceEl : cc.induceEr, cc.NY+1) + inducedE;
                 plot(cc.modelx.point(2:end)*1e9, cc.xField.data(2:end, 2))
-                axis([0 cc.modelx.face(end)*1e9 -3e7 3e8])
+                axis([0 cc.modelx.face(end)*1e9 -8e6 2e7])
                 title(['区域内超电子数：' num2str(numbers(i))])
                 drawnow;
             end

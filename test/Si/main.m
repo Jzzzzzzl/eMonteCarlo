@@ -40,11 +40,11 @@ tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 20]); toc
 %验证4，数据后处理
 eq.computeAllProperties(dv, pc, cc);
 eq.plotGeneralProperties;
-eq.statisticsScatteringTypeDistribution(cc);
+% eq.statisticsScatteringTypeDistribution(cc);
 
-eq.plotElectronTrace(cc, 20, 'k');
-eq.plotElectronTrace(cc, 15, 'r');
-eq.plotElectronTrace(cc, 2, 'e');
+% eq.plotElectronTrace(cc, 20, 'k');
+% eq.plotElectronTrace(cc, 15, 'r');
+% eq.plotElectronTrace(cc, 2, 'e');
 %验证5，声子发射谱
 % pq.plotSpectrum(pc, cc, "LA", [150, 170, 0.1, 99.9])
 % pq.plotSpectrum(pc, cc, "TA", [150, 170, 0.1, 99.9])

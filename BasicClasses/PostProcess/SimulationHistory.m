@@ -18,6 +18,7 @@ classdef SimulationHistory < handle
             for i = 1 : cc.superElecs
                 obj.eGroup(i) = ElectricStatus;
                 obj.eGroup(i).initializeElectricStatus(dv, pc, cc);
+                obj.eGroup(i).id = i;
             end
         end
         

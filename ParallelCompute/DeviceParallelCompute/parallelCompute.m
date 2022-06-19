@@ -11,15 +11,16 @@ function [] = parallelCompute(sh, dv, sc, pc, cc)
             %自由飞行段
             eGroup(i) = freeFlyProcess(eGroup(i), dv, pc, cc);
             %散射段
+            cc.computePositionParameters(eGroup(i));
             dv.valleyGuidingPrinciple(eGroup(i));
-            dv.valley.scatteringTable(eGroup(i), sc, pc, cc);
+            dv.valley.scatteringTable(eGroup(i), sc, pc);
             dv.valley.computeScatType;
             eGroup(i).scatype = dv.valley.scatType;
             [eGroup(i), pGroup(i)] = dv.valley.scatteringProcess(dv, eGroup(i), pGroup(i), sc, pc);
         end
         %飞行完成后写入电声子信息
         getFileID(cc, k);
-        writeToElectricLogFile(cc.elog, eGroup, cc);
+        writeToElectricLogFile(cc.elog, eGroup, cc, k);
         writeToPhononLogFile(cc.plog, pGroup, cc);
         %输出计算进度
         disp(['计算进度： ', sprintf('%.2f', k / cc.noFly * 100), '%']);
