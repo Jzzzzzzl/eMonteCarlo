@@ -9,8 +9,8 @@ function computeTeff(obj, cc, pc, sc, type)
     flag = -1;% 用于控制温度增减
     startMatlabPool(cc.localWorkers);
     spmd
-        No = obj.jobIndexs(labindex, 1);
-        while No <= obj.jobIndexs(labindex, 2)
+        No = obj.pjobIndexs(labindex, 1);
+        while No <= obj.pjobIndexs(labindex, 2)
             [i, j] = getInverseGlobalID(cc.NX, cc.NY, No);
             for p = 1 : number
                 % 方程左边

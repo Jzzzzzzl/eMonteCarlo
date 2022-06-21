@@ -16,6 +16,7 @@ classdef ModelMeshing < handle
         energy
         modelx
         modely
+        angle
         time
     end
     
@@ -26,6 +27,7 @@ classdef ModelMeshing < handle
         NX
         NY
         Nt
+        NA
     end
     
     methods
@@ -72,6 +74,15 @@ classdef ModelMeshing < handle
             %>生成时间网格
             obj.Nt = N;
             obj.time = obj.meshGrid(obj.time, tMin, tMax, N);
+        end
+        
+        function angleGrid(obj, gMin, gMax, N)
+            %>生成角度网格
+            obj.NA = N;
+            obj.angle = obj.meshGrid(obj.angle, gMin, gMax, N);
+            if obj.NA == 2
+                obj.angle.point(2:end-1) = obj.angle.point(2:end-1) - pi/2;
+            end
         end
         
     end

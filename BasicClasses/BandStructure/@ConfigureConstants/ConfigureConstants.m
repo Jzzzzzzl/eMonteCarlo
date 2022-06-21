@@ -65,6 +65,7 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.mWidth = 1;
             obj.NX = 1;
             obj.NY = 1;
+            obj.NA = 2;
             obj.NW = 10;
             obj.elog = 0;
             obj.plog = 0;

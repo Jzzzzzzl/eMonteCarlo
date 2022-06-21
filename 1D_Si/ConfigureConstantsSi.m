@@ -8,7 +8,8 @@ classdef ConfigureConstantsSi < ConfigureConstants
             
             obj.NX = 300;%>最好能整除所使用核数
             obj.NY = 1;
-            obj.NW = 200;
+            obj.NA = 400;%>一维默认为2
+            obj.NW = 200;%>最好能整除所使用核数
             obj.initValley = 1;
             obj.xsfornDot = 1;
             obj.xsforSourceB = 8e19;

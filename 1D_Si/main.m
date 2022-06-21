@@ -3,6 +3,7 @@ rmpath(genpath('/home/jiang/eMonteCarlo/'))
 addpath(genpath('./BasicClasses/'))
 addpath(genpath('./OperatorTerms/'))
 addpath(genpath('./functions/'))
+addpath(genpath('./MEX/'))
 addpath(genpath('./Material_Si/'))
 addpath(genpath('./ParallelCompute/DeviceParallelCompute/'))
 addpath(genpath('./1D_Si/'))
@@ -92,25 +93,6 @@ save data cc pc pq sc
 
 
 %%
-tic
-deltax = cc.modelx.face(2) - cc.modelx.face(1);
-deltay = cc.modely.face(2) - cc.modely.face(1);
-for k = 1 : cc.NW
-    if sc.tao.LA(k+1) ~= 0
-        solven(pq.n(k).LA.data, pq.nDot(k).LA.data, cc, sc.gv.LA(k+1), sc.gv.LA(k+1), sc.tao.LA(k+1));
-    end
-    if sc.tao.TA(k+1) ~= 0
-        solven(pq.n(k).TA.data, pq.nDot(k).TA.data, cc, sc.gv.TA(k+1), sc.gv.TA(k+1), sc.tao.TA(k+1));
-    end
-    if sc.tao.LO(k+1) ~= 0
-        solven(pq.n(k).LO.data, pq.nDot(k).LO.data, cc, sc.gv.LO(k+1), sc.gv.LO(k+1), sc.tao.LO(k+1));
-    end
-    if sc.tao.TO(k+1) ~= 0
-        solven(pq.n(k).TO.data, pq.nDot(k).TO.data, cc, sc.gv.TO(k+1), sc.gv.TO(k+1), sc.tao.TO(k+1));
-    end
-end
-toc
-
 
 
 

@@ -4,6 +4,7 @@ function modelMeshingAndReadData(obj, pc)
     obj.frequencyGrid(0, pc.maxFrequency, obj.NW);
     obj.modelXGrid(0, obj.mLength, obj.NX);
     obj.modelYGrid(0, obj.mWidth, obj.NY);
+    obj.angleGrid(0, 2*pi, obj.NA);
     %>若指定掺杂浓度，则构建掺杂浓度和电子浓度物理场
     if isscalar(obj.initDopDen)
         obj.eleConc = ColocateField(obj, obj.initDopDen);
