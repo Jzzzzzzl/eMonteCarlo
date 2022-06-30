@@ -20,6 +20,8 @@ classdef ElectricQuantityStatics < handle
         mobField
         %>平均能量随时间变化
         aveETime
+        %>平均能量随位置变化
+        aveEPos
         %>漂移速度随时间变化
         driftVTime
         %>漂移速度随电场变化

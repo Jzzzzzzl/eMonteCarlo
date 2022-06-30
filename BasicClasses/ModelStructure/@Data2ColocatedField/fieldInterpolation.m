@@ -27,4 +27,5 @@ function fieldInterpolation(obj, field1, field2, method)
             end
         end
     end
+    
 end

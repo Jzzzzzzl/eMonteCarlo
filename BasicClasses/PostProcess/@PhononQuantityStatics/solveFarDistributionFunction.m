@@ -3,36 +3,43 @@ function solveFarDistributionFunction(obj, cc, sc)
     tic
     deltax = cc.modelx.face(2) - cc.modelx.face(1);
     deltay = cc.modely.face(2) - cc.modely.face(1);
-    nMatrix = zeros(cc.NX+2, cc.NY+2, cc.NW, 4);
+    nTemp = zeros(cc.NX+2, cc.NY+2);
+    nMatrix = zeros(cc.NX+2, cc.NY+2, cc.NW, 4, 2);%>4为极化支，2为xy分量
     startMatlabPool(cc.localWorkers);
     spmd
-%         labindex = 1;
-        No = obj.fjobIndexs(labindex, 1);
-        while No <= obj.fjobIndexs(labindex, 2)
+        No = cc.fjobIndexs(labindex, 1);
+        while No <= cc.fjobIndexs(labindex, 2)
             for i = 1 : cc.NA
+                %>angle cos/sin
+                p = cos(cc.angle.point(i+1));
+                q = sin(cc.angle.point(i+1));
                 %>LA
-                vx = cos(cc.angle.point(i+1))*abs(sc.gv.LA(No+1));
-                vy = sin(cc.angle.point(i+1))*abs(sc.gv.LA(No+1));
                 if sc.tao.LA(No+1) ~= 0
-                    nMatrix(:, :, No, 1) = nMatrix(:, :, No, 1) + solven(obj.nDot(No).LA.data, deltax, deltay, vx, vy, sc.tao.LA(No+1));
+                    nTemp = solven(obj.nDot(No).LA.data, deltax, deltay, ...
+                                          p*abs(sc.gv.LA(No+1)), q*abs(sc.gv.LA(No+1)), sc.tao.LA(No+1));
+                    nMatrix(:, :, No, 1, 1) = nMatrix(:, :, No, 1, 1) + nTemp * p;
+                    nMatrix(:, :, No, 1, 2) = nMatrix(:, :, No, 1, 2) + nTemp * q;
                 end
                 %>TA
-                vx = cos(cc.angle.point(i+1))*abs(sc.gv.TA(No+1));
-                vy = sin(cc.angle.point(i+1))*abs(sc.gv.TA(No+1));
                 if sc.tao.TA(No+1) ~= 0
-                    nMatrix(:, :, No, 2) = nMatrix(:, :, No, 2) + solven(obj.nDot(No).TA.data, deltax, deltay, vx, vy, sc.tao.TA(No+1));
+                     nTemp = solven(obj.nDot(No).TA.data, deltax, deltay, ...
+                                           p*abs(sc.gv.TA(No+1)), q*abs(sc.gv.TA(No+1)), sc.tao.TA(No+1));
+                     nMatrix(:, :, No, 2, 1) = nMatrix(:, :, No, 2, 1) + nTemp * p;
+                    nMatrix(:, :, No, 2, 2) = nMatrix(:, :, No, 2, 2) + nTemp * q;
                 end
                 %>LO
-                vx = cos(cc.angle.point(i+1))*abs(sc.gv.LO(No+1));
-                vy = sin(cc.angle.point(i+1))*abs(sc.gv.LO(No+1));
                 if sc.tao.LO(No+1) ~= 0
-                    nMatrix(:, :, No, 3) = nMatrix(:, :, No, 3) + solven(obj.nDot(No).LO.data, deltax, deltay, vx, vy, sc.tao.LO(No+1));
+                    nTemp = solven(obj.nDot(No).LO.data, deltax, deltay, ...
+                                          p*abs(sc.gv.LO(No+1)), q*abs(sc.gv.LO(No+1)), sc.tao.LO(No+1));
+                    nMatrix(:, :, No, 3, 1) = nMatrix(:, :, No, 3, 1) + nTemp * p;
+                    nMatrix(:, :, No, 3, 2) = nMatrix(:, :, No, 3, 2) + nTemp * q;
                 end
                 %>TO
-                vx = cos(cc.angle.point(i+1))*abs(sc.gv.TO(No+1));
-                vy = sin(cc.angle.point(i+1))*abs(sc.gv.TO(No+1));
                 if sc.tao.TO(No+1) ~= 0
-                    nMatrix(:, :, No, 4) = nMatrix(:, :, No, 4) + solven(obj.nDot(No).TO.data, deltax, deltay, vx, vy, sc.tao.TO(No+1));
+                    nTemp = solven(obj.nDot(No).TO.data, deltax, deltay, ...
+                                          p*abs(sc.gv.TO(No+1)), q*abs(sc.gv.TO(No+1)), sc.tao.TO(No+1));
+                    nMatrix(:, :, No, 4, 1) = nMatrix(:, :, No, 4, 1) + nTemp * p;
+                    nMatrix(:, :, No, 4, 2) = nMatrix(:, :, No, 4, 2) + nTemp * q;
                 end
             end
             No = No + 1;
@@ -43,25 +50,21 @@ function solveFarDistributionFunction(obj, cc, sc)
     end
     nMatrixs = nMatrix{1};
     for k = 1 : cc.NW
-        obj.n(k).LA.data = nMatrixs(:, :, k, 1)/cc.NA;
-        obj.n(k).TA.data = nMatrixs(:, :, k, 2)/cc.NA;
-        obj.n(k).LO.data = nMatrixs(:, :, k, 3)/cc.NA;
-        obj.n(k).TO.data = nMatrixs(:, :, k, 4)/cc.NA;
+        obj.n(k).LA.datax = nMatrixs(:, :, k, 1, 1)/cc.NA;
+        obj.n(k).TA.datax = nMatrixs(:, :, k, 2, 1)/cc.NA;
+        obj.n(k).LO.datax = nMatrixs(:, :, k, 3, 1)/cc.NA;
+        obj.n(k).TO.datax = nMatrixs(:, :, k, 4, 1)/cc.NA;
+        
+        obj.n(k).LA.datay = nMatrixs(:, :, k, 1, 2)/cc.NA;
+        obj.n(k).TA.datay = nMatrixs(:, :, k, 2, 2)/cc.NA;
+        obj.n(k).LO.datay = nMatrixs(:, :, k, 3, 2)/cc.NA;
+        obj.n(k).TO.datay = nMatrixs(:, :, k, 4, 2)/cc.NA;
+        
+        obj.n(k).LA.data = sqrt(obj.n(k).LA.datax.^2 + obj.n(k).LA.datay.^2);
+        obj.n(k).TA.data = sqrt(obj.n(k).TA.datax.^2 + obj.n(k).TA.datay.^2);
+        obj.n(k).LO.data = sqrt(obj.n(k).LO.datax.^2 + obj.n(k).LO.datay.^2);
+        obj.n(k).TO.data = sqrt(obj.n(k).TO.datax.^2 + obj.n(k).TO.datay.^2);
     end
-%     for k = 1 : cc.NW
-%         if sc.tao.LA(k+1) ~= 0
-%             obj.n(k).LA.data = solven(obj.nDot(k).LA.data, deltax, deltay, sc.gv.LA(k+1), sc.gv.LA(k+1), sc.tao.LA(k+1));
-%         end
-%         if sc.tao.TA(k+1) ~= 0
-%             obj.n(k).TA.data = solven(obj.nDot(k).TA.data, deltax, deltay, sc.gv.TA(k+1), sc.gv.TA(k+1), sc.tao.TA(k+1));
-%         end
-%         if sc.tao.LO(k+1) ~= 0
-%             obj.n(k).LO.data = solven(obj.nDot(k).LO.data, deltax, deltay, sc.gv.LO(k+1), sc.gv.LO(k+1), sc.tao.LO(k+1));
-%         end
-%         if sc.tao.TO(k+1) ~= 0
-%             obj.n(k).TO.data = solven(obj.nDot(k).TO.data, deltax, deltay, sc.gv.TO(k+1), sc.gv.TO(k+1), sc.tao.TO(k+1));
-%         end
-%     end
     disp(['远平衡分布函数求解完成！耗时：', sprintf('%.2f', toc), ' s'])
     %>Matlab实现
 %     function solven(field1, field2, cc, vx, vy, tao)

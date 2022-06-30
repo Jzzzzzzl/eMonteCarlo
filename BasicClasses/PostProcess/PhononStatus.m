@@ -21,8 +21,8 @@ classdef PhononStatus < handle
             obj.position = [0 0 0];
             obj.vector = [0 0 0];
             obj.time = 0;
-            obj.polar = "non";
-            obj.aborem = "non";
+            obj.polar = -1;
+            obj.aborem = -1;
             obj.frequency = 0;
         end
         

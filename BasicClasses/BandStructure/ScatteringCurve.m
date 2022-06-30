@@ -26,13 +26,13 @@ classdef ScatteringCurve < handle
         function frequency = phononFrequency(obj, ps)
             %>计算PhononStatus对象频率
             switch ps.polar
-                case "LA"
+                case 1
                     frequency = polyval(obj.band.LA, ps.wavenum);
-                case "TA"
+                case 2
                     frequency = polyval(obj.band.TA, ps.wavenum);
-                case "LO"
+                case 3
                     frequency = polyval(obj.band.LO, ps.wavenum);
-                case "TO"
+                case 4
                     frequency = polyval(obj.band.TO, ps.wavenum);
                 otherwise
                     error("声子极化支类型有误！")

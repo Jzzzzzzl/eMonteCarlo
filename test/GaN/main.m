@@ -30,7 +30,7 @@ eq = ElectricQuantityStaticsGaN(cc);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
 % sc.plotScatteringCurve(pc);
 %验证2，散射表画图
-tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 20]); toc
+% tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 20]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("youshifangxiangdianchang", dv, pc, sc, cc);
@@ -48,19 +48,19 @@ eq.plotGeneralProperties;
 % eq.statisticsScatteringTypeDistribution(cc, 'G3');
 eq.computeValleyOccupationWithTime(cc, 1000);
 eq.computeValleyOccupationWithElectricField(cc);
-% eq.plotElectronTrace(cc, 2, 'k');
+eq.plotElectronTrace(cc, 2, 'k');
 % eq.plotElectronTrace(cc, 5, 'r');
 % eq.plotElectronTrace(cc, 8, 'e');
 
 
 
 %% 
-% writeDataToFile('aveEtime', cc, eq.aveEtime)
-% writeDataToFile('driftVfield', cc, eq.driftVfield)
-% writeDataToFile('occupyField', cc, eq.occupyField)
-% writeDataToFile('enumbers', cc, eq.enumbers)
-% writeDataToFile('occupyRate', cc, eq.occupyRate)
-% writeDataToFile('driftVtime', cc, eq.driftVtime)
+writeDataToFile('aveTime', cc, eq.aveTime)
+writeDataToFile('driftVField', cc, eq.driftVField)
+writeDataToFile('occField', cc, eq.occField)
+writeDataToFile('eNums', cc, eq.eNums)
+writeDataToFile('occTime', cc, eq.occTime)
+writeDataToFile('driftVTime', cc, eq.driftVTime)
 
 
 

@@ -4,13 +4,14 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
     vectorTemp = es.vector;
     
     dv.valleyGuidingPrinciple(es);
-    dv.valley.computeFlyTime(es);
+    dv.valley.rejectFlyTime(cc, es);
     es.time = es.time + dv.valley.flyTime;
     es.vector = es.vector - pc.e * es.devField * dv.valley.flyTime / pc.hbar;
     es = dv.valley.modifyElectricWaveVector(es, pc);
     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
     rAgo = es.position;
-    es.position = es.position + es.velocity * dv.valley.flyTime;
+    es.position(1) = es.position(1) + abs(es.velocity(1)) * dv.valley.flyTime;
+    es.position(2) = es.position(2) + es.velocity(2) * dv.valley.flyTime;
     bool = cc.boundaryReflection(rAgo, es);
     if bool
         timeTemp = es.time;

@@ -4,13 +4,13 @@ function [k] = chooseStandardVectorForInelasticScattering(obj, es, pc, type, fre
     %      type：'intra'/'inter'/'po'
     %      flag：吸收(+1)或发射(-1)
     switch type
-        case 'intra'
+        case 'a'
             %>谷内散射
             theta = randNumber(0, pi);
-        case 'inter'
+        case 'e'
             %>谷间散射
             theta = randNumber(0, pi);
-        case 'po'
+        case 'p'
             %>极化光学
             if flag == 1
                 theta = obj.thetaPOab(frequency);

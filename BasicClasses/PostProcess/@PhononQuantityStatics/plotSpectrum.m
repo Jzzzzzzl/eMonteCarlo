@@ -12,19 +12,19 @@ function plotSpectrum(obj, pc, cc, type, region)
     wNumab = zeros(cc.NW, 2);
     wNumem = zeros(cc.NW, 2);
     switch type
-        case "LA"
+        case 'LA'
             tempab = obj.allSumN(ixl:ixr, iyb:iyt, :, 1, 1);
             tempem = obj.allSumN(ixl:ixr, iyb:iyt, :, 1, 2);
-        case "TA"
+        case 'TA'
             tempab = obj.allSumN(ixl:ixr, iyb:iyt, :, 2, 1);
             tempem = obj.allSumN(ixl:ixr, iyb:iyt, :, 2, 2);
-        case "LO"
+        case 'LO'
             tempab = obj.allSumN(ixl:ixr, iyb:iyt, :, 3, 1);
             tempem = obj.allSumN(ixl:ixr, iyb:iyt, :, 3, 2);
-        case "TO"
+        case 'TO'
             tempab = obj.allSumN(ixl:ixr, iyb:iyt, :, 4, 1);
             tempem = obj.allSumN(ixl:ixr, iyb:iyt, :, 4, 2);
-        case "ALL"
+        case 'ALL'
             tempab = obj.allSumN(ixl:ixr, iyb:iyt, :, 1, 1) + obj.allSumN(ixl:ixr, iyb:iyt, :, 2, 1) ...
                          + obj.allSumN(ixl:ixr, iyb:iyt, :, 3, 1) + obj.allSumN(ixl:ixr, iyb:iyt, :, 4, 1);
             tempem = obj.allSumN(ixl:ixr, iyb:iyt, :, 1, 2) + obj.allSumN(ixl:ixr, iyb:iyt, :, 2, 2) ...

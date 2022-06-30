@@ -7,15 +7,15 @@ function statisticsScatteringTypeDistribution(obj, cc)
         %声学波吸收形变势散射
         index2 = obj.scatypes(i, :) >=2 & obj.scatypes(i, :) <=3;
         %声学波发射形变势散射
-        index3 = obj.scatypes(i, :) >=4 & obj.scatypes(i, :) <=5;
+        index3 = obj.scatypes(i, :) >=10 & obj.scatypes(i, :) <=11;
         %f型吸收声子谷间散射
-        index4 = obj.scatypes(i, :) >=9 & obj.scatypes(i, :) <=11;
+        index4 = obj.scatypes(i, :) >=4 & obj.scatypes(i, :) <=6;
         %f型发射声子谷间散射
-        index5 = obj.scatypes(i, :) >=15 & obj.scatypes(i, :) <=17;
+        index5 = obj.scatypes(i, :) >=12 & obj.scatypes(i, :) <=14;
         %g型吸收声子谷间散射
-        index6 = obj.scatypes(i, :) >=6 & obj.scatypes(i, :) <=8;
+        index6 = obj.scatypes(i, :) >=7 & obj.scatypes(i, :) <=9;
         %g型发射声子谷间散射
-        index7 = obj.scatypes(i, :) >=12 & obj.scatypes(i, :) <=14;
+        index7 = obj.scatypes(i, :) >=15 & obj.scatypes(i, :) <=17;
         
         obj.snumbers(1,1) = obj.snumbers(1,1) + sum(double(index1));
         obj.snumbers(2,1) = obj.snumbers(2,1) + sum(double(index2));

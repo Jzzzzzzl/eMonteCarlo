@@ -64,10 +64,14 @@ classdef ModelMeshing < handle
             obj.frequency = obj.meshGrid(obj.frequency, wMin, wMax, N);
         end
         
-        function energyGrid(obj, eMin, eMax, N)
+        function energyGrid(obj, eMin, eMax, N, ratio, layerNum)
             %>生成能量网格
             obj.NE = N;
-            obj.energy = obj.meshGrid(obj.energy, eMin, eMax, N);
+            if nargin == 4
+                obj.energy = obj.meshGrid(obj.energy, eMin, eMax, N);
+            elseif nargin == 6
+                obj.energy = obj.meshGrid(obj.energy, eMin, eMax, N, ratio, layerNum);
+            end
         end
         
         function timeGrid(obj, tMin, tMax, N)

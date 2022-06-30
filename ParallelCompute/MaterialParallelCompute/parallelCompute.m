@@ -6,7 +6,7 @@ function [] = parallelCompute(sh, dv, sc, pc, cc)
     tic
     startMatlabPool(cc.localWorkers);
     for k = 1 : cc.noFly
-        for i = 1 : cc.superElecs
+        parfor i = 1 : cc.superElecs
             %自由飞行段
             eGroup(i) = freeFlyProcess(eGroup(i), dv, pc);
             %散射段

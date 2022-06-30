@@ -28,17 +28,12 @@ classdef PhononQuantityStatics < handle
         pTeff
         %>极化类型结构体
         polar
-        %>结构区域并行任务索引
-        pjobIndexs
-        %>频率区域并行任务索引
-        fjobIndexs
     end
     
     methods
         function obj = PhononQuantityStatics(cc)
             %>构造函数
             obj.initializeVariables(cc);
-            obj.assignJobsForParallel(cc);
         end
     end
     

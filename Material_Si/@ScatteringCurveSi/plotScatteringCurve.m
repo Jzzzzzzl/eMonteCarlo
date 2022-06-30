@@ -6,13 +6,13 @@ function plotScatteringCurve(obj, pc)
     frequency = zeros(num, 4);
     for i = 1 : num
         ps.vector = [kPath(i) 0 0];
-        ps.polar = 'LA';
+        ps.polar = 1;
         frequency(i, 1) = obj.phononFrequency(ps);
-        ps.polar = 'TA';
+        ps.polar = 2;
         frequency(i, 2) = obj.phononFrequency(ps);
-        ps.polar = 'LO';
+        ps.polar = 3;
         frequency(i, 3) = obj.phononFrequency(ps);
-        ps.polar = 'TO';
+        ps.polar = 4;
         frequency(i, 4) = obj.phononFrequency(ps);
     end
     figure

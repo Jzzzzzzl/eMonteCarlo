@@ -1,7 +1,7 @@
 classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
     %% GammaX能谷
     methods
-        function obj = ValleyGX(pc)
+        function obj = ValleyGX(cc, pc, sc)
             %>构造函数
             obj.Eg = pc.EgGX;
             obj.mt = pc.mtGX;
@@ -18,6 +18,9 @@ classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
                         0   sqrt(pc.m / obj.mt)  0;
                         0   0   sqrt(pc.m / obj.ml)];
             obj.invTz = inv(obj.Tz);
+            
+            obj.energyFace = cc.energy.face/pc.e;
+            obj.buildInterpolationScatalbe(cc, pc, sc);
         end
         
         function updateScatterringRateFormula(obj, es, pc)

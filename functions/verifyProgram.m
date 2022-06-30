@@ -1,7 +1,7 @@
 function [] = verifyProgram(type, dv, pc, ~, cc)
     %>验证
     switch type
-        case "EnergyToVector"
+        case 'EnergyToVector'
             %>验证选择波矢和能量计算是否可逆
             num = 10000;
             allowedError = 0.001;
@@ -29,7 +29,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             end
             disp("能量正反验证无误！")
             
-        case "AcousticPiezoelectricScatPlot"
+        case 'AcousticPiezoelectricScatPlot'
             num = 500;
             es = ElectricStatus;
             es.position = [0 0 0];
@@ -53,7 +53,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             xlabel("meV");
             ylabel("s^{-1}")
             
-        case "ValleyStructureOfValleyU"
+        case 'ValleyStructureOfValleyU'
             es = ElectricStatus;
             es.energy = 8.5*pc.e;
             es.position = [0 0 0];
@@ -73,7 +73,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             xlabel("kx");ylabel("ky");zlabel("kz");
             legend("k-space")
             
-        case "ValleyStructureOfValleyGamma"
+        case 'ValleyStructureOfValleyGamma'
             es = ElectricStatus;
             es.energy = 3*pc.e;
             es.position = [0 0 0];
@@ -95,7 +95,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             xlabel("kx");ylabel("ky");zlabel("kz");
             legend("Gmma1", "Gamma3")
             
-        case "SingleValleyDrifVelocityWithMaxScatRate"
+        case 'SingleValleyDrifVelocityWithMaxScatRate'
             es = ElectricStatus;
             es.valley = 11;
             dv.valleyGuidingPrinciple(es);
@@ -142,7 +142,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             if rem(cc.noFly/cc.localWorkers, 1) ~= 0
                 error('将飞行次数设置为核数的整数倍！')
             end
-            if exist([cc.filePath 'ElectronLog'], 'file')
+            if exist([cc.filePath 'ElectronLogPart1'], 'file')
                 error('先将文件夹清空！')
             end
             disp('没问题了，开始模拟吧！')

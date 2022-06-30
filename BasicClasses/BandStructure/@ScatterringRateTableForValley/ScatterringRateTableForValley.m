@@ -42,13 +42,17 @@ classdef ScatterringRateTableForValley < BandStructureForValley
         scatTable
         %>散射率累加表
         scatTableAll
+        %>散射率插值表
+        interScatable
+        %>散射表能量索引
+        energyFace
     end
     
     properties
         %>各种散射率句柄函数
         ionizedImpurity
         acousticPiezoelectric
-        elasticIntraAcoustic
+        elasticIntraAcoustics
         inelasticIntraAcousticAB
         inelasticIntraAcousticEM
         inelasticIntraOpticalAB
@@ -60,6 +64,7 @@ classdef ScatterringRateTableForValley < BandStructureForValley
     end
     
     methods
+        rejectFlyTime(obj, cc, es)
         ionizedImpurityScatteringRate(obj, es, pc)
         inelasticIntervalleyScatteringRate(obj, es, pc)
         inelasticPolarOpticalScatteringRate(obj, es, pc)
@@ -70,16 +75,22 @@ classdef ScatterringRateTableForValley < BandStructureForValley
     end
     
     methods
-        function computeScatType(obj)
+        function computeScatType(obj, cc, es)
             %>计算散射类型
-            r = rand * obj.scatTableAll(end);
-            obj.scatType = find(obj.scatTableAll > r, 1);
+            index = find(obj.energyFace >= es.energy/cc.e, 1) - 1;
+            if isempty(index)
+                index = cc.NE + 1;
+            elseif index == 0
+                index = obj.nofScat;
+            end
+            r = rand * obj.interScatable(obj.nofScat, index);
+            obj.scatType = find(obj.interScatable(:, index) > r, 1);
         end
         function computeFlyTime(obj, es)
             %>计算飞行时间
-            energys = obj.maxScatRate(:, 1);
-            index = find(es.energy <= energys, 1);
-            obj.flyTime = -log(randNumber(0.01, 0.99)) / obj.maxScatRate(index, 2);
+            index = find(es.energy <= obj.maxScatRate(:, 1), 1);
+            obj.flyTime = -log(randNumber(0.3, 0.6)) / obj.maxScatRate(index, 2);
         end
+        
     end
 end

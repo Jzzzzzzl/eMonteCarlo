@@ -33,6 +33,8 @@ classdef PhysicConstants < handle
         maxVelocity
         %>最大频率上限
         maxFrequency
+        %>最大能量
+        maxEnergy
         %>k空间距离
         dBD
         dGA
