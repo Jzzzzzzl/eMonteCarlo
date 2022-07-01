@@ -3,8 +3,8 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             %>构造函数
-            obj.superElecs = 2000;
-            obj.noFly = 40;
+            obj.superElecs = 200;
+            obj.noFly = 2000;
             obj.dtConst = 1e-15;
             obj.hwoPBR = 5e-9;
             obj.energyPB = 0.1*obj.e;

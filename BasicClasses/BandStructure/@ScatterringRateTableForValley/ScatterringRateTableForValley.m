@@ -85,6 +85,9 @@ classdef ScatterringRateTableForValley < BandStructureForValley
             end
             r = rand * obj.interScatable(obj.nofScat, index);
             obj.scatType = find(obj.interScatable(:, index) > r, 1);
+            if isempty(obj.scatType)
+                error("散射类型为空！")
+            end
         end
         function computeFlyTime(obj, es)
             %>计算飞行时间

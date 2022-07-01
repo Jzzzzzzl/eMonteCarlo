@@ -1,10 +1,8 @@
-function writeToElectricLogFile(fileID, group, cc, k)
+function writeToElectricLogFile(fileID, egroup, k)
     %>将模拟数据写入log文件
-    for i = 1 : cc.superElecs
-        fprintf(fileID, '%d \t %d \t', group(i).id, k);
-        fprintf(fileID, '%.5g \t %.5g \t %.5g \t', group(i).position);
-        fprintf(fileID, '%.5g \t %.5g \t %.5g \t', group(i).vector);
-        fprintf(fileID, '%.5g \t %.5g \t %.5g \t', group(i).energy, group(i).time, group(i).perdrift);
-        fprintf(fileID, '%d \t %d \n', group(i).valley, group(i).scatype);
-    end
+    fprintf(fileID, '%d \t %d \t', egroup.id, k);
+    fprintf(fileID, '%.5g \t %.5g \t %.5g \t', egroup.position);
+    fprintf(fileID, '%.5g \t %.5g \t %.5g \t', egroup.vector);
+    fprintf(fileID, '%.5g \t %.5g \t %.5g \t', egroup.energy, egroup.time, egroup.perdrift);
+    fprintf(fileID, '%d \t %d \n', egroup.valley, egroup.scatype);
 end

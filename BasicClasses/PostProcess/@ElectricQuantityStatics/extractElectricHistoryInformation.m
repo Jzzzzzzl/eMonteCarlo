@@ -16,7 +16,7 @@ function extractElectricHistoryInformation(obj, cc)
         fileID = fopen(filename);
         while ~feof(fileID)
             strline = fgetl(fileID);
-            dataline = textscan(strline, '%d %d %f %f %f %f %f %f %f %f %f %f %f');
+            dataline = textscan(strline, '%d %d %f %f %f %f %f %f %f %f %f %d %d');
             eIndex = dataline{1};
             flyIndex = dataline{2};
             positions(:, :, eIndex, flyIndex) = [dataline{3} dataline{4} dataline{5}];

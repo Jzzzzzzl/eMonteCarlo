@@ -24,7 +24,7 @@ pq = PhononQuantityStatics(cc);
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
-eq = ElectricQuantityStaticsSi(cc);
+% eq = ElectricQuantityStaticsSi(cc);
 
 % eq.computeAverageEnergyWithPosition(cc);
 % eq.aveEPos.plotField(cc, 'n')
@@ -55,13 +55,13 @@ eq = ElectricQuantityStaticsSi(cc);
 % pq.pTeff.TO.plotField(cc)
 % pq.Teff.plotField(cc)
 % legend("TF", "LATeff", "TATeff", "LOTeff", "TOTeff", "Teff")
-% %% 
-% eq.plotElectronTrace(cc, 2, 'k')
-% eq.plotElectronTrace(cc, 8, 'r')
-% eq.plotElectronTrace(cc, 8, 'e')
-% eq.plotElectronTrace(cc, 0, 'd')
-% eq.plotElectronTrace(cc, 6, 'xy')
-% 
+%% 
+eq.plotElectronTrace(cc, 2, 'k')
+eq.plotElectronTrace(cc, 8, 'r')
+eq.plotElectronTrace(cc, 8, 'e')
+eq.plotElectronTrace(cc, 0, 'd')
+eq.plotElectronTrace(cc, 6, 'xy')
+
 % %%
 % pq.plotSpectrum(pc, cc, 'LA', [150, 170, 0.1, 99.9])
 % pq.plotSpectrum(pc, cc, 'TA', [150, 170, 0.1, 99.9])
@@ -89,4 +89,58 @@ eq = ElectricQuantityStaticsSi(cc);
 %     nDot(k).LO = pq.nDot(k).LO.data(:, 2);
 %     nDot(k).TO = pq.nDot(k).TO.data(:, 2);
 % end
+%% 
+pc = PhysicConstantsSi;
+cc = ConfigureConstantsSi(pc);
+sc = ScatteringCurveSi(cc, pc);
+
+sc.getBandDataFromOther(cc);
+
+dv = DecideValleyKind(cc, pc, sc);
+es = ElectricStatus;
+es.initializeElectricStatus(dv, pc, cc);
+%% 
+clc,clear
+
+%% 
+nx = 20;
+ny = 1000;
+startMatlabPool(20);
+x = zeros(nx, ny);
+
+% tic
+% for j = 1 : ny
+%     for i = 1 : nx
+%         dv.valleyGuidingPrinciple(es);
+%     end
+% end
+% toc
+
+% tic
+% for j = 1 : ny
+%     parfor i = 1 : nx
+%         dv.valleyGuidingPrinciple(es);
+%     end
+% end
+% toc
+
+tic
+spmd
+    for j = 1 : ny
+        x(labindex, j) = 5*8;
+    end
+end
+toc
+
+
+
+
+
+
+
+
+
+
+
+
 

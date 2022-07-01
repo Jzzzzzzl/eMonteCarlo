@@ -26,4 +26,17 @@ function assignJobsForParallel(obj)
         obj.fjobIndexs(i, 2) = obj.fjobIndexs(i, 1) + njobs - 1;
     end
     obj.fjobIndexs(end, 2) = obj.NW;
+    %>电子ID划分
+    m = floor(obj.superElecs/obj.localWorkers);
+    if m <= obj.localWorkers
+        njobs = floor(obj.superElecs/obj.localWorkers);
+    else
+        njobs = floor(obj.superElecs/obj.localWorkers)+1;
+    end
+    obj.ejobIndexs = zeros(obj.localWorkers, 2);
+    for i = 1 : obj.localWorkers
+        obj.ejobIndexs(i, 1) = 1 + njobs * (i - 1);
+        obj.ejobIndexs(i, 2) = obj.ejobIndexs(i, 1) + njobs - 1;
+    end
+    obj.ejobIndexs(end, 2) = obj.superElecs;
 end

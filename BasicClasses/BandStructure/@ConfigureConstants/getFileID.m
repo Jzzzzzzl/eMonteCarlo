@@ -1,6 +1,5 @@
-function getFileID(obj, k)
+function getFileID(obj, index)
     %>获得数据文件ID
-    index = find(obj.parGrid >= k, 1) - 1;
     if obj.fileIndex == index
         return;
     else
@@ -11,7 +10,7 @@ function getFileID(obj, k)
             fclose(obj.plog);
         end
         obj.fileIndex = index;
-        obj.elog = fopen([obj.filePath, 'ElectronLogPart', num2str(index)], 'a+');
-        obj.plog = fopen([obj.filePath 'PhononLogPart', num2str(index)], 'a+');
+        obj.elog = fopen([obj.filePath, 'ElectronLogPart', num2str(obj.fileIndex)], 'a+');
+        obj.plog = fopen([obj.filePath 'PhononLogPart', num2str(obj.fileIndex)], 'a+');
     end
 end

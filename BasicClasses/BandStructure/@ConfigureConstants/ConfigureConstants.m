@@ -57,6 +57,8 @@ classdef ConfigureConstants < Data2ColocatedField
         pjobIndexs
         %>频率区域并行任务索引
         fjobIndexs
+        %>电子ID并行任务索引
+        ejobIndexs
     end
     
     methods

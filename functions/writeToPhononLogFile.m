@@ -1,11 +1,9 @@
-function writeToPhononLogFile(fileID, group, cc)
+function writeToPhononLogFile(fileID, pgroup)
     %>将模拟数据写入log文件
-    for i = 1 : cc.superElecs
-        if group(i).polar ~= 'n'
-            fprintf(fileID, '%.5g \t %.5g \t %.5g \t', group(i).position);
-            fprintf(fileID, '%.5g \t %.5g \t %.5g \t', group(i).vector);
-            fprintf(fileID, '%.5g \t %.5g \t', group(i).frequency, group(i).time);
-            fprintf(fileID, '%d \t %d \n', group(i).aborem, group(i).polar);
-        end
+    if pgroup.polar ~= -1
+        fprintf(fileID, '%.5g \t %.5g \t %.5g \t', pgroup.position);
+        fprintf(fileID, '%.5g \t %.5g \t %.5g \t', pgroup.vector);
+        fprintf(fileID, '%.5g \t %.5g \t', pgroup.frequency, pgroup.time);
+        fprintf(fileID, '%d \t %d \n', pgroup.aborem, pgroup.polar);
     end
 end
