@@ -91,7 +91,7 @@ classdef ScatterringRateTableForValley < BandStructureForValley
         end
         function computeFlyTime(obj, es)
             %>计算飞行时间
-            index = find(es.energy <= obj.maxScatRate(:, 1), 1);
+            index = find(obj.maxScatRate(:, 1) >= es.energy, 1);
             obj.flyTime = -log(randNumber(0.3, 0.6)) / obj.maxScatRate(index, 2);
         end
         

@@ -35,6 +35,8 @@ classdef ConfigureConstants < Data2ColocatedField
         hwoPBR
         %>势垒能量差
         energyPB
+        %>势垒区散射类型
+        scatypePB
         %>势垒区坐标
         regionPB
         %>沟道区坐标

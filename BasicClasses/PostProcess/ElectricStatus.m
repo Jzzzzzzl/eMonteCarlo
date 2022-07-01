@@ -27,7 +27,7 @@ classdef ElectricStatus < handle
         function initializeElectricStatus(obj, dv, pc, cc)
             %>电子初始化
             obj.time = 0;
-            obj.devField = [-1e5 0 0];
+            obj.devField = [-1.3e6 0 0];
             obj.perdrift = 0;
             obj.valley = cc.initValley;
             obj.position(1) = randNumber(cc.initPosition(1), cc.initPosition(2));
