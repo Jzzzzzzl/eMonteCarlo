@@ -14,4 +14,5 @@ function rejectFlyTime(obj, cc, es)
     else
         obj.computeFlyTime(es);
     end
+%     obj.computeFlyTime(es);
 end

@@ -3,11 +3,11 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             %>构造函数
-            obj.superElecs = 500;
-            obj.noFly = 10000;
-            obj.dtConst = 1e-15;
-            obj.hwoPBR = 5e-9;
-            obj.energyPB = 0.1*obj.e;
+            obj.superElecs = 400;
+            obj.noFly = 20000;
+            obj.dtConst = 1e-16;
+            obj.energyPBmax = 0.1*obj.e;
+            obj.relaxLenPB = 20e-9;
             
             obj.NX = 320;%>最好能整除所使用核数
             obj.NY = 1;
@@ -18,7 +18,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
             obj.initValley = 1;
             obj.xsfornDot = 10;
             obj.xsforSourceB = 8e19;
-            obj.initPosition = [0 5 0 100]*1e-9;
+            obj.initPosition = [145 150 0 100]*1e-9;
             obj.scatypePB = [1 2 3 4 5 10 11];
             %>模型所需变量
             obj.d1 = 150e-9;

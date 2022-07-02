@@ -31,10 +31,12 @@ classdef ConfigureConstants < Data2ColocatedField
         d3
         d4
         d5
-        %>势垒区半宽
-        hwoPBR
-        %>势垒能量差
+        %>最大势垒能量差
+        energyPBmax
+        %>势垒能量索引表
         energyPB
+        %>势垒能量弛豫长度
+        relaxLenPB
         %>势垒区散射类型
         scatypePB
         %>势垒区坐标
@@ -72,7 +74,6 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.initTemp = 300;
             obj.mLength = 1;
             obj.mWidth = 1;
-            obj.hwoPBR = 0;
             obj.NX = 1;
             obj.NY = 1;
             obj.NA = 2;
@@ -94,10 +95,16 @@ classdef ConfigureConstants < Data2ColocatedField
             %>用于getFileID函数
             obj.parGrid = linspace(0, obj.noFly, obj.localWorkers+1);
             %>势垒/沟道区域坐标
-            if obj.hwoPBR ~= 0
+            if obj.relaxLenPB ~= 0
                 if obj.NY == 1
-                    obj.regionPB = [(obj.d1-obj.hwoPBR) (obj.d1+obj.hwoPBR) 1 -1];
-                    obj.regionCH = [(obj.d1+obj.hwoPBR) (obj.d1+obj.d2) 1 -1];
+                    obj.regionPB = [obj.d1-obj.relaxLenPB obj.d1 1 -1];
+                    obj.regionCH = [obj.d1 obj.d1+obj.d2 1 -1];
+                    %>构建势垒能量索引
+                    N = 20;
+                    obj.energyPB = zeros(N, 2);
+                    f = @(x) obj.energyPBmax ./ obj.relaxLenPB.^2 .* (x - (obj.d1 - obj.relaxLenPB)).^2;
+                    obj.energyPB(:, 1) = linspace(obj.d1 - obj.relaxLenPB, obj.d1, N)';
+                    obj.energyPB(:, 2) = f(obj.energyPB(:, 1));
                 else
                     disp("二维情况，暂未考虑！");
                 end

@@ -30,7 +30,7 @@ eq.computeAverageEnergyWithPosition(cc);
 eq.aveEPos.plotField(cc, 'n')
 %%
 pq.minTime = 0e-12;
-pq.maxTime = 10e-12;
+pq.maxTime = 2e-12;
 pq.parallelPhononDistribution(cc);
 %%
 pq.initializeVariables(cc);

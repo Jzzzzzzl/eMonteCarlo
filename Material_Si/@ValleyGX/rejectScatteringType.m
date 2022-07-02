@@ -2,7 +2,8 @@ function rejectScatteringType(obj, cc, es)
     %>散射类型的拒绝算法
     a = es.position(1) - cc.regionPB(1);
     b = cc.regionPB(2) - es.position(1);
-    if a*b > 0 && es.energy < cc.energyPB
+    index = find(cc.energyPB(:, 1) >= es.position(1), 1);
+    if a*b > 0 && es.energy < cc.energyPB(index, 2)
         bool = true;
         maxitem = 0;
         while bool && maxitem < 20
