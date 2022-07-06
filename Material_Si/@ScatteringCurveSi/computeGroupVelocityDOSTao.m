@@ -11,11 +11,11 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         end
         if cc.frequency.point(k+1) >= obj.wMin.LO && cc.frequency.point(k+1) <= obj.wMax.LO
             obj.gv.LO(k+1) = abs(spline(obj.qband(:, 5), obj.qband(:, 10), cc.frequency.point(k+1)));
-            obj.dos.LO(k+1) = 3*cc.frequency.point(k+1)^2 / (2*pi^2*obj.gv.LO(k+1)^3);
+            obj.dos.LO(k+1) = 3*cc.frequency.point(k+1)^2 / (2*pi^2*obj.gv.LO(k+1)^3) * 1e-2;
         end
         if cc.frequency.point(k+1) >= obj.wMin.TO && cc.frequency.point(k+1) <= obj.wMax.TO
             obj.gv.TO(k+1) = abs(spline(obj.qband(:, 6), obj.qband(:, 11), cc.frequency.point(k+1)));
-            obj.dos.TO(k+1) = 3*cc.frequency.point(k+1)^2 / (2*pi^2*obj.gv.TO(k+1)^3);
+            obj.dos.TO(k+1) = 3*cc.frequency.point(k+1)^2 / (2*pi^2*obj.gv.TO(k+1)^3) * 1e-2;
         end
     end
     % 弛豫时间

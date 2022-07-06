@@ -38,7 +38,7 @@ function plotSpectrum(obj, pc, cc, type, region)
         wNumem(k, 2) = pc.hbar * cc.frequency.point(k + 1) / pc.e * 1000;
     end
     figure
-    slg = plot(wNumab(:, 1), wNumab(:, 2));
+    slg = semilogx(wNumab(:, 1), wNumab(:, 2));
     slg.LineWidth = 2;
     hold on
     slg = plot(wNumem(:, 1), wNumem(:, 2));

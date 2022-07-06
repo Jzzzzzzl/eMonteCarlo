@@ -35,7 +35,8 @@ classdef ElectricStatus < handle
             obj.position(3) = 0;
             obj.charge = cc.superElecCharge;
             dv.valleyGuidingPrinciple(obj);
-            obj.energy = maxwellDistribution(pc, cc) + dv.valley.Eg;
+            obj.energy = 0.07*cc.e;
+%             obj.energy = maxwellDistribution(pc, cc) + dv.valley.Eg;
             k = dv.valley.generateStandardElectricWaveVector(obj, pc, randNumber(0, pi));
             obj = dv.valley.getGeneralElectricWaveVector(obj, pc, k);
         end

@@ -21,8 +21,8 @@ classdef ConfigureConstants < Data2ColocatedField
         initPosition
         %>计算核数
         localWorkers
-        %>nDot修正参数
-        xsfornDot
+        %>Q修正参数
+        xsforQ
         %>SourceB修正参数
         xsforSourceB
         %>模型尺寸参数

@@ -24,18 +24,19 @@ pq = PhononQuantityStatics(cc);
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
-eq = ElectricQuantityStaticsSi(cc);
-
-eq.computeAverageEnergyWithPosition(cc);
-eq.aveEPos.plotField(cc, 'n')
+% eq = ElectricQuantityStaticsSi(cc);
+% 
+% eq.computeAverageEnergyWithPosition(cc);
+% eq.aveEPos.plotField(cc, 'n')
 %%
-pq.minTime = 0e-12;
-pq.maxTime = 2e-12;
+pq.minTime = 100e-12;
+pq.maxTime = 350e-12;
 pq.parallelPhononDistribution(cc);
 %%
 pq.initializeVariables(cc);
 pq.computeHeatGenerationRate(pc, cc, sc);
 pq.solveFarDistributionFunction(cc, sc);
+
 
 pq.plotFullFrequencyPeoperties(pq.Q, cc)
 pq.plotFullFrequencyPeoperties(pq.nDot, cc)
@@ -58,22 +59,24 @@ legend("TF", "LATeff", "TATeff", "LOTeff", "TOTeff", "Teff")
 %% 
 eq.plotElectronTrace(cc, 2, 'k')
 eq.plotElectronTrace(cc, 8, 'r')
-eq.plotElectronTrace(cc, 8, 'e')
+eq.plotElectronTrace(cc, 1, 'e')
 eq.plotElectronTrace(cc, 0, 'd')
 eq.plotElectronTrace(cc, 6, 'xy')
 
 %%
-pq.plotSpectrum(pc, cc, 'LA', [150, 170, 0.1, 99.9])
-pq.plotSpectrum(pc, cc, 'TA', [150, 170, 0.1, 99.9])
-pq.plotSpectrum(pc, cc, 'LO', [150, 170, 0.1, 99.9])
-pq.plotSpectrum(pc, cc, 'TO', [150, 170, 0.1, 99.9])
-pq.plotSpectrum(pc, cc, 'ALL', [0.1, 150, 0.1, 99.9])
+pq.plotSpectrum(pc, cc, 'LA', [170, 172, 0.1, 99.9])
+pq.plotSpectrum(pc, cc, 'TA', [170, 172, 0.1, 99.9])
+pq.plotSpectrum(pc, cc, 'LO', [170, 172, 0.1, 99.9])
+pq.plotSpectrum(pc, cc, 'TO', [170, 172, 0.1, 99.9])
+pq.plotSpectrum(pc, cc, 'ALL', [0.1, 320, 0.1, 99.9])
+
+eq.statisticsScatteringTypeDistribution(cc)
 %%
 cc.dopDensity.plotField(cc, 'n')
-cc.eleConc.plotField(cc)
+cc.eleConc.plotField(cc, 'n')
 cc.xField.plotField(cc, 'n')
-cc.yField.plotField(cc)
-cc.xyField.plotField(cc)
+cc.yField.plotField(cc, 'n')
+cc.xyField.plotField(cc, 'n')
 
 % %% 
 % writeDataToFile('aveEtime', cc, eq.aveEtime)
@@ -89,57 +92,55 @@ cc.xyField.plotField(cc)
 %     nDot(k).LO = pq.nDot(k).LO.data(:, 2);
 %     nDot(k).TO = pq.nDot(k).TO.data(:, 2);
 % end
-%% 
-pc = PhysicConstantsSi;
-cc = ConfigureConstantsSi(pc);
-sc = ScatteringCurveSi(cc, pc);
-
-sc.getBandDataFromOther(cc);
-
-dv = DecideValleyKind(cc, pc, sc);
-es = ElectricStatus;
-es.initializeElectricStatus(dv, pc, cc);
-%% 
-clc,clear
-
-%% 
-nx = 2e6;
-ny = 1000;
-% startMatlabPool(20);
-x = zeros(nx, ny);
-
-a = [1 2 3 4 5 6 7 8 9 10 11 12];
-% tic
-% for i = 1 : nx
-%     ismember(2, a);
-% end
-% toc
-% 
-% tic
-% for i = 1 : nx
-%     sum(a == 2) == 1;
-% end
-% toc
-
-tic
-for i = 1 : nx
-    index = 1e-21/cc.e < cc.energyPB/cc.e;
+%%
+N = zeros(cc.NX, cc.NY);
+p = 1;
+for i = 1 : cc.NW
+    N = N + pq.allSumF(:, :, p, i);
 end
-toc
+plot(N*cc.hbar/cc.e)
+%% 
+n = ColocateField(cc);
+ndot = ColocateField(cc);
+x = linspace(0, 20, cc.NX)';
+ndot.data(2:end-1, 2) = normpdf(x, 10, 1/sqrt(2*pi))*5e13 + 1e13;
+deltax = 320e-9/cc.NX;
+deltay = 100e-9/cc.NY;
+nTemp1 = solven(ndot.data, deltax, deltay, 3000, 0, 10e-12);
+nTemp2 = solven(ndot.data, deltax, deltay, -3000, 0, 10e-12);
+nTemp = (nTemp1 + nTemp2)/2;
+hold on
+plot(nTemp1(:, 2))
+plot(nTemp2(:, 2))
+plot(nTemp(:, 2))
+legend("n1", "n2", "n1+n2")
+%% 
+clc,close all
+tao = 10e-12;
+vr = 3000;
+vt = 1000;
+a = 20e-9;
 
-tic
-for i = 1 : nx
-    index = 1e-21 < cc.energyPB;
-end
-toc
+x = linspace(0, 20, cc.NX);
+ndot = normpdf(x, 0, 1/sqrt(2*pi))*5e14 + 5e13;
+n1 = @(r) ndot.*tao.*(1 - exp((-r.*vr+sqrt(a.^2*(vr.^2+vt.^2) - r.^2.*vt.^2))./(tao.*(vr.^2+vt.^2))));
+n2 = @(r) 2*ndot.*tao.*exp(-r.*vr./(tao.*(vr.^2+vt.^2))).*sinh(sqrt(a.^2*(vr.^2+vt.^2) - r.^2.*vt.^2)./(tao.*(vr.^2+vt.^2)));
+r = linspace(0, 300, cc.NX)*1e-9;
 
-tic
-for i = 1 : nx
-    a = 1e-21/cc.e;
-    b = cc.energyPB/cc.e;
-    index = a < b;
-end
-toc
+hold on
+plot(r, n1(r))
+plot(r, n2(r))
+plot(r, n1(r)+n2(r))
+legend("n1", "n2", "n1+n2")
+
+
+
+
+
+
+
+
+
 
 
 

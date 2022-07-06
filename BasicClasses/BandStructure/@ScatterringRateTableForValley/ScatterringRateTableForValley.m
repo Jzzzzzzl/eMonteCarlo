@@ -80,10 +80,10 @@ classdef ScatterringRateTableForValley < BandStructureForValley
             index = find(obj.energyFace >= es.energy/cc.e, 1) - 1;
             if isempty(index)
                 index = cc.NE + 1;
-            elseif index == 0
-                index = obj.nofScat;
+            elseif index == 1
+                index = 2;
             end
-            r = rand * obj.interScatable(obj.nofScat, index);
+            r = rand * obj.interScatable(obj.nofScat-1, index);
             obj.scatType = find(obj.interScatable(:, index) > r, 1);
             if isempty(obj.scatType)
                 error("散射类型为空！")
@@ -92,7 +92,7 @@ classdef ScatterringRateTableForValley < BandStructureForValley
         function computeFlyTime(obj, es)
             %>计算飞行时间
             index = find(obj.maxScatRate(:, 1) >= es.energy, 1);
-            obj.flyTime = -log(randNumber(0.3, 0.6)) / obj.maxScatRate(index, 2);
+            obj.flyTime = -log(randNumber(0.1, 0.9)) / obj.maxScatRate(index, 2);
         end
         
     end

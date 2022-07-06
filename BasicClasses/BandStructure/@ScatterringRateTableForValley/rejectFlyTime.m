@@ -9,10 +9,5 @@ function rejectFlyTime(obj, cc, es)
 %     else
 %         obj.computeFlyTime(es);
 %     end
-    if cc.dtConst ~= 0
-        obj.flyTime = cc.dtConst;
-    else
-        obj.computeFlyTime(es);
-    end
-%     obj.computeFlyTime(es);
+    obj.computeFlyTime(es);
 end

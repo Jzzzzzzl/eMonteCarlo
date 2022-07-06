@@ -17,29 +17,29 @@ function solveFarDistributionFunction(obj, cc, sc)
                 if sc.tao.LA(No+1) ~= 0
                     nTemp = solven(obj.nDot(No).LA.data, deltax, deltay, ...
                                           p*abs(sc.gv.LA(No+1)), q*abs(sc.gv.LA(No+1)), sc.tao.LA(No+1));
-                    nMatrix(:, :, No, 1, 1) = nMatrix(:, :, No, 1, 1) + nTemp * p;
-                    nMatrix(:, :, No, 1, 2) = nMatrix(:, :, No, 1, 2) + nTemp * q;
+                    nMatrix(:, :, No, 1, 1) = nMatrix(:, :, No, 1, 1) + nTemp;% * p;
+                    nMatrix(:, :, No, 1, 2) = nMatrix(:, :, No, 1, 2) + nTemp;% * q;
                 end
                 %>TA
                 if sc.tao.TA(No+1) ~= 0
                      nTemp = solven(obj.nDot(No).TA.data, deltax, deltay, ...
                                            p*abs(sc.gv.TA(No+1)), q*abs(sc.gv.TA(No+1)), sc.tao.TA(No+1));
-                     nMatrix(:, :, No, 2, 1) = nMatrix(:, :, No, 2, 1) + nTemp * p;
-                    nMatrix(:, :, No, 2, 2) = nMatrix(:, :, No, 2, 2) + nTemp * q;
+                     nMatrix(:, :, No, 2, 1) = nMatrix(:, :, No, 2, 1) + nTemp;% * p;
+                     nMatrix(:, :, No, 2, 2) = nMatrix(:, :, No, 2, 2) + nTemp;% * q;
                 end
                 %>LO
                 if sc.tao.LO(No+1) ~= 0
                     nTemp = solven(obj.nDot(No).LO.data, deltax, deltay, ...
                                           p*abs(sc.gv.LO(No+1)), q*abs(sc.gv.LO(No+1)), sc.tao.LO(No+1));
-                    nMatrix(:, :, No, 3, 1) = nMatrix(:, :, No, 3, 1) + nTemp * p;
-                    nMatrix(:, :, No, 3, 2) = nMatrix(:, :, No, 3, 2) + nTemp * q;
+                    nMatrix(:, :, No, 3, 1) = nMatrix(:, :, No, 3, 1) + nTemp;% * p;
+                    nMatrix(:, :, No, 3, 2) = nMatrix(:, :, No, 3, 2) + nTemp;% * q;
                 end
                 %>TO
                 if sc.tao.TO(No+1) ~= 0
                     nTemp = solven(obj.nDot(No).TO.data, deltax, deltay, ...
                                           p*abs(sc.gv.TO(No+1)), q*abs(sc.gv.TO(No+1)), sc.tao.TO(No+1));
-                    nMatrix(:, :, No, 4, 1) = nMatrix(:, :, No, 4, 1) + nTemp * p;
-                    nMatrix(:, :, No, 4, 2) = nMatrix(:, :, No, 4, 2) + nTemp * q;
+                    nMatrix(:, :, No, 4, 1) = nMatrix(:, :, No, 4, 1) + nTemp;% * p;
+                    nMatrix(:, :, No, 4, 2) = nMatrix(:, :, No, 4, 2) + nTemp;% * q;
                 end
             end
             No = No + 1;
