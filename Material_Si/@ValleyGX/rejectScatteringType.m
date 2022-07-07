@@ -1,5 +1,5 @@
 function rejectScatteringType(obj, cc, es)
-    %>散射类型的拒绝算法
+    %>散射类型的拒绝算法，尤其针对势垒区
     a = es.position(1) - cc.regionPB(1);
     b = cc.regionPB(2) - es.position(1);
     index = find(cc.energyPB(:, 1) >= es.position(1), 1);

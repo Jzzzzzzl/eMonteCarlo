@@ -11,27 +11,40 @@ classdef ModelMeshing < handle
     end
     
     properties
+        %>频率网格
         frequency
+        %>波数网格
         vector
+        %>能量网格
         energy
+        %>x方向模型网格
         modelx
+        %>y方向模型网格
         modely
+        %>方向角网格
         angle
+        %>时间网格
         time
     end
     
     properties
+        %>频率划分数
         NW
+        %>波数划分数
         NQ
+        %>能量划分数
         NE
+        %>x方向模型划分数
         NX
+        %>y方向模型划分数
         NY
+        %>时间划分数
         Nt
+        %>方向角划分数
         NA
     end
     
     methods
-        
         function modelXGrid(obj, xMin, xMax, N, ratio, layerNum)
             %>生成x方向网格
             obj.NX = N;

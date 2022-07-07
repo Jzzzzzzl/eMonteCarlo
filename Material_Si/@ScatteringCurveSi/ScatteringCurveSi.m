@@ -32,6 +32,7 @@ classdef ScatteringCurveSi < ScatteringCurve
         initializeVariables(obj, cc)
         fitBandCoefficient(obj, pc)
         getBandDataFromOther(obj, cc)
+        plotScatteringCurve(obj, pc)
         computeGroupVelocityDOSTao(obj, cc, pc)
     end
     

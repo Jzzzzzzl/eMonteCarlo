@@ -1,5 +1,5 @@
 function generateElectricField(obj, dt, N, type, minTemp, maxTemp)
-    %>生成电场索引数组
+    %>生成阶跃电场索引数组
     deltaTime = dt * 1e-12;
     obj.eFieldInput = zeros(N, 2);
     obj.eFieldInput(:, 1) = linspace(deltaTime, N*deltaTime, N);

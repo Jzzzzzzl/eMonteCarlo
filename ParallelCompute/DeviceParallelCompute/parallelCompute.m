@@ -28,5 +28,4 @@ function [] = parallelCompute(sh, dv, sc, pc, cc)
         end
     end
     disp(['计算总用时： ', sprintf('%.2f', toc), ' s']);
-    
 end

@@ -1,8 +1,9 @@
 function [energy] = maxwellDistribution(pc, cc)
-    %>拒绝算法生成电子动能
+    %>拒绝算法生成电子初始能量
     dopDensity = max(max(cc.dopDensity.data));
-    f = @(v) dopDensity * (pc.m/(2*pi*pc.kb*cc.initTemp))^(3/2) * ...
-                exp(-pc.m*v.^2/(2*pc.kb*cc.initTemp));
+    devTemp = 300;
+    f = @(v) dopDensity * (pc.m/(2*pi*pc.kb*devTemp))^(3/2) * ...
+                exp(-pc.m*v.^2/(2*pc.kb*devTemp));
     fMax = f(0);
     fx = 0;
     fc = 1;
@@ -13,5 +14,5 @@ function [energy] = maxwellDistribution(pc, cc)
         fx = f(velocity);
     end
     
-    energy = 0.5 * pc.m * velocity^2;
+    energy = 0.5 * pc.m * velocity^2 + cc.initEnergy;
 end

@@ -19,9 +19,12 @@ function computePositionParameters(obj, es)
         valuex = obj.xField.data(index1, index2);
         valuey = obj.yField.data(index1, index2);
     elseif ~isempty(obj.eFieldInput)
+        %>阶跃电场查找
         index = find(obj.eFieldInput(:, 1) >= es.time, 1);
         valuex = obj.eFieldInput(index, 2);
         valuey = 0;
+    else
+        error("无有效电场信息！")
     end
     es.devField = [valuex, valuey, 0];
     es.devTem = obj.deviceTemp.data(index1, index2);

@@ -84,6 +84,19 @@ classdef ElectricQuantityStatics < handle
     end
     
     methods
-        
+        computeAverageEnergyWithPosition(obj, cc)
+        computeAverageEnergyWithTime(obj, cc, N)
+        computeDiffusionCoefficientWithElectricField(obj, cc)
+        computeDiffusionCoefficientWithTime(obj, cc, N)
+        computeDirftVelocityWithTime(obj, cc, N)
+        computeDriftVelocityWithElectricField(obj, cc)
+        computeMobilityWithElectricField(obj, cc)
+        computeMobilityWithTime(obj, cc)
+        computeTerminalCurrent(obj, cc)
+        extractElectricHistoryInformation(obj, cc)
+        plotElectronTrace(obj, cc, num, type)
+        plotGeneralProperties(obj)
+        statisticsEnergyHistoryDistribution(obj, cc, N)
+        statisticsWaveVectorDistribution(obj, dv, pc, cc, time)
     end
 end

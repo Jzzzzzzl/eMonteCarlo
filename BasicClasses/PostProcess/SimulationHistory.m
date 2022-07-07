@@ -1,7 +1,9 @@
 classdef SimulationHistory < handle
     %% 本文件提供历史信息记录类
     properties
+        %>电子群
         eGroup
+        %>声子群
         pGroup
     end
     

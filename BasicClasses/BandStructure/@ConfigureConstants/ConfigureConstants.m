@@ -15,6 +15,8 @@ classdef ConfigureConstants < Data2ColocatedField
         initDopDen
         %>初始生成能谷
         initValley
+        %>电子初始能量
+        initEnergy
         %>输入电场
         eFieldInput
         %>初始位置
@@ -47,8 +49,6 @@ classdef ConfigureConstants < Data2ColocatedField
         mLength
         %>模型宽度
         mWidth
-        %>noFly并行索引
-        parGrid
         %>电子存储文件指针
         elog
         %>声子存储文件指针
@@ -70,6 +70,7 @@ classdef ConfigureConstants < Data2ColocatedField
             %>构造函数
             obj.dtConst = 0;
             obj.energyPB = 0*obj.e;
+            obj.relaxLenPB = 0;
             obj.localWorkers = 20;
             obj.initTemp = 300;
             obj.mLength = 1;
@@ -83,43 +84,12 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.fileIndex = 0;
             obj.initPosition = [0 0 0 0];
         end
-        
-        function updateConfigureConstants(obj)
-            %>更新被动参数
-            %>模型长度计算
-            if isscalar(obj.d5)
-                obj.mLength = obj.d1 + obj.d2 + obj.d3 + obj.d4 + obj.d5;
-            elseif isscalar(obj.d1)
-                obj.mLength = obj.d1 + obj.d2 + obj.d3;
-            end
-            %>用于getFileID函数
-            obj.parGrid = linspace(0, obj.noFly, obj.localWorkers+1);
-            %>势垒/沟道区域坐标
-            if obj.relaxLenPB ~= 0
-                if obj.NY == 1
-                    obj.regionPB = [obj.d1-obj.relaxLenPB obj.d1 1 -1];
-                    obj.regionCH = [obj.d1 obj.d1+obj.d2 1 -1];
-                    %>构建势垒能量索引
-                    N = 20;
-                    obj.energyPB = zeros(N, 2);
-                    f = @(x) obj.energyPBmax ./ obj.relaxLenPB.^2 .* (x - (obj.d1 - obj.relaxLenPB)).^2;
-                    obj.energyPB(:, 1) = linspace(obj.d1 - obj.relaxLenPB, obj.d1, N)';
-                    obj.energyPB(:, 2) = f(obj.energyPB(:, 1));
-                else
-                    disp("二维情况，暂未考虑！");
-                end
-            else
-                obj.regionPB = [0 0 0 0];
-                obj.regionCH = [0 0 0 0];
-            end
-            %>并行任务坐标划分
-            obj.assignJobsForParallel;
-        end
     end
     
     methods
-        getFileID(obj, k)
+        getFileID(obj, index)
         assignJobsForParallel(obj)
+        updateConfigureConstants(obj)
         modelMeshingAndReadData(obj, pc)
         generateElectricField(obj, dt, N, type, minTemp, maxTemp)
     end

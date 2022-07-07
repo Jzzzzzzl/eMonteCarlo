@@ -1,5 +1,7 @@
 classdef ScatteringCurve < handle
     %% 色散曲线类
+    %>以1/2/3/4分别代表LA/TA/LO/TO
+    %>以0代表吸收声子，1代表发射声子
     properties
         %>极化支结构体
         polar

@@ -1,20 +1,5 @@
 classdef ScatterringRateTableForValley < BandStructureForValley
     %% 本文件提供能谷散射表父类
-    % ======================================================================
-    %>     属性说明：
-    %>     qAB/qEM：根据谷内散射率生成的谷内声子波数
-    %>     thetaII：电离杂质散射散射角
-    %>     thetaAP：声学压电散射散射角
-    %>     thetaPOab/thetaPOem：极性光学散射散射角
-    %>     nofScat：散射类型数量
-    %>     maxScatRate：最大散射率矩阵，用于计算飞行时间
-    %>     xsForimpurity：电离杂质散射修正系数
-    %>     xsForPolarOptical：极性光学散射修正系数
-    %>     flyTime：计算得到的飞行时间
-    %>     scatType：计算得到的散射类型
-    %>     scatTable：散射表
-    %>     scatTableAll：累积散射表
-    % ======================================================================
     properties
         %>谷内散射声子波矢大小
         qAB
@@ -26,7 +11,7 @@ classdef ScatterringRateTableForValley < BandStructureForValley
         thetaPOem
         %>电离杂质散射散射角
         thetaIImpu
-        %>散射类型数量
+        %>散射类型数量>>>>>>>>>>>>>>>>保留了自散射，但未使其参与计算
         nofScat
         %>最大散射率
         maxScatRate
@@ -64,7 +49,6 @@ classdef ScatterringRateTableForValley < BandStructureForValley
     end
     
     methods
-        rejectFlyTime(obj, cc, es)
         ionizedImpurityScatteringRate(obj, es, pc)
         inelasticIntervalleyScatteringRate(obj, es, pc)
         inelasticPolarOpticalScatteringRate(obj, es, pc)
@@ -81,7 +65,7 @@ classdef ScatterringRateTableForValley < BandStructureForValley
             if isempty(index)
                 index = cc.NE + 1;
             elseif index == 1
-                index = 2;
+                index = 2;%>散射表最低能量要足够小以使得不要在该处发射声子
             end
             r = rand * obj.interScatable(obj.nofScat-1, index);
             obj.scatType = find(obj.interScatable(:, index) > r, 1);

@@ -37,4 +37,13 @@ classdef PhononQuantityStatics < handle
         end
     end
     
+    methods
+        computeHeatGenerationRate(obj, pc, cc, sc)
+        computeTeff(obj, cc, pc, sc, type)
+        computeTF(obj, cc, sc, pc)
+        initializeVariables(obj, cc)
+        parallelPhononDistribution(obj, cc)
+        plotFullFrequencyPeoperties(obj, field, cc)
+    end
+    
 end

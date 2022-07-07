@@ -1,11 +1,17 @@
 classdef Data2ColocatedField < BoundaryReflection
     %% 数据读取类
     properties
+        %>x方向电场
         xField
+        %>y方向电场
         yField
+        %>总电场
         xyField
+        %>电子浓度场
         eleConc
+        %>掺杂浓度场
         dopDensity
+        %>器件温度场
         deviceTemp
     end
     
@@ -31,7 +37,9 @@ classdef Data2ColocatedField < BoundaryReflection
         readYElectricField(obj)
         readDopingDensity(obj)
         readElectricConcentration(obj)
-        fieldInterpolation(obj, field1, field2, method)
         computeSuperElectricCharge(obj)
+        computePositionParameters(obj, es)
+        fieldInterpolation(obj, field1, field2, method)
     end
+    
 end

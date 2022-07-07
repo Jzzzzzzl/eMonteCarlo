@@ -3,22 +3,26 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             %>构造函数
-            obj.superElecs = 5000;
-            obj.noFly = 10000;
-%             obj.dtConst = 1e-16;
-            obj.energyPBmax = 0.17*obj.e;
-            obj.relaxLenPB = 20e-9;
+            obj.superElecs = 1000;
+            obj.noFly = 3000;
             
             obj.NX = 600;%>最好能整除所使用核数
             obj.NY = 1;
             obj.NA = 200;%>一维默认为2
             obj.NW = 200;%>最好能整除所使用核数
             obj.NE = 100;
+            obj.initPosition = [0 3 0 100]*1e-9;
             obj.localWorkers = 20;
             obj.initValley = 1;
-            obj.xsforQ = 20;
-            obj.xsforSourceB = 8e19;
-            obj.initPosition = [0 3 0 100]*1e-9;
+            %>用于调节声子分布函数
+            obj.xsforQ = 10;
+            %>用于调节扩散温度
+            obj.xsforSourceB = 250e18;
+            %>用于调节左端发热量
+            obj.initEnergy = 0.06*obj.e;
+            %>用于生成Peltier效应
+            obj.energyPBmax = 0.19*obj.e;
+            obj.relaxLenPB = 20e-9;
             obj.scatypePB = [1 2 3 4 5 6 9 10 11];
             %>模型所需变量
             obj.d1 = 150e-9;

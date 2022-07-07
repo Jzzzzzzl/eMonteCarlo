@@ -51,4 +51,18 @@ classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
             es.velocity = obj.rotateToGeneralValley(velocity, es.valley);
         end
     end
+    
+    methods
+        bandStructurePlot(obj, pc, pointA, pointB)
+        buildInterpolationScatalbe(obj, cc, pc, sc)
+        electricVelocityPlot(obj, pc, pointA, pointB)
+        [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
+        scatteringRatePlot(obj, sc, pc, cc, mn)
+        scatteringTable(obj, es, sc, pc)
+    end
+    
+    methods(Static)
+        [vector2] = rotateToGeneralValley(vector1, valley)
+        [vector2] = rotateToStandardValley(vector1, valley)
+    end
 end

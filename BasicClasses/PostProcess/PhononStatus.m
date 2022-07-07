@@ -4,24 +4,31 @@ classdef PhononStatus < handle
         hbar = 1.05457266e-34;
     end
     properties
+        %>位矢
         position
+        %>波矢
         vector
+        %>波数
         wavenum
+        %>频率
         frequency
+        %>能量
         energy
+        %>吸收或发射
         aborem
+        %>极化类型
         polar
+        %>时刻
         time
     end
     
     methods
-        
         function initializePhononStatus(obj)
             %>构造函数
             obj.position = [0 0 0];
             obj.vector = [0 0 0];
             obj.time = 0;
-            obj.polar = -1;
+            obj.polar = -1;%>>>>>>>>>>默认-1，未生成声子
             obj.aborem = -1;
             obj.frequency = 0;
         end
