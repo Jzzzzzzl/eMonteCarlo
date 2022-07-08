@@ -19,7 +19,7 @@ classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
                         0   0   sqrt(pc.m / obj.ml)];
             obj.invTz = inv(obj.Tz);
             
-            obj.energyFace = cc.energy.face/pc.e;
+            obj.energyFace = (cc.energy.face+obj.Eg)/pc.e;
             obj.buildInterpolationScatalbe(cc, pc, sc);
         end
         

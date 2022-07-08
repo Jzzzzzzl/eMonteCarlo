@@ -1,7 +1,7 @@
 classdef ValleyU < ScatterringProcessForValley & EPWaveVectorModify
     %% U能谷
     methods
-        function obj = ValleyU(pc)
+        function obj = ValleyU(cc, pc, sc)
             %>构造函数
             obj.Eg = pc.EgU;
             obj.mt = pc.mtU;
@@ -19,6 +19,9 @@ classdef ValleyU < ScatterringProcessForValley & EPWaveVectorModify
                         0   sqrt(pc.m / obj.mt)  0;
                         0   0   sqrt(pc.m / obj.ml)];
             obj.invTz = inv(obj.Tz);
+            
+            obj.energyFace = (cc.energy.face+obj.Eg)/pc.e;
+            obj.buildInterpolationScatalbe(cc, pc, sc);
         end
         
         function updateScatterringRateFormula(obj, es, pc)
@@ -50,5 +53,10 @@ classdef ValleyU < ScatterringProcessForValley & EPWaveVectorModify
             velocity = (obj.invTz * vStar)';
             es.velocity = obj.rotateToGeneralValley(velocity, es.valley);
         end
+    end
+    
+    methods(Static)
+        [vector2] = rotateToStandardValley(vector1, valley)
+        [vector2] = rotateToGeneralValley(vector1, valley)
     end
 end

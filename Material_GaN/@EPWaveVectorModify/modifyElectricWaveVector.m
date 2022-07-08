@@ -12,9 +12,9 @@ function [es] = modifyElectricWaveVector(obj, es, pc)
             case -2
                 es.vector = es.vector - pc.kn.b2;
             case 3
-                es.vector = es.vector + pc.kn.b1*rotateMatrix(pi/3, "z");
+                es.vector = es.vector + pc.kn.b1*rotateMatrix(pi/3, 'z');
             case -3
-                es.vector = es.vector + pc.kn.b1*rotateMatrix(pi/3, "z");
+                es.vector = es.vector + pc.kn.b1*rotateMatrix(pi/3, 'z');
             case 4
                 es.vector = es.vector + pc.kn.b1;
             case -4
@@ -24,9 +24,9 @@ function [es] = modifyElectricWaveVector(obj, es, pc)
             case -5
                 es.vector = es.vector + pc.kn.b2;
             case 6
-                es.vector = es.vector - pc.kn.b1*rotateMatrix(pi/3, "z");
+                es.vector = es.vector - pc.kn.b1*rotateMatrix(pi/3, 'z');
             case -6
-                es.vector = es.vector - pc.kn.b1*rotateMatrix(pi/3, "z");
+                es.vector = es.vector - pc.kn.b1*rotateMatrix(pi/3, 'z');
             case 11
                 es.vector = es.vector - es.vector(3)/abs(es.vector(3))*pc.kn.b3;
             case 13

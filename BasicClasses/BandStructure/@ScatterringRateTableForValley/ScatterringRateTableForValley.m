@@ -37,7 +37,7 @@ classdef ScatterringRateTableForValley < BandStructureForValley
         %>各种散射率句柄函数
         ionizedImpurity
         acousticPiezoelectric
-        elasticIntraAcoustics
+        elasticIntraAcoustic
         inelasticIntraAcousticAB
         inelasticIntraAcousticEM
         inelasticIntraOpticalAB
@@ -49,6 +49,7 @@ classdef ScatterringRateTableForValley < BandStructureForValley
     end
     
     methods
+        rejectScatteringType(obj, cc, es)
         ionizedImpurityScatteringRate(obj, es, pc)
         inelasticIntervalleyScatteringRate(obj, es, pc)
         inelasticPolarOpticalScatteringRate(obj, es, pc)

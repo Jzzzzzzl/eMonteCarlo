@@ -1,5 +1,5 @@
 function computeValleyOccupationWithElectricField(obj, cc)
-    %>
+    %>能谷占据率随阶跃场强变化
     if isempty(obj.occTime)
         error("请先计算能谷占据率随时间变化关系！")
     end

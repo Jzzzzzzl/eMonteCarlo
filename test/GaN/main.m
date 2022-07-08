@@ -30,7 +30,7 @@ eq = ElectricQuantityStaticsGaN(cc);
 % dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.K);
 % sc.plotScatteringCurve(pc);
 %验证2，散射表画图
-% tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 20]); toc
+tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 20]); toc
 %验证3，验证函数
 % verifyProgram("EnergyToVector", dv, pc, sc, cc);
 % verifyProgram("youshifangxiangdianchang", dv, pc, sc, cc);

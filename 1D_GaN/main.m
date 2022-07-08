@@ -1,85 +1,109 @@
 %% 二维模型主程序
-rmpath(genpath('/home/jiang/eMonteCarlo'))
-addpath(genpath('./BasicClasses'))
-addpath(genpath('./OperatorTerms'))
-addpath(genpath('./functions'))
-addpath(genpath('./Material_GaN'))
-addpath(genpath('./ParallelCompute/DeviceParallelCompute'))
+rmpath(genpath('/home/jiang/eMonteCarlo/'))
+addpath(genpath('./BasicClasses/'))
+addpath(genpath('./functions/'))
+addpath(genpath('./MEX/'))
+addpath(genpath('./OperatorTerms/'))
+addpath(genpath('./ParallelCompute/DeviceParallelCompute/'))
+addpath(genpath('./Material_GaN/'))
 addpath(genpath('./1D_GaN/'))
-
 %% 
 clc,clear
 close all
 pc = PhysicConstantsGaN;
-cc = ConfigureConstants(pc);
-dv = DecideValleyKind(pc);
-sc = ScatteringCurve(cc, pc);
+cc = ConfigureConstantsGaN(pc);
+sc = ScatteringCurveGaN(cc, pc);
+
+% sc.getBandDataFromOther(cc);
+
+dv = DecideValleyKind(cc, pc, sc);
 sh = SimulationHistory(dv, pc, cc);
 pq = PhononQuantityStatics(cc);
 %%
-verifyProgram('inducedElectricField1D', dv, pc, sc, cc)
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
 eq = ElectricQuantityStaticsGaN(cc);
-% pq.minimumTime = eq.minimumTime;
-% pq.parallelPhononDistribution(cc);
-% pq.computeHeatGenerationRate(pc, cc, sc);
-% pq.solveFarDistributionFunction(cc, sc);
-% pq.plotnAndnDot(cc);
-% pq.computeTF(cc, sc, pc);
-% pq.computeTeff(cc, pc, sc)
 
-eq.computeAverageEnergyWithTime(cc, 1000);
-eq.statisticsEnergyHistoryDistribution(cc, 1000);
-eq.computeDirftVelocityWithTime(cc, 300);
-eq.plotGeneralProperties
-eq.computeValleyOccupationWithTime(cc, 1000);
-eq.computeTerminalCurrent(cc)
+eq.computeAverageEnergyWithPosition(cc);
+eq.aveEPos.plotField(cc, 'n')
+%%
+pq.minTime = 0e-12;
+pq.maxTime = 100e-12;
+pq.parallelPhononDistribution(cc);
+%%
+pq.initializeVariables(cc);
+pq.computeHeatGenerationRate(pc, cc, sc);
+pq.solveFarDistributionFunction(cc, sc);
+
+pq.plotFullFrequencyPeoperties(pq.Q, cc, 'Q')
+pq.plotFullFrequencyPeoperties(pq.nDot, cc, 'nDot')
+pq.plotFullFrequencyPeoperties(pq.n, cc, 'n')
 %% 
-eq.plotElectronTrace(cc, 2, 'k');
-eq.plotElectronTrace(cc, 1, 'r');
-eq.plotElectronTrace(cc, 2, 'e');
+pq.computeTF(cc, sc, pc)
+pq.computeTeff(cc, pc, sc, 1)
+pq.computeTeff(cc, pc, sc, 2)
+pq.computeTeff(cc, pc, sc, 3)
+pq.computeTeff(cc, pc, sc, 4)
+pq.computeTeff(cc, pc, sc, 5)
+
+pq.TF.plotField(cc)
+pq.pTeff.LA.plotField(cc)
+pq.pTeff.TA.plotField(cc)
+pq.pTeff.LO.plotField(cc)
+pq.pTeff.TO.plotField(cc)
+pq.Teff.plotField(cc)
+legend("TF", "LATeff", "TATeff", "LOTeff", "TOTeff", "Teff")
+
+%>写入文件
+writeDataToFile1D('TF', cc, cc.modelx.point(2:end-1)*1e9, pq.TF.data(2:end-1, cc.NY+1));
+writeDataToFile1D('LATeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.LA.data(2:end-1, cc.NY+1));
+writeDataToFile1D('TATeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.TA.data(2:end-1, cc.NY+1));
+writeDataToFile1D('LOTeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.LO.data(2:end-1, cc.NY+1));
+writeDataToFile1D('TOTeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.TO.data(2:end-1, cc.NY+1));
+%% 
+eq.plotElectronTrace(cc, 2, 'k')
+eq.plotElectronTrace(cc, 8, 'r')
+eq.plotElectronTrace(cc, 1, 'e')
 eq.plotElectronTrace(cc, 0, 'd')
-eq.plotElectronTrace(cc, 156, 'xy');
+eq.plotElectronTrace(cc, 6, 'xy')
+%%
+pq.plotSpectrum(pc, cc, 'LA', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'TA', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'LO', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'TO', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'ALL', [0, 320, 0, 100])
 
-%验证5，声子发射谱
-% pq.plotSpectrum(pc, cc, "LA");
-% pq.plotSpectrum(pc, cc, "TA");
-% pq.plotSpectrum(pc, cc, "LO");
-% pq.plotSpectrum(pc, cc, "TO");
-% pq.plotSpectrum(pc, cc, "ALL");
-
-cc.dopDensity.plotField(cc);
-cc.eleConc.plotField(cc);
-cc.xFieldCopy.plotField(cc);
-cc.yFieldCopy.plotField(cc);
-cc.xyField.plotField(cc);
-
-tGrid = linspace(8, 18, 3)*1e-12;
-figure
-hold on
-for t = 1 : length(tGrid)
-    denEles = zeros(cc.NX, 1);
-    for i = 1 : cc.superElecs
-        indext = find(eq.times(i, :) > tGrid(t), 1);
-        xPosition = eq.positions(:, 1, i, indext);
-        index = find(cc.modelx.face > xPosition, 1) - 1;
-        denEles(index) = denEles(index) + 1;
-    end
-    slg = plot(denEles);
-    slg.LineWidth = 2;
+eq.statisticsScatteringTypeDistribution(cc, type)
+%%
+cc.dopDensity.plotField(cc, 'n')
+cc.eleConc.plotField(cc, 'n')
+cc.xField.plotField(cc, 'n')
+cc.yField.plotField(cc, 'n')
+cc.xyField.plotField(cc, 'n')
+%% 
+writeDataToFile1D('aveEtime', cc, eq.aveEtime(:, 1), eq.aveEtime(:, 2))
+writeDataToFile1D('xEfield', cc, cc.modelx.point(2:end-1)*1e9, cc.xField.data(2:end-1, 2))
+%% 
+nDot = repmat(pq.polar, cc.NW, 1);
+for k = 1 : cc.NW
+    nDot(k).LA = pq.nDot(k).LA.data(:, 2);
+    nDot(k).TA = pq.nDot(k).TA.data(:, 2);
+    nDot(k).LO = pq.nDot(k).LO.data(:, 2);
+    nDot(k).TO = pq.nDot(k).TO.data(:, 2);
 end
-n = size(denEles);
-legend(sprintfc('%g', linspace(1, n(2) - 1, n(2) - 1)))
 
 %% 
-writeDataToFile('aveEtime', cc, eq.aveEtime)
-writeDataToFile('currrent', cc, eq.current)
-writeDataToFile('occupyRate', cc, eq.occupyRate)
-writeDataToFile('xEfield', cc, cc.modelx.point*1e9, cc.xFieldCopy.data(2:end-1, 2))
 
-
+tic
+spmd
+    for i  = 1 : 1e5
+        rotateMatrix(randNumber(0, 2*pi), 'x');
+        rotateMatrix(randNumber(0, 2*pi), 'y');
+        rotateMatrix(randNumber(0, 2*pi), 'z');
+    end
+end
+toc
 
 
 

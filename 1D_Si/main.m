@@ -36,9 +36,9 @@ pq.initializeVariables(cc);
 pq.computeHeatGenerationRate(pc, cc, sc);
 pq.solveFarDistributionFunction(cc, sc);
 
-pq.plotFullFrequencyPeoperties(pq.Q, cc)
-pq.plotFullFrequencyPeoperties(pq.nDot, cc)
-pq.plotFullFrequencyPeoperties(pq.n, cc)
+pq.plotFullFrequencyPeoperties(pq.Q, cc, 'Q')
+pq.plotFullFrequencyPeoperties(pq.nDot, cc, 'nDot')
+pq.plotFullFrequencyPeoperties(pq.n, cc, 'n')
 %% 
 pq.computeTF(cc, sc, pc)
 pq.computeTeff(cc, pc, sc, 1)
@@ -54,6 +54,13 @@ pq.pTeff.LO.plotField(cc)
 pq.pTeff.TO.plotField(cc)
 pq.Teff.plotField(cc)
 legend("TF", "LATeff", "TATeff", "LOTeff", "TOTeff", "Teff")
+
+%>写入文件
+writeDataToFile1D('TF', cc, cc.modelx.point(2:end-1)*1e9, pq.TF.data(2:end-1, cc.NY+1));
+writeDataToFile1D('LATeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.LA.data(2:end-1, cc.NY+1));
+writeDataToFile1D('TATeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.TA.data(2:end-1, cc.NY+1));
+writeDataToFile1D('LOTeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.LO.data(2:end-1, cc.NY+1));
+writeDataToFile1D('TOTeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.TO.data(2:end-1, cc.NY+1));
 %% 
 eq.plotElectronTrace(cc, 2, 'k')
 eq.plotElectronTrace(cc, 8, 'r')
@@ -61,11 +68,11 @@ eq.plotElectronTrace(cc, 1, 'e')
 eq.plotElectronTrace(cc, 0, 'd')
 eq.plotElectronTrace(cc, 6, 'xy')
 %%
-pq.plotSpectrum(pc, cc, 'LA', [170, 172, 0.1, 99.9])
-pq.plotSpectrum(pc, cc, 'TA', [170, 172, 0.1, 99.9])
-pq.plotSpectrum(pc, cc, 'LO', [170, 172, 0.1, 99.9])
-pq.plotSpectrum(pc, cc, 'TO', [170, 172, 0.1, 99.9])
-pq.plotSpectrum(pc, cc, 'ALL', [0.1, 320, 0.1, 99.9])
+pq.plotSpectrum(pc, cc, 'LA', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'TA', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'LO', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'TO', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'ALL', [0, 320, 0, 100])
 
 eq.statisticsScatteringTypeDistribution(cc)
 %%
@@ -75,10 +82,8 @@ cc.xField.plotField(cc, 'n')
 cc.yField.plotField(cc, 'n')
 cc.xyField.plotField(cc, 'n')
 %% 
-writeDataToFile('aveEtime', cc, eq.aveEtime)
-writeDataToFile('currrent', cc, eq.current)
-writeDataToFile('occupyRate', cc, eq.occupyRate)
-writeDataToFile('xEfield', cc, cc.modelx.point*1e9, cc.xFieldCopy.data(2:end-1, 2))
+writeDataToFile1D('aveEtime', cc, eq.aveEtime(:, 1), eq.aveEtime(:, 2))
+writeDataToFile1D('xEfield', cc, cc.modelx.point(2:end-1)*1e9, cc.xField.data(2:end-1, 2))
 %% 
 nDot = repmat(pq.polar, cc.NW, 1);
 for k = 1 : cc.NW
@@ -87,11 +92,6 @@ for k = 1 : cc.NW
     nDot(k).LO = pq.nDot(k).LO.data(:, 2);
     nDot(k).TO = pq.nDot(k).TO.data(:, 2);
 end
-
-
-
-
-
 
 
 

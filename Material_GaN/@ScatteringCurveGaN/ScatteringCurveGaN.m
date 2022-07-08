@@ -27,7 +27,6 @@ classdef ScatteringCurveGaN < ScatteringCurve
             obj.wU2GLO = polyval(obj.band.LO, 0.1 * pc.dBD);
             obj.wG2GLO = polyval(obj.band.LO, 0.1 * pc.dBD);
         end
-        
     end
     
     methods

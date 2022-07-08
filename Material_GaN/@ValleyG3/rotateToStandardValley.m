@@ -1,4 +1,4 @@
-function [vector2] = rotateToStandardValley(~, vector1, valley)
+function [vector2] = rotateToStandardValley(vector1, valley)
     %>从其他能谷转向标准能谷
     switch valley
         case 13

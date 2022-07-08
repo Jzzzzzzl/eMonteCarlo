@@ -1,9 +1,18 @@
 function plotSpectrum(obj, pc, cc, type, region)
     %>声子谱画图
-    if region(1)*region(3) == 0
-        error("起始点不要设为0！")
-    end
     region = region * 1e-9;
+    if region(1) <= 0
+        region(1) = cc.modelx.point(2);
+    end
+    if region(2) >= cc.mLength
+        region(2) = cc.modelx.point(end-1);
+    end
+    if region(3) <= 0
+        region(3) = cc.modely.point(2);
+    end
+    if region(4) >= cc.mWidth
+        region(4) = cc.modely.point(end-1);
+    end
     ixl = find(cc.modelx.face >= region(1), 1) - 1;
     ixr = find(cc.modelx.face >= region(2), 1) - 1;
     iyb = find(cc.modely.face >= region(3), 1) - 1;
@@ -37,6 +46,10 @@ function plotSpectrum(obj, pc, cc, type, region)
         wNumem(k, 1) = sum(tempem(:, :, k));
         wNumem(k, 2) = pc.hbar * cc.frequency.point(k + 1) / pc.e * 1000;
     end
+    %>写入文件
+    writeDataToFile1D(['wNumab_' type], cc, wNumab(:, 1), wNumab(:, 2));
+    writeDataToFile1D(['wNumem_' type], cc, wNumem(:, 1), wNumem(:, 2));
+    %>画图
     figure
     slg = semilogx(wNumab(:, 1), wNumab(:, 2));
     slg.LineWidth = 2;
