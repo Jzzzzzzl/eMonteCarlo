@@ -27,6 +27,7 @@ eq = ElectricQuantityStaticsGaN(cc);
 
 eq.computeAverageEnergyWithPosition(cc);
 eq.aveEPos.plotField(cc, 'n')
+eq.computeValleyOccupationWithTime(cc, 200)
 %%
 pq.minTime = 0e-12;
 pq.maxTime = 100e-12;
@@ -74,7 +75,9 @@ pq.plotSpectrum(pc, cc, 'LO', [0, 320, 0, 100])
 pq.plotSpectrum(pc, cc, 'TO', [0, 320, 0, 100])
 pq.plotSpectrum(pc, cc, 'ALL', [0, 320, 0, 100])
 
-eq.statisticsScatteringTypeDistribution(cc, type)
+eq.statisticsScatteringTypeDistribution(cc, 'G1')
+eq.statisticsScatteringTypeDistribution(cc, 'G3')
+eq.statisticsScatteringTypeDistribution(cc, 'U')
 %%
 cc.dopDensity.plotField(cc, 'n')
 cc.eleConc.plotField(cc, 'n')
@@ -92,18 +95,4 @@ for k = 1 : cc.NW
     nDot(k).LO = pq.nDot(k).LO.data(:, 2);
     nDot(k).TO = pq.nDot(k).TO.data(:, 2);
 end
-
-%% 
-
-tic
-spmd
-    for i  = 1 : 1e5
-        rotateMatrix(randNumber(0, 2*pi), 'x');
-        rotateMatrix(randNumber(0, 2*pi), 'y');
-        rotateMatrix(randNumber(0, 2*pi), 'z');
-    end
-end
-toc
-
-
 

@@ -10,14 +10,12 @@ classdef ElectricQuantityStatics < handle
     end
     
     properties
-        %>平均飞行时间
-        aveTime
-        %>最小飞行时间
+        %>飞行时间最小值
         minTime
-        %>迁移率随时间变化
-        mobTime
-        %>迁移率随电场变化
-        mobField
+        %>飞行时间最大值
+        maxTime
+        %>最大统计能量
+        maxEnergy
         %>平均能量随时间变化
         aveETime
         %>平均能量随位置变化
@@ -28,75 +26,23 @@ classdef ElectricQuantityStatics < handle
         driftVField
         %>能量分布统计
         eNums
-        %>波矢分布统计
-        qNums
-        %>扩散系数随时间变化
-        dcoTime
-        %>扩散系数随电场变化
-        dcoField
         %>能谷占据数随时间变化
         occTime
         %>能谷占据数随电场变化
         occField
-        %>漏断电流随时间变化
-        curTime
-    end
-    
-    properties
-        %>电子历史信息
-        positions
-        vectors
-        energys
-        times
-        perdrifts
-        valleys
-        scatypes
+        %>能谷散射类型统计
+        scatNums
     end
     
     methods
-        function obj = ElectricQuantityStatics(cc)
+        function obj = ElectricQuantityStatics
             %>构造函数
-            obj.extractElectricHistoryInformation(cc);
-            obj.averageTotalFlyTime(cc);
+            
         end
         
-        function averageTotalFlyTime(obj, cc)
-            %>计算平均总飞行时间
-            endTimes = obj.times(:, end);
-            obj.aveTime = sum(endTimes) / cc.superElecs;
-            obj.minTime = min(endTimes);
-            disp(['平均总模拟时间： ', num2str(obj.aveTime * 1e12), '  ps']);
-            disp(['最短运动时间为： ', num2str(obj.minTime * 1e12), '  ps']);
-        end
-        
-        function computeAllProperties(obj, dv, pc, cc)
-            %>计算所有特性
-            obj.computeAverageEnergyWithTime(cc, 1000);
-            obj.computeDiffusionCoefficientWithTime(cc, 300);
-            obj.computeDiffusionCoefficientWithElectricField(cc);
-            obj.computeDirftVelocityWithTime(cc, 300);
-            obj.computeDriftVelocityWithElectricField(cc);
-            obj.computeMobilityWithTime(cc);
-            obj.computeMobilityWithElectricField(cc);
-            obj.statisticsEnergyHistoryDistribution(cc, 1000);
-            obj.statisticsWaveVectorDistribution(dv, pc, cc, [0.01e-12 1.0e-12 3]);
-        end
     end
     
     methods
-        computeAverageEnergyWithPosition(obj, cc)
-        computeAverageEnergyWithTime(obj, cc, N)
-        computeDiffusionCoefficientWithElectricField(obj, cc)
-        computeDiffusionCoefficientWithTime(obj, cc, N)
-        computeDirftVelocityWithTime(obj, cc, N)
-        computeDriftVelocityWithElectricField(obj, cc)
-        computeMobilityWithElectricField(obj, cc)
-        computeMobilityWithTime(obj, cc)
-        computeTerminalCurrent(obj, cc)
-        extractElectricHistoryInformation(obj, cc)
-        plotElectronTrace(obj, cc, num, type)
-        plotGeneralProperties(obj)
-        statisticsEnergyHistoryDistribution(obj, cc, N)
-        statisticsWaveVectorDistribution(obj, dv, pc, cc, time)
+        extractElectricHistoryInformation(obj, cc, N)
     end
 end

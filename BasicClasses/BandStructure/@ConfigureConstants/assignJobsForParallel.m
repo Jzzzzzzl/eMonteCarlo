@@ -10,7 +10,7 @@ function assignJobsForParallel(obj)
     
     function [result] = cutJobs(jobs, workers)
         %>任务划分
-        if jobs < workers
+        if jobs < workers && jobs ~= 1
             error("任务太少，不足以并行！")
         end
         m = mod(jobs, workers);

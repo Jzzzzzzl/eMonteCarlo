@@ -3,8 +3,8 @@ classdef ConfigureConstantsGaN < ConfigureConstants
     methods
         function obj = ConfigureConstantsGaN(pc)
             %>构造函数
-            obj.superElecs = 1000;
-            obj.noFly = 20000;
+            obj.superElecs = 100;
+            obj.noFly = 10000;
             
             obj.NX = 500;%>最好能整除所使用核数
             obj.NY = 1;
