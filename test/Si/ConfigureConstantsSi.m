@@ -3,18 +3,18 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             obj.superElecs = 4000;
-            obj.noFly = 2000;
-%             obj.eFieldInput = [1, -10e5];
+            obj.noFly = 1000;
+            obj.eFieldInput = [1, -1e5];
 %             obj.eFieldInput = [4e-12 -1e5
 %                                     1 -100e5];
-            obj.generateElectricField(10, 16, 'lin', 1e5, 1e7);
+%             obj.generateElectricField(5, 10, 'log', 5, 7);
             
             obj.NE = 100;
             obj.NW = 200;
             obj.initValley = 1;
             obj.localWorkers = 20;
             obj.initPosition = [0 0 0 0];
-            obj.initEnergy = 0.06*obj.e;
+            obj.initEnergy = 0.0*obj.e;
             obj.initDopDen = 1e23;%不同掺杂浓度可能引起最大散射率的变化
             obj.modelMeshingAndReadData(pc);
             obj.filePath = '/home/jiang/documents/eMdatas/epDatas/';

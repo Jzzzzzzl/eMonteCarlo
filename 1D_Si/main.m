@@ -18,18 +18,21 @@ sc.getBandDataFromOther(cc);
 
 dv = DecideValleyKind(cc, pc, sc);
 sh = SimulationHistory(dv, pc, cc);
+eq = ElectricQuantityStaticsSi;
 pq = PhononQuantityStatics(cc);
 %%
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
-eq = ElectricQuantityStaticsSi(cc);
 
-eq.computeAverageEnergyWithPosition(cc);
-eq.aveEPos.plotField(cc, 'n')
+eq.minTime = 0e-12;
+eq.maxTime = 8e-12;
+eq.maxEnergy = 2*cc.e;
+eq.extractElectricHistoryInformation(cc, 100);
+eq.plotGeneralProperties(cc);
 %%
 pq.minTime = 0e-12;
-pq.maxTime = 100e-12;
+pq.maxTime = 8e-12;
 pq.parallelPhononDistribution(cc);
 %%
 pq.initializeVariables(cc);

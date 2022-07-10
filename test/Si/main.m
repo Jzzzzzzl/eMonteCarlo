@@ -25,16 +25,18 @@ pq = PhononQuantityStatics(cc);
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 %% 
 parallelCompute(sh, dv, sc, pc, cc);
+%% 
 eq.minTime = 0e-12;
-eq.maxTime = 15e-12;
+eq.maxTime = 1e-12;
 eq.maxEnergy = 2*cc.e;
-eq.extractElectricHistoryInformation(cc, 300);
+eq.extractElectricHistoryInformation(cc, 100);
 
+eq.computeDriftVelocityWithElectricField(cc)
 eq.plotGeneralProperties(cc);
-eq.statisticsScatteringTypeDistribution(cc);
+eq.statisticsScatteringTypeDistribution;
 %% 
 pq.minTime = 0e-12;
-pq.maxTime = 15e-12;
+pq.maxTime = 1e-12;
 pq.parallelPhononDistribution(cc);
 %% 
 % 验证1，能带画图

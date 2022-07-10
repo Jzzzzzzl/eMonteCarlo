@@ -6,10 +6,8 @@ function extractElectricHistoryInformation(obj, cc, N)
     %>临时变量
     aveepos = zeros(cc.NX, cc.NY);
     aveepcou = ones(cc.NX, cc.NY);
-    aveetime = zeros(cc.Nt, 1);
-    aveetcou = ones(cc.Nt, 1);
-    avedtime = zeros(cc.Nt, 1);
-    avedtcou = ones(cc.Nt, 1);
+    aveetime = zeros(cc.Nt, cc.superElecs);
+    avedtime = zeros(cc.Nt, cc.superElecs);
     valleytime = zeros(cc.Nt, 3);
     enums = zeros(cc.NE, 1);
     scatnums = zeros(30, 3);
@@ -40,20 +38,15 @@ function extractElectricHistoryInformation(obj, cc, N)
             if isempty(i*j*t*e) || (i*j*t*e) == 0
                 continue;
             end
+            absValley = abs(dataline{8});
             %>平均能量随位置变化
             aveepos(i, j) = aveepos(i, j) + dataline{5};
             aveepcou(i, j) = aveepcou(i, j) + 1;
-            %>平均能量随时间变化
-            aveetime(t) = aveetime(t) + dataline{5};
-            aveetcou(t) = aveetcou(t) + 1;
-            %>平均漂移速度随时间变化
-            avedtime(t) = avedtime(t) + dataline{7};
-            avedtcou(t) = avedtcou(t) + 1;
-            %>能谷占据率随时间变化
-            absValley = abs(dataline{8});
+            %>单个电子在单个时间区间只能有一个值
             if dataline{1} ~= idflag || t ~= tflag
                 tflag = t;
                 idflag = dataline{1};
+                %>能谷占据率随时间变化
                 if absValley <= 6%>Si GX/GaN U
                     valleytime(t, 1) = valleytime(t, 1) + 1;
                 elseif absValley == 11%>GaN G1
@@ -61,6 +54,10 @@ function extractElectricHistoryInformation(obj, cc, N)
                 elseif absValley == 13%>GaN G3
                     valleytime(t, 3) = valleytime(t, 3) + 1;
                 end
+                %>平均能量随时间变化
+                aveetime(t, idflag) = dataline{5};
+                %>平均漂移速度随时间变化
+                avedtime(t, idflag) = dataline{7};
             end
             %>能量历史分布统计
             enums(e) = enums(e) + 1;
@@ -75,8 +72,6 @@ function extractElectricHistoryInformation(obj, cc, N)
             end
         end
         aveepos = aveepos ./ aveepcou;
-        aveetime = aveetime ./ aveetcou;
-        avedtime = avedtime ./ avedtcou;
         fclose(fileID);
     end
     
@@ -89,8 +84,8 @@ function extractElectricHistoryInformation(obj, cc, N)
         enums{1} = enums{1} + enums{i};
     end
     obj.aveEPos = aveepos{1} ./ cc.localWorkers;
-    obj.aveETime = aveetime{1} ./ cc.localWorkers;
-    obj.driftVTime = avedtime{1} ./ cc.localWorkers;
+    obj.aveETime = aveetime{1};
+    obj.driftVTime = avedtime{1};
     obj.occTime = valleytime{1};
     obj.eNums = enums{1};
     obj.scatNums = scatnums{1};

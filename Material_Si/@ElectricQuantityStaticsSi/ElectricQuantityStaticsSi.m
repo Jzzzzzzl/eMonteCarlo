@@ -5,6 +5,6 @@ classdef ElectricQuantityStaticsSi < ElectricQuantityStatics
     end
     
     methods
-        statisticsScatteringTypeDistribution(obj, cc)
+        
     end
 end

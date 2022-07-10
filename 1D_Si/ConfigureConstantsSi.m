@@ -3,7 +3,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             %>构造函数
-            obj.superElecs = 100;
+            obj.superElecs = 1000;
             obj.noFly = 3000;
             
             obj.NX = 600;%>最好能整除所使用核数

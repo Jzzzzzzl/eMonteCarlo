@@ -4,7 +4,11 @@ function plotGeneralProperties(obj, cc)
     %>电子平均能量随时间变化图
     subplot(2, 2, 1)
     if ~isempty(obj.aveETime)
-        slg = plot(cc.time.point(2:end-1)*1e12, obj.aveETime/cc.e);
+        energys = zeros(cc.Nt, 1);
+        for t = 1 : cc.Nt
+            energys(t) = sum(obj.aveETime(t, :)) / sum(obj.aveETime(t, :) ~= 0);
+        end
+        slg = plot(cc.time.point(2:end-1)*1e12, energys/cc.e);
         slg.LineWidth = 2;
     end
     xlabel("ps"); ylabel("eV");
@@ -19,7 +23,11 @@ function plotGeneralProperties(obj, cc)
     %>漂移速度随时间变化图
     subplot(2, 2, 3)
     if ~isempty(obj.driftVTime)
-        slg = plot(cc.time.point(2:end-1)*1e12, obj.driftVTime*100);
+        velocitys = zeros(cc.Nt, 1);
+        for t = 1 : cc.Nt
+            velocitys(t) = sum(obj.driftVTime(t, :)) / sum(obj.driftVTime(t, :) ~= 0);
+        end
+        slg = plot(cc.time.point(2:end-1)*1e12, velocitys*100);
         slg.LineWidth = 2;
     end
     xlabel("ps"); ylabel("cm/s");
@@ -27,9 +35,9 @@ function plotGeneralProperties(obj, cc)
     %>漂移速度随电场变化图
     subplot(2, 2, 4)
     if ~isempty(obj.driftVField)
-        slg = plot(obj.driftVField(:, 1), obj.driftVField(:, 2)*100, '-*');
+        slg = loglog(abs(cc.eFieldInput(:, 2))*100, obj.driftVField*100, '-*');
         slg.LineWidth = 2;
     end
-    xlabel("V/m"); ylabel("cm/s");
+    xlabel("V/cm"); ylabel("cm/s");
     title("drift velocity with eField")
 end

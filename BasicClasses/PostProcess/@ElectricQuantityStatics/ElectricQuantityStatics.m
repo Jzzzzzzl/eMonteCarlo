@@ -43,6 +43,6 @@ classdef ElectricQuantityStatics < handle
     end
     
     methods
-        extractElectricHistoryInformation(obj, cc, N)
+        
     end
 end

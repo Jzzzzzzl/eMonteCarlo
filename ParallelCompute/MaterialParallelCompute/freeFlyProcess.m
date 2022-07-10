@@ -13,5 +13,4 @@ function [es] = freeFlyProcess(es, dv, pc)
     
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
     es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
-    
 end
