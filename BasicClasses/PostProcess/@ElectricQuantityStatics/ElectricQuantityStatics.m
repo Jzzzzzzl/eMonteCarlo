@@ -34,6 +34,17 @@ classdef ElectricQuantityStatics < handle
         scatNums
     end
     
+    properties
+        %>电子历史信息
+        positions
+        vectors
+        energys
+        times
+        perdrifts
+        valleys
+        scatypes
+    end
+    
     methods
         function obj = ElectricQuantityStatics
             %>构造函数

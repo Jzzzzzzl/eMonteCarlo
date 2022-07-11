@@ -1,4 +1,4 @@
-function plotGeneralProperties(obj, cc)
+function plotGeneralPropertiesSoft(obj, cc)
     %>各个属性画图
     figure
     %>电子平均能量随时间变化图

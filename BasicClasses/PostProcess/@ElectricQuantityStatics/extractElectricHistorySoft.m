@@ -1,4 +1,4 @@
-function extractElectricHistoryInformation(obj, cc, N)
+function extractElectricHistorySoft(obj, cc, N)
     %>提取电子历史信息
     tic
     cc.timeGrid(obj.minTime, obj.maxTime, N);
@@ -21,26 +21,26 @@ function extractElectricHistoryInformation(obj, cc, N)
         fileID = fopen(filename);
         while ~feof(fileID)
             strline = fgetl(fileID);
-            dataline = textscan(strline, '%d %f %f %f %f %f %f %d %d');
+            dataline = textscan(strline, '%d %d %f %f %f %f %f %f %f %f %f %d %d');
             %>查找所在区域坐标
-            if dataline{6} >= obj.minTime && dataline{6} <= obj.maxTime
-                i = find(cc.modelx.face >= dataline{2}, 1) - 1;
+            if dataline{10} >= obj.minTime && dataline{10} <= obj.maxTime
+                i = find(cc.modelx.face >= dataline{3}, 1) - 1;
                 if cc.NY ~= 1
-                    j = find(cc.modely.face >= dataline{3}, 1) - 1;
+                    j = find(cc.modely.face >= dataline{4}, 1) - 1;
                 else
                     j = 1;
                 end
-                t = find(cc.time.face >= dataline{6}, 1) - 1;
-                e = find(cc.energy.face >= dataline{5}, 1) - 1;
+                t = find(cc.time.face >= dataline{10}, 1) - 1;
+                e = find(cc.energy.face >= dataline{9}, 1) - 1;
             else
                 continue;
             end
             if isempty(i*j*t*e) || (i*j*t*e) == 0
                 continue;
             end
-            absValley = abs(dataline{8});
+            absValley = abs(dataline{12});
             %>平均能量随位置变化
-            aveepos(i, j) = aveepos(i, j) + dataline{5};
+            aveepos(i, j) = aveepos(i, j) + dataline{9};
             aveepcou(i, j) = aveepcou(i, j) + 1;
             %>单个电子在单个时间区间只能有一个值
             if dataline{1} ~= idflag || t ~= tflag
@@ -55,14 +55,14 @@ function extractElectricHistoryInformation(obj, cc, N)
                     valleytime(t, 3) = valleytime(t, 3) + 1;
                 end
                 %>平均能量随时间变化
-                aveetime(t, idflag) = dataline{5};
+                aveetime(t, idflag) = dataline{9};
                 %>平均漂移速度随时间变化
-                avedtime(t, idflag) = dataline{7};
+                avedtime(t, idflag) = dataline{11};
             end
             %>能量历史分布统计
             enums(e) = enums(e) + 1;
             %>散射类型统计
-            s = dataline{9};
+            s = dataline{13};
             if absValley <= 6%>Si GX/GaN U
                 scatnums(s, 1) = scatnums(s, 1) + 1;
             elseif absValley == 11%>GaN G1

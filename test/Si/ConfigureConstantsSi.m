@@ -2,14 +2,14 @@ classdef ConfigureConstantsSi < ConfigureConstants
     %% 运行参数类
     methods
         function obj = ConfigureConstantsSi(pc)
-            obj.superElecs = 4000;
-            obj.noFly = 1000;
-            obj.eFieldInput = [1, -1e5];
+            obj.superElecs = 400;
+            obj.noFly = 2000;
+            obj.eFieldInput = [1, -100e5];
 %             obj.eFieldInput = [4e-12 -1e5
 %                                     1 -100e5];
 %             obj.generateElectricField(5, 10, 'log', 5, 7);
             
-            obj.NE = 100;
+            obj.NE = 1000;
             obj.NW = 200;
             obj.initValley = 1;
             obj.localWorkers = 20;

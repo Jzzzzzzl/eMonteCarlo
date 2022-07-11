@@ -1,4 +1,4 @@
-function computeDriftVelocityWithElectricField(obj, cc)
+function computeDriftVwithEFieldSoft(obj, cc)
     %>计算不同电场下的漂移速度
     tic
     [m, ~] = size(cc.eFieldInput);

@@ -29,6 +29,8 @@ classdef ScatterringRateTableForValley < BandStructureForValley
         scatTableAll
         %>散射率插值表
         interScatable
+        %>散射角插值表
+        interScatangle
         %>散射表能量索引
         energyFace
     end
@@ -66,10 +68,12 @@ classdef ScatterringRateTableForValley < BandStructureForValley
             if isempty(index)
                 index = cc.NE + 1;
             elseif index == 1
-                index = 2;%>散射表最低能量要足够小以使得不要在该处发射声子
+                index = 2;
             end
-            r = rand * obj.interScatable(obj.nofScat-1, index);
+            r = rand * obj.interScatable(obj.nofScat, index);
             obj.scatType = find(obj.interScatable(:, index) > r, 1);
+%             r = rand * obj.scatTableAll(end);
+%             obj.scatType = find(obj.scatTableAll > r, 1);
             if isempty(obj.scatType)
                 error("散射类型为空！")
             end
