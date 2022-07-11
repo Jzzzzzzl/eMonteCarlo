@@ -1,4 +1,4 @@
-classdef ValleyU < ScatterringProcessForValley & EPWaveVectorModify
+classdef ValleyU < ScatterringRateTableForValley & EPWaveVectorModify
     %% U能谷
     methods
         function obj = ValleyU(cc, pc, sc)
@@ -14,6 +14,7 @@ classdef ValleyU < ScatterringProcessForValley & EPWaveVectorModify
             obj.xsForPolarOptical = pc.xsForPolarOpticalU;
             
             obj.scatTable = zeros(obj.nofScat, 1);
+            obj.scatAngle = zeros(obj.nofScat, 1);
             obj.md = (obj.mt^2*obj.ml)^(1/3);
             obj.Tz = [sqrt(pc.m / obj.mt)    0   0;
                         0   sqrt(pc.m / obj.mt)  0;

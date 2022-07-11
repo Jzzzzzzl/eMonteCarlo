@@ -15,7 +15,6 @@ function [] = parallelCompute(sh, dv, sc, pc, cc)
                 cc.computePositionParameters(eGroup(i));
                 dv.valleyGuidingPrinciple(eGroup(i));
                 dv.valley.rejectScatteringType(cc, eGroup(i));
-                eGroup(i).scatype = dv.valley.scatType;
                 [eGroup(i), pGroup(i)] = dv.valley.scatteringProcess(dv, eGroup(i), pGroup(i), sc, pc);
                 %飞行完成后写入电声子信息
                 writeToElectricLogFile(cc.elog, eGroup(i), k);

@@ -1,4 +1,4 @@
-classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
+classdef ValleyGX < ScatterringRateTableForValley & EPWaveVectorModify
     %% GammaX能谷
     methods
         function obj = ValleyGX(cc, pc, sc)
@@ -13,6 +13,7 @@ classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
             obj.xsForimpurity = pc.xsForimpurityGX;
             
             obj.scatTable = zeros(obj.nofScat, 1);
+            obj.scatAngle = zeros(obj.nofScat, 1);
             obj.md = (obj.mt^2*obj.ml)^(1/3);
             obj.Tz = [sqrt(pc.m / obj.mt)    0   0;
                         0   sqrt(pc.m / obj.mt)  0;
@@ -53,12 +54,7 @@ classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
     end
     
     methods
-        bandStructurePlot(obj, pc, pointA, pointB)
-        buildInterpolationScatalbe(obj, cc, pc, sc)
-        electricVelocityPlot(obj, pc, pointA, pointB)
-        [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
-        scatteringRatePlot(obj, sc, pc, cc, mn)
-        scatteringTable(obj, es, sc, pc)
+        
     end
     
     methods(Static)

@@ -1,4 +1,4 @@
-classdef ValleyG1 < ScatterringProcessForValley & EPWaveVectorModify
+classdef ValleyG1 < ScatterringRateTableForValley & EPWaveVectorModify
     %% Gamma1能谷
     methods
         function obj = ValleyG1(cc, pc, sc)
@@ -14,6 +14,7 @@ classdef ValleyG1 < ScatterringProcessForValley & EPWaveVectorModify
             obj.xsForPolarOptical = pc.xsForPolarOpticalG1;
             
             obj.scatTable = zeros(obj.nofScat, 1);
+            obj.scatAngle = zeros(obj.nofScat, 1);
             obj.md = (obj.mt^2*obj.ml)^(1/3);
             obj.Tz = [sqrt(pc.m / obj.mt)    0   0;
                         0   sqrt(pc.m / obj.mt)  0;

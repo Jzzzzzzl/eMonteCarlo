@@ -5,51 +5,51 @@ function [es,ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
     ps.position = es.position;
     switch es.scatype
         case 1 % ionized impurity
-            k = obj.chooseStandardVectorForElasticScattering(es, pc, 'i');
+            k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 2 % acoustic piezoelectric
-            k = obj.chooseStandardVectorForElasticScattering(es, pc, 'a');
+            k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 3 % intra
-            k = obj.chooseStandardVectorForElasticScattering(es, pc, 't');
+            k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 4 % polar LO ab
             ps.aborem = 0;
             ps.polar = 3;
-            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'p', sc.wPolarLO, 1);
+            k = obj.chooseStandardVectorForScattering(es, pc, sc.wPolarLO, 1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 5 % polar LO em
             ps.aborem = 1;
             ps.polar = 3;
-            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'p', sc.wPolarLO, -1);
+            k = obj.chooseStandardVectorForScattering(es, pc, sc.wPolarLO, -1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 6 % inter G1U LO ab
             ps.aborem = 0;
             ps.polar = 3;
             es.valley = randomValley(es, 'u');
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'e', sc.wU2GLO, 1);
+            k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wU2GLO, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 7 % inter G1U LO em
             ps.aborem = 1;
             ps.polar = 3;
             es.valley = randomValley(es, 'u');
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'e', sc.wU2GLO, -1);
+            k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wU2GLO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 8 % inter G1G3 LO ab
             ps.aborem = 0;
             ps.polar = 3;
             es.valley = randomValley(es, 't');
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'e', sc.wG2GLO, 1);
+            k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wG2GLO, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 9 % inter G1G3 LO em
             ps.aborem = 1;
             ps.polar = 3;
             es.valley = randomValley(es, 't');
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'e', sc.wG2GLO, -1);
+            k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wG2GLO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 10 % 
             return;

@@ -1,6 +1,8 @@
 classdef PhysicConstantsSi < PhysicConstants
     %% 物理常量类
     properties
+        %>谷内声学散射平均声子波矢大小
+        qa
         %>f型谷间散射平均声子波矢大小
         qf
         %>g型谷间散射平均声子波矢大小
@@ -62,6 +64,7 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.dBD = obj.dGX;
             obj.dGL = sqrt(sum(obj.hsp.L.^2));
             obj.dKN = 2*pi/obj.a;
+            obj.qa = 0.1*obj.dBD;
             obj.qf = 0.95*obj.dBD;
             obj.qg = 0.3*obj.dBD;
             obj.gammaG = 0.73;
@@ -76,18 +79,18 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.EgGX = 0*obj.e;
             obj.mtGX = 0.196*obj.m;
             obj.mlGX = 0.916*obj.m;
-            obj.alphaGX = 0.65;
+            obj.alphaGX = 0.5;
             obj.nofScatGX = 18;
             obj.centerRatioGX = 0.85;
-            obj.maxScatRateGX = [0.1*obj.e 2.2e13
-                                          0.4*obj.e 5.5e13
-                                          99*obj.e 1.5e14];
-            obj.xsForimpurityGX = 0.2;
+            obj.maxScatRateGX = [0.06*obj.e 1.1e13
+                                          0.30*obj.e 3.5e13
+                                          99.0*obj.e 2.0e14];
+            obj.xsForimpurityGX = 0.1;
             obj.DLA = 6.39*obj.e;
             obj.DTA = 3.01*obj.e;
             obj.gDKLA = 1.5e10*obj.e;
             obj.gDKTA = 0.3e10*obj.e;
-            obj.gDKLO = 11.0e10*obj.e;
+            obj.gDKLO = 8.0e10*obj.e;
             obj.fDKLA = 3.5e10*obj.e;
             obj.fDKTA = 0.5e10*obj.e;
             obj.fDKLO = 3.5e10*obj.e;

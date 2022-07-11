@@ -1,7 +1,9 @@
 classdef ScatteringCurveSi < ScatteringCurve
     %% 色散曲线类
     properties
-        %谷间散射对应频率
+        %>谷内声学散射对应频率
+        wa
+        %>谷间散射对应频率
         wg
         wf
     end
@@ -16,6 +18,9 @@ classdef ScatteringCurveSi < ScatteringCurve
         end
         
         function frequencyToInterScat(obj, pc)
+            %>谷内声学散射对应频率
+            obj.wa.LA = polyval(obj.band.LA, pc.qa);
+            obj.wa.TA = polyval(obj.band.TA, pc.qa);
             %>谷间散射对应频率
             obj.wg.LA = polyval(obj.band.LA, pc.qg);
             obj.wg.TA = polyval(obj.band.TA, pc.qg);

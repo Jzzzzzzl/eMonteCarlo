@@ -4,7 +4,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
         function obj = ConfigureConstantsSi(pc)
             %>构造函数
             obj.superElecs = 1000;
-            obj.noFly = 3000;
+            obj.noFly = 5000;
             
             obj.NX = 600;%>最好能整除所使用核数
             obj.NY = 1;
@@ -21,7 +21,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
             %>用于调节左端发热量
             obj.initEnergy = 0.06*obj.e;
             %>用于生成Peltier效应
-            obj.energyPBmax = 0.19*obj.e;
+            obj.energyPBmax = 0.16*obj.e;
             obj.relaxLenPB = 20e-9;
             obj.scatypePB = [1 2 3 4 5 6 9 10 11];
             %>模型所需变量

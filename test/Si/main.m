@@ -26,26 +26,26 @@ verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% 
 eq.minTime = 0e-12;
-eq.maxTime = 35e-12;
+eq.maxTime = 30e-12;
 eq.extractElectricHistoryHard(cc, 100);
-eq.computeAverageEnergyWithTime(cc);
 eq.computeDirftVelocityWithTime(cc);
-eq.plotGeneralPropertiesHard(cc);
+eq.computeDriftVwithEFieldHard(cc);
+plot(eq.driftVField)
 
 eq.plotElectronTrace(cc, 1, 'k')
 eq.plotElectronTrace(cc, 1, 'e')
 eq.plotElectronTrace(cc, 1, 'r')
 %% 
-% eq.minTime = 0e-12;
-% eq.maxTime = 35e-12;
-% eq.maxEnergy = 2*cc.e;
-% eq.extractElectricHistorySoft(cc, 100);
-% 
-% eq.plotGeneralProperties(cc);
-% eq.statisticsScatteringTypeDistribution;
+eq.minTime = 0e-12;
+eq.maxTime = 30e-12;
+eq.maxEnergy = 2*cc.e;
+eq.extractElectricHistorySoft(cc, 100);
+
+eq.plotGeneralPropertiesSoft(cc);
+eq.statisticsScatteringTypeDistribution;
 %% 
 pq.minTime = 0e-12;
-pq.maxTime = 1e-12;
+pq.maxTime = 25e-12;
 pq.parallelPhononDistribution(cc);
 %% 
 % 验证1，能带画图

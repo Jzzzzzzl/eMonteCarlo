@@ -22,17 +22,17 @@ eq = ElectricQuantityStaticsSi;
 pq = PhononQuantityStatics(cc);
 %%
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
-%% 
 parallelCompute(sh, dv, sc, pc, cc);
-
+%% 
 eq.minTime = 0e-12;
-eq.maxTime = 8e-12;
+eq.maxTime = 130e-12;
 eq.maxEnergy = 2*cc.e;
-eq.extractElectricHistoryInformation(cc, 100);
-eq.plotGeneralProperties(cc);
+eq.extractElectricHistorySoft(cc, 100);
+eq.plotGeneralPropertiesSoft(cc);
+plot(cc.modelx.point(2:end-1)*1e9, eq.aveEPos/cc.e*1000)
 %%
 pq.minTime = 0e-12;
-pq.maxTime = 8e-12;
+pq.maxTime = 130e-12;
 pq.parallelPhononDistribution(cc);
 %%
 pq.initializeVariables(cc);
@@ -77,7 +77,7 @@ pq.plotSpectrum(pc, cc, 'LO', [0, 320, 0, 100])
 pq.plotSpectrum(pc, cc, 'TO', [0, 320, 0, 100])
 pq.plotSpectrum(pc, cc, 'ALL', [0, 320, 0, 100])
 
-eq.statisticsScatteringTypeDistribution(cc)
+eq.statisticsScatteringTypeDistribution;
 %%
 cc.dopDensity.plotField(cc, 'n')
 cc.eleConc.plotField(cc, 'n')

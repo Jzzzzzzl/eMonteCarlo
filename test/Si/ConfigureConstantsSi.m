@@ -3,7 +3,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             obj.superElecs = 400;
-            obj.noFly = 2000;
+            obj.noFly = 3000;
             obj.eFieldInput = [1, -100e5];
 %             obj.eFieldInput = [4e-12 -1e5
 %                                     1 -100e5];

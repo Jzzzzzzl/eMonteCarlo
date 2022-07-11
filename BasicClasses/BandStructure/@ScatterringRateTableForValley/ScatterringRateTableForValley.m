@@ -21,10 +21,10 @@ classdef ScatterringRateTableForValley < BandStructureForValley
         xsForPolarOptical
         %>飞行时间
         flyTime
-        %>散射类型
-        scatType
-        %>散射表
+        %>散射率表
         scatTable
+        %>散射角表
+        scatAngle
         %>散射率累加表
         scatTableAll
         %>散射率插值表
@@ -71,10 +71,9 @@ classdef ScatterringRateTableForValley < BandStructureForValley
                 index = 2;
             end
             r = rand * obj.interScatable(obj.nofScat, index);
-            obj.scatType = find(obj.interScatable(:, index) > r, 1);
-%             r = rand * obj.scatTableAll(end);
-%             obj.scatType = find(obj.scatTableAll > r, 1);
-            if isempty(obj.scatType)
+            es.scatype = find(obj.interScatable(:, index) > r, 1);
+            es.theta = obj.interScatangle(es.scatype, index);
+            if isempty(es.scatype)
                 error("散射类型为空！")
             end
         end

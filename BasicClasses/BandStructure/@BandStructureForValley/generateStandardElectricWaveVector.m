@@ -1,4 +1,4 @@
-function [k] = generateStandardElectricWaveVector(obj, es, pc, theta)
+function [k] = generateStandardElectricWaveVector(obj, es, pc)
     %>根据能量选择电子波矢
     es.epsilon = es.energy - obj.Eg;
     es.gamma = es.epsilon*(1 + obj.alpha*es.epsilon/pc.e);
@@ -23,9 +23,9 @@ function [k] = generateStandardElectricWaveVector(obj, es, pc, theta)
     end
     %>球空间随机选择波矢
     phi = randNumber(0, 2*pi);
-    kxStar = kStarMold * sin(theta) * cos(phi);
-    kyStar = kStarMold * sin(theta) * sin(phi);
-    kzStar = kStarMold * cos(theta);
+    kxStar = kStarMold * sin(es.theta) * cos(phi);
+    kyStar = kStarMold * sin(es.theta) * sin(phi);
+    kzStar = kStarMold * cos(es.theta);
     kStar = rMatrix * [kxStar, kyStar, kzStar]';
     k = (obj.invTz * kStar)';
 end

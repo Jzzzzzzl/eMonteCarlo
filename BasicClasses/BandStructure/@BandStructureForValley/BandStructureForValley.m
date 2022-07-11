@@ -22,6 +22,6 @@ classdef BandStructureForValley < handle
     end
     
     methods
-        [k] = generateStandardElectricWaveVector(obj, es, pc, theta)
+        [k] = generateStandardElectricWaveVector(obj, es, pc)
     end
 end

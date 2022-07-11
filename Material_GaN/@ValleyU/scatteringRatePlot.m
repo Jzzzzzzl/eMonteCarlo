@@ -9,7 +9,8 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
     scatTables = zeros(length(energys), obj.nofScat + 1);
     for i = 1 : length(energys)
         es.energy = energys(i);
-        k = obj.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+        es.theta = randNumber(0, pi);
+        k = obj.generateStandardElectricWaveVector(es, pc);
         es = obj.getGeneralElectricWaveVector(es, pc, k);
         es = obj.computeEnergyAndGroupVelocity(es, pc);
         obj.scatteringTable(es, sc, pc);

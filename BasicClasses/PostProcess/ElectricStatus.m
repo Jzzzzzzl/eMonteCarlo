@@ -27,6 +27,8 @@ classdef ElectricStatus < handle
         time
         %>漂移速度大小
         perdrift
+        %>散射角
+        theta
     end
     
     properties
@@ -50,10 +52,11 @@ classdef ElectricStatus < handle
             obj.position(1) = randNumber(cc.initPosition(1), cc.initPosition(2));
             obj.position(2) = randNumber(cc.initPosition(3), cc.initPosition(4));
             obj.position(3) = 0;
+            obj.theta = randNumber(0, pi);
             obj.charge = cc.superElecCharge;
             dv.valleyGuidingPrinciple(obj);
             obj.energy = maxwellDistribution(pc, cc) + dv.valley.Eg;
-            k = dv.valley.generateStandardElectricWaveVector(obj, pc, randNumber(0, pi));
+            k = dv.valley.generateStandardElectricWaveVector(obj, pc);
             obj = dv.valley.getGeneralElectricWaveVector(obj, pc, k);
         end
         

@@ -6,12 +6,15 @@ function buildInterpolationScatalbe(obj, cc, pc, sc)
     es.position = [0 0 0];
     cc.computePositionParameters(es);
     obj.interScatable = zeros(obj.nofScat, cc.NE+1);
+    obj.interScatangle = zeros(obj.nofScat, cc.NE+1);
     for i = 1 : cc.NE+1
         es.energy = obj.energyFace(i) * cc.e;
-        k = obj.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+        es.theta = randNumber(0, pi);
+        k = obj.generateStandardElectricWaveVector(es, pc);
         es = obj.getGeneralElectricWaveVector(es, pc, k);
         es = obj.computeEnergyAndGroupVelocity(es, pc);
         obj.scatteringTable(es, sc, pc);
         obj.interScatable(:, i) = obj.scatTableAll;
+        obj.interScatangle(:, i) = obj.scatAngle;
     end
 end

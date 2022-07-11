@@ -8,7 +8,7 @@ function rejectScatteringType(obj, cc, es)
         maxitem = 0;
         while bool && maxitem < 20
             obj.computeScatType(cc, es);
-            if sum(cc.scatypePB == obj.scatType) == 1
+            if sum(cc.scatypePB == es.scatype) == 1
                 bool = false;
             end
             maxitem = maxitem + 1;

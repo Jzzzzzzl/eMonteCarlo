@@ -8,6 +8,7 @@ function extractElectricHistorySoft(obj, cc, N)
     aveepcou = ones(cc.NX, cc.NY);
     aveetime = zeros(cc.Nt, cc.superElecs);
     avedtime = zeros(cc.Nt, cc.superElecs);
+    avedtcou = ones(cc.Nt, cc.superElecs);
     valleytime = zeros(cc.Nt, 3);
     enums = zeros(cc.NE, 1);
     scatnums = zeros(30, 3);
@@ -23,6 +24,7 @@ function extractElectricHistorySoft(obj, cc, N)
             strline = fgetl(fileID);
             dataline = textscan(strline, '%d %d %f %f %f %f %f %f %f %f %f %d %d');
             %>查找所在区域坐标
+            ID = dataline{1};
             if dataline{10} >= obj.minTime && dataline{10} <= obj.maxTime
                 i = find(cc.modelx.face >= dataline{3}, 1) - 1;
                 if cc.NY ~= 1
@@ -42,10 +44,13 @@ function extractElectricHistorySoft(obj, cc, N)
             %>平均能量随位置变化
             aveepos(i, j) = aveepos(i, j) + dataline{9};
             aveepcou(i, j) = aveepcou(i, j) + 1;
+            %>平均漂移速度随时间变化
+            avedtime(t, ID) = avedtime(t, ID) + dataline{11};
+            avedtcou(t, ID) = avedtcou(t, ID) + 1;
             %>单个电子在单个时间区间只能有一个值
-            if dataline{1} ~= idflag || t ~= tflag
+            if ID ~= idflag || t ~= tflag
                 tflag = t;
-                idflag = dataline{1};
+                idflag = ID;
                 %>能谷占据率随时间变化
                 if absValley <= 6%>Si GX/GaN U
                     valleytime(t, 1) = valleytime(t, 1) + 1;
@@ -56,8 +61,6 @@ function extractElectricHistorySoft(obj, cc, N)
                 end
                 %>平均能量随时间变化
                 aveetime(t, idflag) = dataline{9};
-                %>平均漂移速度随时间变化
-                avedtime(t, idflag) = dataline{11};
             end
             %>能量历史分布统计
             enums(e) = enums(e) + 1;
@@ -72,6 +75,7 @@ function extractElectricHistorySoft(obj, cc, N)
             end
         end
         aveepos = aveepos ./ aveepcou;
+        avedtime = cumsum(avedtime) ./ cumsum(avedtcou);
         fclose(fileID);
     end
     
