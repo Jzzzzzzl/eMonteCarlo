@@ -1,7 +1,7 @@
-classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
+classdef ValleyGX < ScatterringRateTableForValley & EPWaveVectorModify
     %% GammaX能谷
     methods
-        function obj = ValleyGX(pc)
+        function obj = ValleyGX(cc, pc, sc)
             %>构造函数
             obj.Eg = pc.EgGX;
             obj.mt = pc.mtGX;
@@ -13,18 +13,22 @@ classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
             obj.xsForimpurity = pc.xsForimpurityGX;
             
             obj.scatTable = zeros(obj.nofScat, 1);
+            obj.scatAngle = zeros(obj.nofScat, 1);
             obj.md = (obj.mt^2*obj.ml)^(1/3);
             obj.Tz = [sqrt(pc.m / obj.mt)    0   0;
                         0   sqrt(pc.m / obj.mt)  0;
                         0   0   sqrt(pc.m / obj.ml)];
             obj.invTz = inv(obj.Tz);
+            
+            obj.energyFace = (cc.energy.face+obj.Eg)/pc.e;
+            obj.buildInterpolationScatalbe(cc, pc, sc);
         end
         
-        function updateScatterringRateFormula(obj, es, pc, cc)
+        function updateScatterringRateFormula(obj, es, pc)
             %>更新散射率句柄函数，该能谷所包含的散射类型
-            obj.ionizedImpurityScatteringRate(es, pc, cc);
-            obj.inelasticIntravalleyAcousticScatteringRate(es, pc, cc);
-            obj.inelasticIntervalleyScatteringRate(es, pc, cc);
+            obj.ionizedImpurityScatteringRate(es, pc);
+            obj.inelasticIntravalleyAcousticScatteringRate(es, pc);
+            obj.inelasticIntervalleyScatteringRate(es, pc);
         end
         
         function [es] = getGeneralElectricWaveVector(obj, es, pc, k)
@@ -47,5 +51,14 @@ classdef ValleyGX < ScatterringProcessForValley & EPWaveVectorModify
             velocity = (obj.invTz * vStar)';
             es.velocity = obj.rotateToGeneralValley(velocity, es.valley);
         end
+    end
+    
+    methods
+        
+    end
+    
+    methods(Static)
+        [vector2] = rotateToGeneralValley(vector1, valley)
+        [vector2] = rotateToStandardValley(vector1, valley)
     end
 end

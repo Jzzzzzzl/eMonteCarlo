@@ -8,11 +8,11 @@ classdef DecideValleyKind < handle
     end
     
     methods
-        function obj = DecideValleyKind(pc)
+        function obj = DecideValleyKind(cc, pc, sc)
             %>构造函数
-            obj.valleyU = ValleyU(pc);
-            obj.valleyG1 = ValleyG1(pc);
-            obj.valleyG3 = ValleyG3(pc);
+            obj.valleyU = ValleyU(cc, pc, sc);
+            obj.valleyG1 = ValleyG1(cc, pc, sc);
+            obj.valleyG3 = ValleyG3(cc, pc, sc);
         end
         
         function valleyGuidingPrinciple(obj, es)

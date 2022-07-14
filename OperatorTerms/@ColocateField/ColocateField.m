@@ -1,7 +1,9 @@
 classdef ColocateField < handle
     %% 正交网格物理场
     properties
+        %>数据
         data
+        %>边界条件
         left
         right
         top
@@ -24,7 +26,8 @@ classdef ColocateField < handle
     end
     
     methods
-        plotField(obj, mm)
+        plotField(obj, mm, ~)
+        computeGradient(obj, mm, grad)
         initializeDataValue(obj, mm, initiaValue)
     end
 end

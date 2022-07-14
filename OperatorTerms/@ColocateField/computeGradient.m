@@ -1,5 +1,6 @@
 function computeGradient(obj, mm, grad)
     %>计算正交网格梯度
+    %>grad为交叉网格
     for i = 2 : mm.NX
         deltax = mm.modelx.point(i + 1) - mm.modelx.point(i);
         for j = 1 : mm.NY

@@ -1,10 +1,14 @@
-function plotField(obj, mm)
+function plotField(obj, mm, ~)
     %>正交网格物理场画图
+    if nargin == 3
+        figure
+    else
+        hold on
+    end
     if mm.NY == 1
         %>一维物理场画图
         X = mm.modelx.point(2:end-1);
         Z = obj.data(2:end-1, mm.NY+1);
-        figure
         slg = plot(X, Z);
         slg.LineWidth = 2;
     else
@@ -18,7 +22,6 @@ function plotField(obj, mm)
             end
         end
         Z = Z';%数据结构差一个转置
-        figure
         pcolor(X, Y, Z);
         shading interp
         colormap(jet)

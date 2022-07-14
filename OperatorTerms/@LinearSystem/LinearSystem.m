@@ -82,7 +82,11 @@ classdef LinearSystem < handle
     methods
         addToMatrix(obj, rowID, colID, value)
         addToRHS(obj, rowID, value)
-        solveMatrix(obj, iterNum)
+        displayOneEquation(obj, rowID)
         [error] = getResidual(obj)
+        relax(obj, alpha)
+        setInitialGuess(obj, mm, phi)
+        solveMatrix(obj, iterNum)
+        updateField(obj, mm, phi)
     end
 end

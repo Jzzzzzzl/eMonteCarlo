@@ -1,11 +1,14 @@
 function [] = verifyProgram(type, dv, pc, ~, cc)
     %>验证
     switch type
-        case "EnergyToVector"
+        case 'EnergyToVector'
             %>验证选择波矢和能量计算是否可逆
             num = 10000;
             allowedError = 0.001;
             es = ElectricStatus;
+            es.time = 0;
+            es.position = [0 0 0];
+            cc.computePositionParameters(es);
             valleys = [1, 11, 13];
             for n = 1 : length(valleys)
                 es.valley = valleys(n);
@@ -26,7 +29,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             end
             disp("能量正反验证无误！")
             
-        case "AcousticPiezoelectricScatPlot"
+        case 'AcousticPiezoelectricScatPlot'
             num = 500;
             es = ElectricStatus;
             es.position = [0 0 0];
@@ -50,7 +53,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             xlabel("meV");
             ylabel("s^{-1}")
             
-        case "ValleyStructureOfValleyU"
+        case 'ValleyStructureOfValleyU'
             es = ElectricStatus;
             es.energy = 8.5*pc.e;
             es.position = [0 0 0];
@@ -70,7 +73,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             xlabel("kx");ylabel("ky");zlabel("kz");
             legend("k-space")
             
-        case "ValleyStructureOfValleyGamma"
+        case 'ValleyStructureOfValleyGamma'
             es = ElectricStatus;
             es.energy = 3*pc.e;
             es.position = [0 0 0];
@@ -92,7 +95,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             xlabel("kx");ylabel("ky");zlabel("kz");
             legend("Gmma1", "Gamma3")
             
-        case "SingleValleyDrifVelocityWithMaxScatRate"
+        case 'SingleValleyDrifVelocityWithMaxScatRate'
             es = ElectricStatus;
             es.valley = 11;
             dv.valleyGuidingPrinciple(es);
@@ -125,12 +128,12 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             numbers = linspace(1, cc.superElecs, N);
             for i = 1 : N
                 inducedE = cc.xsforInduce*numbers(i)*cc.superElecCharge/...
-                               cc.sczWidth/(pc.epsilonL*pc.epsilon0);
+                               cc.sczLength/(pc.epsilonL*pc.epsilon0);
                 cc.xField.data = cc.xFieldCopy.data;
-                cc.xField.data(cc.leftIndex : cc.rightIndex, cc.NY+1) = ...
-                           cc.xField.data(cc.leftIndex : cc.rightIndex, cc.NY+1) + inducedE;
+                cc.xField.data(cc.induceEl : cc.induceEr, cc.NY+1) = ...
+                           cc.xField.data(cc.induceEl : cc.induceEr, cc.NY+1) + inducedE;
                 plot(cc.modelx.point(2:end)*1e9, cc.xField.data(2:end, 2))
-                axis([0 cc.modelx.face(end)*1e9 -3e7 3e8])
+                axis([0 cc.modelx.face(end)*1e9 -8e6 2e7])
                 title(['区域内超电子数：' num2str(numbers(i))])
                 drawnow;
             end
@@ -139,9 +142,42 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             if rem(cc.noFly/cc.localWorkers, 1) ~= 0
                 error('将飞行次数设置为核数的整数倍！')
             end
-            if exist([cc.filePath 'ElectronLog'], 'file')
+            if exist([cc.filePath 'ElectronLogPart1'], 'file')
                 error('先将文件夹清空！')
             end
             disp('没问题了，开始模拟吧！')
+            
+        case 'youshifangxiangdianchang'
+            r = 1;
+            figure
+            hold on
+            d = [-1e5 1e5 0];
+            rtheta = atan(-d(1) / d(3));
+            rphi = atan(d(2) / d(1));
+            if isnan(rtheta)
+                rtheta = pi/2;
+            elseif rtheta == 0
+                rtheta = sign(d(3)) * pi/2 - pi/2;
+            end
+            rMatrix = rotateMatrix(rtheta, 'y');
+            if isnan(rphi)
+                rphi = 0;
+            end
+            rMatrix = rotateMatrix(rphi, 'z') * rMatrix;
+            for i = 1 : 200
+                theta = 0.1;
+                phi = randNumber(0, 2*pi);
+                x = r * sin(theta) * cos(phi);
+                y = r * sin(theta) * sin(phi);
+                z = r * cos(theta);
+                m = rMatrix * [x y z]';
+                plot3(m(1), m(2), m(3), '*')
+            end
+            [x, y, z] = sphere();
+            mesh(r*x, r*y, r*z)
+            xlabel("x")
+            ylabel("y")
+            zlabel("z")
+
     end
 end

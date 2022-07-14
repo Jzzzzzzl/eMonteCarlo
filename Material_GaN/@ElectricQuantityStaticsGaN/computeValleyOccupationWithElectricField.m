@@ -1,23 +1,25 @@
 function computeValleyOccupationWithElectricField(obj, cc)
-    %>
-    if isempty(obj.occupyRate)
-        error("请先计算valleyOccupationWithTime函数！")
+    %>能谷占据率随阶跃场强变化
+    if isempty(obj.occTime)
+        error("请先计算能谷占据率随时间变化关系！")
     end
-    n = find(cc.eField(:, 1) >= obj.minimumTime, 1);
-    obj.occupyField = zeros(n, 4);
-    for i = 1 : n
-        index = find(obj.occupyRate(:, 1) >= cc.eField(i, 1) * 1e12, 1) - 1;
-        if isempty(index)
-            [index, ~] = size(obj.occupyRate);
+    [m, ~] = size(cc.eFieldInput);
+    obj.occField = zeros(m, 3);
+    for i = 1 : m
+        index = find(cc.time.face >= cc.eFieldInput(i, 1), 1) - 1;
+        if index <= 0
+            index = 1;
         end
-        obj.occupyField(i, 1) = abs(cc.eField(i, 2));
-        obj.occupyField(i, 2:end) = obj.occupyRate(index, 2:end);
+        if isempty(index)
+            index = cc.Nt;
+        end
+        obj.occField(i, :) = obj.occTime(index, :);
     end
     figure
     hold on
-    [~, n] = size(obj.occupyRate);
-    for i = 2 : n
-        slg = plot(obj.occupyField(:, 1), obj.occupyField(:, i), '-*');
+    [~, n] = size(obj.occField);
+    for i = 1 : n
+        slg = semilogx(abs(cc.eFieldInput(:, 2)), obj.occField(:, i), '-*');
         slg.LineWidth = 2;
     end
     xlabel("V/m"); ylabel(".a.u");

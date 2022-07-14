@@ -1,9 +1,5 @@
 classdef EPWaveVectorModify < handle
-    %% 
-    
-    properties
-        
-    end
+    %% 电声子波矢修正类
     
     methods
         [es] = modifyElectricWaveVector(obj, es, pc)

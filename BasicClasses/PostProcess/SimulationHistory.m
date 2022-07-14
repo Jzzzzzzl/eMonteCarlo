@@ -1,7 +1,9 @@
 classdef SimulationHistory < handle
     %% 本文件提供历史信息记录类
     properties
+        %>电子群
         eGroup
+        %>声子群
         pGroup
     end
     
@@ -18,6 +20,7 @@ classdef SimulationHistory < handle
             for i = 1 : cc.superElecs
                 obj.eGroup(i) = ElectricStatus;
                 obj.eGroup(i).initializeElectricStatus(dv, pc, cc);
+                obj.eGroup(i).id = i;
             end
         end
         

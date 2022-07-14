@@ -1,4 +1,4 @@
-function plotFullFrequencyPeoperties(obj, field, cc)
+function plotFullFrequencyPeoperties(obj, field, cc, type)
     %>检验nDot及n的大小
     sumN = repmat(obj.polar, 1, 1);
     sumN.LA = ColocateField(cc);
@@ -6,6 +6,7 @@ function plotFullFrequencyPeoperties(obj, field, cc)
     sumN.LO = ColocateField(cc);
     sumN.TO = ColocateField(cc);
     sumN.ALL = ColocateField(cc);
+    
     for k = 1 : cc.NW
         sumN.LA.data = sumN.LA.data + field(k).LA.data;
         sumN.TA.data = sumN.TA.data + field(k).TA.data;
@@ -14,6 +15,22 @@ function plotFullFrequencyPeoperties(obj, field, cc)
         sumN.ALL.data = sumN.ALL.data + field(k).LA.data + field(k).TA.data ...
                                                      + field(k).LO.data + field(k).TO.data;
     end
+    %>写入文件
+    if cc.NY == 1
+        writeDataToFile1D(['sum_' type '_LA'], cc, cc.modelx.point(2:end-1)*1e9, ...
+                                                            sumN.LA.data((2:end-1), cc.NY+1));
+        writeDataToFile1D(['sum_' type '_TA'], cc, cc.modelx.point(2:end-1)*1e9, ...
+                                                            sumN.TA.data((2:end-1), cc.NY+1));
+        writeDataToFile1D(['sum_' type '_LO'], cc, cc.modelx.point(2:end-1)*1e9, ...
+                                                            sumN.LO.data((2:end-1), cc.NY+1));
+        writeDataToFile1D(['sum_' type '_TO'], cc, cc.modelx.point(2:end-1)*1e9, ...
+                                                            sumN.TO.data((2:end-1), cc.NY+1));
+        writeDataToFile1D(['sum_' type '_ALL'], cc, cc.modelx.point(2:end-1)*1e9, ...
+                                                            sumN.ALL.data((2:end-1), cc.NY+1));
+    else
+        
+    end
+    %>画图
     figure
     hold on
     plot(cc.modelx.point, sumN.LA.data(:, cc.NY+1), 'LineWidth', 2)

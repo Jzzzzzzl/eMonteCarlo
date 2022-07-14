@@ -5,57 +5,60 @@ function [es,ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
     ps.position = es.position;
     switch es.scatype
         case 1 % ionized impurity
-            k = obj.chooseStandardVectorForElasticScattering(es, pc, 'ii');
+            ps.polar = -1;
+            k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 2 % acoustic piezoelectric
-            k = obj.chooseStandardVectorForElasticScattering(es, pc, 'ap');
+            ps.polar = -1;
+            k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 3 % intra
-            k = obj.chooseStandardVectorForElasticScattering(es, pc, 'intra');
+            ps.polar = -1;
+            k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 4 % polar LO ab
-            ps.aborem = "ab";
-            ps.polar = "LO";
-            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'po', sc.wPolarLO, 1);
+            ps.aborem = 0;
+            ps.polar = 3;
+            k = obj.chooseStandardVectorForScattering(es, pc, sc.wPolarLO, 1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 5 % polar LO em
-            ps.aborem = "em";
-            ps.polar = "LO";
-            k = obj.chooseStandardVectorForInelasticScattering(es, pc, 'po', sc.wPolarLO, -1);
+            ps.aborem = 1;
+            ps.polar = 3;
+            k = obj.chooseStandardVectorForScattering(es, pc, sc.wPolarLO, -1);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 6 % inter G1U LO ab
-            ps.aborem = "ab";
-            ps.polar = "LO";
-            es.valley = randomValley(es, "interG1U");
+            ps.aborem = 0;
+            ps.polar = 3;
+            es.valley = randomValley(es, 'u');
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wU2GLO, 1);
+            k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wU2GLO, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 7 % inter G1U LO em
-            ps.aborem = "em";
-            ps.polar = "LO";
-            es.valley = randomValley(es, "interG1U");
+            ps.aborem = 1;
+            ps.polar = 3;
+            es.valley = randomValley(es, 'u');
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wU2GLO, -1);
+            k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wU2GLO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 8 % inter G1G3 LO ab
-            ps.aborem = "ab";
-            ps.polar = "LO";
-            es.valley = randomValley(es, "interG1G3");
+            ps.aborem = 0;
+            ps.polar = 3;
+            es.valley = randomValley(es, 't');
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wG2GLO, 1);
+            k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wG2GLO, 1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 9 % inter G1G3 LO em
-            ps.aborem = "em";
-            ps.polar = "LO";
-            es.valley = randomValley(es, "interG1G3");
+            ps.aborem = 1;
+            ps.polar = 3;
+            es.valley = randomValley(es, 't');
             dv.valleyGuidingPrinciple(es);
-            k = dv.valley.chooseStandardVectorForInelasticScattering(es, pc, 'inter', sc.wG2GLO, -1);
+            k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wG2GLO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 10 % 
             return;
     end
     
-    if ~isequal(ps.polar, "non")
+    if ps.polar ~= -1
         ps.vector = es.vector - vectorTemp;
         ps = dv.valley.phononWhetherBeyondBZ(ps, pc);
         ps.getFrequency(sc);
@@ -64,12 +67,12 @@ function [es,ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
     function value = randomValley(~, type)
         %>随机选择能谷
         switch type
-            case "interG1U"
+            case 'u'
                 valleys = [1, -1, 2, -2, 3, -3, ...
                               4, -4, 5, -5, 6, -6];
                 index = round(randNumber(0.5, length(valleys)+0.5));
                 value = valleys(index);
-            case "interG1G3"
+            case 't'
                 value = 13;
         end
     end

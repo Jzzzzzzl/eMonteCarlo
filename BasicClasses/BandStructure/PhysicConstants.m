@@ -1,5 +1,5 @@
 classdef PhysicConstants < handle
-    %% 物理常量类
+    %% 材料一般性参数父类
     properties(Constant)
         e = 1.602176634e-19;
         m = 9.10956e-31;
@@ -8,9 +8,7 @@ classdef PhysicConstants < handle
         hbar = 1.05457266e-34;
         epsilon0 = 8.854187817e-12;
     end
-    
     properties
-        %>>>>>>>>>>>>>>材料一般性参数<<<<<<<<<<<<%
         %>晶格常数
         a
         b
@@ -30,10 +28,12 @@ classdef PhysicConstants < handle
         %>相对介电常量
         epsilonL
         epsilonH
-        %>最大群速度
+        %>最大热运动速度
         maxVelocity
-        %>最大频率
+        %>最大频率上限
         maxFrequency
+        %>散射表最大能量
+        maxEnergy
         %>k空间距离
         dBD
         dGA
@@ -41,7 +41,22 @@ classdef PhysicConstants < handle
         dGX
         dGL
         dGK
-        dKN%>2pi/a
+        %>2pi/a
+        dKN
+        %>Gruneisen非简谐参数
+        gammaG
+        %>弹性模量
+        C44
+        %>剪切模量
+        miu
+        %>德拜温度
+        thetaD
+        %>德拜频率
+        omegaD
+        %>单原子体积
+        V0
+        %>热导率常量
+        k
     end
 
 end

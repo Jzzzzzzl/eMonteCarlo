@@ -1,7 +1,7 @@
 function plotElectronTrace(obj, cc, num, type)
     %>单电子轨迹图
     switch type
-        case "k"
+        case 'k'
             tempk = zeros(cc.noFly, 3);
             for i = 1 : cc.noFly
                 tempk(i, :) = obj.vectors(:, :, num, i);
@@ -10,7 +10,7 @@ function plotElectronTrace(obj, cc, num, type)
             plot3(tempk(:, 1), tempk(:, 2), tempk(:, 3), '*')
             xlabel("kx"); ylabel("ky"); zlabel("kz");
             title("k-space")
-        case "r"
+        case 'r'
             tempr = zeros(cc.noFly, 3);
             for i = 1 : cc.noFly
                 tempr(i, :) = obj.positions(:, :, num, i);
@@ -19,7 +19,7 @@ function plotElectronTrace(obj, cc, num, type)
             plot(obj.times(num, :) * 1e12, tempr(:, 1) * 1e9, '-')
             xlabel("ps"); ylabel("nm");
             title("real-space")
-        case "e"
+        case 'e'
             tempr = zeros(cc.noFly, 3);
             for i = 1 : cc.noFly
                 tempr(i, :) = obj.positions(:, :, num, i);
@@ -42,7 +42,7 @@ function plotElectronTrace(obj, cc, num, type)
             hold off
             
         case 'd'
-            cc.timeGrid(0, 0.999*obj.minimumTime, 100);
+            cc.timeGrid(0, 0.999*obj.minTime, 100);
             p = zeros(1, 3, cc.superElecs, cc.Nt);
             h = figure;
             filename = [cc.filePath 'postDatas/test.gif'];

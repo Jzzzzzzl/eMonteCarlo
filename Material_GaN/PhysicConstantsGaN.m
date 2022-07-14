@@ -1,29 +1,31 @@
 classdef PhysicConstantsGaN < PhysicConstants
     %% 物理常量类
     properties
-        gammaG                 %Gruneisen非谐参数
-        C44
-        miu                        %剪切模量
-        thetaD                    %德拜温度
-        omegaD                  %德拜频率
-        V0                          %单原子体积
-    end
-    properties
-        %>U能谷参数
-        EgU                       %U能谷带差，以G1能谷为基准点
-        mtU                      %有效质量分量
+        %>>>>>>>>>>>>U能谷参数<<<<<<<<<<<<<
+        %>U能谷带差，以G1能谷为基准点
+        EgU
+        %>有效质量分量
+        mtU
         mlU
+        %>非抛物线性参数
         alphaU
+        %>U能谷散射类型数量
         nofScatU
+        %>距Gamma点距离比率
         centerRatioU
+        %>U能谷最大散射率
         maxScatRateU
+        %>U能谷电离杂质散射修正系数
         xsForimpurityU
+        %>U能谷极化光学散射修正系数
         xsForPolarOpticalU
+        %>各向同性平均形变势
         UD
+        %>耦合常数
         U2UDK
         U2G1DK
         U2G3DK
-        %>G1能谷参数
+        %>>>>>>>>>>>>G1能谷参数<<<<<<<<<<<<<
         EgG1
         mtG1
         mlG1
@@ -36,7 +38,7 @@ classdef PhysicConstantsGaN < PhysicConstants
         G1D
         G12UDK
         G12G3DK
-        %>G3能谷参数
+        %>>>>>>>>>>>>G3能谷参数<<<<<<<<<<<<<
         EgG3
         mtG3
         mlG3
@@ -74,59 +76,63 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.epsilonL = 8.9;
             obj.epsilonH = 5.35;
             obj.maxVelocity = 3e7;
-            obj.maxFrequency = 10e13;
+            obj.maxFrequency = 15e13;
+            obj.maxEnergy = 4*obj.e;
             obj.dGM = sqrt(sum(obj.hsp.M.^2));
             obj.dBD = obj.dGM;
             obj.dGL = sqrt(sum(obj.hsp.L.^2));
             obj.dGK = sqrt(sum(obj.hsp.K.^2));
             obj.dGA = sqrt(sum(obj.hsp.A.^2));
             obj.dKN = 2*pi/obj.a;
-            
             obj.gammaG = 0.73;
-            obj.C44 = 75e9;
-            obj.miu = obj.C44;
-            obj.thetaD = 643;
+            obj.C44 = 90e9;
+            obj.miu = 107e9;
+            obj.thetaD = 643;%%%%%%%%%%%%%
             obj.omegaD = obj.thetaD*obj.kb/obj.hbar;
             obj.V0 = sqrt(3)*obj.c^3/8;
-            
-            %>>>>>>>>U能谷参数
+            obj.k = 1000;
+            %>>>>>>>>>>>>U能谷参数<<<<<<<<<<<<<
             obj.EgU = 2.0*obj.e;
             obj.mtU = 0.335*obj.m;
             obj.mlU = 0.335*obj.m;
             obj.alphaU = 0.2;
             obj.nofScatU = 12;
             obj.centerRatioU = sqrt(sum(obj.hsp.U.^2))/obj.dGM;
-            obj.maxScatRateU = [99*obj.e 4.0e14];
-            obj.xsForimpurityU = 0.1;
-            obj.xsForPolarOpticalU = 1;
+            obj.maxScatRateU = [4.0*obj.e 3.1e14
+                                         5.5*obj.e 4.5e14
+                                         99*obj.e 8.0e14];
+            obj.xsForimpurityU = 1;
+            obj.xsForPolarOpticalU = 0.5;
             obj.UD = 8.3*obj.e;
             obj.U2UDK = 10e10*obj.e;
             obj.U2G1DK = 10e10*obj.e;
-            obj.U2G3DK = 25e10*obj.e;%这个对G3占比影响很大
-            
-            %>>>>>>>G1能谷参数
+            obj.U2G3DK = 20e10*obj.e;%这个对G3占比影响很大
+            %>>>>>>>>>>>>G1能谷参数<<<<<<<<<<<<<
             obj.EgG1 = 0.0*obj.e;
-            obj.mtG1 = 0.18*obj.m;
-            obj.mlG1 = 0.18*obj.m;
-            obj.alphaG1 = 0.3;
+            obj.mtG1 = 0.197*obj.m;
+            obj.mlG1 = 0.197*obj.m;
+            obj.alphaG1 = 0.8;
             obj.nofScatG1 = 10;
             obj.centerRatioG1 = 0;
-            obj.maxScatRateG1 = [99*obj.e 3.0e14];
-            obj.xsForimpurityG1 = 0.5;
-            obj.xsForPolarOpticalG1 = 0.35;
+            obj.maxScatRateG1 = [2.0*obj.e 2.5e14
+                                           3.9*obj.e 4.0e14
+                                           99*obj.e 1.0e15];
+            obj.xsForimpurityG1 = 0.6;
+            obj.xsForPolarOpticalG1 = 0.55;
             obj.G1D = 8.3*obj.e;
-            obj.G12UDK = 15e10*obj.e;
+            obj.G12UDK = 10e10*obj.e;
             obj.G12G3DK = 10e10*obj.e;
-            
-            %>>>>>>>>G3能谷参数
-            obj.EgG3 = 2.1*obj.e;
+            %>>>>>>>>>>>>G3能谷参数<<<<<<<<<<<<<
+            obj.EgG3 = 2.2*obj.e;
             obj.mtG3 = 0.277*obj.m;
             obj.mlG3 = 2.412*obj.m;
-            obj.alphaG3 = 0.62;
+            obj.alphaG3 = 1.2;
             obj.nofScatG3 = 10;
             obj.centerRatioG3 = 0;
-            obj.maxScatRateG3 = [99*obj.e 3.0e15];
-            obj.xsForimpurityG3 = 0.1;
+            obj.maxScatRateG3 = [2.8*obj.e 6.5e14
+                                           4.2*obj.e 1.5e15
+                                           99*obj.e 6.0e15];
+            obj.xsForimpurityG3 = 1;
             obj.xsForPolarOpticalG3 = 1;
             obj.G3D = 8.3*obj.e;
             obj.G32UDK = 10e10*obj.e;

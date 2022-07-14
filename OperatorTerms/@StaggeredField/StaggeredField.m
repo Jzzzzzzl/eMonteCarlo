@@ -1,8 +1,10 @@
 classdef StaggeredField < handle
     %% 交叉网格物理场
     properties
+        %>数据
         datax
         datay
+        %>边界条件
         leftx
         rightx
         topx

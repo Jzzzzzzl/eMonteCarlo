@@ -6,9 +6,9 @@ classdef DecideValleyKind < handle
     end
     
     methods
-        function obj = DecideValleyKind(pc)
+        function obj = DecideValleyKind(cc, pc, sc)
             %>构造函数
-            obj.valleyGX = ValleyGX(pc);
+            obj.valleyGX = ValleyGX(cc, pc, sc);
         end
         
         function valleyGuidingPrinciple(obj, es)
