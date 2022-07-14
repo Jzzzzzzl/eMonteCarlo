@@ -14,10 +14,13 @@ function extractElectricHistorySoft(obj, cc, N)
     scatnums = zeros(30, 3);
     idflag = 0;
     tflag = 0;
+    kflag = 1;
+    vflag = 0;
     
     startMatlabPool(cc.localWorkers);
     path = cc.filePath;
     spmd
+%         labindex = 7;
         filename = [path 'ElectronLogPart' num2str(labindex)];
         fileID = fopen(filename);
         while ~feof(fileID)
@@ -25,6 +28,7 @@ function extractElectricHistorySoft(obj, cc, N)
             dataline = textscan(strline, '%d %d %f %f %f %f %f %f %f %f %f %d %d');
             %>查找所在区域坐标
             ID = dataline{1};
+            k = dataline{2};
             if dataline{10} >= obj.minTime && dataline{10} <= obj.maxTime
                 i = find(cc.modelx.face >= dataline{3}, 1) - 1;
                 if cc.NY ~= 1
@@ -35,9 +39,11 @@ function extractElectricHistorySoft(obj, cc, N)
                 t = find(cc.time.face >= dataline{10}, 1) - 1;
                 e = find(cc.energy.face >= dataline{9}, 1) - 1;
             else
+                kflag = kflag + 1;
                 continue;
             end
             if isempty(i*j*t*e) || (i*j*t*e) == 0
+                kflag = kflag + 1;
                 continue;
             end
             absValley = abs(dataline{12});
@@ -64,15 +70,19 @@ function extractElectricHistorySoft(obj, cc, N)
             end
             %>能量历史分布统计
             enums(e) = enums(e) + 1;
-            %>散射类型统计
+            %>散射类型统计，用前者能谷去分类后者的散射类型
             s = dataline{13};
-            if absValley <= 6%>Si GX/GaN U
-                scatnums(s, 1) = scatnums(s, 1) + 1;
-            elseif absValley == 11%>GaN G1
-                scatnums(s, 2) = scatnums(s, 2) + 1;
-            elseif absValley == 13%>GaN G3
-                scatnums(s, 3) = scatnums(s, 3) + 1;
+            if k == kflag + 1
+                if vflag <= 6%>Si GX/GaN U
+                    scatnums(s, 1) = scatnums(s, 1) + 1;
+                elseif vflag == 11%>GaN G1
+                    scatnums(s, 2) = scatnums(s, 2) + 1;
+                elseif vflag == 13%>GaN G3
+                    scatnums(s, 3) = scatnums(s, 3) + 1;
+                end
             end
+            kflag = k;
+            vflag = absValley;
         end
         aveepos = aveepos ./ aveepcou;
         avedtime = cumsum(avedtime) ./ cumsum(avedtcou);

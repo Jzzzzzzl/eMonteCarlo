@@ -9,8 +9,8 @@ function updateConfigureConstants(obj)
     %>势垒/沟道区域坐标
     if obj.relaxLenPB ~= 0
         if obj.NY == 1
-            obj.regionPB = [obj.d1-obj.relaxLenPB obj.d1 1 -1];
-            obj.regionCH = [obj.d1 obj.d1+obj.d2 1 -1];
+            obj.regionPB = [obj.d1-obj.relaxLenPB obj.d1];
+            obj.regionCH = [obj.d1 obj.d1+obj.d2];
             %>构建势垒能量索引
             N = 20;
             obj.energyPB = zeros(N, 2);
@@ -21,8 +21,8 @@ function updateConfigureConstants(obj)
             disp("二维情况，暂未考虑！");
         end
     else
-        obj.regionPB = [0 0 0 0];
-        obj.regionCH = [0 0 0 0];
+        obj.regionPB = [0 0];
+        obj.regionCH = [0 0];
     end
     %>并行任务坐标划分
     obj.assignJobsForParallel;

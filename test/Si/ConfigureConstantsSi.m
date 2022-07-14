@@ -9,6 +9,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
 %                                     1 -100e5];
 %             obj.generateElectricField(5, 10, 'log', 5, 7);
             
+            obj.initTemp = 300;
             obj.NE = 1000;
             obj.NW = 200;
             obj.initValley = 1;

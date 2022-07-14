@@ -25,16 +25,17 @@ verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% 
 eq.minTime = 0e-12;
-eq.maxTime = 130e-12;
+eq.maxTime = 1200e-12;
 eq.maxEnergy = 2*cc.e;
 eq.extractElectricHistorySoft(cc, 100);
+
+eq.computeDirftVelocityWithTimeSoft(cc);
 eq.plotGeneralPropertiesSoft(cc);
 plot(cc.modelx.point(2:end-1)*1e9, eq.aveEPos/cc.e*1000)
 %%
 pq.minTime = 0e-12;
-pq.maxTime = 130e-12;
+pq.maxTime = 1200e-12;
 pq.parallelPhononDistribution(cc);
-%%
 pq.initializeVariables(cc);
 pq.computeHeatGenerationRate(pc, cc, sc);
 pq.solveFarDistributionFunction(cc, sc);
@@ -71,7 +72,7 @@ eq.plotElectronTrace(cc, 1, 'e')
 eq.plotElectronTrace(cc, 0, 'd')
 eq.plotElectronTrace(cc, 6, 'xy')
 %%
-pq.plotSpectrum(pc, cc, 'LA', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'LA', [0, 150, 0, 100])
 pq.plotSpectrum(pc, cc, 'TA', [0, 320, 0, 100])
 pq.plotSpectrum(pc, cc, 'LO', [0, 320, 0, 100])
 pq.plotSpectrum(pc, cc, 'TO', [0, 320, 0, 100])
@@ -95,6 +96,36 @@ for k = 1 : cc.NW
     nDot(k).LO = pq.nDot(k).LO.data(:, 2);
     nDot(k).TO = pq.nDot(k).TO.data(:, 2);
 end
+
+%% 
+x = -3:0.01:3;
+y = normpdf(x, 1, 1*1/sqrt(2*pi));
+% plot(x, y)
+
+count = 0;
+for i = 1 : 4000000
+    z = randNumber(0, 1);
+    Z = normpdf(z, 1, 1*1/sqrt(2*pi));
+    if Z < 0.0001
+        count = count + 1;
+    end
+end
+disp(['发生了' num2str(count) '次散射！'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

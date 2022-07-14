@@ -1,5 +1,5 @@
 classdef PhysicConstants < handle
-    %% 材料一般性参数
+    %% 材料一般性参数父类
     properties(Constant)
         e = 1.602176634e-19;
         m = 9.10956e-31;
@@ -57,8 +57,6 @@ classdef PhysicConstants < handle
         V0
         %>热导率常量
         k
-        %>散射角优势散射类型
-        bscatype
     end
 
 end

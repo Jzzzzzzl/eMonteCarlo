@@ -4,23 +4,19 @@ function [k] = generateStandardElectricWaveVector(obj, es, pc)
     es.gamma = es.epsilon*(1 + obj.alpha*es.epsilon/pc.e);
     kStarMold = sqrt(2*pc.m*es.gamma) / pc.hbar;
     %>计算电场反方向旋转矩阵，z分量的情况考虑不充分
-    if es.scatype <= pc.bscatype
-        devField = es.devField;
-        rtheta = atan(-devField(1) / devField(3));
-        rphi = atan(devField(2) / devField(1));
-        if isnan(rtheta)
-            rtheta = pi/2;
-        elseif rtheta == 0
-            rtheta = sign(devField(3)) * pi/2 - pi/2;
-        end
-        rMatrix = rotateMatrix(rtheta, 'y');
-        if isnan(rphi)
-            rphi = 0;
-        end
-        rMatrix = rotateMatrix(rphi, 'z') * rMatrix;
-    else
-        rMatrix = eye(3);
+    devField = es.devField;
+    rtheta = atan(-devField(1) / devField(3));
+    rphi = atan(devField(2) / devField(1));
+    if isnan(rtheta)
+        rtheta = pi/2;
+    elseif rtheta == 0
+        rtheta = sign(devField(3)) * pi/2 - pi/2;
     end
+    rMatrix = rotateMatrix(rtheta, 'y');
+    if isnan(rphi)
+        rphi = 0;
+    end
+    rMatrix = rotateMatrix(rphi, 'z') * rMatrix;
     %>球空间随机选择波矢
     phi = randNumber(0, 2*pi);
     kxStar = kStarMold * sin(es.theta) * cos(phi);

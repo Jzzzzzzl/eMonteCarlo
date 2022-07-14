@@ -1,5 +1,5 @@
 classdef BandStructureForValley < handle
-    %% 本文件提供能谷能带结构相关计算的父类
+    %% 能谷能带结构父类
     properties
         %>带隙，以第一导带能谷极小值为基准
         Eg
@@ -7,8 +7,6 @@ classdef BandStructureForValley < handle
         alpha
         %>Herring-Vogt逆矩阵
         invTz
-    end
-    properties
         %>横向有效质量
         mt
         %>纵向有效质量
@@ -23,5 +21,6 @@ classdef BandStructureForValley < handle
     
     methods
         [k] = generateStandardElectricWaveVector(obj, es, pc)
+        [k] = chooseStandardVectorForScattering(obj, es, pc, frequency, flag)
     end
 end

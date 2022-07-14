@@ -11,9 +11,9 @@ classdef ScatterringRateTableForValley < BandStructureForValley
         thetaPOem
         %>电离杂质散射散射角
         thetaIImpu
-        %>散射类型数量>>>>>>>>>>>>>>>>保留了自散射，但未使其参与计算
+        %>散射类型数量
         nofScat
-        %>最大散射率
+        %>最大散射率索引表
         maxScatRate
         %>电离杂质散射修正系数
         xsForimpurity

@@ -18,6 +18,7 @@ function [es] = freeFlyProcess(es, dv, pc, cc)
         es.initializeElectricStatus(dv, pc, cc);
         es.time = timeTemp;
     end
+    
     vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
     es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
     

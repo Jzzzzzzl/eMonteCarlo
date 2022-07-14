@@ -32,6 +32,8 @@ classdef ElectricQuantityStatics < handle
         occField
         %>能谷散射类型统计
         scatNums
+        %>散射类型柱状统计
+        snumbers
     end
     
     properties

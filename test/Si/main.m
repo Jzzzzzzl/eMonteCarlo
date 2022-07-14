@@ -28,24 +28,22 @@ parallelCompute(sh, dv, sc, pc, cc);
 eq.minTime = 0e-12;
 eq.maxTime = 30e-12;
 eq.extractElectricHistoryHard(cc, 100);
-eq.computeDirftVelocityWithTime(cc);
-eq.computeDriftVwithEFieldHard(cc);
-plot(eq.driftVField)
 
 eq.plotElectronTrace(cc, 1, 'k')
-eq.plotElectronTrace(cc, 1, 'e')
+eq.plotElectronTrace(cc, 12, 'e')
 eq.plotElectronTrace(cc, 1, 'r')
 %% 
 eq.minTime = 0e-12;
 eq.maxTime = 30e-12;
 eq.maxEnergy = 2*cc.e;
 eq.extractElectricHistorySoft(cc, 100);
+eq.computeDirftVelocityWithTimeSoft(cc);
 
 eq.plotGeneralPropertiesSoft(cc);
 eq.statisticsScatteringTypeDistribution;
 %% 
 pq.minTime = 0e-12;
-pq.maxTime = 25e-12;
+pq.maxTime = 30e-12;
 pq.parallelPhononDistribution(cc);
 %% 
 % 验证1，能带画图
@@ -61,10 +59,29 @@ tic; dv.valley.scatteringRatePlot(sc, pc, cc, [1, 20]); toc
 % verifyProgram("ValleyStructureOfValleyGamma", dv, pc, sc, cc);
 % verifyProgram("ValleyStructureOfValleyU", dv, pc, sc, cc);
 %验证5，声子发射谱
-pq.plotSpectrum(pc, cc, 'LA', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'TA', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'LO', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'TO', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'ALL', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'LA', [0, 1e9, 0, 1e9])
+pq.plotSpectrum(pc, cc, 'TA', [0, 1e9, 0, 1e9])
+pq.plotSpectrum(pc, cc, 'LO', [0, 1e9, 0, 1e9])
+pq.plotSpectrum(pc, cc, 'TO', [0, 1e9, 0, 1e9])
+pq.plotSpectrum(pc, cc, 'ALL', [0, 1e9, 0, 1e9])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

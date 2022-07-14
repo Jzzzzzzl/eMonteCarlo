@@ -5,6 +5,7 @@ function [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
     ps.position = es.position;
     switch es.scatype
         case 1 % ionized-impurity
+            ps.polar = -1;%>表示未产生声子，这条很重要
             k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 2 % intra_ab_LA
@@ -120,6 +121,7 @@ function [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
             k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wg.LO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 18 % 
+            ps.polar = -1;
             return;
     end
     

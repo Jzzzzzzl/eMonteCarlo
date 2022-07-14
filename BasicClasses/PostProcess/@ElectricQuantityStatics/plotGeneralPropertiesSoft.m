@@ -23,11 +23,7 @@ function plotGeneralPropertiesSoft(obj, cc)
     %>漂移速度随时间变化图
     subplot(2, 2, 3)
     if ~isempty(obj.driftVTime)
-        velocitys = zeros(cc.Nt, 1);
-        for t = 1 : cc.Nt
-            velocitys(t) = sum(obj.driftVTime(t, :)) / sum(obj.driftVTime(t, :) ~= 0);
-        end
-        slg = plot(cc.time.point(2:end-1)*1e12, velocitys*100);
+        slg = plot(cc.time.point(2:end-1)*1e12, obj.driftVTime*100);
         slg.LineWidth = 2;
     end
     xlabel("ps"); ylabel("cm/s");
@@ -35,7 +31,7 @@ function plotGeneralPropertiesSoft(obj, cc)
     %>漂移速度随电场变化图
     subplot(2, 2, 4)
     if ~isempty(obj.driftVField)
-        slg = loglog(abs(cc.eFieldInput(:, 2))*100, obj.driftVField*100, '-*');
+        slg = semilogy(abs(cc.eFieldInput(:, 2))*100, obj.driftVField*100, '-*');
         slg.LineWidth = 2;
     end
     xlabel("V/cm"); ylabel("cm/s");

@@ -74,7 +74,6 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.omegaD = obj.thetaD*obj.kb/obj.hbar;
             obj.V0 = sqrt(3)*obj.c^3/8;
             obj.k = 148;
-            obj.bscatype = 17;
             %>GammaX能谷参数
             obj.EgGX = 0*obj.e;
             obj.mtGX = 0.196*obj.m;
@@ -82,15 +81,17 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.alphaGX = 0.5;
             obj.nofScatGX = 18;
             obj.centerRatioGX = 0.85;
-            obj.maxScatRateGX = [0.06*obj.e 1.1e13
-                                          0.30*obj.e 3.5e13
-                                          99.0*obj.e 2.0e14];
-            obj.xsForimpurityGX = 0.1;
+            obj.maxScatRateGX = [0.07*obj.e 2.0e13
+                                          0.15*obj.e 2.4e13
+                                          0.30*obj.e 4.0e13
+                                          0.90*obj.e 1.0e14
+                                          99.0*obj.e 3.0e14];
+            obj.xsForimpurityGX = 0.2;
             obj.DLA = 6.39*obj.e;
             obj.DTA = 3.01*obj.e;
             obj.gDKLA = 1.5e10*obj.e;
             obj.gDKTA = 0.3e10*obj.e;
-            obj.gDKLO = 8.0e10*obj.e;
+            obj.gDKLO = 10.0e10*obj.e;
             obj.fDKLA = 3.5e10*obj.e;
             obj.fDKTA = 0.5e10*obj.e;
             obj.fDKLO = 3.5e10*obj.e;

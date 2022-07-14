@@ -11,7 +11,7 @@ function electricVelocityPlot(obj, pc, pointA, pointB)
         es.valley = obj.whichValley(es);
         es = obj.computeEnergyAndGroupVelocity(es, pc);
         velocityGK(i, 1) = tempk(i);
-        velocityGK(i, 2) = es.velocity(2);
+        velocityGK(i, 2) = es.velocity(1);
     end
     figure
     plot(velocityGK(:,1), velocityGK(:,2))

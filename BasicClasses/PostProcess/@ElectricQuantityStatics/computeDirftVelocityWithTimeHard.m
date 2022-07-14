@@ -1,4 +1,4 @@
-function computeDirftVelocityWithTime(obj, cc)
+function computeDirftVelocityWithTimeHard(obj, cc)
     %>计算漂移速度随时间变化
     tic
     obj.driftVTime = zeros(cc.Nt, 1);

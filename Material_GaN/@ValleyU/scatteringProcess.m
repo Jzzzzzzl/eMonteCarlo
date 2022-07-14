@@ -5,12 +5,15 @@ function [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
     ps.position = es.position;
     switch es.scatype
         case 1 % ionized impurity
+            ps.polar = -1;
             k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 2 % acoustic piezoelectric
+            ps.polar = -1;
             k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 3 % intra
+            ps.polar = -1;
             k = obj.chooseStandardVectorForScattering(es, pc);
             es = obj.getGeneralElectricWaveVector(es, pc, k);
         case 4 % polar LO ab

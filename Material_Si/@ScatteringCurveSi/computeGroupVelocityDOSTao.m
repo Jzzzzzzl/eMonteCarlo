@@ -1,5 +1,10 @@
 function computeGroupVelocityDOSTao(obj, cc, pc)
     %>计算群速度表/态密度表
+    try
+        tempT = max(max(cc.initTemp.data));
+    catch
+        tempT = cc.initTemp;
+    end
     for k = 1 : cc.NW
         if cc.frequency.point(k+1) >= obj.wMin.LA && cc.frequency.point(k+1) <= obj.wMax.LA
             obj.gv.LA(k+1) = abs(spline(obj.qband(:, 2), obj.qband(:, 8), cc.frequency.point(k+1)));
@@ -23,7 +28,7 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         invSumTao = 0;
         if obj.gv.LA(i+1) ~= 0
             % Umklapp Scattering
-            invTaou = 2*pc.gammaG^2*pc.kb*cc.initTemp ...
+            invTaou = 2*pc.gammaG^2*pc.kb*tempT ...
                        * cc.frequency.point(i+1)^2/(pc.miu*pc.V0*pc.omegaD);
             % Boundary Scattering
             invTaob = obj.gv.LA(i+1)/(cc.modelx.face(end) - cc.modelx.face(1));
@@ -33,7 +38,7 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         end
         invSumTao = 0;
         if obj.gv.TA(i+1) ~= 0
-            invTaou = 2*pc.gammaG^2*pc.kb*cc.initTemp ...
+            invTaou = 2*pc.gammaG^2*pc.kb*tempT ...
                        * cc.frequency.point(i+1)^2/(pc.miu*pc.V0*pc.omegaD);
             invTaob = obj.gv.TA(i+1)/(cc.modelx.face(end) - cc.modelx.face(1));
             invSumTao = invSumTao + invTaou + invTaob;
@@ -41,7 +46,7 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         end
         invSumTao = 0;
         if obj.gv.LO(i+1) ~= 0
-            invTaou = 2*pc.gammaG^2*pc.kb*cc.initTemp ...
+            invTaou = 2*pc.gammaG^2*pc.kb*tempT ...
                        * cc.frequency.point(i+1)^2/(pc.miu*pc.V0*pc.omegaD);
             invTaob = obj.gv.LO(i+1)/(cc.modelx.face(end) - cc.modelx.face(1));
             invSumTao = invSumTao + invTaou + invTaob;
@@ -49,7 +54,7 @@ function computeGroupVelocityDOSTao(obj, cc, pc)
         end
         invSumTao = 0;
         if obj.gv.TO(i+1) ~= 0
-            invTaou = 2*pc.gammaG^2*pc.kb*cc.initTemp ...
+            invTaou = 2*pc.gammaG^2*pc.kb*tempT ...
                        * cc.frequency.point(i+1)^2/(pc.miu*pc.V0*pc.omegaD);
             invTaob = obj.gv.TO(i+1)/(cc.modelx.face(end) - cc.modelx.face(1));
             invSumTao = invSumTao + invTaou + invTaob;

@@ -1,5 +1,5 @@
 classdef ConfigureConstants < Data2ColocatedField
-    %% 运行参数类
+    %% 运行参数父类
     properties
         %>飞行次数
         noFly
@@ -15,11 +15,11 @@ classdef ConfigureConstants < Data2ColocatedField
         initDopDen
         %>初始生成能谷
         initValley
-        %>电子初始能量
+        %>初始电子能量
         initEnergy
-        %>输入电场
+        %>时间阶跃电场
         eFieldInput
-        %>初始位置
+        %>初始电子位置
         initPosition
         %>计算核数
         localWorkers
@@ -39,6 +39,14 @@ classdef ConfigureConstants < Data2ColocatedField
         energyPB
         %>势垒能量弛豫长度
         relaxLenPB
+        %>发生散射概率函数
+        scatProba
+        %>发生散射最小概率
+        minproba
+        %>发生散射最大概率
+        maxproba
+        %>沟道后能量弛豫长度
+        relaxLenCH
         %>势垒区散射类型
         scatypePB
         %>势垒区坐标
@@ -71,6 +79,9 @@ classdef ConfigureConstants < Data2ColocatedField
             obj.dtConst = 0;
             obj.energyPB = 0*obj.e;
             obj.relaxLenPB = 0;
+            obj.relaxLenCH = 0;
+            obj.minproba = 1;
+            obj.maxproba = 1;
             obj.localWorkers = 20;
             obj.initTemp = 300;
             obj.mLength = 1;

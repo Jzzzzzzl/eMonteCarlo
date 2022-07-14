@@ -19,9 +19,17 @@ function initializeVariables(obj, cc)
         obj.Q(k).LO = ColocateField(cc);
         obj.Q(k).TO = ColocateField(cc);
     end
-    obj.pTeff.LA = ColocateField(cc, cc.initTemp);
-    obj.pTeff.TA = ColocateField(cc, cc.initTemp);
-    obj.pTeff.LO = ColocateField(cc, cc.initTemp);
-    obj.pTeff.TO = ColocateField(cc, cc.initTemp);
-    obj.Teff = ColocateField(cc, cc.initTemp);
+    try
+        obj.pTeff.LA = ColocateField(cc, cc.initTemp);
+        obj.pTeff.TA = ColocateField(cc, cc.initTemp);
+        obj.pTeff.LO = ColocateField(cc, cc.initTemp);
+        obj.pTeff.TO = ColocateField(cc, cc.initTemp);
+        obj.Teff = ColocateField(cc, cc.initTemp);
+    catch
+        obj.pTeff.LA = cc.initTemp;
+        obj.pTeff.TA = cc.initTemp;
+        obj.pTeff.LO = cc.initTemp;
+        obj.pTeff.TO = cc.initTemp;
+        obj.Teff = cc.initTemp;
+    end
 end

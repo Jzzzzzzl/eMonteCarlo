@@ -18,21 +18,31 @@ sc = ScatteringCurveGaN(cc, pc);
 
 dv = DecideValleyKind(cc, pc, sc);
 sh = SimulationHistory(dv, pc, cc);
+eq = ElectricQuantityStaticsGaN;
 pq = PhononQuantityStatics(cc);
 %%
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
-%% 
 parallelCompute(sh, dv, sc, pc, cc);
-eq = ElectricQuantityStaticsGaN(cc);
+%% 
+eq.minTime = 100e-12;
+eq.maxTime = 250e-12;
+eq.maxEnergy = 6*cc.e;
+eq.extractElectricHistorySoft(cc, 1000);
 
-eq.computeAverageEnergyWithPosition(cc);
-eq.aveEPos.plotField(cc, 'n')
-eq.computeValleyOccupationWithTime(cc, 200)
+eq.computeDirftVelocityWithTimeSoft(cc)
+eq.computeValleyOccupationWithTime(cc)
+
+% eq.statisticsScatteringTypeDistribution('U');
+% eq.statisticsScatteringTypeDistribution('G1');
+% eq.statisticsScatteringTypeDistribution('G3');
+
+eq.plotGeneralPropertiesSoft(cc);
+plot(cc.modelx.point(2:end-1)*1e9, eq.aveEPos/cc.e)
 %%
-pq.minTime = 0e-12;
-pq.maxTime = 100e-12;
+pq.minTime = 100e-12;
+pq.maxTime = 250e-12;
 pq.parallelPhononDistribution(cc);
-%%
+
 pq.initializeVariables(cc);
 pq.computeHeatGenerationRate(pc, cc, sc);
 pq.solveFarDistributionFunction(cc, sc);
@@ -69,15 +79,15 @@ eq.plotElectronTrace(cc, 1, 'e')
 eq.plotElectronTrace(cc, 0, 'd')
 eq.plotElectronTrace(cc, 6, 'xy')
 %%
-pq.plotSpectrum(pc, cc, 'LA', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'TA', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'LO', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'TO', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'ALL', [0, 320, 0, 100])
+pq.plotSpectrum(pc, cc, 'LA', [0, 300, 0, 100])
+pq.plotSpectrum(pc, cc, 'TA', [0, 300, 0, 100])
+pq.plotSpectrum(pc, cc, 'LO', [0, 300, 0, 100])
+pq.plotSpectrum(pc, cc, 'TO', [0, 300, 0, 100])
+pq.plotSpectrum(pc, cc, 'ALL', [0, 300, 0, 100])
 
-eq.statisticsScatteringTypeDistribution(cc, 'G1')
-eq.statisticsScatteringTypeDistribution(cc, 'G3')
-eq.statisticsScatteringTypeDistribution(cc, 'U')
+eq.statisticsScatteringTypeDistribution('G1')
+eq.statisticsScatteringTypeDistribution('G3')
+eq.statisticsScatteringTypeDistribution('U')
 %%
 cc.dopDensity.plotField(cc, 'n')
 cc.eleConc.plotField(cc, 'n')
