@@ -3,17 +3,17 @@ go atlas simflags="-P 40"
 mesh space.mult=0.5
 
 x.mesh loc=0.0  spac=0.001
-x.mesh loc=0.32 spac=0.001
+x.mesh loc=0.34 spac=0.001
 
 y.mesh loc=0.0 spac=0.01
 y.mesh loc=0.1 spac=0.01
 
 region num=1 material=Si x.max=0.15
-region num=2 material=Si x.min=0.15 x.max=0.17
-region num=3 material=Si x.min=0.17
+region num=2 material=Si x.min=0.15 x.max=0.19
+region num=3 material=Si x.min=0.19
 
 elec num=1 name=anode    x.min=0.0   x.max=0.001 y.min=0.0 y.max=0.1
-elec num=2 name=cathode  x.min=0.319 x.max=0.32  y.min=0.0 y.max=0.1
+elec num=2 name=cathode  x.min=0.339 x.max=0.34  y.min=0.0 y.max=0.1
 
 doping region=1 uniform n.type conc=1.0e20
 doping region=2 uniform n.type conc=1.0e16
@@ -28,7 +28,7 @@ thermcontact num=2 elec.num=2 ext.temp=300
 method newton trap autonr maxtrap=10
 solve init
 solve vanode=0.0   name=anode
-solve vcathode=0.6 name=cathode
+solve vcathode=1.0 name=cathode
 
 output band.param band.temp qfn qfp con.band val.band
 save outf=Structure.str master

@@ -10,10 +10,10 @@ function [] = writeDataToFile1D(filename, cc, datax, datay)
     if m(1) == n(1)
         for i = 1 : m(1)
             fprintf(fid, '%.5g\t', datax(i));
-            for j = 1 : n(2)
+            for j = 1 : n(2)-1
                 fprintf(fid, '%.5g\t', datay(i, j));
             end
-            fprintf(fid, '\n');
+            fprintf(fid, '%.5g\n', datay(i, n(2)));
         end
     else
         disp("数据大小对不上！")

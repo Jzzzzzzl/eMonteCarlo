@@ -18,9 +18,9 @@ function modelMeshingAndReadData(obj, pc)
             index4 = find(obj.modelx.face >= (obj.d1 + obj.d2 + obj.relaxLenCH), 1) + 1;
             index5 = obj.NX + 1;
             obj.scatProba(index0:index1) = obj.minproba;
-            obj.scatProba(index1+1:index2) = logspace(log10(obj.minproba), log10(obj.maxproba), index2-index1+1);
+            obj.scatProba(index1+1:index2) = logspace(log10(obj.minproba), log10(obj.maxproba), index2-index1);
             obj.scatProba(index2+1:index3) = obj.maxproba;
-            obj.scatProba(index3+1:index4) = logspace(log10(obj.maxproba), log10(obj.minproba), index4-index3+1);
+            obj.scatProba(index3+1:index4) = logspace(log10(obj.maxproba), log10(obj.minproba), index4-index3);
             obj.scatProba(index4+1:index5) = obj.minproba;
         else
             disp("二维情况暂未考虑！")

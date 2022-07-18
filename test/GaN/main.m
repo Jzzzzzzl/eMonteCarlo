@@ -24,12 +24,13 @@ verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% 
 eq.minTime = 0e-12;
-eq.maxTime = 10e-12;
-eq.extractElectricHistoryHard(cc, 300);
+eq.maxTime = 60e-12;
+eq.extractElectricHistoryHard(cc, 300, 18000);
 
-eq.plotElectronTrace(cc, 1, 'k')
-eq.plotElectronTrace(cc, 1, 'e')
+eq.plotElectronTrace(cc, 15, 'k')
+eq.plotElectronTrace(cc, 17, 'e')
 eq.plotElectronTrace(cc, 1, 'r')
+eq.plotElectronTrace(cc, 1, 'd')
 %% 
 eq.minTime = 0e-12;
 eq.maxTime = 10e-12;

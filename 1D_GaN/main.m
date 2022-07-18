@@ -24,8 +24,8 @@ pq = PhononQuantityStatics(cc);
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% 
-eq.minTime = 100e-12;
-eq.maxTime = 250e-12;
+eq.minTime = 0e-12;
+eq.maxTime = 130e-12;
 eq.maxEnergy = 6*cc.e;
 eq.extractElectricHistorySoft(cc, 1000);
 
@@ -39,8 +39,8 @@ eq.computeValleyOccupationWithTime(cc)
 eq.plotGeneralPropertiesSoft(cc);
 plot(cc.modelx.point(2:end-1)*1e9, eq.aveEPos/cc.e)
 %%
-pq.minTime = 100e-12;
-pq.maxTime = 250e-12;
+pq.minTime = 0e-12;
+pq.maxTime = 130e-12;
 pq.parallelPhononDistribution(cc);
 
 pq.initializeVariables(cc);
@@ -83,7 +83,7 @@ pq.plotSpectrum(pc, cc, 'LA', [0, 300, 0, 100])
 pq.plotSpectrum(pc, cc, 'TA', [0, 300, 0, 100])
 pq.plotSpectrum(pc, cc, 'LO', [0, 300, 0, 100])
 pq.plotSpectrum(pc, cc, 'TO', [0, 300, 0, 100])
-pq.plotSpectrum(pc, cc, 'ALL', [0, 300, 0, 100])
+pq.plotSpectrum(pc, cc, 'ALL', [0, 600, 0, 100])
 
 eq.statisticsScatteringTypeDistribution('G1')
 eq.statisticsScatteringTypeDistribution('G3')

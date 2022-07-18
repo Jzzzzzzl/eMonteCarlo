@@ -3,7 +3,7 @@ go atlas simflags="-P 40"
 mesh space.mult=0.5
 
 x.mesh loc=0.0  spac=0.001
-x.mesh loc=0.3  spac=0.001
+x.mesh loc=0.4  spac=0.001
 
 y.mesh loc=0.0 spac=0.01
 y.mesh loc=0.1 spac=0.01
@@ -13,7 +13,7 @@ region num=2 material=GaN x.min=0.1 x.max=0.2
 region num=3 material=GaN x.min=0.2
 
 elec num=1 name=anode    x.min=0.0   x.max=0.001 y.min=0.0 y.max=0.1
-elec num=2 name=cathode  x.min=0.299 x.max=0.3   y.min=0.0 y.max=0.1
+elec num=2 name=cathode  x.min=0.399 x.max=0.4   y.min=0.0 y.max=0.1
 
 doping region=1 uniform n.type conc=1.0e19
 doping region=2 uniform n.type conc=1.0e16
@@ -35,7 +35,7 @@ save outf=Structure.str master
 tonyplot Structure.str
 
 extract init infile="Structure.str"
-extract 2d.conc.file material="GaN" impurity="Potential" outfile="Potential.dat"
+#extract 2d.conc.file material="GaN" impurity="Potential" outfile="Potential.dat"
 extract 2d.conc.file material="GaN" impurity="E Field X" outfile="XeField.dat"
 extract 2d.conc.file material="GaN" impurity="E Field Y" outfile="YeField.dat"
 extract 2d.conc.file material="GaN" impurity="Electron conc" outfile="Eleconc.dat"

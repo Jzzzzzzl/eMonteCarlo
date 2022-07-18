@@ -42,12 +42,14 @@ function computeTF(obj, cc, sc, pc)
         obj.TF.left(j, :) = [0.0    tempT];
         obj.TF.right(j, :) = [0.0    tempT];
     end
-    eqn.initialize;
-    eqn.setInitialGuess(cc, obj.TF);
-    diffusionOperator(eqn, cc, lambda, obj.TF);
-    sourceOperator(eqn, cc, Sp, Sc);
-    eqn.solveMatrix(50000);
-    eqn.updateField(cc, obj.TF);
+    for i = 1 : 100
+        eqn.initialize;
+        eqn.setInitialGuess(cc, obj.TF);
+        diffusionOperator(eqn, cc, lambda, obj.TF);
+        sourceOperator(eqn, cc, Sp, Sc);
+        eqn.solveMatrix(1000);
+        eqn.updateField(cc, obj.TF);
+    end
     obj.TF.plotField(cc);
     disp(['扩散温度求解完成！耗时：', sprintf('%.2f', toc), ' s'])
 end
