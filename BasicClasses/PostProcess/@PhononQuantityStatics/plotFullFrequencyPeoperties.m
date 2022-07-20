@@ -33,10 +33,10 @@ function plotFullFrequencyPeoperties(obj, field, cc, type)
     %>画图
     figure
     hold on
-    plot(cc.modelx.point, sumN.LA.data(:, cc.NY+1), 'LineWidth', 2)
-    plot(cc.modelx.point, sumN.TA.data(:, cc.NY+1), 'LineWidth', 2)
-    plot(cc.modelx.point, sumN.LO.data(:, cc.NY+1), 'LineWidth', 2)
-    plot(cc.modelx.point, sumN.TO.data(:, cc.NY+1), 'LineWidth', 2)
-    plot(cc.modelx.point, sumN.ALL.data(:, cc.NY+1), 'LineWidth', 2)
+    plot(cc.modelx.point*1e9, sumN.LA.data(:, cc.NY+1), 'LineWidth', 2)
+    plot(cc.modelx.point*1e9, sumN.TA.data(:, cc.NY+1), 'LineWidth', 2)
+    plot(cc.modelx.point*1e9, sumN.LO.data(:, cc.NY+1), 'LineWidth', 2)
+    plot(cc.modelx.point*1e9, sumN.TO.data(:, cc.NY+1), 'LineWidth', 2)
+    plot(cc.modelx.point*1e9, sumN.ALL.data(:, cc.NY+1), 'LineWidth', 2)
     legend(["LA" "TA" "LO" "TO" "ALL"])
 end

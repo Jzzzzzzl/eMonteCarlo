@@ -77,7 +77,7 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.epsilonH = 5.35;
             obj.maxVelocity = 3e7;
             obj.maxFrequency = 15e13;
-            obj.maxEnergy = 4*obj.e;
+            obj.maxEnergy = 10*obj.e;
             obj.dGM = sqrt(sum(obj.hsp.M.^2));
             obj.dBD = obj.dGM;
             obj.dGL = sqrt(sum(obj.hsp.L.^2));
@@ -95,14 +95,17 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.EgU = 2.0*obj.e;
             obj.mtU = 0.335*obj.m;
             obj.mlU = 0.335*obj.m;
-            obj.alphaU = 0.2;
+            obj.alphaU = 0.6;
             obj.nofScatU = 12;
             obj.centerRatioU = sqrt(sum(obj.hsp.U.^2))/obj.dGM;
-            obj.maxScatRateU = [4.0*obj.e 3.1e14
-                                         5.5*obj.e 4.5e14
-                                         99*obj.e 8.0e14];
+            obj.maxScatRateU = [3.0*obj.e 4.7e14
+                                         4.0*obj.e 7.2e14
+                                         5.0*obj.e 1.1e15
+                                         6.0*obj.e 1.4e15
+                                         8.0*obj.e 2.2e15
+                                         99*obj.e 3.0e15];
             obj.xsForimpurityU = 1;
-            obj.xsForPolarOpticalU = 0.5;
+            obj.xsForPolarOpticalU = 1;
             obj.UD = 8.3*obj.e;
             obj.U2UDK = 10e10*obj.e;
             obj.U2G1DK = 10e10*obj.e;
@@ -111,14 +114,17 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.EgG1 = 0.0*obj.e;
             obj.mtG1 = 0.197*obj.m;
             obj.mlG1 = 0.197*obj.m;
-            obj.alphaG1 = 0.8;
+            obj.alphaG1 = 0.9;
             obj.nofScatG1 = 10;
             obj.centerRatioG1 = 0;
-            obj.maxScatRateG1 = [2.0*obj.e 2.5e14
-                                           3.9*obj.e 4.0e14
-                                           99*obj.e 1.0e15];
+            obj.maxScatRateG1 = [1.0*obj.e 1.8e14
+                                           2.0*obj.e 2.4e14
+                                           3.0*obj.e 3.5e14
+                                           4.0*obj.e 5.1e14
+                                           5.5*obj.e 8.0e14
+                                           99*obj.e 1.4e15];
             obj.xsForimpurityG1 = 0.6;
-            obj.xsForPolarOpticalG1 = 0.55;
+            obj.xsForPolarOpticalG1 = 0.48;
             obj.G1D = 8.3*obj.e;
             obj.G12UDK = 10e10*obj.e;
             obj.G12G3DK = 10e10*obj.e;
@@ -129,9 +135,11 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.alphaG3 = 1.2;
             obj.nofScatG3 = 10;
             obj.centerRatioG3 = 0;
-            obj.maxScatRateG3 = [2.8*obj.e 6.5e14
-                                           4.2*obj.e 1.5e15
-                                           99*obj.e 6.0e15];
+            obj.maxScatRateG3 = [2.8*obj.e 6.8e14
+                                           3.2*obj.e 1.0e15
+                                           4.2*obj.e 1.7e15
+                                           6.0*obj.e 3.5e15
+                                           99*obj.e 1.0e16];
             obj.xsForimpurityG3 = 1;
             obj.xsForPolarOpticalG3 = 1;
             obj.G3D = 8.3*obj.e;

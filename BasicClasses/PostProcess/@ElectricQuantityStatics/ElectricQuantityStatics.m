@@ -20,6 +20,8 @@ classdef ElectricQuantityStatics < handle
         aveETime
         %>平均能量随位置变化
         aveEPos
+        %>能谷占据率随位置变化
+        occVPos
         %>漂移速度随时间变化
         driftVTime
         %>漂移速度随电场变化

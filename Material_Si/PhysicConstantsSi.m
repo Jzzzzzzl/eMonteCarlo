@@ -59,7 +59,7 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.epsilonH = [];
             obj.maxVelocity = 3e5;
             obj.maxFrequency = 10e13;
-            obj.maxEnergy = 6*obj.e;
+            obj.maxEnergy = 10*obj.e;
             obj.dGX = sqrt(sum(obj.hsp.X.^2));
             obj.dBD = obj.dGX;
             obj.dGL = sqrt(sum(obj.hsp.L.^2));
@@ -81,11 +81,17 @@ classdef PhysicConstantsSi < PhysicConstants
             obj.alphaGX = 0.5;
             obj.nofScatGX = 18;
             obj.centerRatioGX = 0.85;
-            obj.maxScatRateGX = [0.07*obj.e 2.0e13
-                                          0.15*obj.e 2.4e13
-                                          0.30*obj.e 4.0e13
-                                          0.90*obj.e 1.0e14
-                                          99.0*obj.e 3.0e14];
+            obj.maxScatRateGX = [0.09*obj.e 2.5e13
+                                          0.22*obj.e 4.2e13
+                                          0.40*obj.e 6.2e13
+                                          0.60*obj.e 8.4e13
+                                          0.80*obj.e 1.1e14
+                                          1.00*obj.e 1.4e14
+                                          1.40*obj.e 2.0e14 
+                                          2.00*obj.e 3.2e14
+                                          3.00*obj.e 5.5e14
+                                          4.50*obj.e 1.0e15
+                                          99.0*obj.e 2.0e15];
             obj.xsForimpurityGX = 0.2;
             obj.DLA = 6.39*obj.e;
             obj.DTA = 3.01*obj.e;

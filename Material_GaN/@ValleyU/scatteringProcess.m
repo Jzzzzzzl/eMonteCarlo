@@ -67,6 +67,7 @@ function [es, ps] = scatteringProcess(obj, dv, es, ps, sc, pc)
             k = dv.valley.chooseStandardVectorForScattering(es, pc, sc.wU2GLO, -1);
             es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
         case 12 % 
+            ps.polar = -1;
             return;
     end
     

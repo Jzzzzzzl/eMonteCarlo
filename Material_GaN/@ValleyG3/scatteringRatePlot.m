@@ -5,7 +5,7 @@ function scatteringRatePlot(obj, sc, pc, cc, mn)
     es.valley = 13;
     es.position = [0 0 0];
     cc.computePositionParameters(es);
-    energys = logspace(-1, 1, 50) * pc.e + obj.Eg;
+    energys = logspace(-1, 1, 200) * pc.e + obj.Eg;
     scatTables = zeros(length(energys), obj.nofScat + 1);
     for i = 1 : length(energys)
         es.energy = energys(i);

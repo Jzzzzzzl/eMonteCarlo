@@ -10,9 +10,12 @@ function extractElectricHistorySoft(obj, cc, N)
     avedtime = zeros(cc.Nt, cc.superElecs);
     avedtcou = ones(cc.Nt, cc.superElecs);
     valleytime = zeros(cc.Nt, 3);
+    valleypos = zeros(cc.NX, cc.NY, 3);
     enums = zeros(cc.NE, 1);
     scatnums = zeros(30, 3);
     idflag = 0;
+    iflag = 0;
+    jflag = 0;
     tflag = 0;
     kflag = 1;
     vflag = 0;
@@ -20,7 +23,6 @@ function extractElectricHistorySoft(obj, cc, N)
     startMatlabPool(cc.localWorkers);
     path = cc.filePath;
     spmd
-%         labindex = 7;
         filename = [path 'ElectronLogPart' num2str(labindex)];
         fileID = fopen(filename);
         while ~feof(fileID)
@@ -68,6 +70,20 @@ function extractElectricHistorySoft(obj, cc, N)
                 %>平均能量随时间变化
                 aveetime(t, idflag) = dataline{9};
             end
+            %>单个电子在单个位置区间只能有一个值
+            if ID ~= idflag || i ~= iflag || j ~= jflag
+                iflag = i;
+                jflag = j;
+                idflag = ID;
+                %>能谷占据率随位置变化
+                if absValley <= 6%>Si GX/GaN U
+                    valleypos(i, j, 1) = valleypos(i, j, 1) + 1;
+                elseif absValley == 11%>GaN G1
+                    valleypos(i, j, 2) = valleypos(i, j, 2) + 1;
+                elseif absValley == 13%>GaN G3
+                    valleypos(i, j, 3) = valleypos(i, j, 3) + 1;
+                end
+            end
             %>能量历史分布统计
             enums(e) = enums(e) + 1;
             %>散射类型统计，用前者能谷去分类后者的散射类型
@@ -91,6 +107,7 @@ function extractElectricHistorySoft(obj, cc, N)
     
     for i = 2 : cc.localWorkers
         aveepos{1} = aveepos{1} + aveepos{i};
+        valleypos{1} = valleypos{1} + valleypos{i};
         aveetime{1} = aveetime{1} + aveetime{i};
         avedtime{1} = avedtime{1} + avedtime{i};
         valleytime{1} = valleytime{1} + valleytime{i};
@@ -98,6 +115,7 @@ function extractElectricHistorySoft(obj, cc, N)
         enums{1} = enums{1} + enums{i};
     end
     obj.aveEPos = aveepos{1} ./ cc.localWorkers;
+    obj.occVPos = valleypos{1};
     obj.aveETime = aveetime{1};
     obj.driftVTime = avedtime{1};
     obj.occTime = valleytime{1};

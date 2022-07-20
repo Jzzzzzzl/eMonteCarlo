@@ -25,7 +25,7 @@ verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% 
 eq.minTime = 0e-12;
-eq.maxTime = 130e-12;
+eq.maxTime = 90e-12;
 eq.maxEnergy = 6*cc.e;
 eq.extractElectricHistorySoft(cc, 1000);
 
@@ -38,9 +38,12 @@ eq.computeValleyOccupationWithTime(cc)
 
 eq.plotGeneralPropertiesSoft(cc);
 plot(cc.modelx.point(2:end-1)*1e9, eq.aveEPos/cc.e)
+figure; plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 1))
+figure; plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 2))
+figure; plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 3))
 %%
 pq.minTime = 0e-12;
-pq.maxTime = 130e-12;
+pq.maxTime = 90e-12;
 pq.parallelPhononDistribution(cc);
 
 pq.initializeVariables(cc);
@@ -72,6 +75,7 @@ writeDataToFile1D('LATeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.LA.data(2
 writeDataToFile1D('TATeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.TA.data(2:end-1, cc.NY+1));
 writeDataToFile1D('LOTeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.LO.data(2:end-1, cc.NY+1));
 writeDataToFile1D('TOTeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.TO.data(2:end-1, cc.NY+1));
+writeDataToFile1D('Teff', cc, cc.modelx.point(2:end-1)*1e9, pq.Teff.data(2:end-1, cc.NY+1));
 %% 
 eq.plotElectronTrace(cc, 2, 'k')
 eq.plotElectronTrace(cc, 8, 'r')
@@ -95,6 +99,18 @@ cc.xField.plotField(cc, 'n')
 cc.yField.plotField(cc, 'n')
 cc.xyField.plotField(cc, 'n')
 %% 
+load ConducBand.dat
+load JouleHeatPower.dat
+load LatticeTemp.dat
+
+plot(ConducBand(:, 1)*1e3, ConducBand(:, 2))
+plot(JouleHeatPower(:, 1)*1e3, JouleHeatPower(:, 2)*1e6)
+plot(LatticeTemp(:, 1)*1e3, LatticeTemp(:, 2))
+
+writeDataToFile1D('ConducBand', cc, ConducBand(:, 1)*1e3, ConducBand(:, 2))
+writeDataToFile1D('JouleHeatPower', cc, JouleHeatPower(:, 1)*1e3, JouleHeatPower(:, 2)*1e6)
+writeDataToFile1D('LatticeTemp', cc, LatticeTemp(:, 1)*1e3, LatticeTemp(:, 2))
+
 writeDataToFile1D('aveEtime', cc, eq.aveEtime(:, 1), eq.aveEtime(:, 2))
 writeDataToFile1D('xEfield', cc, cc.modelx.point(2:end-1)*1e9, cc.xField.data(2:end-1, 2))
 %% 

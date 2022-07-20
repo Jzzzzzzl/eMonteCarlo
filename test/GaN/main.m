@@ -22,18 +22,18 @@ pq = PhononQuantityStatics(cc);
 %%
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
+% %% 
+% eq.minTime = 0e-12;
+% eq.maxTime = 10e-12;
+% eq.extractElectricHistoryHard(cc, 300, 0);
+% 
+% eq.plotElectronTrace(cc, 15, 'k')
+% eq.plotElectronTrace(cc, 17, 'e')
+% eq.plotElectronTrace(cc, 1, 'r')
+% eq.plotElectronTrace(cc, 1, 'd')
 %% 
 eq.minTime = 0e-12;
-eq.maxTime = 60e-12;
-eq.extractElectricHistoryHard(cc, 300, 18000);
-
-eq.plotElectronTrace(cc, 15, 'k')
-eq.plotElectronTrace(cc, 17, 'e')
-eq.plotElectronTrace(cc, 1, 'r')
-eq.plotElectronTrace(cc, 1, 'd')
-%% 
-eq.minTime = 0e-12;
-eq.maxTime = 10e-12;
+eq.maxTime = 6e-12;
 eq.maxEnergy = 6*cc.e;
 eq.extractElectricHistorySoft(cc, 1000);
 
