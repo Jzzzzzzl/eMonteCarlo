@@ -10,9 +10,12 @@ function plotGeneralPropertiesSoft(obj, cc)
         end
         slg = plot(cc.time.point(2:end-1)*1e12, energys/cc.e);
         slg.LineWidth = 2;
+        %>写入文件
+        writeDataToFile1D('aveEtime', cc, cc.time.point(2:end-1)*1e12, energys/cc.e);
     end
     xlabel("ps"); ylabel("eV");
     title("average electric energy")
+    
     %>电子群能量分布图
     subplot(2, 2, 2)
     if ~isempty(obj.eNums)
@@ -25,6 +28,8 @@ function plotGeneralPropertiesSoft(obj, cc)
     if ~isempty(obj.driftVTime)
         slg = plot(cc.time.point(2:end-1)*1e12, obj.driftVTime*100);
         slg.LineWidth = 2;
+        %>写入文件
+        writeDataToFile1D('driftVTime', cc, cc.time.point(2:end-1)*1e12, obj.driftVTime*100);
     end
     xlabel("ps"); ylabel("cm/s");
     title("drift velocity")

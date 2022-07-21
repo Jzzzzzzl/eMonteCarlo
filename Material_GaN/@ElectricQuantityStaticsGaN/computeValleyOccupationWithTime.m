@@ -18,4 +18,6 @@ function computeValleyOccupationWithTime(obj, cc)
     legend('U', 'Gamma1', 'Gamma3')
     title("valley occupation")
     hold off
+    %>写入文件
+    writeDataToFile1D('occTime', cc, cc.time.point(2:end-1)*1e12, occupys);
 end

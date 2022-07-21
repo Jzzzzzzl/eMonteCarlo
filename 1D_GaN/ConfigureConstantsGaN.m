@@ -3,8 +3,8 @@ classdef ConfigureConstantsGaN < ConfigureConstants
     methods
         function obj = ConfigureConstantsGaN(pc)
             %>构造函数
-            obj.superElecs = 2000;
-            obj.noFly = 30000;%0.0032
+            obj.superElecs = 4000;
+            obj.noFly = 130000;%0.0032
             
             obj.NX = 500;%>最好能整除所使用核数
             obj.NY = 1;
@@ -15,7 +15,7 @@ classdef ConfigureConstantsGaN < ConfigureConstants
             obj.localWorkers = 20;
             obj.initValley = 11;
             %>用于调节声子分布函数
-            obj.xsforQ = 234;
+            obj.xsforQ = 253;
             %>用于调节扩散温度
             obj.xsforSourceB = 250e18;
             %>用于调节左端发热量

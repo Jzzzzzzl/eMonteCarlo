@@ -1,4 +1,4 @@
-function statisticsScatteringTypeDistribution(obj, type)
+function statisticsScatteringTypeDistribution(obj, cc, type)
     %>散射种类分布
     obj.snumbers = zeros(7, 2);
     switch type
@@ -42,4 +42,7 @@ function statisticsScatteringTypeDistribution(obj, type)
     bar(obj.snumbers,'stacked')
     set(gca,'xticklabel' ,legends)
     title(type)
+    
+    %>写入文件
+    writeDataToFile1D([type, 'ScaType'], cc, obj.snumbers(:, 1), obj.snumbers(:, 2));
 end

@@ -25,7 +25,7 @@ verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% 
 eq.minTime = 0e-12;
-eq.maxTime = 90e-12;
+eq.maxTime = 450e-12;
 eq.maxEnergy = 6*cc.e;
 eq.extractElectricHistorySoft(cc, 1000);
 
@@ -38,12 +38,14 @@ eq.computeValleyOccupationWithTime(cc)
 
 eq.plotGeneralPropertiesSoft(cc);
 plot(cc.modelx.point(2:end-1)*1e9, eq.aveEPos/cc.e)
-figure; plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 1))
-figure; plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 2))
-figure; plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 3))
+figure
+hold on
+plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 1))
+plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 2))
+plot(cc.modelx.point(2:end-1)*1e9, eq.occVPos(:, :, 3))
 %%
-pq.minTime = 0e-12;
-pq.maxTime = 90e-12;
+pq.minTime = 100e-12;
+pq.maxTime = 400e-12;
 pq.parallelPhononDistribution(cc);
 
 pq.initializeVariables(cc);
@@ -89,9 +91,9 @@ pq.plotSpectrum(pc, cc, 'LO', [0, 300, 0, 100])
 pq.plotSpectrum(pc, cc, 'TO', [0, 300, 0, 100])
 pq.plotSpectrum(pc, cc, 'ALL', [0, 600, 0, 100])
 
-eq.statisticsScatteringTypeDistribution('G1')
-eq.statisticsScatteringTypeDistribution('G3')
-eq.statisticsScatteringTypeDistribution('U')
+eq.statisticsScatteringTypeDistribution(cc, 'G1')
+eq.statisticsScatteringTypeDistribution(cc, 'G3')
+eq.statisticsScatteringTypeDistribution(cc, 'U')
 %%
 cc.dopDensity.plotField(cc, 'n')
 cc.eleConc.plotField(cc, 'n')
@@ -111,7 +113,6 @@ writeDataToFile1D('ConducBand', cc, ConducBand(:, 1)*1e3, ConducBand(:, 2))
 writeDataToFile1D('JouleHeatPower', cc, JouleHeatPower(:, 1)*1e3, JouleHeatPower(:, 2)*1e6)
 writeDataToFile1D('LatticeTemp', cc, LatticeTemp(:, 1)*1e3, LatticeTemp(:, 2))
 
-writeDataToFile1D('aveEtime', cc, eq.aveEtime(:, 1), eq.aveEtime(:, 2))
 writeDataToFile1D('xEfield', cc, cc.modelx.point(2:end-1)*1e9, cc.xField.data(2:end-1, 2))
 %% 
 nDot = repmat(pq.polar, cc.NW, 1);
