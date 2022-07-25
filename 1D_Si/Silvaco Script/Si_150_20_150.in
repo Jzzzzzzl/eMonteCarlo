@@ -28,7 +28,7 @@ thermcontact num=2 elec.num=2 ext.temp=300
 method newton trap autonr maxtrap=10
 solve init
 solve vanode=0.0   name=anode
-solve vcathode=0.6 name=cathode
+solve vcathode=1.0 name=cathode
 
 output band.param band.temp qfn qfp con.band val.band
 save outf=Structure.str master

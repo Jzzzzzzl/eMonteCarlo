@@ -6,7 +6,7 @@ addpath(genpath('./MEX/'))
 addpath(genpath('./OperatorTerms/'))
 addpath(genpath('./ParallelCompute/DeviceParallelCompute/'))
 addpath(genpath('./Material_Si/'))
-addpath(genpath('./1D_Si/'))
+addpath(genpath('./2D_Si/'))
 %% 
 clc,clear
 close all
