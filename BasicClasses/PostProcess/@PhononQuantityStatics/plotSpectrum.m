@@ -41,9 +41,9 @@ function plotSpectrum(obj, pc, cc, type, region)
     end
 
     for k = 1 : cc.NW
-        wNumab(k, 1) = sum(tempab(:, :, k));
+        wNumab(k, 1) = sum(sum(tempab(:, :, k)));
         wNumab(k, 2) = pc.hbar * cc.frequency.point(k + 1) / pc.e * 1000;
-        wNumem(k, 1) = sum(tempem(:, :, k));
+        wNumem(k, 1) = sum(sum(tempem(:, :, k)));
         wNumem(k, 2) = pc.hbar * cc.frequency.point(k + 1) / pc.e * 1000;
     end
     %>写入文件

@@ -1,6 +1,16 @@
 classdef Data2ColocatedField < BoundaryReflection
     %% 数据读取类
     properties
+        %>电势场
+        potential
+        %>晶格温度场
+        latticeTem
+        %>焦耳热
+        jouleHeat
+        %>导带能量
+        conducBand
+        %>电子迁移率
+        eMobility
         %>x方向电场
         xField
         %>y方向电场
@@ -18,12 +28,22 @@ classdef Data2ColocatedField < BoundaryReflection
     methods
         function data2ColocatedField(obj)
             %>构造数据场
+            obj.potential = ColocateField(obj);
+            obj.latticeTem = ColocateField(obj);
+            obj.jouleHeat = ColocateField(obj);
+            obj.conducBand = ColocateField(obj);
+            obj.eMobility = ColocateField(obj);
             obj.xField = ColocateField(obj);
             obj.yField = ColocateField(obj);
             obj.xyField = ColocateField(obj);
             obj.eleConc = ColocateField(obj);
             obj.dopDensity = ColocateField(obj);
             %>读取数据
+            obj.readPotential;
+            obj.readLatticeTemperature;
+            obj.readJouleHeatPower;
+            obj.readConductionBand;
+            obj.readElectronMobility;
             obj.readXElectricField;
             obj.readYElectricField;
             obj.readDopingDensity;
@@ -33,6 +53,11 @@ classdef Data2ColocatedField < BoundaryReflection
     end
     
     methods
+        readPotential(obj)
+        readLatticeTemperature(obj)
+        readJouleHeatPower(obj)
+        readConductionBand(obj)
+        readElectronMobility(obj)
         readXElectricField(obj)
         readYElectricField(obj)
         readDopingDensity(obj)

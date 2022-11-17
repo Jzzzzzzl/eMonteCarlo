@@ -3,7 +3,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             %>构造函数
-            obj.superElecs = 4000;
+            obj.superElecs = 1000;
             obj.noFly = 20000;
             
             obj.NX = 500;%>最好能整除所使用核数
@@ -11,7 +11,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
             obj.NA = 200;%>一维默认为2
             obj.NW = 200;%>最好能整除所使用核数
             obj.NE = 1000;
-            obj.initPosition = [0 3 0 100]*1e-9;
+            obj.initPosition = [0 1 0 100]*1e-9;
             obj.localWorkers = 20;
             obj.initValley = 1;
             %>温度场迭代
@@ -28,7 +28,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
             obj.minproba = 1.0;
             obj.maxproba = 1.0;
             %>用于生成Peltier效应
-            obj.energyPBmax = 0.08*obj.e;
+            obj.energyPBmax = 0.05*obj.e;%>2D必须为0
             obj.relaxLenPB = 20e-9;
             obj.scatypePB = [1 2 3 4 5 6 9 10 11];
             %>模型所需变量

@@ -107,6 +107,7 @@ classdef ModelMeshing < handle
         meshPlot(obj)
     end
     methods(Static)
+        [theta] = directAngle(x1, y1, x2, y2, x3, y3)
         [grid] = meshGrid(grid, min, max, N, ratio, layerNum)
     end
 end

@@ -50,6 +50,12 @@ function computeTF(obj, cc, sc, pc)
         eqn.solveMatrix(1000);
         eqn.updateField(cc, obj.TF);
     end
-    obj.TF.plotField(cc);
+    %>写入文件
+    if cc.NY == 1
+        writeDataToFile1D('TF', cc, cc.modelx.point(2:end-1)*1e9, obj.TF.data(2:end-1, cc.NY+1));
+    else
+        writeDataToFile2D('TF', cc, cc.modelx.face(1:end-1)*1e9, cc.modely.face(1:end-1)*1e9, ...
+                                        obj.TF.data(2:end-1, 2:end-1));
+    end
     disp(['扩散温度求解完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

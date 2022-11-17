@@ -1,5 +1,5 @@
 function getBandDataFromOther(obj, cc)
-    %>从别处获得群速度/态密度/弛豫时间
+    %>从shengBTE获得群速度/态密度/弛豫时间
     load wvDt.mat
     deltaw = w(2) - w(1);
     minW = w(1) - deltaw/2;

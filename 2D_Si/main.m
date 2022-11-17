@@ -13,7 +13,7 @@ close all
 pc = PhysicConstantsSi;
 cc = ConfigureConstantsSi(pc);
 sc = ScatteringCurveSi(cc, pc);
-
+% 采用shengBTE的数据,若不采用则注释该行
 sc.getBandDataFromOther(cc);
 
 dv = DecideValleyKind(cc, pc, sc);
@@ -23,18 +23,29 @@ pq = PhononQuantityStatics(cc);
 %%
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
-%% 
+%% Hard读取仅用于观察电子轨迹图
 eq.minTime = 0e-12;
-eq.maxTime = 600e-12;
+eq.maxTime = 300e-12;
+eq.extractElectricHistoryHard(cc, 1000, 18000);
+% 电子轨迹图
+eq.plotElectronTrace(cc, 2, 'k')
+eq.plotElectronTrace(cc, 8, 'r')
+eq.plotElectronTrace(cc, 1, 'e')
+eq.plotElectronTrace(cc, 0, 'd')
+eq.plotElectronTrace(cc, 2, 'xy')
+%% Soft读取仅用于计算电子性质
+eq.minTime = 0e-12;
+eq.maxTime = 190e-12;
 eq.maxEnergy = 6*cc.e;
 eq.extractElectricHistorySoft(cc, 100);
-
+% 通过平均性质的变化来判断是否收敛
 eq.computeDirftVelocityWithTimeSoft(cc);
 eq.plotGeneralPropertiesSoft(cc);
-plot(cc.modelx.point(2:end-1)*1e9, eq.aveEPos/cc.e*1000)
+% 电子散射类型统计
+eq.statisticsScatteringTypeDistribution;
 %%
-pq.minTime = 100e-12;
-pq.maxTime = 600e-12;
+pq.minTime = 0e-12;
+pq.maxTime = 190e-12;
 pq.parallelPhononDistribution(cc);
 pq.initializeVariables(cc);
 pq.computeHeatGenerationRate(pc, cc, sc);
@@ -51,57 +62,34 @@ pq.computeTeff(cc, pc, sc, 3)
 pq.computeTeff(cc, pc, sc, 4)
 pq.computeTeff(cc, pc, sc, 5)
 
-pq.TF.plotField(cc)
-pq.pTeff.LA.plotField(cc)
-pq.pTeff.TA.plotField(cc)
-pq.pTeff.LO.plotField(cc)
-pq.pTeff.TO.plotField(cc)
-pq.Teff.plotField(cc)
-legend("TF", "LATeff", "TATeff", "LOTeff", "TOTeff", "Teff")
-
-%>写入文件
-writeDataToFile1D('TF', cc, cc.modelx.point(2:end-1)*1e9, pq.TF.data(2:end-1, cc.NY+1));
-writeDataToFile1D('LATeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.LA.data(2:end-1, cc.NY+1));
-writeDataToFile1D('TATeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.TA.data(2:end-1, cc.NY+1));
-writeDataToFile1D('LOTeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.LO.data(2:end-1, cc.NY+1));
-writeDataToFile1D('TOTeff', cc, cc.modelx.point(2:end-1)*1e9, pq.pTeff.TO.data(2:end-1, cc.NY+1));
-writeDataToFile1D('Teff', cc, cc.modelx.point(2:end-1)*1e9, pq.Teff.data(2:end-1, cc.NY+1));
-%% 
-eq.plotElectronTrace(cc, 2, 'k')
-eq.plotElectronTrace(cc, 8, 'r')
-eq.plotElectronTrace(cc, 1, 'e')
-eq.plotElectronTrace(cc, 0, 'd')
-eq.plotElectronTrace(cc, 6, 'xy')
-%%
-pq.plotSpectrum(pc, cc, 'LA', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'TA', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'LO', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'TO', [0, 320, 0, 100])
-pq.plotSpectrum(pc, cc, 'ALL', [0, 320, 0, 100])
-
-eq.statisticsScatteringTypeDistribution;
-%%
+pq.TF.plotField(cc, 'n')
+pq.pTeff.LA.plotField(cc, 'n')
+pq.pTeff.TA.plotField(cc, 'n')
+pq.pTeff.LO.plotField(cc, 'n')
+pq.pTeff.TO.plotField(cc, 'n')
+pq.Teff.plotField(cc, 'n')
+%% 声子发射谱
+pq.plotSpectrum(pc, cc, 'LA', [0, cc.mLength, 0, cc.mWidth]*1e9)
+pq.plotSpectrum(pc, cc, 'TA', [0, cc.mLength, 0, cc.mWidth]*1e9)
+pq.plotSpectrum(pc, cc, 'LO', [0, cc.mLength, 0, cc.mWidth]*1e9)
+pq.plotSpectrum(pc, cc, 'TO', [0, cc.mLength, 0, cc.mWidth]*1e9)
+pq.plotSpectrum(pc, cc, 'ALL', [0, cc.mLength, 0, cc.mWidth]*1e9)
+%% 根据TCAD结果调整xsforQ和xsforSourceB
 cc.dopDensity.plotField(cc, 'n')
 cc.eleConc.plotField(cc, 'n')
 cc.xField.plotField(cc, 'n')
 cc.yField.plotField(cc, 'n')
 cc.xyField.plotField(cc, 'n')
-%% 
-load ConducBand.dat
-load JouleHeatPower.dat
-load LatticeTemp.dat
+cc.potential.plotField(cc, 'n')
+cc.latticeTem.plotField(cc, 'n')
+cc.jouleHeat.plotField(cc, 'n')
+cc.conducBand.plotField(cc, 'n')
+cc.eMobility.plotField(cc, 'n')
+%>写入文件
+cc.writeTCADtoFile
+%% 其他需要输出的参数
 
-plot(ConducBand(:, 1)*1e3, ConducBand(:, 2))
-plot(JouleHeatPower(:, 1)*1e3, JouleHeatPower(:, 2)*1e6)
-plot(LatticeTemp(:, 1)*1e3, LatticeTemp(:, 2))
-
-writeDataToFile1D('ConducBand', cc, ConducBand(:, 1)*1e3, ConducBand(:, 2))
-writeDataToFile1D('JouleHeatPower', cc, JouleHeatPower(:, 1)*1e3, JouleHeatPower(:, 2)*1e6)
-writeDataToFile1D('LatticeTemp', cc, LatticeTemp(:, 1)*1e3, LatticeTemp(:, 2))
-
-% writeDataToFile1D('aveEtime', cc, eq.aveEtime(:, 1), eq.aveEtime(:, 2))
-writeDataToFile1D('xEfield', cc, cc.modelx.point(2:end-1)*1e9, cc.xField.data(2:end-1, 2))
-%% 
+%% 转存nDot
 nDot = repmat(pq.polar, cc.NW, 1);
 for k = 1 : cc.NW
     nDot(k).LA = pq.nDot(k).LA.data(:, 2);
@@ -109,9 +97,3 @@ for k = 1 : cc.NW
     nDot(k).LO = pq.nDot(k).LO.data(:, 2);
     nDot(k).TO = pq.nDot(k).TO.data(:, 2);
 end
-
-
-
-
-
-

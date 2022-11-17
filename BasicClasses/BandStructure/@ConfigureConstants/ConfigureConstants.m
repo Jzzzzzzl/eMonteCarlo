@@ -99,6 +99,7 @@ classdef ConfigureConstants < Data2ColocatedField
     
     methods
         getFileID(obj, index)
+        writeTCADtoFile(obj)
         assignJobsForParallel(obj)
         updateConfigureConstants(obj)
         modelMeshingAndReadData(obj, pc)

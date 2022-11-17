@@ -112,14 +112,49 @@ function computeTeff(obj, cc, pc, sc, type)
     switch type
         case 1
             obj.pTeff.LA.data = teff{1};
+            %>写入文件
+            if cc.NY == 1
+                writeDataToFile1D('LA_Teff', cc, cc.modelx.point(2:end-1)*1e9, obj.pTeff.LA.data(2:end-1, cc.NY+1));
+            else
+                writeDataToFile2D('LA_Teff', cc, cc.modelx.face(1:end-1)*1e9, cc.modely.face(1:end-1)*1e9, ...
+                                                       obj.pTeff.LA.data(2:end-1, 2:end-1));
+            end
         case 2
             obj.pTeff.TA.data = teff{1};
+            %>写入文件
+            if cc.NY == 1
+                writeDataToFile1D('TA_Teff', cc, cc.modelx.point(2:end-1)*1e9, obj.pTeff.TA.data(2:end-1, cc.NY+1));
+            else
+                writeDataToFile2D('TA_Teff', cc, cc.modelx.face(1:end-1)*1e9, cc.modely.face(1:end-1)*1e9, ...
+                                                       obj.pTeff.TA.data(2:end-1, 2:end-1));
+            end
         case 3
             obj.pTeff.LO.data = teff{1};
+            %>写入文件
+            if cc.NY == 1
+                writeDataToFile1D('LO_Teff', cc, cc.modelx.point(2:end-1)*1e9, obj.pTeff.LO.data(2:end-1, cc.NY+1));
+            else
+                writeDataToFile2D('LO_Teff', cc, cc.modelx.face(1:end-1)*1e9, cc.modely.face(1:end-1)*1e9, ...
+                                                       obj.pTeff.LO.data(2:end-1, 2:end-1));
+            end
         case 4
             obj.pTeff.TO.data = teff{1};
+            %>写入文件
+            if cc.NY == 1
+                writeDataToFile1D('TO_Teff', cc, cc.modelx.point(2:end-1)*1e9, obj.pTeff.TO.data(2:end-1, cc.NY+1));
+            else
+                writeDataToFile2D('TO_Teff', cc, cc.modelx.face(1:end-1)*1e9, cc.modely.face(1:end-1)*1e9, ...
+                                                       obj.pTeff.TO.data(2:end-1, 2:end-1));
+            end
         case 5
             obj.Teff.data = teff{1};
+            %>写入文件
+            if cc.NY == 1
+                writeDataToFile1D('ALL_Teff', cc, cc.modelx.point(2:end-1)*1e9, obj.Teff.data(2:end-1, cc.NY+1));
+            else
+                writeDataToFile2D('ALL_Teff', cc, cc.modelx.face(1:end-1)*1e9, cc.modely.face(1:end-1)*1e9, ...
+                                                       obj.Teff.data(2:end-1, 2:end-1));
+            end
     end
     disp(['等效温度求解完成！耗时：', sprintf('%.2f', toc), ' s'])
 end

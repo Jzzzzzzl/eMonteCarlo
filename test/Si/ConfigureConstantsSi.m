@@ -2,10 +2,10 @@ classdef ConfigureConstantsSi < ConfigureConstants
     %% 运行参数类
     methods
         function obj = ConfigureConstantsSi(pc)
-            obj.superElecs = 800;
-            obj.noFly = 5000;
-            obj.eFieldInput = [1, -1805320];
-%             obj.eFieldInput = [4e-12 -1e5
+            obj.superElecs = 500;
+            obj.noFly = 4000;%单次飞行约0.0185ps
+            obj.eFieldInput = [1, -1805320];%最好是一个一个电场计算,避免相互干扰
+%             obj.eFieldInput = [50e-12 -1e5
 %                                     1 -100e5];
 %             obj.generateElectricField(5, 10, 'log', 5, 7);
             

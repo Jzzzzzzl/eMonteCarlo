@@ -2,12 +2,12 @@ classdef ConfigureConstantsGaN < ConfigureConstants
     %% 运行参数类
     methods
         function obj = ConfigureConstantsGaN(pc)
-            obj.superElecs = 1000;
-            obj.noFly = 2500;%0.004ps/次飞行
-            obj.eFieldInput = [1, -6e7];
+            obj.superElecs = 6000;
+            obj.noFly = 1000;%0.004ps/次飞行
+            obj.eFieldInput = [1, -6.0e7];%最好是一个一个电场计算,避免相互干扰
 %             obj.eFieldInput = [5.0e-12 -6.0e7
 %                                     1         -5.0e5];
-%             obj.generateElectricField(5, 12, 'lin', 1e7, 6e7);
+%             obj.generateElectricField(5, 8, 'lin', 1e7, 6e7);
             
             obj.initTemp = 300;
             obj.NE = 1000;

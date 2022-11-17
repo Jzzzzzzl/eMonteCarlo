@@ -6,20 +6,20 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             num = 10000;
             allowedError = 0.001;
             es = ElectricStatus;
-            es.time = 0;
-            es.position = [0 0 0];
+            es.initializeElectricStatus(dv, pc, cc);
             cc.computePositionParameters(es);
             valleys = [1, 11, 13];
             for n = 1 : length(valleys)
                 es.valley = valleys(n);
                 for i = 1 : num
+                    es.theta = randNumber(0, pi);
                     es.vector = [randNumber(-0.9, 0.9) randNumber(-0.9, 0.9) ...
                                      randNumber(-0.9, 0.9)] * pc.dBD;
                     es.valley = EPWaveVectorModify.whichValley(es);
                     dv.valleyGuidingPrinciple(es);
                     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
                     item = es.energy;
-                    k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                    k = dv.valley.generateStandardElectricWaveVector(es, pc);
                     es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
                     es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
                     if abs((es.energy - item)/item) > allowedError
@@ -32,7 +32,8 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
         case 'AcousticPiezoelectricScatPlot'
             num = 500;
             es = ElectricStatus;
-            es.position = [0 0 0];
+            es.initializeElectricStatus(dv, pc, cc);
+            cc.computePositionParameters(es);
             es.valley = 11;
             dv.valleyGuidingPrinciple(es);
             energys = logspace(-5, 3, num) * pc.e;
@@ -40,9 +41,9 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             tic
             for i = 1 : num
                 es.energy = energys(i);
-                k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                k = dv.valley.generateStandardElectricWaveVector(es, pc);
                 es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
-                dv.valley.acousticPiezoelectricScatteringRate(es, pc, cc);
+                dv.valley.acousticPiezoelectricScatteringRate(es, pc);
                 scatTables(i, 1) = energys(i);
                 scatTables(i, 2) = dv.valley.acousticPiezoelectric;
             end
@@ -55,16 +56,18 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             
         case 'ValleyStructureOfValleyU'
             es = ElectricStatus;
-            es.energy = 8.5*pc.e;
-            es.position = [0 0 0];
+            es.initializeElectricStatus(dv, pc, cc);
+            cc.computePositionParameters(es);
+            es.energy = 3.5*pc.e;
             number = 2000;
             tempk = zeros(number, 3);
             valleys = [1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6, -6];
             for i = 1 : number
                 index = round(randNumber(0.5, 12.5));
                 es.valley = valleys(index);
+                es.theta = randNumber(0, pi);
                 dv.valleyGuidingPrinciple(es);
-                k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                k = dv.valley.generateStandardElectricWaveVector(es, pc);
                 es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
                 tempk(i, :) = es.vector;
             end
@@ -75,8 +78,8 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             
         case 'ValleyStructureOfValleyGamma'
             es = ElectricStatus;
+            es.initializeElectricStatus(dv, pc, cc);
             es.energy = 3*pc.e;
-            es.position = [0 0 0];
             number = 2000;
             tempk = zeros(number, 3);
             valleys = [11, 13];
@@ -86,7 +89,8 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
                 es.valley = valleys(n);
                 dv.valleyGuidingPrinciple(es);
                 for i = 1 : number
-                    k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                    es.theta = randNumber(0, pi);
+                    k = dv.valley.generateStandardElectricWaveVector(es, pc);
                     es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
                     tempk(i, :) = es.vector;
                 end
@@ -97,21 +101,22 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             
         case 'SingleValleyDrifVelocityWithMaxScatRate'
             es = ElectricStatus;
+            es.initializeElectricStatus(dv, pc, cc);
             es.valley = 11;
             dv.valleyGuidingPrinciple(es);
             es.energy = 2*pc.e;
             number = 5000;
             perdrift = zeros(number, 2);
-            if ~isvector(cc.eField)
+            if ~isvector(cc.eFieldInput)
                 error("请输入电场向量！")
             end
             for i = 1 : number
-                k = dv.valley.generateStandardElectricWaveVector(es, pc, randNumber(0, pi));
+                k = dv.valley.generateStandardElectricWaveVector(es, pc);
                 es = dv.valley.getGeneralElectricWaveVector(es, pc, k);
                 energyTemp = es.energy;
                 vectorTemp = es.vector;
                 dv.valley.computeFlyTime(es);
-                es.vector = es.vector + (-pc.e) * cc.eField(2)*cc.direction*dv.valley.flyTime / pc.hbar;
+                es.vector = es.vector + (-pc.e) * cc.eFieldInput(2)*cc.direction*dv.valley.flyTime / pc.hbar;
                 es = dv.valley.computeEnergyAndGroupVelocity(es, pc);
                 vectorMold = sqrt(sum((vectorTemp - es.vector).^2));
                 es.perdrift = (es.energy - energyTemp) / (pc.hbar * vectorMold);
@@ -122,21 +127,6 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             end
             plot(perdrift(:, 1), perdrift(:, 2), '*')
             legend(['vd = ', num2str(sum(perdrift(:, 2)).*1e-7), ' x10^7 cm/s'])
-            
-        case 'inducedElectricField1D'
-            N = 100;
-            numbers = linspace(1, cc.superElecs, N);
-            for i = 1 : N
-                inducedE = cc.xsforInduce*numbers(i)*cc.superElecCharge/...
-                               cc.sczLength/(pc.epsilonL*pc.epsilon0);
-                cc.xField.data = cc.xFieldCopy.data;
-                cc.xField.data(cc.induceEl : cc.induceEr, cc.NY+1) = ...
-                           cc.xField.data(cc.induceEl : cc.induceEr, cc.NY+1) + inducedE;
-                plot(cc.modelx.point(2:end)*1e9, cc.xField.data(2:end, 2))
-                axis([0 cc.modelx.face(end)*1e9 -8e6 2e7])
-                title(['区域内超电子数：' num2str(numbers(i))])
-                drawnow;
-            end
             
         case 'verifyConfigureSettings'
             if rem(cc.noFly/cc.localWorkers, 1) ~= 0
@@ -151,7 +141,7 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             r = 1;
             figure
             hold on
-            d = [-1e5 1e5 0];
+            d = [-1e5 -1e5 0];
             rtheta = atan(-d(1) / d(3));
             rphi = atan(d(2) / d(1));
             if isnan(rtheta)

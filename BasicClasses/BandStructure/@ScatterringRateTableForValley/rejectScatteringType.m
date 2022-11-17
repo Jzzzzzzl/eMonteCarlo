@@ -10,6 +10,8 @@ function rejectScatteringType(obj, cc, es)
         b = cc.regionPB(2) - es.position(1);
         index = find(cc.energyPB(:, 1) >= es.position(1), 1);
         if a*b > 0 && es.energy < cc.energyPB(index, 2)
+            %>令energyPBmax=0以禁止执行该部分代码
+            %>但这并不影响relaxLenPB不等于0的使用
             bool = true;
             maxitem = 0;
             while bool && maxitem < 20

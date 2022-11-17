@@ -1,5 +1,5 @@
 function modelMeshingAndReadData(obj, pc)
-    %>构建节点和读取数据
+    %>计算模型参数
     obj.updateConfigureConstants;
     %>划分网格
     obj.frequencyGrid(0, pc.maxFrequency, obj.NW);
@@ -7,9 +7,14 @@ function modelMeshingAndReadData(obj, pc)
     obj.modelYGrid(0, obj.mWidth, obj.NY);
     obj.angleGrid(0, 2*pi, obj.NA);
     obj.energyGrid(0, pc.maxEnergy, obj.NE, 0.99, obj.NE/10);
+    %>构建节点
+    if obj.NY ~= 1
+        obj.buildModelNodes;
+    end
     %>构建散射概率函数
     if obj.NX ~= 1%>非材料计算
         if obj.NY == 1
+            %>一维情况
             obj.scatProba = zeros(obj.NX+2, 1);
             index0 = 2;
             index1 = find(obj.modelx.face >= (obj.d1 - obj.relaxLenPB), 1) + 1;
@@ -23,9 +28,20 @@ function modelMeshingAndReadData(obj, pc)
             obj.scatProba(index3+1:index4) = logspace(log10(obj.maxproba), log10(obj.minproba), index4-index3);
             obj.scatProba(index4+1:index5) = obj.minproba;
         else
-            disp("二维情况暂未考虑！")
+            %>二维情况
+            obj.scatProba = zeros(obj.NX+2, 1);
+            index0 = 2;
+            index1 = find(obj.modelx.face >= (obj.d1+obj.d2+obj.d3 - obj.relaxLenPB), 1) + 1;
+            index2 = find(obj.modelx.face >= obj.d1+obj.d2+obj.d3, 1) + 1;
+            index3 = find(obj.modelx.face >= (obj.d1+obj.d2+obj.d3+obj.d4+obj.d5 - obj.relaxLenCH), 1) + 1;
+            index4 = obj.NX + 1;
+            obj.scatProba(index0:index1) = obj.minproba;
+            obj.scatProba(index1+1:index2) = logspace(log10(obj.minproba), log10(obj.maxproba), index2-index1);
+            obj.scatProba(index2+1:index3) = obj.maxproba;
+            obj.scatProba(index3+1:index4) = logspace(log10(obj.maxproba), log10(obj.minproba), index4-index3);
         end
     else
+        %>材料计算
         obj.scatProba = ones(3, 1);
     end
     %>若指定掺杂浓度，则构建均匀掺杂浓度和电子浓度物理场
