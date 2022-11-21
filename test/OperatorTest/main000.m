@@ -52,7 +52,7 @@ for i = 2 : mm.NX + 1
     phi.bottom(i, :) = [1.0    0.0];
 end
 for j = 2 : mm.NY + 1
-    phi.left(j, :) = [0.0    0.0];
+    phi.left(j, :) = [0.0    1.0];
     phi.right(j, :) = [0.0    1.0];
 end
 for k = 1 : 100
@@ -65,7 +65,7 @@ for k = 1 : 100
     eqn.solveMatrix(500);
     eqn.updateField(mm, phi);
 end
-phi.plotField(mm)
+phi.plotField(mm, 'n')
 % hold on
 % f = @(x) x.^2/2 + x/2;
 % plot(mm.modelx.point(:), f(mm.modelx.point(:)))

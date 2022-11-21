@@ -25,80 +25,84 @@ function extractElectricHistorySoft(obj, cc, N)
     spmd
         filename = [path 'ElectronLogPart' num2str(labindex)];
         fileID = fopen(filename);
-        while ~feof(fileID)
-            strline = fgetl(fileID);
-            dataline = textscan(strline, '%d %d %f %f %f %f %f %f %f %f %f %d %d');
-            %>查找所在区域坐标
-            ID = dataline{1};
-            k = dataline{2};
-            if dataline{10} >= obj.minTime && dataline{10} <= obj.maxTime
-                i = find(cc.modelx.face >= dataline{3}, 1) - 1;
-                if cc.NY ~= 1
-                    j = find(cc.modely.face >= dataline{4}, 1) - 1;
+        try
+            while ~feof(fileID)
+                strline = fgetl(fileID);
+                dataline = textscan(strline, '%d %d %f %f %f %f %f %f %f %f %f %d %d');
+                %>查找所在区域坐标
+                ID = dataline{1};
+                k = dataline{2};
+                if dataline{10} >= obj.minTime && dataline{10} <= obj.maxTime
+                    i = find(cc.modelx.face >= dataline{3}, 1) - 1;
+                    if cc.NY ~= 1
+                        j = find(cc.modely.face >= dataline{4}, 1) - 1;
+                    else
+                        j = 1;
+                    end
+                    t = find(cc.time.face >= dataline{10}, 1) - 1;
+                    e = find(cc.energy.face >= dataline{9}, 1) - 1;
                 else
-                    j = 1;
+                    kflag = kflag + 1;
+                    continue;
                 end
-                t = find(cc.time.face >= dataline{10}, 1) - 1;
-                e = find(cc.energy.face >= dataline{9}, 1) - 1;
-            else
-                kflag = kflag + 1;
-                continue;
-            end
-            if isempty(i*j*t*e) || (i*j*t*e) == 0
-                kflag = kflag + 1;
-                continue;
-            end
-            absValley = abs(dataline{12});
-            %>平均能量随位置变化
-            aveepos(i, j) = aveepos(i, j) + dataline{9};
-            aveepcou(i, j) = aveepcou(i, j) + 1;
-            %>平均漂移速度随时间变化
-            avedtime(t, ID) = avedtime(t, ID) + dataline{11};
-            avedtcou(t, ID) = avedtcou(t, ID) + 1;
-            %>单个电子在单个时间区间只能有一个值
-            if ID ~= idflag || t ~= tflag
-                tflag = t;
-                idflag = ID;
-                %>能谷占据率随时间变化
-                if absValley <= 6%>Si GX/GaN U
-                    valleytime(t, 1) = valleytime(t, 1) + 1;
-                elseif absValley == 11%>GaN G1
-                    valleytime(t, 2) = valleytime(t, 2) + 1;
-                elseif absValley == 13%>GaN G3
-                    valleytime(t, 3) = valleytime(t, 3) + 1;
+                if isempty(i*j*t*e) || (i*j*t*e) == 0
+                    kflag = kflag + 1;
+                    continue;
                 end
-                %>平均能量随时间变化
-                aveetime(t, idflag) = dataline{9};
-            end
-            %>单个电子在单个位置区间只能有一个值
-            if ID ~= idflag || i ~= iflag || j ~= jflag
-                iflag = i;
-                jflag = j;
-                idflag = ID;
-                %>能谷占据率随位置变化
-                if absValley <= 6%>Si GX/GaN U
-                    valleypos(i, j, 1) = valleypos(i, j, 1) + 1;
-                elseif absValley == 11%>GaN G1
-                    valleypos(i, j, 2) = valleypos(i, j, 2) + 1;
-                elseif absValley == 13%>GaN G3
-                    valleypos(i, j, 3) = valleypos(i, j, 3) + 1;
+                absValley = abs(dataline{12});
+                %>平均能量随位置变化
+                aveepos(i, j) = aveepos(i, j) + dataline{9};
+                aveepcou(i, j) = aveepcou(i, j) + 1;
+                %>平均漂移速度随时间变化
+                avedtime(t, ID) = avedtime(t, ID) + dataline{11};
+                avedtcou(t, ID) = avedtcou(t, ID) + 1;
+                %>单个电子在单个时间区间只能有一个值
+                if ID ~= idflag || t ~= tflag
+                    tflag = t;
+                    idflag = ID;
+                    %>能谷占据率随时间变化
+                    if absValley <= 6%>Si GX/GaN U
+                        valleytime(t, 1) = valleytime(t, 1) + 1;
+                    elseif absValley == 11%>GaN G1
+                        valleytime(t, 2) = valleytime(t, 2) + 1;
+                    elseif absValley == 13%>GaN G3
+                        valleytime(t, 3) = valleytime(t, 3) + 1;
+                    end
+                    %>平均能量随时间变化
+                    aveetime(t, idflag) = dataline{9};
                 end
-            end
-            %>能量历史分布统计
-            enums(e) = enums(e) + 1;
-            %>散射类型统计，用前者能谷去分类后者的散射类型
-            s = dataline{13};
-            if k == kflag + 1
-                if vflag <= 6%>Si GX/GaN U
-                    scatnums(s, 1) = scatnums(s, 1) + 1;
-                elseif vflag == 11%>GaN G1
-                    scatnums(s, 2) = scatnums(s, 2) + 1;
-                elseif vflag == 13%>GaN G3
-                    scatnums(s, 3) = scatnums(s, 3) + 1;
+                %>单个电子在单个位置区间只能有一个值
+                if ID ~= idflag || i ~= iflag || j ~= jflag
+                    iflag = i;
+                    jflag = j;
+                    idflag = ID;
+                    %>能谷占据率随位置变化
+                    if absValley <= 6%>Si GX/GaN U
+                        valleypos(i, j, 1) = valleypos(i, j, 1) + 1;
+                    elseif absValley == 11%>GaN G1
+                        valleypos(i, j, 2) = valleypos(i, j, 2) + 1;
+                    elseif absValley == 13%>GaN G3
+                        valleypos(i, j, 3) = valleypos(i, j, 3) + 1;
+                    end
                 end
+                %>能量历史分布统计
+                enums(e) = enums(e) + 1;
+                %>散射类型统计，用前者能谷去分类后者的散射类型
+                s = dataline{13};
+                if k == kflag + 1
+                    if vflag <= 6%>Si GX/GaN U
+                        scatnums(s, 1) = scatnums(s, 1) + 1;
+                    elseif vflag == 11%>GaN G1
+                        scatnums(s, 2) = scatnums(s, 2) + 1;
+                    elseif vflag == 13%>GaN G3
+                        scatnums(s, 3) = scatnums(s, 3) + 1;
+                    end
+                end
+                kflag = k;
+                vflag = absValley;
             end
-            kflag = k;
-            vflag = absValley;
+        catch
+            disp(['ElectronLogPart' num2str(labindex) ' 文件为空！'])
         end
         aveepos = aveepos ./ aveepcou;
         avedtime = cumsum(avedtime) ./ cumsum(avedtcou);

@@ -1,4 +1,4 @@
-%% 硅性质验证程序
+%% 材料计算主程序
 rmpath(genpath('/home/jiang/eMonteCarlo'))
 addpath(genpath('./BasicClasses/'))
 addpath(genpath('./functions/'))
@@ -7,7 +7,7 @@ addpath(genpath('./OperatorTerms/'))
 addpath(genpath('./ParallelCompute/MaterialParallelCompute'))
 addpath(genpath('./Material_Si/'))
 addpath(genpath('./test/Si'))
-%%
+%% 初始化计算对象
 clc,clear
 close all
 pc = PhysicConstantsSi;
@@ -20,7 +20,7 @@ dv = DecideValleyKind(cc, pc, sc);
 sh = SimulationHistory(dv, pc, cc);
 eq = ElectricQuantityStaticsSi;
 pq = PhononQuantityStatics(cc);
-%%
+%% 开始计算
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% Hard读取仅用于观察电子轨迹图
@@ -42,11 +42,11 @@ eq.computeDriftVwithEFieldSoft(cc);
 eq.plotGeneralPropertiesSoft(cc);
 % 电子散射类型统计
 eq.statisticsScatteringTypeDistribution;
-%% 
+%% 读取声子历史信息
 pq.minTime = 0e-12;
 pq.maxTime = 50e-12;
 pq.parallelPhononDistribution(cc);
-%% 
+%% 电声散射结果验证
 % 验证1，能带/色散曲线画图
 dv.valley.bandStructurePlot(pc, pc.hsp.G, pc.hsp.X);
 dv.valley.electricVelocityPlot(pc, pc.hsp.G, pc.hsp.X);

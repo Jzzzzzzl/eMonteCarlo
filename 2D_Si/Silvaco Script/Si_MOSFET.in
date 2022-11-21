@@ -1,4 +1,4 @@
-go atlas simflags="-P 40"
+go atlas simflags="-P 120"
 
 mesh space.mult=1.0
 
@@ -29,9 +29,9 @@ region num=1 material=silicon y.min=0.0
 region num=2 material=oxide   y.max=0.0
 
 # electrode
-elec num=1 name=source left  length=$d1 y.min=0.0  y.max=0.0
+elec num=1 name=source left  length=$d1         y.min=0.0  y.max=0.0
 elec num=2 name=gate   x.min=$d1+$d2 length=$d3 y.min=-$w1 y.max=-$w1
-elec num=3 name=drain  right length=$d5 y.min=0.0  y.max=0.0
+elec num=3 name=drain  right length=$d5         y.min=0.0  y.max=0.0
 elec num=4 name=substrate substrate
 
 # doping
@@ -49,33 +49,33 @@ models print mos hcte lat.temp fldmob
 
 output band.param band.temp con.band e.mobility
 
-thermcontact num=1 elec.num=1 ext.temp=300
-thermcontact num=2 elec.num=3 ext.temp=300
-thermcontact num=3 elec.num=4 ext.temp=300
+thermcontact num=1 elec.num=1 ext.temp=$boutem
+thermcontact num=2 elec.num=3 ext.temp=$boutem
+thermcontact num=3 elec.num=4 ext.temp=$boutem
 
 method newton trap autonr maxtrap=10
 
-## solve Id-Vg curve
-#solve init
-#solve vdrain=0.0 vstep=0.025 vfinal=1.0 name=drain
-#solve vgate=0.0 vstep=-0.25 vfinal=-2.0 name=gate
-#
-#log outfile=Id-Vg.log master
-#solve vstep=0.1 vfinal=6.0 name=gate prev
-#log off
-#
-#tonyplot Id-Vg.log
+# solve Id-Vg curve
+solve init
+solve vdrain=0.0 vstep=0.025 vfinal=1.0 name=drain
+solve vgate=0.0 vstep=-0.25 vfinal=-2.0 name=gate
 
-## solve Id-Vd curve
-#solve init
-#solve vgate=0.0 vstep=0.025 vfinal=2.0 name=gate
-#solve vdrain=0.0
-#
-#log outfile=Id-Vd.log master
-#solve vstep=0.1 vfinal=10.0 name=drain prev
-#log off
-#
-#tonyplot Id-Vd.log
+log outfile=Id_Vg.log master
+solve vstep=0.1 vfinal=6.0 name=gate prev
+log off
+
+tonyplot Id_Vg.log
+
+# solve Id-Vd curve
+solve init
+solve vgate=0.0 vstep=0.025 vfinal=2.0 name=gate
+solve vdrain=0.0
+
+log outfile=Id_Vd.log master
+solve vstep=0.1 vfinal=10.0 name=drain prev
+log off
+
+tonyplot Id_Vd.log
 
 # solve specific situation
 solve init

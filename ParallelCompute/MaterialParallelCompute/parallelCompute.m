@@ -10,7 +10,7 @@ function [] = parallelCompute(sh, dv, sc, pc, cc)
         i = cc.ejobIndexs(labindex, 1);
         while i <= cc.ejobIndexs(labindex, 2)
             for k = 1 : cc.noFly
-                eGroup(i) = freeFlyProcess(eGroup(i), dv, pc);
+                eGroup(i) = freeFlyProcess(eGroup(i), dv, pc, cc);
                 %散射段
                 cc.computePositionParameters(eGroup(i));
                 dv.valleyGuidingPrinciple(eGroup(i));

@@ -129,13 +129,17 @@ function [] = verifyProgram(type, dv, pc, ~, cc)
             legend(['vd = ', num2str(sum(perdrift(:, 2)).*1e-7), ' x10^7 cm/s'])
             
         case 'verifyConfigureSettings'
-            if rem(cc.noFly/cc.localWorkers, 1) ~= 0
-                error('将飞行次数设置为核数的整数倍！')
+            if rem(cc.superElecs/cc.localWorkers, 1) ~= 0
+                error('将超电子数设置为核数的整数倍！')
             end
             if exist([cc.filePath 'ElectronLogPart1'], 'file')
                 error('先将文件夹清空！')
             end
-            disp('没问题了，开始模拟吧！')
+            disp('计算采用的配置如下：')
+            disp(['采用核数为：' num2str(cc.localWorkers)])
+            disp(['超电子数为：' num2str(cc.superElecs)])
+            disp(['飞行次数为：' num2str(cc.noFly)])
+            disp(['初始能谷为：' num2str(cc.initValley)])
             
         case 'youshifangxiangdianchang'
             r = 1;

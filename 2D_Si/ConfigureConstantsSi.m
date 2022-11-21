@@ -3,21 +3,28 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             %>构造函数
-            obj.superElecs = 1000;
-            obj.noFly = 20000;
+            obj.superElecs = 60;
+            obj.noFly = 3000;
             
-            obj.NX = 80;%>最好能整除所使用核数
+            obj.NX = 80;
             obj.NY = 40;
-            obj.NA = 200;%>一维默认为2
-            obj.NW = 200;%>最好能整除所使用核数
+            obj.NA = 200;
+            obj.NW = 200;
             obj.NE = 1000;
-            obj.initPosition = [110 115 190 200]*1e-9;%>起始点远离电子高浓度区
+            obj.initPosition = [110 115 190 200]*1e-9;
+            obj.staPosition = [110 400 100 200]*1e-9;
             obj.localWorkers = 20;
             obj.initValley = 1;
             %>温度场迭代
 %             load teff.mat
 %             obj.initTemp = teff;
-            %>用于调节声子分布函数
+            %>用于调节电子飞行速度
+            obj.vxScale = 1;
+            obj.vyScale = 1;
+            %>用于调节电场强度
+            obj.xEScale = 1;
+            obj.yEScale = 1;
+            %>用于调节焦耳发热量
             obj.xsforQ = 8.5;
             %>用于调节扩散温度
             obj.xsforSourceB = 150e19;

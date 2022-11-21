@@ -90,7 +90,7 @@ classdef PhysicConstantsGaN < PhysicConstants
             obj.thetaD = 643;%%%%%%%%%%%%%
             obj.omegaD = obj.thetaD*obj.kb/obj.hbar;
             obj.V0 = sqrt(3)*obj.c^3/8;
-            obj.k = 1000;
+            obj.k = 130;
             %>>>>>>>>>>>>U能谷参数<<<<<<<<<<<<<
             obj.EgU = 2.0*obj.e;
             obj.mtU = 0.335*obj.m;

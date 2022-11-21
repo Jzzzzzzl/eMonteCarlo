@@ -1,12 +1,10 @@
 classdef ConfigureConstants < Data2ColocatedField
     %% 运行参数父类
     properties
-        %>飞行次数
-        noFly
         %>超电子数量
         superElecs
-        %>常数飞行时间
-        dtConst
+        %>飞行次数
+        noFly
         %>超电子电荷
         superElecCharge
         %>初始温度
@@ -19,10 +17,18 @@ classdef ConfigureConstants < Data2ColocatedField
         initEnergy
         %>时间阶跃电场
         eFieldInput
-        %>初始电子位置
+        %>电子初始位置
+        staPosition
+        %>电子生成位置
         initPosition
         %>计算核数
         localWorkers
+        %>电场缩放因子
+        xEScale
+        yEScale
+        %>速度修正参数
+        vxScale
+        vyScale
         %>Q修正参数
         xsforQ
         %>SourceB修正参数
@@ -33,6 +39,10 @@ classdef ConfigureConstants < Data2ColocatedField
         d3
         d4
         d5
+        %>模型长度
+        mLength
+        %>模型宽度
+        mWidth
         %>最大势垒能量差
         energyPBmax
         %>势垒能量索引表
@@ -53,10 +63,6 @@ classdef ConfigureConstants < Data2ColocatedField
         regionPB
         %>沟道区坐标
         regionCH
-        %>模型长度
-        mLength
-        %>模型宽度
-        mWidth
         %>电子存储文件指针
         elog
         %>声子存储文件指针
@@ -76,24 +82,42 @@ classdef ConfigureConstants < Data2ColocatedField
     methods
         function obj = ConfigureConstants
             %>构造函数
-            obj.dtConst = 0;
-            obj.energyPB = 0*obj.e;
+            obj.superElecs = 360;
+            obj.noFly = 360;
+            obj.initTemp = 300;
+            obj.initDopDen = 1e20;
+            obj.initValley = 1;
+            obj.initEnergy = 0.01*obj.e;
+            obj.eFieldInput = [1, 0];
+            obj.staPosition = [0 0 0 0];
+            obj.initPosition = [0 0 0 0];
+            obj.localWorkers = 4;
+            obj.xEScale = 1;
+            obj.yEScale = 1;
+            obj.vxScale = 1;
+            obj.vyScale = 1;
+            obj.xsforQ = 1;
+            obj.xsforSourceB = 1;
+            obj.d1 = 1;
+            obj.d2 = 1;
+            obj.d3 = 1;
+            obj.d4 = 1;
+            obj.d5 = 1;
+            obj.mLength = 5;
+            obj.mWidth = 1;
+            obj.energyPBmax = 0;
             obj.relaxLenPB = 0;
-            obj.relaxLenCH = 0;
             obj.minproba = 1;
             obj.maxproba = 1;
-            obj.localWorkers = 20;
-            obj.initTemp = 300;
-            obj.mLength = 1;
-            obj.mWidth = 1;
+            obj.relaxLenCH = 0;
             obj.NX = 1;
             obj.NY = 1;
             obj.NA = 2;
-            obj.NW = 10;
+            obj.NW = 200;
+            obj.NE = 200;
             obj.elog = 0;
             obj.plog = 0;
             obj.fileIndex = 0;
-            obj.initPosition = [0 0 0 0];
         end
     end
     

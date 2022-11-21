@@ -34,20 +34,21 @@ function computeTF(obj, cc, sc, pc)
     Sp = ColocateField(cc);
     Sc = sourceB;
     eqn = LinearSystem(cc.NX, cc.NY);
+    %>模型边界条件设置
     for i = 2 : cc.NX + 1
-        obj.TF.top(i, :) = [0.0    tempT];
-        obj.TF.bottom(i, :) = [0.0    tempT];
+        obj.TF.top(i, :) = [1.0    0.0];
+        obj.TF.bottom(i, :) = [1.0    0.0];
     end
     for j = 2 : cc.NY + 1
         obj.TF.left(j, :) = [0.0    tempT];
         obj.TF.right(j, :) = [0.0    tempT];
     end
-    for i = 1 : 100
+    for i = 1 : 20
         eqn.initialize;
         eqn.setInitialGuess(cc, obj.TF);
         diffusionOperator(eqn, cc, lambda, obj.TF);
         sourceOperator(eqn, cc, Sp, Sc);
-        eqn.solveMatrix(1000);
+        eqn.solveMatrix(500);
         eqn.updateField(cc, obj.TF);
     end
     %>写入文件

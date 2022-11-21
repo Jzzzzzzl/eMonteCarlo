@@ -44,12 +44,12 @@ models material=GaN fldmob evsatmod=1 print \
 
 output band.param band.temp con.band e.mobility
 
-thermcontact num=1 elec.num=1 ext.temp=300
-thermcontact num=2 elec.num=2 ext.temp=300
+thermcontact num=1 elec.num=1 ext.temp=$boutem
+thermcontact num=2 elec.num=2 ext.temp=$boutem
 
 method newton trap autonr maxtrap=10
 
-# solve
+# solve Id_Vd curve
 solve init
 solve vanode=0.0 name=anode
 

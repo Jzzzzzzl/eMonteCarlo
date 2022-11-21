@@ -1,0 +1,232 @@
+# GaN MISHEMT
+go devedit
+
+#####################################################
+##########       global parameters     ##############
+#####################################################
+
+set etxmin=0.0
+set etxmax=10.0
+set etymin=0.0
+set etymax=0.01
+set boutem=300
+
+#####################################################
+##########          define area         ##############
+#####################################################
+
+# work area
+work.area left=0.0 right=10 top=-0.0375 bottom=0.357
+
+# (1)source
+region id=1 name=source material=gold elec.id=1 work.func=0 \
+            points="0,-0.0375 0.5,-0.0375 0.5,-0.0075 0,-0.0075 0,-0.0375"
+constr.mesh region=1 default
+# (2)gate
+region id=2 name=gate material=gold elec.id=2 work.func=0 \
+            points="1.5,-0.0375 4.5,-0.0375 4.5,-0.0225 3.85,-0.0225 3.85,-0.0035 1.85,-0.0035 1.85,-0.0225 1.5,-0.0225 1.5,-0.0375"
+constr.mesh region=2 default
+# (3)drain
+region id=3 name=drain material=gold elec.id=3 work.func=0 \
+            points="9.5,-0.0375 10,-0.0375 10,-0.0075 9.5,-0.0075 9.5,-0.0375"
+constr.mesh region=3 default
+# (4)oxide layer
+region id=4 name=oxide material=oxide \
+            points="0.5,-0.0225 1.85,-0.0225 1.85,-0.0035 3.85,-0.0035 3.85,-0.0225 9.5,-0.0225 9.5,-0.0165 4,-0.0165 4,-0.0025 1.7,-0.0025 1.7,-0.0165 0.5,-0.0165 0.5,-0.0225"
+constr.mesh region=4 default
+# (5)charge provide layer
+region id=5 name=provide material=AlGaN \
+            points="0,-0.0075 0.5,-0.0075 0.5,-0.0165 1.7,-0.0165 1.7,-0.0025 4,-0.0025 4,-0.0165 9.5,-0.0165 9.5,-0.0075 10,-0.0075 10,-0.001 0,-0.001 0,-0.0075"
+impurity id=1 region.id=5 impurity="Composition Fraction X" \
+	 x1=0 x2=0 y1=0 y2=0 \
+         peak.value=0.22 ref.value=0 comb.func=Multiply \
+         rolloff.y=both conc.func.y=Constant \
+         rolloff.x=both conc.func.x=Constant
+impurity id=2 region.id=5 impurity=donors \
+         x1=0 x2=0 y1=0 y2=0 \
+         peak.value=5e17 ref.value=1e12 comb.func=Multiply \
+         rolloff.y=both conc.func.y=Constant \
+         rolloff.x=both conc.func.x=Constant
+constr.mesh region=5 default
+# (6)isolation layer
+region id=6 name=isolation material=AlGaN \
+            points="0,-0.001 10,-0.001 10,0 0,0 0,-0.001"
+impurity id=1 region.id=6 impurity="Composition Fraction X" \
+         x1=0 x2=0 y1=0 y2=0 \
+         peak.value=0.07 ref.value=0 comb.func=Multiply \
+         rolloff.y=both conc.func.y=Constant \
+         rolloff.x=both conc.func.x=Constant
+constr.mesh region=6 default
+# (7)drift layer
+region id=7 name=drift material=GaN \
+            points="0,0 10,0 10,0.2 0,0.2 0,0"
+impurity id=1 region.id=7 impurity=donors \
+         x1=0 x2=0 y1=0 y2=0 \
+         peak.value=2e14 ref.value=1e12 comb.func=Multiply \
+         rolloff.y=both conc.func.y=Constant \
+         rolloff.x=both conc.func.x=Constant
+constr.mesh region=7 default
+# (8)transition layer
+region id=8 name=transition material=AlN \
+            points="0,0.2 10,0.2 10,0.207 0,0.207 0,0.2"
+constr.mesh region=8 default
+# (9)substrate
+region id=9 name=substrate material=Silicon \
+            points="0,0.207 10,0.207 10,0.357 0,0.357 0,0.207"
+constr.mesh region=9 default
+
+#####################################################
+##########    Set Meshing Parameters   ##############
+#####################################################
+
+# define base mesh size
+base.mesh height=0.01 width=0.25
+# reduce the number of boundary points
+bound.cond apply max.slope=28 max.ratio=300 rnd.unit=5e-05 line.straightening=1 align.points when=automatic
+# defien the limit of impurity differential across triangles
+imp.refine min.spacing=0.02
+# set limits on triangles created during mesh and refine operations
+constr.mesh max.angle=90 max.ratio=3000 max.height=1 max.width=1 min.height=0.0001 min.width=0.0001
+
+#####################################################
+##########   Perform mesh operations   ##############
+#####################################################
+
+mesh mode=meshbuild
+refine mode=y x1=4.095 y1=-0.005918 x2=9.896 y2=-0.002818
+refine mode=y x1=4.114 y1=-0.006583 x2=9.858 y2=-0.003578
+refine mode=y x1=4.126 y1=-0.0151 x2=9.42 y2=-0.008336
+refine mode=y x1=0.04324 y1=-0.00666 x2=1.608 y2=-0.002878
+refine mode=y x1=0.5543 y1=-0.01577 x2=1.639 y2=-0.009883
+refine mode=y x1=0.03103 y1=-0.003367 x2=1.596 y2=-0.002595
+refine mode=y x1=0.04968 y1=-0.001694 x2=9.975 y2=-0.0007017
+refine mode=y x1=0.1431 y1=0.002956 x2=9.857 y2=0.09533
+refine mode=y x1=0.1227 y1=0.2013 x2=9.898 y2=0.204
+refine mode=y x1=0.1022 y1=0.002337 x2=9.898 y2=0.01254
+refine mode=y x1=0.1022 y1=0.002337 x2=9.898 y2=0.01254
+refine mode=y x1=0.1022 y1=0.002337 x2=9.898 y2=0.01254
+refine mode=y x1=0.03576 y1=-0.0007696 x2=9.993 y2=0.01455
+refine mode=x x1=4.122 y1=-0.01325 x2=5.359 y2=-0.01304
+
+
+# model preview
+#structure outf=GaN_MISHEMT.str
+#tonyplot GaN_MISHEMT.str
+#quit
+
+go atlas simflags="-P 40"
+
+# Define the workfunction for the gate contact
+contact name=source workfunction=0.0
+contact name=gate   workfunction=4.55
+contact name=drain  workfunction=0.0
+
+# Define material parameters on material-by-material basis 
+material material=GaN   align=1.0 vsat=2.0e7
+material material=AlGaN align=1.0
+
+# Define physical models on material-by material basis
+models fldmob print lat.tem polarization calc.strain
+models material=GaN evsatmod=1 polar.scale=1.0
+models material=AlGaN evsatmod=0 polar.scale=1.0
+
+thermcontact num=1 name=source    ext.temp=$boutem
+thermcontact num=2 name=gate      ext.temp=$boutem
+thermcontact num=3 name=drain     ext.temp=$boutem
+thermcontact num=4 name=substrate ext.temp=$boutem
+# Include bands potential, and current flowlines into output 
+method gummel newton trap itlimit=20 maxtrap=6
+output con.band val.band charge polar.charge band.par qss e.mobility
+
+#####################################################
+##########   normally-off characteristics   ##########
+#####################################################
+
+solve init
+solve vgate=3.0
+save outfile=GaN_MISHEMT.str master
+tonyplot GaN_MISHEMT.str
+quit
+
+#####################################################
+##########         Id-Vg curve         ##############
+#####################################################
+
+solve init
+solve vdrain=0.0 vfinal=1.0 vstep=0.2 name=drain
+solve vgate=-2.0
+
+log outf=Id_Vg.log master
+solve vfinal=6.0 vstep=0.5 name=gate prev
+log off
+
+tonyplot Id_Vg.log
+
+#####################################################
+##########         Id-Vd curve         ##############
+#####################################################
+
+solve init
+solve vgate=0.0 vfinal=2.0 vstep=0.5 name=gate
+solve vdrain=0.0
+
+log outf=Id_Vd.log master
+solve vfinal=30 vstep=0.5 name=drain prev
+log off
+
+tonyplot Id_Vd.log
+
+#####################################################
+##########     breakdown voltage       ##############
+#####################################################
+
+solve init
+solve vgate=0.0 vfinal=2.0 vstep=0.5 name=gate
+solve vdrain=0.0
+
+log outf=breakdown.log master
+solve vfinal=1500 vstep=5 name=drain prev
+log off
+
+tonyplot breakdown.log
+
+#####################################################
+##########        save postfile         ##############
+#####################################################
+
+save outfile=GaN_MISHEMT.str master
+tonyplot GaN_MISHEMT.str
+
+#####################################################
+##########     extract information     ##############
+#####################################################
+
+extract init infile="Id_Vg.log"
+extract name="Vth" (xintercept(maxslope(curve(abs(v."gate"),abs(i."drain")))) - abs(ave(v."drain"))/2.0)
+
+extract init infile="Id_Vd.log"
+extract name="idmax" max(i."drain")
+#extract name="Vbd" x.val from curve(abs(v."drain"),abs(i."drain")) where y.val=0.0007
+
+extract init infile="GaN_MISHEMT.str"
+extract 2d.conc.file material="GaN" impurity="e- Mobility" outfile="EMobility.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+extract 2d.conc.file material="GaN" impurity="Potential" outfile="Potential.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+extract 2d.conc.file material="GaN" impurity="E Field X" outfile="XeField.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+extract 2d.conc.file material="GaN" impurity="E Field Y" outfile="YeField.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+extract 2d.conc.file material="GaN" impurity="Total Doping" outfile="TotalDoping.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+extract 2d.conc.file material="GaN" impurity="Electron conc" outfile="Eleconc.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+extract 2d.conc.file material="GaN" impurity="Lattice Temperature" outfile="LatticeTem.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+extract 2d.conc.file material="GaN" impurity="Joule Heat Power" outfile="JouleHeatPower.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+extract 2d.conc.file material="GaN" impurity="Conduction Band Energy" outfile="ConductionBand.dat" \
+                    x.min=$etxmin x.max=$etxmax y.min=$etymin y.max=$etymax
+
+
+quit

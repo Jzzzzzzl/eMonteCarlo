@@ -33,6 +33,7 @@ function updateConfigureConstants(obj)
         %>材料计算
         obj.regionPB = [0 0];
         obj.regionCH = [0 0];
+        obj.energyPB = [1 0];
     end
     %>并行任务坐标划分
     obj.assignJobsForParallel;

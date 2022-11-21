@@ -7,7 +7,7 @@ addpath(genpath('./OperatorTerms/'))
 addpath(genpath('./ParallelCompute/DeviceParallelCompute/'))
 addpath(genpath('./Material_Si/'))
 addpath(genpath('./1D_Si/'))
-%% 
+%% 初始化计算对象
 clc,clear
 close all
 pc = PhysicConstantsSi;
@@ -20,7 +20,7 @@ dv = DecideValleyKind(cc, pc, sc);
 sh = SimulationHistory(dv, pc, cc);
 eq = ElectricQuantityStaticsSi;
 pq = PhononQuantityStatics(cc);
-%%
+%% 开始计算
 verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% Hard读取仅用于观察电子轨迹图
@@ -43,7 +43,7 @@ eq.computeDirftVelocityWithTimeSoft(cc)
 eq.plotGeneralPropertiesSoft(cc)
 % 电子散射类型统计
 eq.statisticsScatteringTypeDistribution;
-%%
+%% 读取声子历史信息并求解BTE
 pq.minTime = 100e-12;
 pq.maxTime = 500e-12;
 pq.parallelPhononDistribution(cc);
@@ -54,7 +54,7 @@ pq.solveFarDistributionFunction(cc, sc);
 pq.plotFullFrequencyPeoperties(pq.Q, cc, 'Q')
 pq.plotFullFrequencyPeoperties(pq.nDot, cc, 'nDot')
 pq.plotFullFrequencyPeoperties(pq.n, cc, 'n')
-%% 
+%% 计算扩散及等效温度
 pq.computeTF(cc, sc, pc)
 pq.computeTeff(cc, pc, sc, 1)
 pq.computeTeff(cc, pc, sc, 2)
@@ -90,7 +90,7 @@ cc.eMobility.plotField(cc, 'n')
 cc.writeTCADtoFile
 %% 其他需要输出的参数
 
-%% 转存nDot
+%% 输出电声散射源项
 nDot = repmat(pq.polar, cc.NW, 1);
 for k = 1 : cc.NW
     nDot(k).LA = pq.nDot(k).LA.data(:, 2);

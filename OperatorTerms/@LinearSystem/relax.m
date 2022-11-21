@@ -1,5 +1,5 @@
 function relax(obj, alpha)
-    %>对流项松弛因子(扩散项不需要压松弛修正)
+    %>对流项松弛因子(扩散项不需要亚松弛修正)
     for rowID = 1 : obj.rowNumber
         ap = 1;
         for i = obj.rowStartID(rowID) : obj.rowStartID(rowID+1) - 1

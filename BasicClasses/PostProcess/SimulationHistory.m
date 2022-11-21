@@ -21,6 +21,8 @@ classdef SimulationHistory < handle
                 obj.eGroup(i) = ElectricStatus;
                 obj.eGroup(i).initializeElectricStatus(dv, pc, cc);
                 obj.eGroup(i).id = i;
+                obj.eGroup(i).position(1) = randNumber(cc.staPosition(1), cc.staPosition(2));
+                obj.eGroup(i).position(2) = randNumber(cc.staPosition(3), cc.staPosition(4));
             end
         end
         

@@ -2,21 +2,23 @@ classdef ConfigureConstantsSi < ConfigureConstants
     %% 运行参数类
     methods
         function obj = ConfigureConstantsSi(pc)
-            obj.superElecs = 500;
-            obj.noFly = 4000;%单次飞行约0.0185ps
-            obj.eFieldInput = [1, -1805320];%最好是一个一个电场计算,避免相互干扰
+            obj.superElecs = 60;
+            obj.noFly = 3000;%0.0185ps/次飞行
+            obj.eFieldInput = [1, -1805320];
 %             obj.eFieldInput = [50e-12 -1e5
 %                                     1 -100e5];
 %             obj.generateElectricField(5, 10, 'log', 5, 7);
             
-            obj.initTemp = 300;
-            obj.NE = 1000;
             obj.NW = 200;
-            obj.initValley = 1;
-            obj.localWorkers = 20;
+            obj.NE = 1000;
             obj.initPosition = [0 0 0 0];
+            obj.staPosition = [0 0 0 0];
+            obj.localWorkers = 20;
+            obj.initValley = 1;
+            obj.initTemp = 300;
             obj.initEnergy = 0.0*obj.e;
-            obj.initDopDen = 1e23;%不同掺杂浓度可能引起最大散射率的变化
+            obj.initDopDen = 1e23;
+            
             obj.modelMeshingAndReadData(pc);
             obj.filePath = '/home/jiang/documents/eMdatas/epDatas/';
         end
