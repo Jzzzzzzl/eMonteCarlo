@@ -1,0 +1,74 @@
+go atlas simflags="-P 120"
+
+mesh space.mult=0.5
+
+# global parameters
+set d1=0.15
+set d2=0.02
+set d3=0.15
+set wd=0.1
+
+set dop1=1.0e20
+set dop2=1.0e16
+set dop3=1.0e20
+
+set boutem=300
+
+# structure modeling
+x.mesh loc=0.0 spac=0.001
+x.mesh loc=$d1+$d2+$d3 spac=0.001
+
+y.mesh loc=0.0 spac=0.01
+y.mesh loc=$wd spac=0.01
+
+# region
+region num=1 material=silicon x.max=$d1
+region num=2 material=silicon x.min=$d1     x.max=$d1+$d2
+region num=3 material=silicon x.min=$d1+$d2
+
+# electrode
+elec num=1 name=anode    x.min=0.0  x.max=0.0 y.min=0.0 y.max=$wd
+elec num=2 name=cathode  x.min=$d1+$d2+$d3 x.max=$d1+$d2+$d3 y.min=0.0 y.max=$wd
+
+# doping
+doping region=1 uniform n.type conc=$dop1
+doping region=2 uniform n.type conc=$dop2
+doping region=3 uniform n.type conc=$dop3
+
+# models
+models print mos hcte lat.temp
+
+output band.param band.temp con.band e.mobility
+
+thermcontact num=1 elec.num=1 ext.temp=$boutem
+thermcontact num=2 elec.num=2 ext.temp=$boutem
+
+method newton trap autonr maxtrap=10
+
+# solve Id_Vd curve
+solve init
+solve vanode=0.0 name=anode
+
+log outfile=Id_Vd.log master
+solve vcathode=0.0 name=cathode vstep=0.025 vfinal=1.0
+log off
+
+tonyplot Id_Vd.log
+
+save outfile=structure.str master
+
+# extract
+extract init infile="structure.str"
+extract 2d.conc.file material="silicon" impurity="e- Mobility" outfile="EMobility.dat"
+extract 2d.conc.file material="silicon" impurity="Heat Conductivity" outfile="HeatConduc.dat"
+extract 2d.conc.file material="silicon" impurity="Potential" outfile="Potential.dat"
+extract 2d.conc.file material="silicon" impurity="E Field X" outfile="XeField.dat"
+extract 2d.conc.file material="silicon" impurity="E Field Y" outfile="YeField.dat"
+extract 2d.conc.file material="silicon" impurity="Total Doping" outfile="TotalDoping.dat"
+extract 2d.conc.file material="silicon" impurity="Electron conc" outfile="Eleconc.dat"
+extract 2d.conc.file material="silicon" impurity="Lattice Temperature" outfile="LatticeTem.dat"
+extract 2d.conc.file material="silicon" impurity="Joule Heat Power" outfile="JouleHeatPower.dat"
+extract 2d.conc.file material="silicon" impurity="Conduction Band Energy" outfile="ConductionBand.dat"
+
+tonyplot structure.str
+quit

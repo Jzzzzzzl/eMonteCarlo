@@ -1,0 +1,102 @@
+go atlas simflags="-P 120"
+
+mesh space.mult=1.0
+
+# global parameters
+set d1=0.1
+set d2=0.0
+set d3=0.3
+set d4=0.0
+set d5=0.1
+
+set w1=0.02
+set w2=0.2
+
+set dop_p=1e16
+set dop_n=1e20
+
+set boutem=300
+
+# structure modeling
+x.mesh loc=0.0 spacing=0.005
+x.mesh loc=$d1+$d2+$d3+$d4+$d5 spacing=0.005
+
+y.mesh loc=-$w1 spacing=0.005
+y.mesh loc= $w2 spacing=0.005
+
+# region
+region num=1 material=silicon y.min=0.0
+region num=2 material=oxide   y.max=0.0
+
+# electrode
+elec num=1 name=source left  length=$d1         y.min=0.0  y.max=0.0
+elec num=2 name=gate   x.min=$d1+$d2 length=$d3 y.min=-$w1 y.max=-$w1
+elec num=3 name=drain  right length=$d5         y.min=0.0  y.max=0.0
+elec num=4 name=substrate substrate
+
+# doping
+doping region=1 uniform p.type conc=$dop_p
+doping gauss n.type conc=$dop_n x.right=$d1 junc=0.03 ratio=0.6
+doping gauss n.type conc=$dop_n x.left=$d1+$d2+$d3+$d4 junc=0.03 ratio=0.6
+
+# contact
+contact num=1 name=source workfunction=0.0
+contact num=2 name=gate   workfunction=3.87
+contact num=3 name=drain  workfunction=0.0
+
+# models
+models print mos hcte lat.temp fldmob
+
+output band.param band.temp con.band e.mobility
+
+thermcontact num=1 elec.num=1 ext.temp=$boutem
+thermcontact num=2 elec.num=3 ext.temp=$boutem
+thermcontact num=3 elec.num=4 ext.temp=$boutem
+
+method newton trap autonr maxtrap=10
+
+# solve Id-Vg curve
+#solve init
+#solve vdrain=0.0 vstep=0.025 vfinal=1.0 name=drain
+#solve vgate=0.0 vstep=-0.25 vfinal=-2.0 name=gate
+#
+#log outfile=Id_Vg.log master
+#solve vstep=0.1 vfinal=6.0 name=gate prev
+#log off
+#
+#tonyplot Id_Vg.log
+
+# solve Id-Vd curve
+solve init
+solve vgate=0.0 vstep=0.025 vfinal=2.0 name=gate
+solve vdrain=0.0
+
+log outfile=Id_Vd.log master
+solve vstep=0.1 vfinal=10.0 name=drain prev
+log off
+
+tonyplot Id_Vd.log
+
+# solve specific situation
+#solve init
+#solve vgate=0.0 vstep=0.05 vfinal=4.0 name=gate
+#solve vdrain=0.0 vstep=0.05 vfinal=10.0 name=drain
+
+save outf=structure.str master
+
+# extract
+extract init infile="structure.str"
+extract 2d.conc.file material="silicon" impurity="e- Mobility" outfile="EMobility.dat"
+extract 2d.conc.file material="silicon" impurity="Heat Conductivity" outfile="HeatConduc.dat"
+extract 2d.conc.file material="silicon" impurity="Potential" outfile="Potential.dat"
+extract 2d.conc.file material="silicon" impurity="E Field X" outfile="XeField.dat"
+extract 2d.conc.file material="silicon" impurity="E Field Y" outfile="YeField.dat"
+extract 2d.conc.file material="silicon" impurity="Total Doping" outfile="TotalDoping.dat"
+extract 2d.conc.file material="silicon" impurity="Electron conc" outfile="Eleconc.dat"
+extract 2d.conc.file material="silicon" impurity="Lattice Temperature" outfile="LatticeTem.dat"
+extract 2d.conc.file material="silicon" impurity="Joule Heat Power" outfile="JouleHeatPower.dat"
+extract 2d.conc.file material="silicon" impurity="Conduction Band Energy" outfile="ConductionBand.dat"
+
+tonyplot structure.str
+quit
+
