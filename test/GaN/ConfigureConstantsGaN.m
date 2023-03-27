@@ -3,7 +3,7 @@ classdef ConfigureConstantsGaN < ConfigureConstants
     methods
         function obj = ConfigureConstantsGaN(pc)
             obj.superElecs = 200;
-            obj.noFly = 20000;%0.004ps/次飞行
+            obj.noFly = 4000;%0.004ps/次飞行
             obj.eFieldInput = [1, -6.0e7];
 %             obj.eFieldInput = [5.0e-12 -6.0e7
 %                                     1         -5.0e5];
@@ -14,7 +14,7 @@ classdef ConfigureConstantsGaN < ConfigureConstants
             obj.initPosition = [0 0 0 0];
             obj.staPosition = [0 0 0 0];
             obj.localWorkers = 20;
-            obj.initValley = 11;
+            obj.initValley = 13;
             obj.initTemp = 300;
             obj.initEnergy = 0.0*obj.e;
             obj.initDopDen = 1e23;

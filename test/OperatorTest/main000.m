@@ -3,10 +3,10 @@ clc,clear
 close all
 
 mm = ModelMeshing;
-NX = 20;
-NY = 60;
-mm.modelXGrid(0, 1.2, NX);
-mm.modelYGrid(0, 1.2, NY);
+NX = 100;
+NY = 100;
+mm.modelXGrid(0, 1e-6, NX);
+mm.modelYGrid(0, 1e-6, NY);
 % mm.modelMeshingGridPlot;
 
 %% 验证正交网格plotField和computeGradient
@@ -38,49 +38,49 @@ mm.modelYGrid(0, 1.2, NY);
 % velocity.computeDivergence(mm, divU);
 % divU.plotField(mm);
 %% 扩散项/对流项/源项算子验证
-tic
-phi = ColocateField(mm);
-lambda = StaggeredField(mm, 100, 100);
-% rho = StaggeredField(mm, 1, 1);
-% velocity = StaggeredField(mm, 10, 10);
-% massflux = StaggeredField(mm);
-% multiplyStaggered(mm, massflux, rho, velocity);
-
-for j = mm.NY/3+2 : mm.NY*2/3+1
-    lambda.datax(:, j) = 200;
-end
-
-for j = mm.NY/3+1 : mm.NY*2/3+1
-    lambda.datay(:, j) = 200;
-end
-
-sp = ColocateField(mm, 0);
-sc = ColocateField(mm, 0);
-eqn = LinearSystem(NX, NY);
-for i = 2 : mm.NX + 1
-    phi.top(i, :) = [0.0    350.0];
-    phi.bottom(i, :) = [0.0    300.0];
-end
-for j = 2 : mm.NY + 1
-    phi.left(j, :) = [1.0    0.0];
-    phi.right(j, :) = [1.0    0.0];
-end
-for k = 1 : 10
-    eqn.initialize;
-    eqn.setInitialGuess(mm, phi);
-    diffusionOperator(eqn, mm, lambda, phi);
-%     convectionOperator(eqn, mm, massflux, phi);
-%     sourceOperator(eqn, mm, sp, sc);
-%     eqn.displayOneEquation(400);
-    eqn.solveMatrix(500);
-    eqn.updateField(mm, phi);
-end
-phi.plotField(mm, 'n')
-
-toc
-% hold on
-% f = @(x) x.^2/2 + x/2;
-% plot(mm.modelx.point(:), f(mm.modelx.point(:)))
+% tic
+% phi = ColocateField(mm);
+% lambda = StaggeredField(mm, 100, 100);
+% % rho = StaggeredField(mm, 1, 1);
+% % velocity = StaggeredField(mm, 10, 10);
+% % massflux = StaggeredField(mm);
+% % multiplyStaggered(mm, massflux, rho, velocity);
+% 
+% for j = mm.NY/3+2 : mm.NY*2/3+1
+%     lambda.datax(:, j) = 200;
+% end
+% 
+% for j = mm.NY/3+1 : mm.NY*2/3+1
+%     lambda.datay(:, j) = 200;
+% end
+% 
+% sp = ColocateField(mm, 0);
+% sc = ColocateField(mm, 0);
+% eqn = LinearSystem(NX, NY);
+% for i = 2 : mm.NX + 1
+%     phi.top(i, :) = [0.0    350.0];
+%     phi.bottom(i, :) = [0.0    300.0];
+% end
+% for j = 2 : mm.NY + 1
+%     phi.left(j, :) = [1.0    0.0];
+%     phi.right(j, :) = [1.0    0.0];
+% end
+% for k = 1 : 10
+%     eqn.initialize;
+%     eqn.setInitialGuess(mm, phi);
+%     diffusionOperator(eqn, mm, lambda, phi);
+% %     convectionOperator(eqn, mm, massflux, phi);
+% %     sourceOperator(eqn, mm, sp, sc);
+% %     eqn.displayOneEquation(400);
+%     eqn.solveMatrix(500);
+%     eqn.updateField(mm, phi);
+% end
+% phi.plotField(mm, 'n')
+% 
+% toc
+% % hold on
+% % f = @(x) x.^2/2 + x/2;
+% % plot(mm.modelx.point(:), f(mm.modelx.point(:)))
 %% 热点验证
 % pVelocity = 8e3;
 % tao = 3.6e-12;
@@ -119,174 +119,65 @@ toc
 % nDot.data(round(mm.NX/2), round(mm.NY/2)+1) = 1e14;
 % solven(phi, nDot, mm, pVelocity, tao)
 % phi.plotField(mm)
-%%
+%% MOS电势场求解
+% 物理常数
+e = 1.602176634e-19;
+kb = 1.380649e-23;
+epsilon0 = 8.854187817e-12;
+epsilonL = 11.9;
+epsilon = epsilonL*epsilon0;
+T = 300;
+% 掺杂条件
+Nd = 1e17;
+Na = 1e15;
+ni = 1.5e10;
+ni2 = ni^2;
+n0 = (Nd-Na)/2 + sqrt(((Nd-Na)/2)^2+ni2);
+p0 = ni2/n0;
+% 定义物理场
+phi = ColocateField(mm);
+lambda = StaggeredField(mm, 1, 1);
+sp = ColocateField(mm, 0);
+sc = ColocateField(mm, 0);
+eqn = LinearSystem(NX, NY);
+%>边界条件
+for i = 2 : mm.NX + 1
+    phi.top(i, :) = [1.0    0.0];
+    phi.bottom(i, :) = [0.0    0.0];
+end
+for j = 2 : mm.NY + 1
+    phi.left(j, :) = [1.0    0.0];
+    phi.right(j, :) = [1.0    0.0];
+end
+%>其他边界条件
+for i = 2 : 10
+    phi.top(i, :) = [0.0    -0.1];
+end
+for i = 40 : 60
+    phi.top(i, :) = [0.0    0.1];
+end
+for i = 90 : 101
+    phi.top(i, :) = [0.0    0.2];
+end
 
-%% 一维电势场求解
-% e = 1.602176634e-19;
-% kb = 1.380649e-23;
-% epsilon0 = 8.854187817e-12;
-% epsilonL = 11.9;
-% T = 300;
-% 
-% Nd1 = 1e20 * 1e6;
-% Nd2 = 1e16 * 1e6;
-% ni = 1.5e16 * 1e6;
-% deltaE1 = 0.055 * e;
-% deltaE2 = 0.225 * e;
-% 
-% phi = ColocateField(mm);
-% lambda = StaggeredField(mm, 1, 1);
-% sp = ColocateField(mm);
-% sc = ColocateField(mm);
-% eqn = LinearSystem(NX, NY);
-% 
-% load Eleconc.dat
-% index = find(Eleconc(:, 2) == 5e-4);
-% eleconc = Eleconc(index, 1:2:3);
-% eleconc = [eleconc; 0.3, 1e19];
-% plot(eleconc)
-% 
-% 
-% %>源项
-% % for i = 1 : mm.NX / 3
-% %     n = Nd1/2 + sqrt(Nd1^2/2 + ni^2);
-% %     NdPlus = Nd1 - Nd1 / (1+exp((deltaE1)/(kb*T))/2);
-% %     sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*(n - NdPlus);
-% % end
-% % for i = mm.NX/3 + 1 : mm.NX*2 / 3
-% %     n = Nd2/2 + sqrt(Nd2^2/2 + ni^2);
-% %     NdPlus = Nd2 - Nd2 / (1+exp((deltaE2)/(kb*T))/2);
-% %     sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*(n - NdPlus);
-% % end
-% % for i = mm.NX*2 / 3 + 1 : mm.NX
-% %     n = Nd1/2 + sqrt(Nd1^2/2 + ni^2);
-% %     NdPlus = Nd1 - Nd1 / (1+exp((deltaE1)/(kb*T))/2);
-% %     sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*(n - NdPlus);
-% % end
-% % for i = 1 : 100
-% %     n = eleconc(i, 2);
-% %     sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*n;
-% % %     NdPlus = Nd1 - Nd1 / (1+exp((deltaE1)/(kb*T))/2);
-% % %     sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*(n - NdPlus);
-% % end
-% % for i = 101 : 200
-% %     n = eleconc(i, 2);
-% %     sc.data(i + 1, mm.NY+1) = 4*pi/(epsilon0*epsilonL)*e*n;
-% % %     NdPlus = Nd2 - Nd2 / (1+exp((deltaE2)/(kb*T))/2);
-% % %     sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*(n - NdPlus);
-% % end
-% % for i = 201 : 300
-% %     n = eleconc(i, 2);
-% %     sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*n;
-% % %     NdPlus = Nd1 - Nd1 / (1+exp((deltaE1)/(kb*T))/2);
-% % %     sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*(n - NdPlus);
-% % end
-% %>边界条件
-% for i = 2 : mm.NX + 1
-%     phi.top(i, :) = [1.0    0.0];
-%     phi.bottom(i, :) = [1.0    0.0];
-% end
-% for j = 2 : mm.NY + 1
-%     phi.left(j, :) = [0.0    0.0];
-%     phi.right(j, :) = [0.0    1.0];
-% end
-% %>求解
-% for k = 1 : 100
-%     eqn.initialize;
-%     eqn.setInitialGuess(mm, phi);
-%     diffusionOperator(eqn, mm, lambda, phi);
-%     sourceOperator(eqn, mm, sp, sc);
-% %     eqn.displayOneEquation(400);
-%     eqn.solveMatrix(50);
-%     eqn.updateField(mm, phi);
-% end
-% phi.plotField(mm)
-% gradE = StaggeredField(mm);
-% phi.computeGradient(mm, gradE)
-% gradE.plotField(mm)
-%% pn结电势场求解
-% e = 1.602176634e-19;
-% m = 9.10956e-31;
-% kb = 1.380649e-23;
-% hbar = 1.05457266e-34;
-% epsilon0 = 8.854187817e-12;
-% epsilonL = 11.9;
-% T = 300;
-% 
-% d0 = 50e-9;
-% L0 = 5e-9;
-% Nd = 1e15 * 1e6;
-% deltaE = 0.056 * e;
-% deltaV =0.5;
-% V1 = -0.3;
-% Vd = 0.7;
-% mstar= 0.2;
-% Ec = @(x) -deltaV / (5*L0) * (x - d0) + deltaV;
-% EF = 0.4 * e;
-% 
-% phi = ColocateField(mm);
-% V = ColocateField(mm);
-% lambda = StaggeredField(mm, hbar^2/(2*mstar*m), hbar^2/(2*mstar*m));
-% lambda2 = StaggeredField(mm, 1, 1);
-% sp = ColocateField(mm);
-% sc = ColocateField(mm);
-% eqn = LinearSystem(NX, NY);
-% 
-% %>边界条件
-% for i = 2 : mm.NX + 1
-%     phi.top(i, :) = [1.0    0.0];
-%     phi.bottom(i, :) = [1.0    0.0];
-% end
-% for j = 2 : mm.NY + 1
-%     phi.left(j, :) = [0.0    0.0];
-%     phi.right(j, :) = [0.0    1.0];
-% end
-% for i = 2 : mm.NX + 1
-%     V.top(i, :) = [1.0    0.0];
-%     V.bottom(i, :) = [1.0    0.0];
-% end
-% for j = 2 : mm.NY + 1
-%     V.left(j, :) = [0.0    0.0];
-%     V.right(j, :) = [0.0    1.0];
-% end
-% 
-% %>求解
-% for k = 1 : 100
-%     %>有效质量方程求解
-%     eqn.initialize;
-%     eqn.setInitialGuess(mm, phi);
-%     %>源项
-%     sp.initializeDataValue(mm, 0);
-%     sc.initializeDataValue(mm, 0);
-%     for i = 2/5*mm.NX : 3/5*mm.NX
-%         sp.data(i + 1, mm.NY+1) = -1*e;
-%     end
-%     diffusionOperator(eqn, mm, lambda, phi);
-%     sourceOperator(eqn, mm, sp, sc);
-% %     eqn.displayOneEquation(15);
-%     eqn.solveMatrix(50);
-%     eqn.updateField(mm, phi);
-%     
-%     %>泊松方程求解
-%     eqn.initialize;
-%     eqn.setInitialGuess(mm, V);
-%     %>源项
-%     sp.initializeDataValue(mm, 0);
-%     sc.initializeDataValue(mm, 0);
-%     for i = 1 : mm.NX
-%         g = m*kb*T/(2*pi^2*hbar^2)*log(1 + exp((EF - Ec))/(kb*T));
-%         NdPlus = Nd - Nd / (1+exp((deltaE)/(kb*T))/2);
-%         sc.data(i + 1, mm.NY+1) = -4*pi/(epsilon0*epsilonL)*e*(g*real(phi.data(i+1)^2) - NdPlus);
-%     end
-%     diffusionOperator(eqn, mm, lambda2, V);
-%     sourceOperator(eqn, mm, sp, sc);
-%     eqn.solveMatrix(50);
-%     eqn.updateField(mm, V);
-%     
-% end
-% phi.plotField(mm)
-% V.plotField(mm)
-
+%>求解
+for k = 1 : 50
+    eqn.initialize;
+    eqn.setInitialGuess(mm, phi);
+    
+    % Calculate electron and hole densities
+    rho = e*(n0*(1-exp(e*phi.data/(kb*T)))-p0*(1-exp(-e*phi.data/(kb*T))));
+    sc.data = abs(rho/epsilon);
+    
+    diffusionOperator(eqn, mm, lambda, phi);
+    sourceOperator(eqn, mm, sp, sc);
+    eqn.solveMatrix(50);
+    eqn.updateField(mm, phi);
+end
+phi.plotField(mm)
+gradE = StaggeredField(mm);
+phi.computeGradient(mm, gradE)
+gradE.plotField(mm)
 %% 扩散项求解
 % tic
 % k = 140;

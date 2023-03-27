@@ -3,7 +3,7 @@ classdef ConfigureConstantsSi < ConfigureConstants
     methods
         function obj = ConfigureConstantsSi(pc)
             %>构造函数
-            obj.superElecs = 8000;
+            obj.superElecs = 200;
             obj.noFly = 10000;
             
             obj.NX = 200;
@@ -45,8 +45,8 @@ classdef ConfigureConstantsSi < ConfigureConstants
             obj.mWidth = 100e-9;
             
             obj.modelMeshingAndReadData(pc);
-%             obj.filePath = '/home/jiang/documents/eMdatas/epDatas/';
-            obj.filePath = '/run/media/root/姜竹林的移动硬盘/模拟数据/Si/320nm_1V_8000x10000_241_777/';
+            obj.filePath = '/home/jiang/documents/eMdatas/epDatas/';
+%             obj.filePath = '/run/media/root/姜竹林的移动硬盘/模拟数据/Si/320nm_1V_8000x10000_241_777/';
         end
     end
     

@@ -25,7 +25,7 @@ verifyProgram('verifyConfigureSettings', dv, pc, sc, cc)
 parallelCompute(sh, dv, sc, pc, cc);
 %% Hard读取仅用于观察电子轨迹图
 eq.minTime = 0e-12;
-eq.maxTime = 150e-12;
+eq.maxTime = 15e-12;
 eq.extractElectricHistoryHard(cc, 100, 1);
 % 电子轨迹图
 eq.plotElectronTrace(cc, 1, 'k')
@@ -33,7 +33,7 @@ eq.plotElectronTrace(cc, 12, 'e')
 eq.plotElectronTrace(cc, 1, 'r')
 %% Soft读取仅用于计算电子性质
 eq.minTime = 0e-12;
-eq.maxTime = 120e-12;
+eq.maxTime = 15e-12;
 eq.maxEnergy = 2*cc.e;
 eq.extractElectricHistorySoft(cc, 100);
 % 材料性质
@@ -44,7 +44,7 @@ eq.plotGeneralPropertiesSoft(cc);
 eq.statisticsScatteringTypeDistribution;
 %% 读取声子历史信息
 pq.minTime = 0e-12;
-pq.maxTime = 50e-12;
+pq.maxTime = 15e-12;
 pq.parallelPhononDistribution(cc);
 %% 电声散射结果验证
 % 验证1，能带/色散曲线画图
